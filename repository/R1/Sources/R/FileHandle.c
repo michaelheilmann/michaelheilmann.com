@@ -13,11 +13,15 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-08-29
+// Last modified: 2024-10-07
 
 #include "R/FileHandle.h"
 
-#include "R.h" 
+#include "R/FilePath.h"
+#include "R/JumpTarget.h"
+#include "R/Object.h"
+#include "R/Status.h"
+#include "R/String.h"
 
 #define Flags_OpenRead (1)
 
@@ -36,7 +40,7 @@ static void R_FileHandle_destruct(R_FileHandle* self) {
 }
 
 void _R_FileHandle_registerType() {
-  R_registerObjectType("R.FileHandle", sizeof("R.FileHandle") - 1, sizeof(R_FileHandle), NULL, NULL, &R_FileHandle_destruct);
+  R_registerObjectType("R.FileHandle", sizeof("R.FileHandle") - 1, sizeof(R_FileHandle), NULL, NULL, NULL, &R_FileHandle_destruct);
 }
 
 R_FileHandle* R_FileHandle_create() {

@@ -13,13 +13,17 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-09-01
+// Last modified: 2024-10-07
 
 #include "ByteBuffer.h"
 
-#include <string.h>
-#include "R.h"
 #include "R/ArmsIntegration.h"
+#include "R/JumpTarget.h"
+#include "R/Object.h"
+// memcmp, memcpy, memmove
+#include <string.h>
+// fprintf, stderr
+#include <stdio.h>
 
 static void
 R_ByteBuffer_finalize
@@ -43,7 +47,7 @@ void
 _R_ByteBuffer_registerType
   (
   )
-{ R_registerObjectType("R.ByteBuffer", sizeof("R.ByteBuffer") - 1, sizeof(R_ByteBuffer), NULL, NULL, &R_ByteBuffer_finalize); }
+{ R_registerObjectType("R.ByteBuffer", sizeof("R.ByteBuffer") - 1, sizeof(R_ByteBuffer), NULL, NULL, NULL, &R_ByteBuffer_finalize); }
 
 R_ByteBuffer*
 R_ByteBuffer_create

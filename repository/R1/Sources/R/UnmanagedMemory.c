@@ -13,28 +13,29 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-09-22
+#include "R/UnmanagedMemory.h"
 
-#if !defined(R_TYPES_INTERNAL_H_INCLUDED)
-#define R_TYPES_INTERNAL_H_INCLUDED
+#include "R/ArmsIntegration.h"
 
-#if defined(R_EXPORTED_INCLUDE)
-  #error("R/Types.internal.h must not be included from public header")
-#endif
-#include "R/Configure.h"
-
-// Startup the type system
-// WARNING: Internal function.
-void
-_R_startupTypes
+R_BooleanValue
+R_allocateUnmanaged_nojump
   (
-  );
+    void** p,
+    R_SizeValue n
+  )
+{ return R_Arms_allocateUnmanaged_nojump(p, n); }
 
-// Shutdown the type system.
-// WARNING: Internal function.
-void
-_R_shutdownTypes
+R_BooleanValue
+R_deallocateUnmanaged_nojump
   (
-  );
+    void* p
+  )
+{ return R_Arms_deallocateUnmanaged_nojump(p); }
 
-#endif // R_TYPES_INTERNAL_H_INCLUDED
+R_BooleanValue
+R_reallocateUnmanaged_nojump
+  (
+    void** p,
+    R_SizeValue n
+  )
+{ return R_Arms_reallocateUnmanaged_nojump(p, n); }

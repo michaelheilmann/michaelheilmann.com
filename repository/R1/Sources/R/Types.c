@@ -13,15 +13,18 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-09-22
+// Last modified: 2024-10-07
 
 #include "R/Types.h"
 
-
-#include <string.h>
 #include "R/ArmsIntegration.h"
+#include "R/JumpTarget.h"
 #include "R/TypeNames.h"
-#include "R.h"
+
+// memcmp, memcpy, memmove
+#include <string.h>
+// fprintf, stderr
+#include <stdio.h>
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
@@ -59,8 +62,8 @@ struct TypeNode {
   R_TypeKind kind;
   TypeNode* parentObjectType;
   R_SizeValue valueSize;
-  R_Object_VisitCallbackFunction* visit;
-  R_Object_DestructCallbackFunction* destruct;
+  R_Object_VisitObjectCallbackFunction* visitObject;
+  R_Object_DestructObjectCallbackFunction* destructObject;
 };
 
 struct TypeNodes {
@@ -165,19 +168,19 @@ R_Type_getParentObjectType
   )
 { return ((TypeNode const*)self)->parentObjectType; }
 
-R_Object_VisitCallbackFunction*
-R_Type_getVisitCallbackFunction
+R_Object_VisitObjectCallbackFunction*
+R_Type_getVisitObjectCallbackFunction
   (
     R_Type const* self
   )
-{ return ((TypeNode const*)self)->visit; }
+{ return ((TypeNode const*)self)->visitObject; }
 
-R_Object_DestructCallbackFunction*
-R_Type_getDestructCallbackFunction
+R_Object_DestructObjectCallbackFunction*
+R_Type_getDestructObjectCallbackFunction
   (
     R_Type const* self
   )
-{ return ((TypeNode const*)self)->destruct; }
+{ return ((TypeNode const*)self)->destructObject; }
 
 R_BooleanValue
 R_Type_hasChildren
@@ -243,8 +246,8 @@ R_registerBooleanType
   typeNode->typeName = typeName;
   typeNode->parentObjectType = NULL;
   typeNode->valueSize = 0;
-  typeNode->visit = NULL;
-  typeNode->destruct = NULL;
+  typeNode->visitObject = NULL;
+  typeNode->destructObject = NULL;
 
   typeNode->next = g_typeNodes->typeNodes;
   g_typeNodes->typeNodes = typeNode;
@@ -274,8 +277,8 @@ R_registerIntegerType
   typeNode->typeName = typeName;
   typeNode->parentObjectType = NULL;
   typeNode->valueSize = 0;
-  typeNode->visit = NULL;
-  typeNode->destruct = NULL;
+  typeNode->visitObject = NULL;
+  typeNode->destructObject = NULL;
 
   typeNode->next = g_typeNodes->typeNodes;
   g_typeNodes->typeNodes = typeNode;
@@ -305,8 +308,8 @@ R_registerNaturalType
   typeNode->typeName = typeName;
   typeNode->parentObjectType = NULL;
   typeNode->valueSize = 0;
-  typeNode->visit = NULL;
-  typeNode->destruct = NULL;
+  typeNode->visitObject = NULL;
+  typeNode->destructObject = NULL;
 
   typeNode->next = g_typeNodes->typeNodes;
   g_typeNodes->typeNodes = typeNode;
@@ -321,8 +324,9 @@ R_registerObjectType
     size_t nameLength,
     size_t valueSize,
     R_Type* parentObjectType,
-    R_Object_VisitCallbackFunction* visit,
-    R_Object_DestructCallbackFunction* destruct
+    R_Object_TypeDestructingCallbackFunction* typeDestructing,
+    R_Object_VisitObjectCallbackFunction* visit,
+    R_Object_DestructObjectCallbackFunction* destruct
   )
 {
   R_TypeNameValue typeName = R_TypeNames_getOrCreateTypeName(name, nameLength);
@@ -340,8 +344,8 @@ R_registerObjectType
   typeNode->typeName = typeName;
   typeNode->parentObjectType = parentObjectType;
   typeNode->valueSize = valueSize;
-  typeNode->visit = visit;
-  typeNode->destruct = destruct;
+  typeNode->visitObject = visit;
+  typeNode->destructObject = destruct;
 
   typeNode->next = g_typeNodes->typeNodes;
   g_typeNodes->typeNodes = typeNode;
@@ -371,8 +375,8 @@ R_registerSizeType
   typeNode->typeName = typeName;
   typeNode->parentObjectType = NULL;
   typeNode->valueSize = 0;
-  typeNode->visit = NULL;
-  typeNode->destruct = NULL;
+  typeNode->visitObject = NULL;
+  typeNode->destructObject = NULL;
 
   typeNode->next = g_typeNodes->typeNodes;
   g_typeNodes->typeNodes = typeNode;
@@ -402,8 +406,8 @@ R_registerVoidType
   typeNode->typeName = typeName;
   typeNode->parentObjectType = NULL;
   typeNode->valueSize = 0;
-  typeNode->visit = NULL;
-  typeNode->destruct = NULL;
+  typeNode->visitObject = NULL;
+  typeNode->destructObject = NULL;
 
   typeNode->next = g_typeNodes->typeNodes;
   g_typeNodes->typeNodes = typeNode;

@@ -44,6 +44,8 @@ if (NOT TARGET Tools.Cilc)
     list(APPEND Tools.Cilc.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Tools/Cilc/Scanner.h)
     list(APPEND Tools.Cilc.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Tools/Cilc/TokenType.c)
     list(APPEND Tools.Cilc.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Tools/Cilc/TokenType.h)
+    list(APPEND Tools.Cilc.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Tools/Cilc/StringTable.c)
+    list(APPEND Tools.Cilc.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Tools/Cilc/StringTable.h)
 
     target_link_libraries(Tools.Cilc Arcadia.R Arcadia.Arms)
 

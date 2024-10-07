@@ -18,7 +18,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "R.h"
-#include "Scanner.h"
+#include "Tools/Cilc/StringTable.h"
+#include "Tools/Cilc/Scanner.h"
 
 void
 main1
@@ -42,68 +43,68 @@ main1
   Cil_Scanner* scanner = Cil_Scanner_create();
   Cil_Scanner_setInput(scanner, (R_Utf8Reader*)R_Utf8StringReader_create(R_String_create_pn(input, strlen(input))));
 
-  if (Cil_TokenType_StartOfInput != Cil_Scanner_getType(scanner)) {
+  if (Cil_TokenType_StartOfInput != Cil_Scanner_getTokenType(scanner)) {
     R_setStatus(R_Status_TestFailed);
     R_jump();
   }
   Cil_Scanner_step(scanner);
   
-  if (Cil_TokenType_Name != Cil_Scanner_getType(scanner)) {
+  if (Cil_TokenType_Name != Cil_Scanner_getTokenType(scanner)) {
     R_setStatus(R_Status_TestFailed);
     R_jump();
   }
   Cil_Scanner_step(scanner);
-  if (Cil_TokenType_LineTerminator != Cil_Scanner_getType(scanner)) {
+  if (Cil_TokenType_LineTerminator != Cil_Scanner_getTokenType(scanner)) {
     R_setStatus(R_Status_TestFailed);
     R_jump();
   }
   Cil_Scanner_step(scanner);
   
-  if (Cil_TokenType_NumberLiteral != Cil_Scanner_getType(scanner)) {
+  if (Cil_TokenType_NumberLiteral != Cil_Scanner_getTokenType(scanner)) {
     R_setStatus(R_Status_TestFailed);
     R_jump();
   }
   Cil_Scanner_step(scanner);
-  if (Cil_TokenType_LineTerminator != Cil_Scanner_getType(scanner)) {
-    R_setStatus(R_Status_TestFailed);
-    R_jump();
-  }
-  Cil_Scanner_step(scanner);
-
-  if (Cil_TokenType_NumberLiteral != Cil_Scanner_getType(scanner)) {
-    R_setStatus(R_Status_TestFailed);
-    R_jump();
-  }
-  Cil_Scanner_step(scanner);
-  if (Cil_TokenType_LineTerminator != Cil_Scanner_getType(scanner)) {
+  if (Cil_TokenType_LineTerminator != Cil_Scanner_getTokenType(scanner)) {
     R_setStatus(R_Status_TestFailed);
     R_jump();
   }
   Cil_Scanner_step(scanner);
 
-  if (Cil_TokenType_StringLiteral != Cil_Scanner_getType(scanner)) {
+  if (Cil_TokenType_NumberLiteral != Cil_Scanner_getTokenType(scanner)) {
     R_setStatus(R_Status_TestFailed);
     R_jump();
   }
   Cil_Scanner_step(scanner);
-  if (Cil_TokenType_LineTerminator != Cil_Scanner_getType(scanner)) {
-    R_setStatus(R_Status_TestFailed);
-    R_jump();
-  }
-  Cil_Scanner_step(scanner);
-
-  if (Cil_TokenType_Assign != Cil_Scanner_getType(scanner)) {
-    R_setStatus(R_Status_TestFailed);
-    R_jump();
-  }
-  Cil_Scanner_step(scanner);
-  if (Cil_TokenType_LineTerminator != Cil_Scanner_getType(scanner)) {
+  if (Cil_TokenType_LineTerminator != Cil_Scanner_getTokenType(scanner)) {
     R_setStatus(R_Status_TestFailed);
     R_jump();
   }
   Cil_Scanner_step(scanner);
 
-  if (Cil_TokenType_EndOfInput != Cil_Scanner_getType(scanner)) {
+  if (Cil_TokenType_StringLiteral != Cil_Scanner_getTokenType(scanner)) {
+    R_setStatus(R_Status_TestFailed);
+    R_jump();
+  }
+  Cil_Scanner_step(scanner);
+  if (Cil_TokenType_LineTerminator != Cil_Scanner_getTokenType(scanner)) {
+    R_setStatus(R_Status_TestFailed);
+    R_jump();
+  }
+  Cil_Scanner_step(scanner);
+
+  if (Cil_TokenType_Assign != Cil_Scanner_getTokenType(scanner)) {
+    R_setStatus(R_Status_TestFailed);
+    R_jump();
+  }
+  Cil_Scanner_step(scanner);
+  if (Cil_TokenType_LineTerminator != Cil_Scanner_getTokenType(scanner)) {
+    R_setStatus(R_Status_TestFailed);
+    R_jump();
+  }
+  Cil_Scanner_step(scanner);
+
+  if (Cil_TokenType_EndOfInput != Cil_Scanner_getTokenType(scanner)) {
     R_setStatus(R_Status_TestFailed);
     R_jump();
   }
@@ -125,6 +126,7 @@ main
   R_pushJumpTarget(&jumpTarget);
   if (R_JumpTarget_save(&jumpTarget)) {
     _Cil_Scanner_registerType();
+    _Cil_StringTable_registerType();
     main1(argc, argv);
     R_popJumpTarget();
   }

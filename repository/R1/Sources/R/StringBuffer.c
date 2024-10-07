@@ -98,7 +98,7 @@ _R_StringBuffer_registerType
   (
   )
 {
-  R_registerObjectType("R.StringBuffer", sizeof("R.StringBuffer") - 1, sizeof(R_StringBuffer), NULL, NULL, &R_StringBuffer_destruct);
+  R_registerObjectType("R.StringBuffer", sizeof("R.StringBuffer") - 1, sizeof(R_StringBuffer), NULL, NULL, NULL, &R_StringBuffer_destruct);
 }
 
 R_StringBuffer*

@@ -13,11 +13,16 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-09-08
+// Last modified: 2024-10-07
 
 #include "R/FilePath.h"
 
-#include "R.h"
+#include "R/ByteBuffer.h"
+#include "R/JumpTarget.h"
+#include "R/Object.h"
+#include "R/Status.h"
+#include "R/Utf8ByteBufferReader.h"
+#include "R/Utf8ByteBufferWriter.h"
 
 typedef struct Context {
   R_Utf8Writer* temporaryWriter;
@@ -238,7 +243,7 @@ _R_FilePath_registerType
   (
   )
 {
-  R_registerObjectType("R.FilePath", sizeof("R.FilePath") - 1, sizeof(R_FilePath), NULL, &R_FilePath_visit, &R_FilePath_destruct);
+  R_registerObjectType("R.FilePath", sizeof("R.FilePath") - 1, sizeof(R_FilePath), NULL, NULL, &R_FilePath_visit, &R_FilePath_destruct);
 }
 
 R_FilePath*

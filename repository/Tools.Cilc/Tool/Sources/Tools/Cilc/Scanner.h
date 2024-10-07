@@ -33,15 +33,24 @@ Cil_Scanner_create
   (
   );
 
-/// @brief Get the token type.
+/// @brief Get the text of the token.
 /// @param self A pointer to this CIL scanner.
-/// @return The CIL token type.
-R_Natural32Value
-Cil_Scanner_getType
+/// @return The text of the token.
+R_String*
+Cil_Scanner_getTokenText
   (
     Cil_Scanner* self
   );
-  
+
+/// @brief Get the type of the token.
+/// @param self A pointer to this CIL scanner.
+/// @return The type of the token.
+R_Natural32Value
+Cil_Scanner_getTokenType
+  (
+    Cil_Scanner* self
+  );
+
 /// @brief Move to next token.
 /// @param self A pointer to this CIL scanner.
 void

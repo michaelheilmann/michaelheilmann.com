@@ -13,13 +13,18 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
+// Last modified: 2024-10-07
+
 #include "R/List.h"
 
-#include "R.h"
 #include "R/ArmsIntegration.h"
+#include "R/JumpTarget.h"
+#include "R/Object.h"
 
-// memmove
+// memcmp, memcpy, memmove
 #include <string.h>
+// fprintf, stderr
+#include <stdio.h>
 
 static R_BooleanValue g_initialized = R_BooleanValue_False;
 
@@ -132,7 +137,7 @@ _R_List_registerType
   (
   )
 {
-  R_registerObjectType("R.List", sizeof("R.List") - 1, sizeof(R_List), NULL, &R_List_visit, &R_List_destruct);
+  R_registerObjectType("R.List", sizeof("R.List") - 1, sizeof(R_List), NULL, NULL, &R_List_visit, &R_List_destruct);
 }
 
 void

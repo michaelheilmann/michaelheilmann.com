@@ -13,7 +13,7 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-#include "Stack.h"
+#include "R/Stack.h"
 
 #include "R/ArmsIntegration.h"
 #include "R.h"
@@ -125,7 +125,7 @@ R_Stack_visit
 }
 
 void _R_Stack_registerType() {
-  R_registerObjectType("R.Stack", sizeof("R.Stack") - 1, sizeof(R_Stack), NULL, &R_Stack_visit, &R_Stack_destruct);
+  R_registerObjectType("R.Stack", sizeof("R.Stack") - 1, sizeof(R_Stack), NULL, NULL, &R_Stack_visit, &R_Stack_destruct);
 }
 
 void

@@ -13,11 +13,16 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-09-01
+// Last modified: 2024-10-07
 
 #include "R/FileSystem.h"
 
-#include "R.h" 
+#include "R/FileHandle.h"
+#include "R/FilePath.h"
+#include "R/JumpTarget.h"
+#include "R/Object.h"
+#include "R/Status.h"
+#include "R/String.h"
 
 static void
 R_FileSystem_visit
@@ -50,7 +55,7 @@ _R_FileSystem_registerType
   (
   )
 {
-  R_registerObjectType("R.FileSystem", sizeof("R.FileSystem") - 1, sizeof(R_FileSystem), NULL, &R_FileSystem_visit, &R_FileSystem_destruct);
+  R_registerObjectType("R.FileSystem", sizeof("R.FileSystem") - 1, sizeof(R_FileSystem), NULL, NULL, &R_FileSystem_visit, &R_FileSystem_destruct);
 }
 
 R_FileSystem*

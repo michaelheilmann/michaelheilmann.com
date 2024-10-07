@@ -24,10 +24,7 @@
 #include "R/List.h"
 #include "R/String.h"
 
-#include <stdio.h>
-
 typedef struct R_FilePath R_FilePath;
-
 void _R_FilePath_registerType();
 
 struct R_FilePath {

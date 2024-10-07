@@ -24,7 +24,6 @@
 #include "R/Size.h"
 
 typedef struct R_ByteBuffer R_ByteBuffer;
-
 void _R_ByteBuffer_registerType();
 
 struct R_ByteBuffer {

@@ -25,8 +25,10 @@ typedef struct R_String R_String;
 void _R_String_registerType();
 
 struct R_String {
-  uint8_t* p;
+  R_Natural8Value* p;
   R_SizeValue numberOfBytes;
+  // We could compute this lazily if we had the "mutable" keyword in C.
+  R_SizeValue hash;
 };
 
 // https://michaelheilmann.com/repository/R1/#r-string-create-pn

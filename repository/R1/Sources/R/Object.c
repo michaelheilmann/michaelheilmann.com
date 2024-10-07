@@ -13,16 +13,19 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// at R_startupTypes(), we register R.Internal.TypeNode as an ARMS type.
-// when we add such a type node, then it is locked.
-// on R_shutdownTypes(), all type nodes are unlocked and ARMS is run.
+// Last modified: 2024-10-07
+
+// At R_startupTypes(), we register R.Internal.TypeNode as an ARMS type.
+// When we add such a type node, then it is locked.
+// On R_shutdownTypes(), all type nodes are unlocked and ARMS is run.
+
 
 #include "R/Object.h"
 
 #include <string.h>
 #include "R/ArmsIntegration.h"
+#include "R/JumpTarget.h"
 #include "R/TypeNames.h"
-#include "R.h"
 
 #define ObjectTypeName "R.Object"
 
@@ -54,7 +57,7 @@ onVisitObject
   ObjectTag* objectTag = (ObjectTag*)p;
   R_Type* type = (R_Type*)objectTag->type;
   while (type) {
-    R_Object_VisitCallbackFunction* visit = R_Type_getVisitCallbackFunction(type);
+    R_Object_VisitObjectCallbackFunction* visit = R_Type_getVisitObjectCallbackFunction(type);
     if (visit) {
       visit(((ObjectTag*)p) + 1);
     }
@@ -71,7 +74,7 @@ onFinalizeObject
   ObjectTag* objectTag = (ObjectTag*)p;
   R_Type* type = (R_Type*)objectTag->type;
   while (type) {
-    R_Object_DestructCallbackFunction* destruct = R_Type_getDestructCallbackFunction(type);
+    R_Object_DestructObjectCallbackFunction* destruct = R_Type_getDestructObjectCallbackFunction(type);
     if (destruct) {
       destruct(((ObjectTag*)p) + 1);
     }

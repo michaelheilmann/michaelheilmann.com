@@ -17,6 +17,8 @@
 
 #include "Tools/Cilc/Scanner.h"
 
+#include "Tools/Cilc/StringTable.h"
+
 // This scanner maintains a tuple (i,n,s):
 // i is the zero-based index of the Byte at which the current UTF8 symbol starts in the input stream.
 // n is the length, in Bytes, of the current UTF8 symbol in the input stream.
@@ -35,7 +37,9 @@
 // - there is no next symbol (that is, the end of the input was reached)
 //   i is not incremented, n is assigned the size, in Bytes, of the EDN symbol, and s is assigned the END symbol.
 //
-// The scanner can write to an output buffer an arbitrary UTF8 string, and UTF8 symbol, or the range of Bytes of (i,n,s) if s is not START, END, or ERROR.
+// The scanner writes the lexeme to a string buffer.
+// This allows for efficient creation of strings (see R_String_create).
+// Furthermore, it avoids to create a string twice by using a string table (see Cil_StringTable).
 #include <string.h>
 #include "R.h"
 
@@ -52,6 +56,7 @@ struct Cil_Scanner {
   R_Natural32Value symbol;
   // The input stream.
   R_Utf8Reader* input;
+  Cil_StringTable* stringTable;
   struct {
     /// The text of the token.
     R_StringBuffer* text;
@@ -131,6 +136,7 @@ Cil_Scanner_visit
 {
   R_Object_visit(self->input);
   R_Object_visit(self->token.text);
+  R_Object_visit(self->stringTable);
 }
 
 static void
@@ -208,7 +214,7 @@ _Cil_Scanner_registerType
   (
   )
 {
-  R_registerObjectType("Cil.Scanner", sizeof("Cil.Scanner") - 1, sizeof(Cil_Scanner), NULL, &Cil_Scanner_visit, &Cil_Scanner_destruct);
+  R_registerObjectType("Cil.Scanner", sizeof("Cil.Scanner") - 1, sizeof(Cil_Scanner), NULL, NULL, &Cil_Scanner_visit, &Cil_Scanner_destruct);
 }
 
 Cil_Scanner*
@@ -217,15 +223,28 @@ Cil_Scanner_create
   )
 {
   Cil_Scanner* self = R_allocateObject(R_getObjectType("Cil.Scanner", sizeof("Cil.Scanner") - 1));
-  self->input = (R_Utf8Reader*)R_Utf8StringReader_create(R_String_create_pn("", sizeof("") - 1));
+  self->token.type = Cil_TokenType_StartOfInput;
+  self->token.text = NULL;
+  self->stringTable = NULL;
+  self->input = NULL;
   self->symbol = CodePoint_Start;
   self->token.type = Cil_TokenType_StartOfInput;
+
+  self->stringTable = Cil_StringTable_create();
+  self->input = (R_Utf8Reader*)R_Utf8StringReader_create(R_String_create_pn("", sizeof("") - 1));
   self->token.text = R_StringBuffer_create();
   return self;
 }
 
+R_String*
+Cil_Scanner_getTokenText
+  (
+    Cil_Scanner* self
+  )
+{ return NULL; }
+
 R_Natural32Value
-Cil_Scanner_getType
+Cil_Scanner_getTokenType
   (
     Cil_Scanner* self
   )
