@@ -65,4 +65,10 @@ R_FileSystem_createDirectory
     R_FilePath* path
   );
 
+R_FilePath*
+R_FileSystem_getWorkingDirectory
+  (
+    R_FileSystem* self
+  );
+
 #endif // R_FILESYSTEM_H_INCLUDED

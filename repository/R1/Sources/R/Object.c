@@ -57,7 +57,7 @@ onVisitObject
   ObjectTag* objectTag = (ObjectTag*)p;
   R_Type* type = (R_Type*)objectTag->type;
   while (type) {
-    R_Object_VisitObjectCallbackFunction* visit = R_Type_getVisitObjectCallbackFunction(type);
+    R_Type_VisitObjectCallbackFunction* visit = R_Type_getVisitObjectCallbackFunction(type);
     if (visit) {
       visit(((ObjectTag*)p) + 1);
     }
@@ -74,7 +74,7 @@ onFinalizeObject
   ObjectTag* objectTag = (ObjectTag*)p;
   R_Type* type = (R_Type*)objectTag->type;
   while (type) {
-    R_Object_DestructObjectCallbackFunction* destruct = R_Type_getDestructObjectCallbackFunction(type);
+    R_Type_DestructObjectCallbackFunction* destruct = R_Type_getDestructObjectCallbackFunction(type);
     if (destruct) {
       destruct(((ObjectTag*)p) + 1);
     }

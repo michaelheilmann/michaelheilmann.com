@@ -27,12 +27,14 @@ typedef struct R_Atom R_Atom;
 typedef R_Atom* R_AtomValue;
 
 /// @brief Startup the atoms.
+/// @todo Should be internal.
 void
 R_Atoms_startup
   (
   );
 
 /// @brief Shutdown the atoms.
+/// @todo Should be internal.
 void
 R_Atoms_shutdown
   (

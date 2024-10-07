@@ -13,7 +13,7 @@
 # REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 # OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-# Last modified: 2024-09-16
+# Last modified: 2024-09-26
 
 cmake_minimum_required(VERSION 3.20)
 
@@ -25,20 +25,27 @@ if (NOT MyProjectIsDefined)
   enable_testing()
   set_property(GLOBAL PROPERTY USE_FOLDERS ON)
   include(FetchContent)
-  set(REPOSITORY_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+  set(REPOSITORY_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../..)
   include(${REPOSITORY_SOURCE_DIR}/cmake/all.cmake)
   set(MyProjectIsDefined)
 endif()
 
-add_subdirectory(Arms1)
-add_subdirectory(R1)
+set(MyDemoName ${MyProjectName}.Audials.Demo1)
 
-add_subdirectory(Engine)
+FetchProduct(${MyDemoName}.Arms "${REPOSITORY_SOURCE_DIR}/Arms1/Sources" "path to the ARMS1 source directory")
+FetchProduct(${MyDemoName}.R "${REPOSITORY_SOURCE_DIR}/R1/Sources" "path to the R1 source directory")
+FetchProduct(${MyDemoName}.Audials "${REPOSITORY_SOURCE_DIR}/Engine/Audials/Library/Sources" "path to the Audials library source directory")
 
-add_subdirectory(Tools.Cilc)
-add_subdirectory(Tools.Concatenate)
-add_subdirectory(Tools.TemplateEngine)
+if (NOT TARGET ${MyDemoName})
+  add_executable(${MyDemoName})
+  BeginProduct(${MyDemoName})
 
-add_subdirectory(Tools.Visuals2d)
-add_subdirectory(Tools.IconGenerator)
-add_subdirectory(Tools.BannerGenerator)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Audials/Demo1/Configure.h.i ${CMAKE_CURRENT_BINARY_DIR}/Audials/Demo1/Configure.h @ONLY)
+
+  list(APPEND ${MyDemoName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Audials/Demo1/Main.c)
+  list(APPEND ${MyDemoName}.ConfigurationFiles ${CMAKE_CURRENT_BINARY_DIR}/Audials/Demo1/Configure.h)
+
+  target_link_libraries(${MyDemoName} Arcadia.Audials Arcadia.R Arcadia.Arms)
+
+  EndProduct(${MyDemoName} executable)
+endif()

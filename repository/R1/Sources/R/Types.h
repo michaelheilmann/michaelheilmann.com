@@ -25,16 +25,16 @@
 /// @brief Type of a visti callback function.
 /// Each object type may have its own visit callback function.
 /// For an object of type A1 <: A2 <: ... <: An the callback functions are invoked from the bottom most to the top most type.
-typedef void (R_Object_VisitObjectCallbackFunction)(void *);
+typedef void (R_Type_VisitObjectCallbackFunction)(void *);
 
 /// @brief Type of a destruct callback function.
 /// Each object type may have its own destruct callback function.
 /// For an object of type A1 <: A2 <: ... <: An the callback functions are invoked from the bottom most to the top most type.
-typedef void (R_Object_DestructObjectCallbackFunction)(void*);
+typedef void (R_Type_DestructObjectCallbackFunction)(void*);
 
 /// @brief Type of a type destructing callback function.
 /// Invoked when the type is destructing.
-typedef void (R_Object_TypeDestructingCallbackFunction)(void*);
+typedef void (R_Type_TypeDestructingCallbackFunction)(void*);
 
 typedef void R_Type;
 
@@ -87,7 +87,7 @@ R_Type_getParentObjectType
 /// @brief Get the visit object callback function of this type.
 /// @param self A pointer to this type.
 /// @return A pointer to the visit callback function of this type if any. The null pointer otherwise.
-R_Object_VisitObjectCallbackFunction*
+R_Type_VisitObjectCallbackFunction*
 R_Type_getVisitObjectCallbackFunction
   (
     R_Type const* self
@@ -96,7 +96,7 @@ R_Type_getVisitObjectCallbackFunction
 /// @brief Get the destruct object callback function of this type.
 /// @param self A pointer to this type.
 /// @return A pointer to the destruct callback function of this type if any. The null pointer otherwise.
-R_Object_DestructObjectCallbackFunction*
+R_Type_DestructObjectCallbackFunction*
 R_Type_getDestructObjectCallbackFunction
   (
     R_Type const* self
@@ -196,7 +196,8 @@ void
 R_registerBooleanType
   (
     char const* name,
-    size_t nameLength
+    size_t nameLength,
+    R_Type_TypeDestructingCallbackFunction* typeDestructing
   );
 
 /* R_Status_ArgumentValueInvalid, R_Status_AllocationFailed, R_Status_TypeExists */
@@ -204,7 +205,8 @@ void
 R_registerIntegerType
   (
     char const* name,
-    size_t nameLength
+    size_t nameLength,
+    R_Type_TypeDestructingCallbackFunction* typeDestructing
   );
 
 /* R_Status_ArgumentValueInvalid, R_Status_AllocationFailed, R_Status_TypeExists */
@@ -212,7 +214,8 @@ void
 R_registerNaturalType
   (
     char const* name,
-    size_t nameLength
+    size_t nameLength,
+    R_Type_TypeDestructingCallbackFunction* typeDestructing
   );
 
 /* R_Status_ArgumentValueInvalid, R_Status_AllocationFailed, R_Status_TypeExists */
@@ -223,9 +226,9 @@ R_registerObjectType
     size_t nameLength,
     size_t valueSize,
     R_Type* parentObjectType,
-    R_Object_TypeDestructingCallbackFunction* typeDestructing,
-    R_Object_VisitObjectCallbackFunction* visit,
-    R_Object_DestructObjectCallbackFunction* destruct
+    R_Type_TypeDestructingCallbackFunction* typeDestructing,
+    R_Type_VisitObjectCallbackFunction* visit,
+    R_Type_DestructObjectCallbackFunction* destruct
   );
 
 /* R_Status_ArgumentValueInvalid, R_Status_AllocationFailed, R_Status_TypeExists */
@@ -233,7 +236,8 @@ void
 R_registerSizeType
   (
     char const* name,
-    size_t nameLength
+    size_t nameLength,
+    R_Type_TypeDestructingCallbackFunction* typeDestructing
   );
 
 /* R_Status_ArgumentValueInvalid, R_Status_AllocationFailed, R_Status_TypeExists */
@@ -241,7 +245,8 @@ void
 R_registerVoidType
   (
     char const* name,
-    size_t nameLength
+    size_t nameLength,
+    R_Type_TypeDestructingCallbackFunction* typeDestructing
   );
 
 /* R_Status_ArgumentValueInvalid, R_Status_TypeNotExists */

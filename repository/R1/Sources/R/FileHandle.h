@@ -25,6 +25,7 @@
 #include "R/Size.h"
 typedef struct R_FilePath R_FilePath;
 
+// FILE
 #include <stdio.h>
 
 typedef struct R_FileHandle R_FileHandle;
