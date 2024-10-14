@@ -235,3 +235,28 @@ R_Map_getSize
     R_Map const* self
   )
 { return self->size; }
+
+void
+R_Map_set
+  (
+    R_Map* self,
+    R_Value key,
+    R_Value value
+  )
+{ 
+  if (R_Value_isVoidValue(&key)) {
+    return;
+  }
+  R_SizeValue hash = R_Value_hash(&key);
+}
+
+#if 0
+R_Value
+R_Map_get
+  (
+    R_Map const* self,
+    R_Value key
+  )
+{ }
+#endif
+

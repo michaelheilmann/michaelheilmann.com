@@ -171,4 +171,10 @@ R_Value_visit
     R_Value* self
   );
 
+R_SizeValue
+R_Value_hash
+  (
+    R_Value const* self
+  );
+
 #endif // R_VALUE_H_INCLUDED

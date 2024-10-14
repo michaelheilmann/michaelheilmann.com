@@ -13,9 +13,9 @@
 # REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 # OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-# Last modified: 2024-09-16
+# Last modified: 2024-09-26
 
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.29)
 
 if (NOT MyProjectIsDefined)
   if (NOT DEFINED MyProjectName)
@@ -25,20 +25,10 @@ if (NOT MyProjectIsDefined)
   enable_testing()
   set_property(GLOBAL PROPERTY USE_FOLDERS ON)
   include(FetchContent)
-  set(REPOSITORY_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+  set(REPOSITORY_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../..)
   include(${REPOSITORY_SOURCE_DIR}/cmake/all.cmake)
   set(MyProjectIsDefined)
 endif()
 
-add_subdirectory(Arms1)
-add_subdirectory(R1)
-
-add_subdirectory(Engine)
-
-add_subdirectory(Cil)
-add_subdirectory(Tools.Concatenate)
-add_subdirectory(Tools.TemplateEngine)
-
-add_subdirectory(Tools.Visuals2d)
-add_subdirectory(Tools.IconGenerator)
-add_subdirectory(Tools.BannerGenerator)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Library)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Demo1)
