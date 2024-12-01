@@ -18,8 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "R.h"
-#include "R/Mil/Parser.h"
-#include "R/Mil/Ast.h"
+#include "R/Mil/Include.h"
 
 static void
 R_Library_print
@@ -110,15 +109,66 @@ onProcedureBody
 }
 
 static void
+onProcedureDefinition
+  (
+    R_Interpreter_ProcessState* process,
+    R_Map* symbolTable,
+    R_Map* foreignProcedures,
+    R_Mil_ProcedureDefinitionAst* definitionAst
+  )
+{
+  R_Value k = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue = definitionAst->procedureName };
+  R_Value v = R_Map_get(symbolTable, k);
+  if (!R_Value_isVoidValue(&v)) {
+    R_setStatus(R_Status_SemanticalError);
+    R_jump();
+  }
+  if (definitionAst->nativeName) {
+    if (definitionAst->procedureBody) {
+      R_setStatus(R_Status_SemanticalError);
+      R_jump();
+    }
+    R_Value k = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue = definitionAst->nativeName };
+    R_Value v = R_Map_get(foreignProcedures, k);
+    if (R_Value_isVoidValue(&v)) {
+      R_setStatus(R_Status_NotExists);
+      R_jump();
+    }
+    R_Interpreter_ProcessState_defineGlobalForeignProcedure(process, definitionAst->procedureName, R_Value_getForeignProcedureValue(&v));
+  } else {
+    if (!definitionAst->procedureBody) {
+      R_setStatus(R_Status_SemanticalError);
+      R_jump();
+    }
+    R_Procedure* procedure = R_Procedure_create(onProcedureBody(definitionAst->procedureBody));
+    R_Interpreter_ProcessState_defineGlobalProcedure(process, definitionAst->procedureName, procedure);
+  }
+}
+
+static void
+onClassDefinition
+  (
+    R_Interpreter_ProcessState* process,
+    R_Map* symbolTable,
+    R_Map* foreignProcedures,
+    R_Mil_ClassDefinitionAst* definitionAst
+  )
+{ 
+  R_setStatus(R_Status_ArgumentTypeInvalid);
+  R_jump();
+}
+
+static void
 testNativePrintProcedure
   (
   )
 {
+  R_Map* symbolTable = R_Map_create();
   R_Map* foreignProcedures = R_Map_create();
 #define Define(Name,Function) \
   { \
-    R_Value v = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue = R_String_create_pn(R_ImmutableByteArray_create(Name, sizeof(Name) - 1)) }; \
-    R_Value k = { .tag = R_ValueTag_ForeignProcedure, .foreignProcedureValue = &Function }; \
+    R_Value k = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue = R_String_create_pn(R_ImmutableByteArray_create(Name, sizeof(Name) - 1)) }; \
+    R_Value v = { .tag = R_ValueTag_ForeignProcedure, .foreignProcedureValue = &Function }; \
     R_Map_set(foreignProcedures, k, v); \
   }
   Define("print", R_Library_print)
@@ -136,23 +186,9 @@ testNativePrintProcedure
   for (R_SizeValue i = 0, n = R_Mil_ModuleAst_getNumberOfDefinitions(moduleAst); i < n; ++i) {
     R_Mil_DefinitionAst* definitionAst = R_Mil_ModuleAst_getDefinitionAt(moduleAst, i);
     if (R_Type_isSubType(R_Object_getType(definitionAst), _R_Mil_ClassDefinitionAst_getType())) {
-      R_setStatus(R_Status_ArgumentTypeInvalid);
-      R_jump();
-      //R_Mil_ClassDefinitionAst* classDefinitionAst = (R_Mil_ClassDefinitionAst*)definitionAst;
+      onClassDefinition(process, symbolTable, foreignProcedures, (R_Mil_ClassDefinitionAst*)definitionAst);
     } else if (R_Type_isSubType(R_Object_getType(definitionAst), _R_Mil_ProcedureDefinitionAst_getType())) {
-      R_Mil_ProcedureDefinitionAst* procedureDefinitionAst = (R_Mil_ProcedureDefinitionAst*)definitionAst;
-      if (procedureDefinitionAst->nativeName) {
-        R_Value k = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue =  procedureDefinitionAst->nativeName };
-        R_Value v = R_Map_get(foreignProcedures, k);
-        if (R_Value_isVoidValue(&k)) {
-          R_setStatus(R_Status_NotExists);
-          R_jump();
-        }
-        R_Interpreter_ProcessState_defineGlobalForeignProcedure(process, procedureDefinitionAst->procedureName, R_Value_getForeignProcedureValue(&v));
-      } else {
-        R_Procedure* procedure = R_Procedure_create(onProcedureBody(procedureDefinitionAst->procedureBody));
-        R_Interpreter_ProcessState_defineGlobalProcedure(process, procedureDefinitionAst->procedureName, procedure);
-      }
+      onProcedureDefinition(process, symbolTable, foreignProcedures, (R_Mil_ProcedureDefinitionAst*)definitionAst);
     } else {
       R_setStatus(R_Status_ArgumentTypeInvalid);
       R_jump();

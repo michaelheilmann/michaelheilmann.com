@@ -861,11 +861,12 @@ onProcedureDefinition
   R_String* procedureName = getText(self);
   next(self);
   R_List* procedureParameters = onParameters(self);
-  R_List* procedureBody = R_List_create();
+  R_List* procedureBody = NULL;
   while (is(self, R_Mil_TokenType_LineTerminator)) {
     next(self);
   }
   if (is(self, R_Mil_TokenType_LeftCurlyBracket)) {
+    procedureBody = R_List_create();
     next(self);
     while (is(self, R_Mil_TokenType_LineTerminator)) {
       next(self);

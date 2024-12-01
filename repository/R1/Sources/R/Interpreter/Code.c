@@ -17,6 +17,7 @@
 
 #include "R/Interpreter/Code.h"
 
+#include "R/ArmsIntegration.h"
 #include "R/JumpTarget.h"
 #include "R/Procedure.h"
 #include "R/Status.h"

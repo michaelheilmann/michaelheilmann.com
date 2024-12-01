@@ -83,4 +83,24 @@ void c_free(void* ptr);
   #define C_NO_RETURN()
 #endif
 
+#include <stdbool.h>
+
+/**
+ * @brief Perform safe addition.
+ * @param a The 1st operand.
+ * @param b The 2nd operand.
+ * @param result A pointer to the result variable.
+ * @return @a true if there was an overflow, @a false otherwise.
+ */
+bool c_safe_add_sz(size_t a, size_t b, size_t* r);
+
+/**
+ * @brief Perform safe addition.
+ * @param a The 1st operand.
+ * @param b The 2nd operand.
+ * @param result A pointer to the result variable.
+ * @return @a true if there was an overflow, @a false otherwise.
+ */
+bool c_safe_mul_sz(size_t a, size_t b, size_t* r);
+
 #endif // R_CSTDLIB_H_INCLUDED
