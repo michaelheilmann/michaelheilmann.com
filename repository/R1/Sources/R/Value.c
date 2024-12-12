@@ -235,7 +235,7 @@ R_Value_hash
       return R_hashNatural8Value(self->natural8Value);
     } break;
     case R_ValueTag_ObjectReference: {
-      return R_Object_getHash(self->objectReferenceValue);
+      return R_Object_hash(self->objectReferenceValue);
     } break;
     case R_ValueTag_Real32: {
       return R_hashReal32Value(self->real32Value);
