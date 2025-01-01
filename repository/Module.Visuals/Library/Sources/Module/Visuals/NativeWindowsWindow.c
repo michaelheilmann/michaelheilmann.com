@@ -55,6 +55,100 @@ NativeWindowsWindow_constructImpl
     R_Value const* argumentValues
   );
 
+static void
+openImpl
+  (
+    NativeWindowsWindow* self
+  );
+
+static void
+closeImpl
+  (
+    NativeWindowsWindow* self
+  );
+
+static R_BooleanValue
+getQuitRequestedImpl
+  (
+    NativeWindowsWindow* self
+  );
+
+static void
+setQuitRequestedImpl
+  (
+    NativeWindowsWindow* self,
+    R_BooleanValue quitRequested
+  );
+
+static void
+updateImpl
+  (
+    NativeWindowsWindow* self
+  );
+
+static void
+getRequiredBigIconSizeImpl
+  (
+    NativeWindowsWindow* self,
+    R_Integer32Value* width,
+    R_Integer32Value* height
+  );
+
+static void
+getRequiredSmallIconSizeImpl
+  (
+    NativeWindowsWindow* self,
+    R_Integer32Value* width,
+    R_Integer32Value* height
+  );
+
+static NativeWindowsIcon*
+getBigIconImpl 
+  (
+    NativeWindowsWindow* self
+  );
+
+static void
+setBigIconImpl
+  (
+    NativeWindowsWindow* self,
+    NativeWindowsIcon* icon
+  );
+
+static NativeWindowsIcon*
+getSmallIconImpl
+  (
+    NativeWindowsWindow* self
+  );
+
+static void
+setSmallIconImpl
+  (
+    NativeWindowsWindow* self,
+    NativeWindowsIcon* icon
+  );
+
+static R_String*
+getTitleImpl
+  (
+    NativeWindowsWindow* self
+  );
+
+static void
+setTitleImpl
+  (
+    NativeWindowsWindow* self,
+    R_String* title
+  );
+
+static void
+getCanvasSizeImpl
+  (
+    NativeWindowsWindow* self,
+    R_Integer32Value* width,
+    R_Integer32Value* height
+  );
+
 static const char g_title[] = "Liminality";
 
 static const char g_className[] = "Liminality Window Class";
@@ -87,7 +181,7 @@ static const R_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType("NativeWindowsWindow", NativeWindowsWindow, "R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType("NativeWindowsWindow", NativeWindowsWindow, "NativeWindow", NativeWindow, &_typeOperations);
 
 static LRESULT CALLBACK
 WindowProc
@@ -177,14 +271,291 @@ NativeWindowsWindow_constructImpl
   R_Type* _type = _NativeWindowsWindow_getType();
   {
     R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = R_VoidValue_Void} };
-    R_Object_constructImpl(self, 0, &argumentValues[0]);
+    R_Type_getOperations(R_Type_getParentObjectType(_type))->objectTypeOperations->construct(self, 0, &argumentValues[0]);
   }
   _self->instanceHandle = NULL;
   _self->windowHandle = NULL;
   _self->title = R_String_create_pn(R_ImmutableByteArray_create(g_title, sizeof(g_title) - 1));
   _self->bigIcon = NULL;
   _self->smallIcon = NULL;
+
+  ((NativeWindow*)_self)->open = (void(*)(NativeWindow*)) & openImpl;
+
+  ((NativeWindow*)_self)->close = (void(*)(NativeWindow*)) & closeImpl;
+
+  ((NativeWindow*)_self)->getQuitRequested = (R_BooleanValue(*)(NativeWindow*)) & getQuitRequestedImpl;
+  ((NativeWindow*)_self)->setQuitRequested = (void(*)(NativeWindow*,R_BooleanValue)) & setQuitRequestedImpl;
+
+  ((NativeWindow*)_self)->update = (void(*)(NativeWindow*)) &updateImpl;
+
+  ((NativeWindow*)_self)->getRequiredBigIconSize = (void(*)(NativeWindow*, R_Integer32Value*, R_Integer32Value*)) & getRequiredBigIconSizeImpl;
+  ((NativeWindow*)_self)->getRequiredSmallIconSize = (void(*)(NativeWindow*, R_Integer32Value*, R_Integer32Value*)) & getRequiredSmallIconSizeImpl;
+
+  ((NativeWindow*)_self)->getBigIcon = (NativeIcon*(*)(NativeWindow*)) & getBigIconImpl;
+  ((NativeWindow*)_self)->setBigIcon = (void(*)(NativeWindow*, NativeIcon*)) & setBigIconImpl;
+
+  ((NativeWindow*)_self)->getSmallIcon = (NativeIcon*(*)(NativeWindow*)) & getSmallIconImpl;
+  ((NativeWindow*)_self)->setSmallIcon = (void(*)(NativeWindow*, NativeIcon*)) & setSmallIconImpl;
+
+  ((NativeWindow*)_self)->getTitle = (R_String*(*)(NativeWindow*)) & getTitleImpl;
+  ((NativeWindow*)_self)->setTitle = (void(*)(NativeWindow*, R_String*)) & setTitleImpl;
+
+  ((NativeWindow*)_self)->getCanvasSize = (void(*)(NativeWindow*, R_Integer32Value*, R_Integer32Value*)) & getCanvasSizeImpl;
+
   R_Object_setType(_self, _type);
+}
+
+static void
+openImpl
+  (
+    NativeWindowsWindow* self
+  )
+{ 
+  if (self->windowHandle) {
+    return;
+  }
+
+  self->instanceHandle = GetModuleHandleA(NULL);
+  if (!self->instanceHandle) {
+    R_setStatus(R_Status_EnvironmentFailed);
+    R_jump();
+  }
+
+  // Register the window class.
+  WNDCLASS wc = { 0 };
+
+  wc.lpfnWndProc = WindowProc;
+  wc.hInstance = self->instanceHandle;
+  wc.lpszClassName = g_className;
+  wc.hCursor = LoadCursor(NULL, IDC_ARROW); // Prevent the busy cursor from showing up.
+
+  if (!RegisterClass(&wc)) {
+    self->instanceHandle = NULL;
+    R_setStatus(R_Status_EnvironmentFailed);
+    R_jump();
+  }
+
+  self->windowHandle =
+    CreateWindowEx
+      (
+        0,                               // Optional window styles.
+        g_className,                     // Window class
+        "Windows Window",                // Window text
+        WS_OVERLAPPEDWINDOW,             // Window style
+        CW_USEDEFAULT, CW_USEDEFAULT,    // Default position
+        CW_USEDEFAULT, CW_USEDEFAULT,    // Default size
+        NULL,                            // Parent window    
+        NULL,                            // Menu
+        self->instanceHandle,            // Instance handle
+        NULL                             // Additional application data
+      );
+
+  if (!self->windowHandle) {
+    UnregisterClass(g_className, self->instanceHandle);
+    self->instanceHandle = NULL;
+    R_setStatus(R_Status_EnvironmentFailed);
+    R_jump();
+  }
+
+  if (!SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)) {
+    DestroyWindow(self->windowHandle);
+    self->windowHandle = NULL;
+    UnregisterClass(g_className, self->instanceHandle);
+    self->instanceHandle = NULL;
+    R_setStatus(R_Status_EnvironmentFailed);
+    R_jump();
+  }
+
+  self->windowDeviceContextHandle = GetDC(self->windowHandle);
+  if (!self->windowDeviceContextHandle) {
+    DestroyWindow(self->windowHandle);
+    self->windowHandle = NULL;
+    UnregisterClass(g_className, self->instanceHandle);
+    self->instanceHandle = NULL;
+    R_setStatus(R_Status_EnvironmentFailed);
+    R_jump();
+  }
+
+  R_JumpTarget jumpTarget;
+  R_pushJumpTarget(&jumpTarget);
+  if (R_JumpTarget_save(&jumpTarget)) {
+    NativeWindowsWindow_setTitleHelper(self->windowHandle, self->title);
+    R_popJumpTarget();
+  } else {
+    R_popJumpTarget();
+    DestroyWindow(self->windowHandle);
+    self->windowHandle = NULL;
+    UnregisterClass(g_className, self->instanceHandle);
+    self->instanceHandle = NULL;
+    R_jump();
+  }
+
+  ShowWindow(self->windowHandle, SW_SHOW);
+}
+
+static void
+closeImpl
+  (
+    NativeWindowsWindow* self
+  ) 
+{
+  if (!self->windowHandle) {
+    return;
+  }
+  ReleaseDC(self->windowHandle, self->windowDeviceContextHandle);
+  self->windowDeviceContextHandle = NULL;
+  DestroyWindow(self->windowHandle);
+  self->windowHandle = NULL;
+  self->instanceHandle = NULL;
+}
+
+static R_BooleanValue
+getQuitRequestedImpl
+  (
+    NativeWindowsWindow* self
+  )
+{ return g_quitRequested; }
+
+static void
+setQuitRequestedImpl
+  (
+    NativeWindowsWindow* self,
+    R_BooleanValue quitRequested
+  )
+{ g_quitRequested = quitRequested; }
+
+static void
+updateImpl
+  (
+    NativeWindowsWindow* self
+  )
+{
+  MSG msg = { 0 };
+  while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+    TranslateMessage(&msg);
+    DispatchMessage(&msg);
+    if (msg.message == WM_QUIT) {
+      g_quitRequested = R_BooleanValue_True;
+    }
+  }
+}
+
+static void
+getRequiredBigIconSizeImpl
+  (
+    NativeWindowsWindow* self,
+    R_Integer32Value* width,
+    R_Integer32Value* height
+  )
+{
+  *width = GetSystemMetrics(SM_CXICON);
+  *height = GetSystemMetrics(SM_CYICON);
+}
+
+static void
+getRequiredSmallIconSizeImpl
+  (
+    NativeWindowsWindow* self,
+    R_Integer32Value* width,
+    R_Integer32Value* height
+  )
+{
+  *width = GetSystemMetrics(SM_CXSMICON);
+  *height = GetSystemMetrics(SM_CYSMICON);
+}
+
+static NativeWindowsIcon*
+getBigIconImpl
+  (
+    NativeWindowsWindow* self
+  )
+{ return self->bigIcon; }
+
+static void
+setBigIconImpl
+  (
+    NativeWindowsWindow* self,
+    NativeWindowsIcon* icon
+  )
+{
+  self->bigIcon = icon;
+  if (self->windowHandle) {
+    if (self->bigIcon) {
+      SendMessage(self->windowHandle, WM_SETICON, ICON_BIG, (LPARAM)self->bigIcon->hIcon);
+    } else {
+      SendMessage(self->windowHandle, WM_SETICON, ICON_BIG, (LPARAM)NULL);
+    }
+  }
+}
+
+static NativeWindowsIcon*
+getSmallIconImpl
+  (
+    NativeWindowsWindow* self
+  )
+{ return self->smallIcon; }
+
+static void
+setSmallIconImpl
+  (
+    NativeWindowsWindow* self,
+    NativeWindowsIcon* icon
+  )
+{
+  self->smallIcon = icon;
+  if (self->windowHandle) {
+    if (self->smallIcon) {
+      SendMessage(self->windowHandle, WM_SETICON, ICON_SMALL, (LPARAM)self->smallIcon->hIcon);
+    } else {
+      SendMessage(self->windowHandle, WM_SETICON, ICON_SMALL, (LPARAM)NULL);
+    }
+  }
+}
+
+static R_String*
+getTitleImpl
+  (
+    NativeWindowsWindow* self
+  )
+{ return self->title; }
+
+static void
+setTitleImpl
+  (
+    NativeWindowsWindow* self,
+    R_String* title
+  )
+{
+  if (!title) {
+    R_setStatus(R_Status_ArgumentValueInvalid);
+    R_jump();
+  }
+  self->title = title;
+  if (self->windowHandle) {
+    NativeWindowsWindow_setTitleHelper(self->windowHandle, title);
+  }
+}
+
+static void
+getCanvasSizeImpl
+  (
+    NativeWindowsWindow* self,
+    R_Integer32Value* width,
+    R_Integer32Value* height
+  )
+{ 
+  if (!self->windowHandle) {
+    R_setStatus(R_Status_OperationInvalid);
+    R_jump();
+  }
+  RECT clientRectangle;
+  if (!GetClientRect(self->windowHandle, &clientRectangle)) {
+    R_setStatus(R_Status_EnvironmentFailed);
+    R_jump();
+  }
+  c_static_assert(LONG_MAX <= INT32_MAX, "<internal error>");
+  *width = clientRectangle.right - clientRectangle.left;
+  *height = clientRectangle.bottom - clientRectangle.top;
 }
 
 NativeWindowsWindow*
@@ -199,6 +570,7 @@ NativeWindowsWindow_create
   return self;
 }
 
+#if 0
 void
 NativeWindowsWindow_open
   (
@@ -286,7 +658,9 @@ NativeWindowsWindow_open
 
   ShowWindow(self->windowHandle, SW_SHOW);
 }
+#endif
 
+#if 0
 void
 NativeWindowsWindow_close
   (
@@ -302,14 +676,18 @@ NativeWindowsWindow_close
   self->windowHandle = NULL;
   self->instanceHandle = NULL;
 }
+#endif
 
+#if 0
 R_BooleanValue
 NativeWindowsWindow_getQuitRequested
   (
     NativeWindowsWindow* self
   )
 { return g_quitRequested; }
+#endif
 
+#if 0
 void
 NativeWindowsWindow_setQuitRequested
   (
@@ -317,7 +695,9 @@ NativeWindowsWindow_setQuitRequested
     R_BooleanValue quitRequested
   )
 { g_quitRequested = quitRequested; }
+#endif
 
+#if 0
 void
 NativeWindowsWindow_update
   (
@@ -333,7 +713,9 @@ NativeWindowsWindow_update
     }
   }
 }
+#endif
 
+#if 0
 void
 NativeWindowsWindow_getRequiredBigIconSize
   (
@@ -345,7 +727,9 @@ NativeWindowsWindow_getRequiredBigIconSize
   *width = GetSystemMetrics(SM_CXICON);
   *height = GetSystemMetrics(SM_CYICON);
 }
+#endif
 
+#if 0
 void
 NativeWindowsWindow_getRequiredSmallIconSize
   (
@@ -357,14 +741,18 @@ NativeWindowsWindow_getRequiredSmallIconSize
   *width = GetSystemMetrics(SM_CXSMICON);
   *height = GetSystemMetrics(SM_CYSMICON);
 }
+#endif
 
+#if 0
 NativeWindowsIcon*
 NativeWindowsWindow_getBigIcon
   (
     NativeWindowsWindow* self
   )
 { return self->bigIcon; }
+#endif
 
+#if 0
 void
 NativeWindowsWindow_setBigIcon
   (
@@ -381,14 +769,18 @@ NativeWindowsWindow_setBigIcon
     }
   }
 }
+#endif
 
+#if 0
 NativeWindowsIcon*
 NativeWindowsWindow_getSmallIcon
   (
     NativeWindowsWindow* self
   )
 { return self->smallIcon; }
+#endif
 
+#if 0
 void
 NativeWindowsWindow_setSmallIcon
   (
@@ -405,14 +797,18 @@ NativeWindowsWindow_setSmallIcon
     }
   }
 }
+#endif
 
+#if 0
 R_String*
 NativeWindowsWindow_getTitle
   (
     NativeWindowsWindow* self
   )
 { return self->title; }
+#endif
 
+#if 0
 void
 NativeWindowsWindow_setTitle
   (
@@ -429,7 +825,9 @@ NativeWindowsWindow_setTitle
     NativeWindowsWindow_setTitleHelper(self->windowHandle, title);
   }
 }
+#endif
 
+#if 0
 void
 NativeWindowsWindow_getCanvasSize
   (
@@ -451,3 +849,4 @@ NativeWindowsWindow_getCanvasSize
   *width = clientRectangle.right - clientRectangle.left;
   *height = clientRectangle.bottom - clientRectangle.top;
 }
+#endif

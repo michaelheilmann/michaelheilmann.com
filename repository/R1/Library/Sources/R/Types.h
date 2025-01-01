@@ -26,6 +26,8 @@ typedef struct R_Value R_Value;
 
 /// Type operations for object types.
 typedef struct R_ObjectType_Operations {
+  // Pointer to the constructor.
+  // The argument values can be written to.
   void (*construct)(R_Value* self, R_SizeValue numberOfArguments, R_Value* arguments);
   void (*destruct)(void* self);
   void (*visit)(void* self);

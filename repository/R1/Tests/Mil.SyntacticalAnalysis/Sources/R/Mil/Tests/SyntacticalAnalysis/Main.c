@@ -50,6 +50,7 @@ main1
   onTest(R_FilePath_parseGeneric("Assets/Procedures.mil", sizeof("Assets/Procedures.mil") - 1));
   onTest(R_FilePath_parseGeneric("Assets/Classes.mil", sizeof("Assets/Classes.mil") - 1));
   onTest(R_FilePath_parseGeneric("Assets/Statements.mil", sizeof("Assets/Statements.mil") - 1));
+  onTest(R_FilePath_parseGeneric("Assets/Variables.mil", sizeof("Assets/Variables.mil") - 1));
 }
 
 int

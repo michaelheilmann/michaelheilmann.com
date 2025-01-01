@@ -413,6 +413,30 @@ R_Mil_ReturnStatementAst_create
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 /// @code
+/// class R.Mil.VariableDefinitionStatement extends R.Mil.Statement
+/// @endcode
+/// Represents
+/// @code
+/// 'variable' VariableName
+/// @endcode
+Rex_declareObjectType("R.Mil.VariableDefinitionStatementAst", R_Mil_VariableDefinitionStatementAst, "R.Mil.StatementAst");
+
+struct R_Mil_VariableDefinitionStatementAst {
+  R_Mil_StatementAst parent;
+  R_String* name;
+};
+
+/// @brief Create a Mil variable definition statement AST.
+/// @return A pointer to this Mil variable definition statement AST.
+R_Mil_VariableDefinitionStatementAst*
+R_Mil_VariableDefinitionStatementAst_create
+  (
+    R_String* name
+  );
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+/// @code
 /// class R.Mil.DefinitionAst extends R.Object
 /// @endcode
 Rex_declareObjectType("R.Mil.DefinitionAst", R_Mil_DefinitionAst, "R.Object");

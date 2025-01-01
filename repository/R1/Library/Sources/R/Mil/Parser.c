@@ -496,12 +496,36 @@ onEndOfStatement
   }
 }
 
+static R_Mil_VariableDefinitionStatementAst*
+onVariableDefinitionStatement
+  (
+    R_Mil_Parser* self
+  )
+{
+  if (R_Mil_TokenType_Variable != getType(self)) {
+    R_setStatus(R_Status_SyntacticalError);
+    R_jump();
+  }
+  next(self);
+  if (R_Mil_TokenType_Name != getType(self)) {
+    R_setStatus(R_Status_SyntacticalError);
+    R_jump();
+  }
+  R_Mil_VariableDefinitionStatementAst* variableDefinitionStatementAst = R_Mil_VariableDefinitionStatementAst_create(getText(self));
+  next(self);
+  while (is(self, R_Mil_TokenType_LineTerminator)) {
+    next(self);
+  }
+  return variableDefinitionStatementAst;
+}
+
 /// statement : expressionStatement endOfStatement
 ///           | labelStatement endOfStatement?
 ///           | returnStatement endOfStatement
 ///           | emptyStatement endOfStatement
 /// expressionStatement: name '=' expression
 /// labelStatement: name ':'
+/// variableDefinitionStatement : variableDefinition
 /// returnStatement : 'return' operand?
 static R_Mil_StatementAst*
 onStatement
@@ -509,11 +533,11 @@ onStatement
     R_Mil_Parser* self
   )
 {
-  // skip "empty statement" 
+  // skip empty statement 
   while (is(self, R_Mil_TokenType_LineTerminator)) {
     next(self);
   }
-  // "return statement"
+  // return statement
   if (is(self, R_Mil_TokenType_Return)) {
     next(self);
     R_Mil_OperandAst* operandAst = NULL;
@@ -522,6 +546,12 @@ onStatement
     }
     onEndOfStatement(self);
     R_Mil_ReturnStatementAst* statementAst = R_Mil_ReturnStatementAst_create(operandAst);
+    return (R_Mil_StatementAst*)statementAst;
+  }
+  // variable definition statement
+  if (is(self, R_Mil_TokenType_Variable)) {
+    R_Mil_VariableDefinitionStatementAst* statementAst = onVariableDefinitionStatement(self);
+    onEndOfStatement(self);
     return (R_Mil_StatementAst*)statementAst;
   }
   if (!is(self, R_Mil_TokenType_Name)) {
@@ -751,6 +781,10 @@ onVariableDefinition
     R_jump();
   }
   R_Mil_VariableDefinitionAst* variableDefinitionAst = R_Mil_VariableDefinitionAst_create(getText(self));
+  next(self);
+  while (is(self, R_Mil_TokenType_LineTerminator)) {
+    next(self);
+  }
   return variableDefinitionAst;
 }
 

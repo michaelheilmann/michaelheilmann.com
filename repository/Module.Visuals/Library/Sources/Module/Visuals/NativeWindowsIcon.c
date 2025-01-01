@@ -78,7 +78,7 @@ NativeWindowsIcon_constructImpl
   R_Type* _type = _NativeWindowsIcon_getType();
   {
     R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = R_VoidValue_Void} };
-    R_Object_constructImpl(self, 0, &argumentValues[0]);
+    R_Type_getOperations(R_Type_getParentObjectType(_type))->objectTypeOperations->construct(self, 0, &argumentValues[0]);
   }
 
   if (5 != numberOfArgumentValues) {
@@ -138,8 +138,6 @@ NativeWindowsIcon_constructImpl
 
   HDC hDC = GetDC(NULL);
   if (!hDC) {
-    ReleaseDC(NULL, hDC);
-    hDC = NULL;
     R_setStatus(R_Status_EnvironmentFailed);
     R_jump();
   }

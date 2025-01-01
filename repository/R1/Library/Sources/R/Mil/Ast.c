@@ -78,7 +78,7 @@ R_Mil_ModuleAst_constructImpl
   R_Type* _type = _R_Mil_ModuleAst_getType();
   {
     R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = R_VoidValue_Void} };
-    R_Object_constructImpl(self, 0, &argumentValues[0]);
+    R_Type_getOperations(R_Type_getParentObjectType(_type))->objectTypeOperations->construct(self, 0, &argumentValues[0]);
   }
   _self->definitions = R_List_create();
   R_Object_setType(_self, _type);
@@ -182,7 +182,7 @@ R_Mil_OperandAst_constructImpl
   R_Type* _type = _R_Mil_OperandAst_getType();
   {
     R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = R_VoidValue_Void} };
-    R_Object_constructImpl(self, 0, &argumentValues[0]);
+        R_Type_getOperations(R_Type_getParentObjectType(_type))->objectTypeOperations->construct(self, 0, &argumentValues[0]);
   }
   R_Object_setType(_self, _type);
 }
@@ -814,7 +814,7 @@ R_Mil_ExpressionAst_constructImpl
   R_Type* _type = _R_Mil_ExpressionAst_getType();
   {
     R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = R_VoidValue_Void} };
-    R_Object_constructImpl(self, 0, &argumentValues[0]);
+    R_Type_getOperations(R_Type_getParentObjectType(_type))->objectTypeOperations->construct(self, 0, &argumentValues[0]);
   }
   if (0 != numberOfArgumentValues) {
     R_setStatus(R_Status_NumberOfArgumentsInvalid);
@@ -1299,7 +1299,7 @@ R_Mil_StatementAst_constructImpl
   R_Type* _type = _R_Mil_StatementAst_getType();
   {
     R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = R_VoidValue_Void} };
-    R_Object_constructImpl(self, 0, &argumentValues[0]);
+    R_Type_getOperations(R_Type_getParentObjectType(_type))->objectTypeOperations->construct(self, 0, &argumentValues[0]);
   }
   R_Object_setType(_self, _type);
 }
@@ -1613,6 +1613,93 @@ R_Mil_ReturnStatementAst_create
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+/// @code
+/// construct(name:R.String)
+/// @endcode
+static void
+R_Mil_VariableDefinitionStatementAst_constructImpl
+  (
+    R_Value* self,
+    R_SizeValue numberOfArgumentValues,
+    R_Value const* argumentValues
+  );
+
+static void
+R_Mil_VariableDefinitionStatementAst_visit
+  (
+    R_Mil_VariableDefinitionStatementAst* self
+  );
+
+static const R_ObjectType_Operations _R_Mil_VariableDefinitionStatementAst_objectTypeOperations = {
+  .construct = &R_Mil_VariableDefinitionStatementAst_constructImpl,
+  .destruct = NULL,
+  .visit = &R_Mil_VariableDefinitionStatementAst_visit,
+};
+
+static const R_Type_Operations _R_Mil_VariableDefinitionStatementAst_typeOperations = {
+  .objectTypeOperations = &_R_Mil_VariableDefinitionStatementAst_objectTypeOperations,
+  .add = NULL,
+  .and = NULL,
+  .concatenate = NULL,
+  .divide = NULL,
+  .equalTo = NULL,
+  .greaterThan = NULL,
+  .greaterThanOrEqualTo = NULL,
+  .hash = NULL,
+  .lowerThan = NULL,
+  .lowerThanOrEqualTo = NULL,
+  .multiply = NULL,
+  .negate = NULL,
+  .not = NULL,
+  .notEqualTo = NULL,
+  .or = NULL,
+  .subtract = NULL,
+};
+
+Rex_defineObjectType("R.Mil.VariableDefinitionStatementAst", R_Mil_VariableDefinitionStatementAst, "R.Mil.StatementAst", R_Mil_StatementAst, &_R_Mil_VariableDefinitionStatementAst_typeOperations);
+
+static void
+R_Mil_VariableDefinitionStatementAst_constructImpl
+  (
+    R_Value* self,
+    R_SizeValue numberOfArgumentValues,
+    R_Value const* argumentValues
+  )
+{
+  R_Mil_VariableDefinitionStatementAst* _self = R_Value_getObjectReferenceValue(self);
+  R_Type* _type = _R_Mil_VariableDefinitionStatementAst_getType();
+  {
+    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = R_VoidValue_Void} };
+    R_Type_getOperations(R_Type_getParentObjectType(_type))->objectTypeOperations->construct(self, 0, &argumentValues[0]);
+  }
+  if (1 != numberOfArgumentValues) {
+    R_setStatus(R_Status_NumberOfArgumentsInvalid);
+    R_jump();
+  }
+  _self->name = R_Argument_getObjectReferenceValue(&argumentValues[0], _R_String_getType());
+  R_Object_setType(_self, _type);
+}
+
+static void
+R_Mil_VariableDefinitionStatementAst_visit
+  (
+    R_Mil_VariableDefinitionStatementAst* self
+  )
+{ R_Object_visit(self->name); }
+
+R_Mil_VariableDefinitionStatementAst*
+R_Mil_VariableDefinitionStatementAst_create
+  (
+    R_String* name
+  )
+{
+  R_Value argumentValues[] = { {.tag = R_ValueTag_ObjectReference, .objectReferenceValue = name }, };
+  R_Mil_VariableDefinitionStatementAst* self = R_allocateObject(_R_Mil_VariableDefinitionStatementAst_getType(), 1, &argumentValues[0]);
+  return self;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 static void
 R_Mil_DefinitionAst_constructImpl
   (
@@ -1661,7 +1748,7 @@ R_Mil_DefinitionAst_constructImpl
   R_Type* _type = _R_Mil_DefinitionAst_getType();
   {
     R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = R_VoidValue_Void} };
-    R_Object_constructImpl(self, 0, &argumentValues[0]);
+    R_Type_getOperations(R_Type_getParentObjectType(_type))->objectTypeOperations->construct(self, 0, &argumentValues[0]);
   }
   if (0 != numberOfArgumentValues) {
     R_setStatus(R_Status_NumberOfArgumentsInvalid);

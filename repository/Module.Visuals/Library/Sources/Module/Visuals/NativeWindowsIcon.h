@@ -19,6 +19,7 @@
 #define MODULE_VISUALS_NATIVEWINDOWSICON_H_INCLUDED
  
 #include "R.h"
+#include "Module/Visuals/NativeIcon.h"
 
 #include <stdint.h>
 
@@ -33,7 +34,7 @@
 Rex_declareObjectType("NativeWindowsIcon", NativeWindowsIcon, "R.Object")
 
 struct NativeWindowsIcon {
-  R_Object _parent;
+  NativeIcon _parent;
   HICON hIcon;
 };
 
