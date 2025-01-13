@@ -18,7 +18,7 @@
 #if !defined(R_STRINGBUFFER_H_INCLUDED)
 #define R_STRINGBUFFER_H_INCLUDED
 
-#include "R/Object.h"
+#include "Arcadia/Ring1/Include.h"
 
 /// @code
 /// class StringBuffer {

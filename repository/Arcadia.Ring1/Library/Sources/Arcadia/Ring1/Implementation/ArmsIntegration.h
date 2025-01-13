@@ -13,42 +13,52 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-#if !defined(R_ARMSINTEGRATION_H_INCLUDED)
-#define R_ARMSINTEGRATION_H_INCLUDED
+// Last modified: 2025-01-06
+
+#if !defined(ARCADIA_RING1_ARMSINTEGRATION_H_INCLUDED)
+#define ARCADIA_RING1_ARMSINTEGRATION_H_INCLUDED
 
 #include "Arcadia/Ring1/Implementation/Boolean.h"
 #include "Arcadia/Ring1/Implementation/Size.h"
+#include "Arcadia/Ring1/Implementation/Process.h"
 
+// run once
 Arcadia_Status
-R_Arms_step
+Arcadia_Arms_step
   (
   );
 
+/// run until nothing can be freed anymore
 Arcadia_Status
-R_Arms_run
+Arcadia_Arms_run
   (
   );
 
 void
-R_Arms_visit
+Arcadia_Arms_visit
   (
+    Arcadia_Process* process,
     void* object
   );
 
-Arcadia_Status
-R_Arms_lock
+static inline Arcadia_Status
+Arcadia_Arms_lock
   (
+    Arcadia_Process* process,
     void* object
-  );
+  )
+{ return Arcadia_Process_lockObject(process, object); }
 
-Arcadia_Status
-R_Arms_unlock
+static inline Arcadia_Status
+Arcadia_Arms_unlock
   (
+    Arcadia_Process* process,
     void* object
-  );
+  )
+{ return Arcadia_Process_unlockObject(process, object); }
 
 Arcadia_BooleanValue
-R_Arms_registerType_nojump
+Arcadia_Arms_registerType_nojump
   (
     Arcadia_Process* process,
     void const* name,
@@ -70,7 +80,7 @@ R_Arms_registerType_nojump
 /// - Arcadia_Status_TypeNotExists if the type does not exist.
 /// - Arcadia_Status_ArgumentInvalid if @a p or @a name is a null pointer.
 Arcadia_BooleanValue
-R_allocate_nojump
+Arcadia_allocate_nojump
   (
     Arcadia_Process* process,
     void** p,
@@ -79,39 +89,4 @@ R_allocate_nojump
     size_t size
   );
 
-/// @return #Arcadia_BooleanValue_True on success. #Arcadia_BooleanValue_False on failure.
-/// @remarks This function sets the status variable on failure. However, it does not invoke R_jump(),
-/// If <code>p</code> is a null pointer, then #Arcadia_Status_ArgumentValueInvalid is assigned.
-/// If the allocation failed, then #Arcadia_Status_AllocationFailed is assigned.
-Arcadia_BooleanValue
-R_allocateUnmanaged_nojump
-  (
-    Arcadia_Process* process,
-    void** p,
-    Arcadia_SizeValue n
-  );
-
-/// @return #Arcadia_BooleanValue_True on success. #Arcadia_BooleanValue_False on failure.
-/// @remarks This function sets the status variable on failure. However, it does not invoke R_jump(),
-/// If <code>p</code> is a null pointer, then #Arcadia_Status_ArgumentValueInvalid is assigned.
-/// If the allocation failed, then #Arcadia_Status_AllocationFailed is assigned.
-Arcadia_BooleanValue
-R_deallocateUnmanaged_nojump
-  (
-    Arcadia_Process* process,
-    void* p
-  );
-
-/// @return #Arcadia_BooleanValue_True on success. #Arcadia_BooleanValue_False on failure.
-/// @remarks This function sets the status variable on failure. However, it does not invoke R_jump(),
-/// If <code>p</code> is a null pointer, then #Arcadia_Status_ArgumentValueInvalid is assigned.
-/// If the allocation failed, then #Arcadia_Status_AllocationFailed is assigned.
-Arcadia_BooleanValue
-R_reallocateUnmanaged_nojump
-  (
-    Arcadia_Process* process,
-    void** p,
-    Arcadia_SizeValue n
-  );
-
-#endif // R_ARMSINTEGRATION_H_INCLUDED
+#endif // ARCADIA_RING1_ARMSINTEGRATION_H_INCLUDED

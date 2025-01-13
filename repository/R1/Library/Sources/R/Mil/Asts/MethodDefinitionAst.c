@@ -91,7 +91,7 @@ R_Mil_MethodDefinitionAst_constructImpl
   _self->methodName = (R_String*)R_Argument_getObjectReferenceValue(process, &argumentValues[1], _R_String_getType(process));
   _self->methodParameters = (R_List*)R_Argument_getObjectReferenceValue(process, &argumentValues[2], _R_List_getType(process));
   _self->methodBody = (R_List*)R_Argument_getObjectReferenceValueOrNull(process, &argumentValues[3], _R_List_getType(process));
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -101,10 +101,10 @@ R_Mil_MethodDefinitionAst_visit
     R_Mil_MethodDefinitionAst* self
   )
 {
-  R_Object_visit(self->nativeName);
-  R_Object_visit(self->methodName);
-  R_Object_visit(self->methodParameters);
-  R_Object_visit(self->methodBody);
+  R_Object_visit(process, self->nativeName);
+  R_Object_visit(process, self->methodName);
+  R_Object_visit(process, self->methodParameters);
+  R_Object_visit(process, self->methodBody);
 }
 
 R_Mil_MethodDefinitionAst*

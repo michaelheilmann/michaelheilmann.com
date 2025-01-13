@@ -17,7 +17,6 @@
 
 #include "R/Utf8StringReader.h"
 
-#include "R/Object.h"
 #include "R/String.h"
 #include "R/Utf8.h"
 
@@ -129,7 +128,7 @@ R_Utf8StringReader_constructImpl
   ((R_Utf8Reader*)_self)->getCodePoint = (Arcadia_Natural32Value(*)(Arcadia_Process*, R_Utf8Reader*)) & R_Utf8StringReader_getCodePointImpl;
   ((R_Utf8Reader*)_self)->hasCodePoint = (Arcadia_BooleanValue(*)(Arcadia_Process*, R_Utf8Reader*)) & R_Utf8StringReader_hasCodePointImpl;
   ((R_Utf8Reader*)_self)->next = (void (*)(Arcadia_Process*, R_Utf8Reader*)) & R_Utf8StringReader_nextImpl;
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -139,7 +138,7 @@ R_Utf8StringReader_visit
     R_Utf8StringReader* self
   )
 {
-  R_Object_visit(self->source);
+  R_Object_visit(process, self->source);
 }
 
 static void

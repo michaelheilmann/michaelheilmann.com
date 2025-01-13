@@ -19,7 +19,6 @@
 
 #include "R/Utf8/EncodeCodePoints.h"
 #include "R/cstdlib.h"
-#include "R/ArmsIntegration.h"
 #include "R.h"
 
 static void
@@ -102,10 +101,10 @@ R_StringBuffer_constructImpl
   _self->elements = NULL;
   _self->size = 0;
   _self->capacity = 0;
-  if (!R_allocateUnmanaged_nojump(process, &_self->elements, 0)) {
+  if (!Arcadia_Process_allocateUnmanaged_nojump(process, &_self->elements, 0)) {
     Arcadia_Process_jump(process);
   }
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -116,7 +115,7 @@ R_StringBuffer_destruct
   )
 {
   if (self->elements) {
-    R_deallocateUnmanaged_nojump(process, self->elements);
+    Arcadia_Process_deallocateUnmanaged_nojump(process, self->elements);
     self->elements = NULL;
   }
 }
@@ -138,7 +137,7 @@ ensureFreeCapacityBytes
       Arcadia_Process_jump(process);
     }
     Arcadia_SizeValue newCapacity = oldCapacity + additionalCapacity;
-    if (!R_reallocateUnmanaged_nojump(process, &self->elements, newCapacity)) {
+    if (!Arcadia_Process_reallocateUnmanaged_nojump(process, &self->elements, newCapacity)) {
       Arcadia_Process_setStatus(process, Arcadia_Status_AllocationFailed);
       Arcadia_Process_jump(process);
     }

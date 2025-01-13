@@ -191,7 +191,7 @@ R_BigInteger_constructImpl
       Arcadia_Process_jump(process);
     } break;
   };
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void

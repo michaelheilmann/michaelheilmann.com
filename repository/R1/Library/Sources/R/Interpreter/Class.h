@@ -18,7 +18,7 @@
 #if !defined(R_INTERPRETER_CLASS_H_INCLUDED)
 #define R_INTERPRETER_CLASS_H_INCLUDED
 
-#include "R/Object.h"
+#include "Arcadia/Ring1/Include.h"
 #include "R/Map.h"
 typedef struct R_Interpreter_Constructor R_Interpreter_Constructor;
 typedef struct R_Interpreter_Method R_Interpreter_Method;

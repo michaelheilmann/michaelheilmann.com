@@ -15,8 +15,8 @@
 
 // Last modified: 2024-08-27
 
-#if !defined(R_VALUE_H_INCLUDED)
-#define R_VALUE_H_INCLUDED
+#if !defined(ARCADIA_RING1_IMPLEMENTATION_VALUE_H_INCLUDED)
+#define ARCADIA_RING1_IMPLEMENTATION_VALUE_H_INCLUDED
 
 #include "Arcadia/Ring1/Implementation/Atoms.h"
 
@@ -184,6 +184,7 @@ Define(Arcadia, Void, void)
 void
 Arcadia_Value_visit
   (
+    Arcadia_Process* process,
     R_Value* self
   );
 
@@ -209,4 +210,4 @@ Arcadia_Value_hash
     R_Value const* self
   );
 
-#endif // R_VALUE_H_INCLUDED
+#endif // ARCADIA_RING1_IMPLEMENTATION_VALUE_H_INCLUDED

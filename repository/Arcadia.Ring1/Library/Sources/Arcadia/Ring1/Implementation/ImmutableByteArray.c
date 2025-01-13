@@ -17,9 +17,9 @@
 
 #include "Arcadia/Ring1/Implementation/ImmutableByteArray.h"
 
-#include "R/cstdlib.h"
-#include "R/ArmsIntegration.h"
+#include "Arcadia/Ring1/Implementation/ArmsIntegration.h"
 #include "Arcadia/Ring1/Include.h"
+#include <string.h>
 
 #define TypeName u8"Arcadia.ImmutableByteArray"
 
@@ -51,16 +51,16 @@ Arcadia_ImmutableByteArray_create
     Arcadia_Process_jump(process);
   }
   if (!g_registered) {
-    if (!R_Arms_registerType_nojump(process, TypeName, sizeof(TypeName) - 1, process, &onTypeRemoved, NULL, NULL)) {
+    if (!Arcadia_Arms_registerType_nojump(process, TypeName, sizeof(TypeName) - 1, process, &onTypeRemoved, NULL, NULL)) {
       Arcadia_Process_jump(process);
     }
     g_registered = Arcadia_BooleanValue_True;
   }
   Arcadia_ImmutableByteArray*array = NULL;
-  if (!R_allocate_nojump(process, &array, TypeName, sizeof(TypeName) - 1, sizeof(Arcadia_ImmutableByteArray) + numberOfBytes)) {
+  if (!Arcadia_allocate_nojump(process, &array, TypeName, sizeof(TypeName) - 1, sizeof(Arcadia_ImmutableByteArray) + numberOfBytes)) {
     Arcadia_Process_jump(process);
   }
-  c_memcpy(array->bytes, bytes, numberOfBytes);
+  memcpy(array->bytes, bytes, numberOfBytes);
   array->numberOfBytes = numberOfBytes;
   return array;
 }
@@ -68,9 +68,10 @@ Arcadia_ImmutableByteArray_create
 void
 Arcadia_ImmutableByteArray_visit
   (
+    Arcadia_Process* process,
     Arcadia_ImmutableByteArray* immutableByteArray
   )
-{ R_Arms_visit(immutableByteArray); }
+{ Arcadia_Arms_visit(process, immutableByteArray); }
 
 Arcadia_Natural8Value const*
 Arcadia_ImmutableByteArray_getBytes

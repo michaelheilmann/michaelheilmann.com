@@ -17,7 +17,6 @@
 
 #include "R/Utf8ByteBufferReader.h"
 
-#include "R/Object.h"
 #include "R/Utf8.h"
 
 #define CodePoint_Start (R_Utf8CodePoint_Last + 1)
@@ -71,7 +70,7 @@ R_Utf8ByteBufferReader_visit
     R_Utf8ByteBufferReader* self
   )
 {
-  R_Object_visit(self->source);
+  R_Object_visit(process, self->source);
 }
 
 static void
@@ -245,7 +244,7 @@ R_Utf8ByteBufferReader_constructImpl
   ((R_Utf8Reader*)_self)->getCodePoint = (Arcadia_Natural32Value (*)(Arcadia_Process*,R_Utf8Reader*)) & R_Utf8ByteBufferReader_getCodePointImpl;
   ((R_Utf8Reader*)_self)->hasCodePoint = (Arcadia_BooleanValue (*)(Arcadia_Process*,R_Utf8Reader*)) &R_Utf8ByteBufferReader_hasCodePointImpl;
   ((R_Utf8Reader*)_self)->next = (void (*)(Arcadia_Process*, R_Utf8Reader*)) &R_Utf8ByteBufferReader_nextImpl;
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 R_Utf8ByteBufferReader*

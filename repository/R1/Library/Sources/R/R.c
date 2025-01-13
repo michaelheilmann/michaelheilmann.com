@@ -19,9 +19,7 @@
 
 #include "Arcadia/Ring1/Include.h"
 #include "Arcadia/Ring1/Implementation/Atoms.private.h" ///< @todo A better solution must be found.
-#include "R/Object.internal.h"
-
-#include "R/ArmsIntegration.private.h"
+#include "Arcadia/Ring1/Implementation/Types.private.h"
 
 static Arcadia_Process* g_process = NULL;
 
@@ -51,7 +49,7 @@ R_startup
       Arcadia_Process_popJumpTarget(g_process);
     } else {
       Arcadia_Process_popJumpTarget(g_process);
-      R_Arms_run();
+      Arcadia_Arms_run();
       Arcadia_Status status = Arcadia_Process_getStatus(g_process);
       Arcadia_Process_relinquish(g_process);
       g_process = NULL;
@@ -65,10 +63,10 @@ R_startup
     } else {
       Arcadia_Process_popJumpTarget(g_process);
       Arcadia_Atoms_onPreMark(g_process, Arcadia_BooleanValue_True);
-      R_Arms_run();
+      Arcadia_Arms_run();
       Arcadia_Atoms_onFinalize(g_process);
       Arcadia_Atoms_shutdown(g_process);
-      R_Arms_run();
+      Arcadia_Arms_run();
       Arcadia_Status status = Arcadia_Process_getStatus(g_process);
       Arcadia_Process_relinquish(g_process);
       g_process = NULL;
@@ -90,10 +88,10 @@ R_shutdown
   if (1 == g_referenceCount) {
     Arcadia_Types_shutdown(g_process);
     Arcadia_Atoms_onPreMark(g_process, Arcadia_BooleanValue_True);
-    R_Arms_run();
+    Arcadia_Arms_run();
     Arcadia_Atoms_onFinalize(g_process);
     Arcadia_Atoms_shutdown(g_process);
-    R_Arms_run();
+    Arcadia_Arms_run();
     Arcadia_Process_relinquish(g_process);
     g_process = NULL;
   }

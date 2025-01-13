@@ -102,7 +102,7 @@ R_Mil_UnaryExpressionAst_constructImpl
   _self->type = Arcadia_Value_getInteger32Value(&argumentValues[0]);
   _self->operand1 = Arcadia_Value_getObjectReferenceValue(&argumentValues[1]);
 
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -111,7 +111,7 @@ R_Mil_UnaryExpressionAst_visit
     Arcadia_Process* process,
     R_Mil_UnaryExpressionAst* self
   )
-{ R_Object_visit(self->operand1); }
+{ R_Object_visit(process, self->operand1); }
 
 R_Mil_UnaryExpressionAst*
 R_Mil_UnaryExpressionAst_create

@@ -16,7 +16,7 @@
 #if !defined(R_STACK_H_INCLUDED)
 #define R_STACK_H_INCLUDED
 
-#include "R/Object.h"
+#include "Arcadia/Ring1/Include.h"
 
 Rex_declareObjectType(u8"R.Stack", R_Stack, u8"Arcadia.Object");
 

@@ -36,6 +36,7 @@ NativeWindowsWindow_destruct
 static void
 NativeWindowsWindow_visit
   (
+    Arcadia_Process* process,
     NativeWindowsWindow* self
   );
 
@@ -163,7 +164,7 @@ static Arcadia_BooleanValue g_quitRequested = Arcadia_BooleanValue_False;
 static const R_ObjectType_Operations _objectTypeOperations = {
   .construct = &NativeWindowsWindow_constructImpl,
   .destruct = &NativeWindowsWindow_destruct,
-  .visit = NULL,
+  .visit = &NativeWindowsWindow_visit,
 };
 
 static const Arcadia_Type_Operations _typeOperations = {
@@ -235,17 +236,18 @@ NativeWindowsWindow_destruct
 static void
 NativeWindowsWindow_visit
   (
+    Arcadia_Process* process,
     NativeWindowsWindow* self
   )
 {
   if (self->title) {
-    R_Object_visit(self->title);
+    R_Object_visit(process, self->title);
   }
   if (self->smallIcon) {
-    R_Object_visit(self->smallIcon);
+    R_Object_visit(process, self->smallIcon);
   }
   if (self->bigIcon) {
-    R_Object_visit(self->bigIcon);
+    R_Object_visit(process, self->bigIcon);
   }
 }
 
@@ -310,7 +312,7 @@ NativeWindowsWindow_constructImpl
 
   ((NativeWindow*)_self)->getCanvasSize = (void(*)(NativeWindow*, Arcadia_Integer32Value*, Arcadia_Integer32Value*)) & getCanvasSizeImpl;
 
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void

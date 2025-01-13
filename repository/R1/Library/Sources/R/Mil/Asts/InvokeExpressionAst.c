@@ -102,7 +102,7 @@ R_Mil_InvokeExpressionAst_constructImpl
   _self->callee = Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
   _self->operands = Arcadia_Value_getObjectReferenceValue(&argumentValues[1]);
 
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -112,8 +112,8 @@ R_Mil_InvokeExpressionAst_visit
     R_Mil_InvokeExpressionAst* self
   )
 {
-  R_Object_visit(self->callee);
-  R_Object_visit(self->operands);
+  R_Object_visit(process, self->callee);
+  R_Object_visit(process, self->operands);
 }
 
 R_Mil_InvokeExpressionAst*

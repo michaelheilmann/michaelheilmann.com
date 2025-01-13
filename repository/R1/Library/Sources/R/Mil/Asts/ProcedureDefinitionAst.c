@@ -93,7 +93,7 @@ R_Mil_ProcedureDefinitionAst_constructImpl
   _self->procedureName = R_Argument_getObjectReferenceValue(process, &argumentValues[2], _R_String_getType(process));
   _self->procedureParameters = R_Argument_getObjectReferenceValue(process, &argumentValues[3], _R_List_getType(process));
   _self->procedureBody = R_Argument_getObjectReferenceValueOrNull(process, &argumentValues[4], _R_List_getType(process));
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -104,12 +104,12 @@ R_Mil_ProcedureDefinitionAst_visit
   )
 {
   if (self->nativeName) {
-    R_Object_visit(self->nativeName);
+    R_Object_visit(process, self->nativeName);
   }
-  R_Object_visit(self->procedureName);
-  R_Object_visit(self->procedureParameters);
+  R_Object_visit(process, self->procedureName);
+  R_Object_visit(process, self->procedureParameters);
   if (self->procedureBody) {
-    R_Object_visit(self->procedureBody);
+    R_Object_visit(process, self->procedureBody);
   }
 }
 

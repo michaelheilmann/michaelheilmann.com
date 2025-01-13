@@ -90,7 +90,7 @@ R_Mil_ClassDefinitionAst_constructImpl
   _self->className = R_Argument_getObjectReferenceValue(process, &argumentValues[0], _R_String_getType(process));
   _self->extendedClassName = R_Argument_getObjectReferenceValueOrNull(process, &argumentValues[1], _R_String_getType(process));
   _self->classBody = R_Argument_getObjectReferenceValue(process, &argumentValues[2], _R_List_getType(process));
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -100,12 +100,12 @@ R_Mil_ClassDefinitionAst_visit
     R_Mil_ClassDefinitionAst* self
   )
 {
-  R_Object_visit(self->className);
+  R_Object_visit(process, self->className);
   if (self->extendedClassName) {
-    R_Object_visit(self->extendedClassName);
+    R_Object_visit(process, self->extendedClassName);
   }
   if (self->classBody) {
-    R_Object_visit(self->classBody);
+    R_Object_visit(process, self->classBody);
   }
 }
 

@@ -15,13 +15,12 @@
 
 // Last modified: 2024-08-27
 
-#if !defined(R_OBJECT_H_INCLUDED)
-#define R_OBJECT_H_INCLUDED
+#if !defined(ARCADIA_RING1_IMPLEMENTATION_OBJECT_H_INCLUDED)
+#define ARCADIA_RING1_IMPLEMENTATION_OBJECT_H_INCLUDED
 
 #include "Arcadia/Ring1/Implementation/Types.h"
 typedef struct R_String R_String;
 typedef struct R_Value R_Value;
-
 
 typedef struct R_Object R_Object;
 Arcadia_TypeValue
@@ -96,6 +95,7 @@ R_allocateObject
 void
 R_Object_setType
   (
+    Arcadia_Process* process,
     void* self,
     Arcadia_TypeValue type
   );
@@ -105,6 +105,7 @@ R_Object_setType
 void
 R_Object_visit
   (
+    Arcadia_Process* process,
     void* self
   );
 
@@ -213,4 +214,4 @@ R_Object_toString
     R_Object* self
   );
 
-#endif // R_OBJECT_H_INCLUDED
+#endif // ARCADIA_RING1_IMPLEMENTATION_OBJECT_H_INCLUDED

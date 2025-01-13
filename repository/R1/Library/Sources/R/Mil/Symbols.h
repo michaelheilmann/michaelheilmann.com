@@ -18,7 +18,7 @@
 #if !defined(R_MIL_SYMBOLS_H_INCLUDED)
 #define R_MIL_SYMBOLS_H_INCLUDED
 
-#include "R/Object.h"
+#include "Arcadia/Ring1/Include.h"
 #include "R/String.h"
 typedef struct R_Mil_Symbol R_Mil_Symbol;
 typedef struct R_Mil_Scope R_Mil_Scope;

@@ -18,7 +18,6 @@
 #include "R/Utf8ByteBufferWriter.h"
 
 #include "R/ByteBuffer.h"
-#include "R/Object.h"
 #include "R/Utf8/EncodeCodePoints.h"
 #include "R/cstdlib.h"
 
@@ -110,7 +109,7 @@ R_Utf8ByteBufferWriter_constructImpl
   _self->target = Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
   ((R_Utf8Writer*)_self)->writeBytes = (void (*)(Arcadia_Process*, R_Utf8Writer*, void const*, Arcadia_SizeValue)) & R_Utf8ByteBufferWriter_writeBytesImpl;
   ((R_Utf8Writer*)_self)->writeCodePoints = (void (*)(Arcadia_Process*, R_Utf8Writer*, Arcadia_Natural32Value const*, Arcadia_SizeValue)) & R_Utf8ByteBufferWriter_writeCodePointsImpl;
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -120,7 +119,7 @@ R_Utf8ByteBufferWriter_visit
     R_Utf8ByteBufferWriter* self
   )
 {
-  R_Object_visit(self->target);
+  R_Object_visit(process, self->target);
 }
 
 static void

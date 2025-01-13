@@ -15,7 +15,7 @@
 
 // Last modified: 2025-01-01
 
-#include "Arcadia/Ring1/Implementation/Process.h"
+#include "Arcadia/Ring1/Implementation/Process1.h"
 
 #include "Arcadia/Ring1/Implementation/StaticAssert.h"
 #include <stdio.h>
@@ -92,18 +92,18 @@ typedef uint32_t ReferenceCount;
 
 Arcadia_StaticAssert(ReferenceCount_Minimum < ReferenceCount_Maximum, "environment not (yet) supported");
 
-struct Arcadia_Process {
+struct Arcadia_Process1 {
   ReferenceCount referenceCount;
   Arcadia_Status status;
   R_JumpTarget* jumpTarget;
 };
 
-static Arcadia_Process* g_process = NULL;
+static Arcadia_Process1* g_process = NULL;
 
 Arcadia_ProcessStatus
-Arcadia_Process_acquire
+Arcadia_Process1_acquire
   (
-    Arcadia_Process* process
+    Arcadia_Process1* process
   )
 {
   if (!process) {
@@ -117,9 +117,9 @@ Arcadia_Process_acquire
 }
 
 Arcadia_ProcessStatus
-Arcadia_Process_relinquish
+Arcadia_Process1_relinquish
   (
-    Arcadia_Process* process
+    Arcadia_Process1* process
   )
 {
   if (!process) {
@@ -140,9 +140,9 @@ Arcadia_Process_relinquish
 }
 
 Arcadia_ProcessStatus
-Arcadia_Process_get
+Arcadia_Process1_get
   (
-    Arcadia_Process** process
+    Arcadia_Process1** process
   )
 {
   if (!process) {
@@ -152,7 +152,7 @@ Arcadia_Process_get
     if (Arms_startup()) {
       return Arcadia_ProcessStatus_EnvironmentFailed;
     }
-    g_process = malloc(sizeof(Arcadia_Process));
+    g_process = malloc(sizeof(Arcadia_Process1));
     if (!g_process) {
       if (Arms_shutdown()) {
         fprintf(stderr, "%s:%d: %s failed\n", __FILE__, __LINE__, "Arms_shutdown");
@@ -174,9 +174,9 @@ Arcadia_Process_get
 }
 
 void
-Arcadia_Process_pushJumpTarget
+Arcadia_Process1_pushJumpTarget
   (
-    Arcadia_Process* process,
+    Arcadia_Process1* process,
     R_JumpTarget* jumpTarget
   )
 {
@@ -185,36 +185,168 @@ Arcadia_Process_pushJumpTarget
 }
 
 void
-Arcadia_Process_popJumpTarget
+Arcadia_Process1_popJumpTarget
   (
-    Arcadia_Process* process
+    Arcadia_Process1* process
   )
 {
   process->jumpTarget = process->jumpTarget->previous;
 }
 
 Arcadia_NoReturn() void
-Arcadia_Process_jump
+Arcadia_Process1_jump
   (
-    Arcadia_Process* process
+    Arcadia_Process1* process
   )
 { 
   longjmp(process->jumpTarget->environment, -1);
 }
 
 Arcadia_Status
-Arcadia_Process_getStatus
+Arcadia_Process1_getStatus
   (
-    Arcadia_Process* process
+    Arcadia_Process1* process
   )
 { return process->status; }
 
 void
-Arcadia_Process_setStatus
+Arcadia_Process1_setStatus
   (
-    Arcadia_Process* process,
+    Arcadia_Process1* process,
     Arcadia_Status status
   )
 {
   process->status = status;
+}
+
+bool
+Arcadia_Process1_allocateUnmanaged_nojump
+  (
+    Arcadia_Process1* process,
+    void** p,
+    size_t n
+  )
+{
+  Arms_Status status = Arms_MemoryManager_allocate(Arms_getDefaultMemoryManager(), p, n);
+  if (status) {
+    if (status == Arms_Status_ArgumentValueInvalid) {
+      Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
+    } else if (status == Arms_Status_AllocationFailed) {
+      Arcadia_Process1_setStatus(process, Arcadia_Status_AllocationFailed);
+    } else {
+      Arcadia_Process1_setStatus(process, Arcadia_Status_AllocationFailed); /*@todo As ARMs behaves incorrectly, we should use Arcadia_Status_EnvironmentInvalid.*/
+    }
+    return false;
+  }
+  return true;
+}
+
+bool
+Arcadia_Process1_deallocateUnmanaged_nojump
+  (
+    Arcadia_Process1* process,
+    void* p
+  )
+{
+  Arms_MemoryManager_Status status = Arms_MemoryManager_deallocate(Arms_getDefaultMemoryManager(), p);
+  if (status) {
+    if (status == Arms_MemoryManager_Status_ArgumentValueInvalid) {
+      Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
+    } else {
+      Arcadia_Process1_setStatus(process, Arcadia_Status_AllocationFailed); /*@todo As ARMs behaves incorrectly, we should use Arcadia_Status_EnvironmentInvalid.*/
+    }
+    return false;
+  }
+  return true;
+}
+
+bool
+Arcadia_Process1_reallocateUnmanaged_nojump
+  (
+    Arcadia_Process1* process,
+    void** p,
+    size_t n
+  )
+{
+  Arms_MemoryManager_Status status = Arms_MemoryManager_reallocate(Arms_getDefaultMemoryManager(), p, n);
+  if (status) {
+    if (status == Arms_MemoryManager_Status_ArgumentValueInvalid) {
+      Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
+    } else if (status == Arms_MemoryManager_Status_AllocationFailed) {
+      Arcadia_Process1_setStatus(process, Arcadia_Status_AllocationFailed);
+    } else {
+      Arcadia_Process1_setStatus(process, Arcadia_Status_AllocationFailed); /*@todo As ARMs behaves incorrectly, we should use Arcadia_Status_EnvironmentInvalid.*/
+    }
+    return false;
+  }
+  return true;
+}
+
+
+void
+Arcadia_Process1_visitObject
+  (
+    Arcadia_Process1* process,
+    void* object
+  )
+{
+  if (object) {
+    Arms_visit(object);
+  }
+}
+
+Arcadia_Status
+Arcadia_Process1_lockObject
+  (
+    Arcadia_Process1* process,
+    void* object
+  )
+{
+  Arms_Status status = Arms_lock(object);
+  switch (status) {
+    case Arms_Status_Success: {
+      return Arcadia_Status_Success;
+    } break;
+    case Arms_Status_AllocationFailed: {
+      return Arcadia_Status_AllocationFailed;
+    } break;
+    case Arms_Status_OperationInvalid: {
+      return Arcadia_Status_OperationInvalid;
+    } break;
+    case Arms_Status_ArgumentValueInvalid: {
+      return Arcadia_Status_ArgumentValueInvalid;
+    } break;
+    default: {
+      // This should not happen.
+      return Arcadia_Status_ArgumentValueInvalid;
+    } break;
+  };
+}
+
+Arcadia_Status
+Arcadia_Process1_unlockObject
+  (
+    Arcadia_Process1* process,
+    void* object
+  )
+{
+  Arms_Status status = Arms_unlock(object);
+  switch (status) {
+    case Arms_Status_Success: {
+      return Arcadia_Status_Success;
+    } break;
+    case Arms_Status_AllocationFailed: {
+      return Arcadia_Status_AllocationFailed;
+    } break;
+    case Arms_Status_OperationInvalid: {
+      return Arcadia_Status_OperationInvalid;
+    } break;
+    case Arms_Status_ArgumentValueInvalid: {
+      return Arcadia_Status_ArgumentValueInvalid;
+    } break;
+    default: {
+      // This should not happen.
+      return Arcadia_Status_ArgumentValueInvalid;
+    } break;
+  };
 }

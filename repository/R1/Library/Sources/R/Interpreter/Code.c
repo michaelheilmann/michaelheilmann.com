@@ -171,10 +171,10 @@ R_Interpreter_Code_constructImpl
   _self->p = NULL;
   _self->sz = 0;
   _self->cp = 0;
-  if (!R_allocateUnmanaged_nojump(process, &_self->p, 0)) {
+  if (!Arcadia_Process_allocateUnmanaged_nojump(process, &_self->p, 0)) {
     Arcadia_Process_jump(process);
   }
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -185,7 +185,7 @@ R_Interpreter_Code_destruct
   )
 {
   if (self->p) {
-    R_deallocateUnmanaged_nojump(process, self->p);
+    Arcadia_Process_deallocateUnmanaged_nojump(process, self->p);
     self->p = NULL;
   }
 }

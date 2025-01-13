@@ -46,6 +46,7 @@ Arcadia_ImmutableByteArray_create
 void
 Arcadia_ImmutableByteArray_visit
   (
+    Arcadia_Process* process,
     Arcadia_ImmutableByteArray* immutableByteArray
   );
 

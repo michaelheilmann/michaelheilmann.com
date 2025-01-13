@@ -18,7 +18,7 @@
 #if !defined(ARCADIA_RING1_IMPLEMENTATION_TYPENAMEPARSER_H_INCLUDED)
 #define ARCADIA_RING1_IMPLEMENTATION_TYPENAMEPARSER_H_INCLUDED
 
-#include "R/Configure.h"
+#include "Arcadia/Ring1/Implementation/Configure.h"
 #include "Arcadia/Ring1/Implementation/Size.h"
 
 /// @brief Get if a sequence of Bytes is an UTF8 string.

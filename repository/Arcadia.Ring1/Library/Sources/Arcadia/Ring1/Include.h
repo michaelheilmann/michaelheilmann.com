@@ -18,6 +18,8 @@
 #if !defined(ARCADIA_RING1_INCLUDE_H_INCLUDED)
 #define ARCADIA_RING1_INCLUDE_H_INCLUDED
 
+#include "Arcadia/Ring1/Implementation/ArmsIntegration.h"
+
 #include "Arcadia/Ring1/Implementation/Atoms.h"
 
 #include "Arcadia/Ring1/Implementation/Boolean.h"
@@ -53,6 +55,8 @@
 #include "Arcadia/Ring1/Implementation/nextPowerOfTwoGreaterThanOrEqualTo.h"
 
 #include "Arcadia/Ring1/Implementation/NoReturn.h"
+
+#include "Arcadia/Ring1/Implementation/Object.h"
 
 #include "Arcadia/Ring1/Implementation/ObjectReference.h"
 

@@ -29,8 +29,8 @@ main1
 {
   R_String* s = R_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, u8"Hello, World!\n", sizeof(u8"Hello, World!\n") - 1));
   R_Object_lock(process, s);
-  R_Arms_step();
-  R_Arms_step();
+  Arcadia_Arms_step();
+  Arcadia_Arms_step();
   R_Object_unlock(process, s);
 }
 

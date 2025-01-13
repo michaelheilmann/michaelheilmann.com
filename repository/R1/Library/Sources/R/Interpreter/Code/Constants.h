@@ -19,7 +19,6 @@
 #define R_INTERPRETER_CODE_CONSTANTS_H_INCLUDED
 
 #include "Arcadia/Ring1/Include.h"
-#include "R/Object.h"
 #include "R/String.h"
 
 /**

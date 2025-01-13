@@ -17,7 +17,6 @@
 
 #include "R/Utf8Reader.h"
 
-#include "R/Object.h"
 #include "R/Utf8.h"
 #include "R/cstdlib.h"
 
@@ -79,7 +78,7 @@ R_Utf8Reader_constructorImpl
   _self->getCodePoint = NULL;
   _self->hasCodePoint = NULL;
   _self->next = NULL;
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 void

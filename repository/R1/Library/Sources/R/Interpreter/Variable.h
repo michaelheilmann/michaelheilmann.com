@@ -19,7 +19,6 @@
 #define R_INTERPRETER_VARIABLE_INCLUDED
 
 #include "Arcadia/Ring1/Include.h"
-#include "R/Object.h"
 typedef struct R_Interpreter_Class R_Interpreter_Class;
 
 Rex_declareObjectType(u8"R.Interpreter.Variable", R_Interpreter_Variable, u8"Arcadia.Object");

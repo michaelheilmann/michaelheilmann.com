@@ -15,10 +15,11 @@
 
 // Last modified: 2024-08-27
 
-#if !defined(ARCADIA_RING1_IMPLEMENTATION_PROCESS_H_INCLUDED)
-#define ARCADIA_RING1_IMPLEMENTATION_PROCESS_H_INCLUDED
+#if !defined(ARCADIA_RING1_IMPLEMENTATION_PROCESS1_H_INCLUDED)
+#define ARCADIA_RING1_IMPLEMENTATION_PROCESS1_H_INCLUDED
 
 #include "Arcadia/Ring1/Implementation/NoReturn.h"
+#include <stdbool.h>
 #include <stdint.h>
 #include <setjmp.h>
 
@@ -66,24 +67,24 @@ typedef uint32_t Arcadia_ProcessStatus;
 
 /// the process object provides access to the current thread.
 /// the current thread provides access to the thread's jump target stack and the thread's status variable.
-typedef struct Arcadia_Process Arcadia_Process;
+typedef struct Arcadia_Process1 Arcadia_Process1;
 
 /// @return #Arcadia_ProcessStatus_Success on success.
 /// - #Arcadia_ProcessStatus_ArgumentValueInvalid @a process is a null pointer
 /// - #Arcadia_ProcessStatus_OperationInvalid the reference counter would overflow or underflow from this call
 Arcadia_ProcessStatus
-Arcadia_Process_acquire
+Arcadia_Process1_acquire
   (
-    Arcadia_Process* process
+    Arcadia_Process1* process
   );
 
 /// @return #Arcadia_ProcessStatus_Success on success.
 /// - #Arcadia_ProcessStatus_ArgumentValueInvalid @a process is a null pointer
 /// - #Arcadia_ProcessStatus_OperationInvalid the reference counter would overflow or underflow from this call
 Arcadia_ProcessStatus
-Arcadia_Process_relinquish
+Arcadia_Process1_relinquish
   (
-    Arcadia_Process* process
+    Arcadia_Process1* process
   );
 
 /// @return #Arcadia_ProcessStatus_Success on success.
@@ -92,51 +93,132 @@ Arcadia_Process_relinquish
 /// - #Arcadia_ProcessStatus_EnvironmentFailed initialization of Arcadia ARMS failed
 /// - #Arcadia_ProcessStatus_AllocationFailed an allocation failed
 Arcadia_ProcessStatus
-Arcadia_Process_get
+Arcadia_Process1_get
   (
-    Arcadia_Process** process
+    Arcadia_Process1** process
   );
 
+/// @param process A pointer to the Arcadia_Process1 object
 /// @undefined @a process does not refer to a Arcadia_Process object
 /// @undefined @a jumpTarget does not point to an Arcadia_JumpTarget object
 void
-Arcadia_Process_pushJumpTarget
+Arcadia_Process1_pushJumpTarget
   (
-    Arcadia_Process* process,
+    Arcadia_Process1* process,
     R_JumpTarget* jumpTarget
   );
 
+/// @param process A pointer to the Arcadia_Process1 object
 /// @undefined @a process does not refer to a Arcadia_Process object
 /// @undefined the jump target stack of the Arcadia_Process object is empty
 void
-Arcadia_Process_popJumpTarget
+Arcadia_Process1_popJumpTarget
   (
-    Arcadia_Process* process
+    Arcadia_Process1* process
   );
 
 /// @undefined @a process does not refer to a Arcadia_Process object
+/// @param process A pointer to the Arcadia_Process1 object
 /// @undefined the jump target stack of the Arcadia_Process object is empty
 Arcadia_NoReturn() void
-Arcadia_Process_jump
+Arcadia_Process1_jump
   (
-    Arcadia_Process* process
+    Arcadia_Process1* process
   );
 
+/// @brief Get the status variable value
+/// @param process A pointer to the Arcadia_Process1 object
 /// @return the status value
 /// @undefined @a process does not refer to a Arcadia_Process object
 Arcadia_Status
-Arcadia_Process_getStatus
+Arcadia_Process1_getStatus
   (
-    Arcadia_Process* process
+    Arcadia_Process1* process
   );
 
+/// @brief Set the status variable value
+/// @param process A pointer to the Arcadia_Process1 object
 /// @param status the status value
 /// @undefined @a process does not refer to a Arcadia_Process object
 void
-Arcadia_Process_setStatus
+Arcadia_Process1_setStatus
   (
-    Arcadia_Process* process,
+    Arcadia_Process1* process,
     Arcadia_Status status
   );
 
-#endif // R_JUMPTARGET_H_INCLUDED
+/// @brief
+/// Allocate unmanaged memory.
+/// @param process A pointer to the Arcadia_Process1 object
+/// @return
+/// #true on success. #false on failure
+/// @remarks
+/// This function sets the status variable on failure. However, it does not invoke Arcadia_Process1_jump(),
+/// If <code>p</code> is a null pointer, then #Arcadia_Status_ArgumentValueInvalid is assigned.
+/// If the allocation failed, then #Arcadia_Status_AllocationFailed is assigned.
+bool
+Arcadia_Process1_allocateUnmanaged_nojump
+  (
+    Arcadia_Process1* process,
+    void** p,
+    size_t n
+  );
+
+/// @brief
+/// Reallocate unmanaged memory.
+/// @param process A pointer to the Arcadia_Process1 object
+/// @return
+/// #true on success. #false on failure
+/// @remarks
+/// This function sets the status variable on failure. However, it does not invoke Arcadia_Process1_jump(),
+/// If <code>p</code> is a null pointer, then #Arcadia_Status_ArgumentValueInvalid is assigned.
+/// If the allocation failed, then #Arcadia_Status_AllocationFailed is assigned.
+bool
+Arcadia_Process1_deallocateUnmanaged_nojump
+  (
+    Arcadia_Process1* process,
+    void* p
+  );
+
+/// @brief
+/// Deallocate unmanaged memory.
+/// @param process A pointer to the Arcadia_Process1 object
+/// @return
+/// #true on success. #false on failure
+/// @remarks
+/// This function sets the status variable on failure. However, it does not invoke Arcadia_Process1_jump(),
+/// If <code>p</code> is a null pointer, then #Arcadia_Status_ArgumentValueInvalid is assigned.
+/// If the allocation failed, then #Arcadia_Status_AllocationFailed is assigned.
+bool
+Arcadia_Process1_reallocateUnmanaged_nojump
+  (
+    Arcadia_Process1* process,
+    void** p,
+    size_t n
+  );
+
+/// @param process A pointer to the Arcadia_Process1 object
+void
+Arcadia_Process1_visitObject
+  (
+    Arcadia_Process1* process,
+    void* object
+  );
+
+/// @param process A pointer to the Arcadia_Process1 object
+Arcadia_Status
+Arcadia_Process1_lockObject
+  (
+    Arcadia_Process1* process,
+    void* object
+  );
+
+/// @param process A pointer to the Arcadia_Process1 object
+Arcadia_Status
+Arcadia_Process1_unlockObject
+  (
+    Arcadia_Process1* process,
+    void* object
+  );
+
+#endif // ARCADIA_RING1_IMPLEMENTATION_PROCESS1_H_INCLUDED

@@ -18,7 +18,7 @@
 #include "Arcadia/Ring1/Implementation/Value.h"
 
 #include "Arcadia/Ring1/Implementation/hash.h"
-#include "R/Object.h"
+#include "Arcadia/Ring1/Implementation/Object.h"
 // exit, EXIT_FAILURE
 #include <stdlib.h>
 // fprintf, stderr
@@ -27,6 +27,7 @@
 void
 Arcadia_Value_visit
   (
+    Arcadia_Process* process,
     R_Value* self
   )
 {
@@ -41,7 +42,7 @@ Arcadia_Value_visit
       /* Intentionally empty. */
     } break;
     case Arcadia_ValueTag_ImmutableByteArray: {
-      Arcadia_ImmutableByteArray_visit(self->immutableByteArrayValue);
+      Arcadia_ImmutableByteArray_visit(process, self->immutableByteArrayValue);
       /* Intentionally empty. */
     } break;
     case Arcadia_ValueTag_Integer16: {
@@ -69,7 +70,7 @@ Arcadia_Value_visit
       /* Intentionally empty. */
     } break;
     case Arcadia_ValueTag_ObjectReference: {
-      R_Object_visit(self->objectReferenceValue);
+      R_Object_visit(process, self->objectReferenceValue);
     } break;
     case Arcadia_ValueTag_Real32: {
       /* Intentionally empty. */

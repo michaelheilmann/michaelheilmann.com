@@ -17,7 +17,6 @@
 
 #include "R/Utf8Writer.h"
 
-#include "R/Object.h"
 #include "R/cstdlib.h"
 
 static void
@@ -74,7 +73,7 @@ R_Utf8Writer_constructImpl
   }
   _self->writeBytes = NULL;
   _self->writeCodePoints = NULL;
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 void

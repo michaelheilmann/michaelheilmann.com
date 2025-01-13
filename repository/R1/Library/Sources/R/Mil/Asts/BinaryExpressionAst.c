@@ -117,7 +117,7 @@ R_Mil_BinaryExpressionAst_constructImpl
   _self->operand1 = Arcadia_Value_getObjectReferenceValue(&argumentValues[1]);
   _self->operand2 = Arcadia_Value_getObjectReferenceValue(&argumentValues[2]);
 
-  R_Object_setType(_self, _type);  
+  R_Object_setType(process, _self, _type);  
 }
 
 static void
@@ -127,8 +127,8 @@ R_Mil_BinaryExpressionAst_visit
     R_Mil_BinaryExpressionAst* self
   )
 {
-  R_Object_visit(self->operand1);
-  R_Object_visit(self->operand2);
+  R_Object_visit(process, self->operand1);
+  R_Object_visit(process, self->operand2);
 }
 
 R_Mil_BinaryExpressionAst*

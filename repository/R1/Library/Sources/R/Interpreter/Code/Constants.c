@@ -17,7 +17,6 @@
 
 #include "R/Interpreter/Code/Constants.h"
 
-#include "R/ArmsIntegration.h"
 #include "R/DynamicArrayUtilities.h"
 #include "R/String.h"
 #include "R/Interpreter/Include.h"
@@ -104,10 +103,10 @@ constructImpl
   _self->p = NULL;
   _self->sz = 0;
   _self->cp = 0;
-  if (!R_allocateUnmanaged_nojump(process, &_self->p, 0)) {
+  if (!Arcadia_Process_allocateUnmanaged_nojump(process, &_self->p, 0)) {
     Arcadia_Process_jump(process);
   }
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -118,7 +117,7 @@ destructImpl
   )
 {
   if (self->p) {
-    R_deallocateUnmanaged_nojump(process, self->p);
+    Arcadia_Process_deallocateUnmanaged_nojump(process, self->p);
     self->p = NULL;
   }
 }
@@ -131,7 +130,7 @@ visitImpl
   )
 {
   for (Arcadia_SizeValue i = 0, n = self->cp; i < n; ++i) {
-    Arcadia_Value_visit(self->p + i);
+    Arcadia_Value_visit(process, self->p + i);
   }
 }
 

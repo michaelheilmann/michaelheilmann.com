@@ -18,7 +18,6 @@
 #include "R/String.h"
 
 #include "R/Convert/Include.h"
-#include "R/Object.h"
 #include "R/StringBuffer.h"
 #include "R/Utf8.h"
 #include "R/cstdlib.h"
@@ -244,7 +243,7 @@ R_String_constructImpl
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static Arcadia_SizeValue
@@ -325,7 +324,7 @@ R_String_visit
     R_String* string
   )
 { 
-  Arcadia_ImmutableByteArray_visit(string->immutableByteArray);
+  Arcadia_ImmutableByteArray_visit(process, string->immutableByteArray);
 }
 
 static void

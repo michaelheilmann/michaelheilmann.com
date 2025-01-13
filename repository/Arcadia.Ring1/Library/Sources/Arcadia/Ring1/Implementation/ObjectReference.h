@@ -20,7 +20,6 @@
 
 #include "Arcadia/Ring1/Implementation/Configure.h"
 #include "Arcadia/Ring1/Implementation/StaticAssert.h"
-#include "R/cstdlib.h"
 
 typedef void* Arcadia_ObjectReferenceValue;
 
@@ -30,7 +29,7 @@ typedef void* Arcadia_ObjectReferenceValue;
 
 #if Arcadia_Configuration_InstructionSetArchitecture == Arcadia_Configuration_InstructionSetArchitecture_X64
   Arcadia_StaticAssert(Arcadia_ObjectReferenceValue_NumberOfBytes == 8, "Arcadia.ObjectReferenceValue.NumberOfBytes must be 8");
-#elif Arcadia_Configuration_InstructionSetArchitecture == R_Configuration_InstructionSetArchitecture_X86
+#elif Arcadia_Configuration_InstructionSetArchitecture == Arcadia_Configuration_InstructionSetArchitecture_X86
   Arcadia_StaticAssert(Arcadia_ObjectReferenceValue_NumberOfBytes == 4, "Arcadia.ObjectReferenceValue.NumberOfBytes must be 4");
 #else
   #error("invalid/unknown value for Arcadia_Configuration_InstructionSetArchitecture")

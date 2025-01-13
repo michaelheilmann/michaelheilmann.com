@@ -135,5 +135,5 @@ ImageWriter_constructImpl
   _self->writeIcoToPath = NULL;
   _self->writePngToByteBuffer = NULL;
   _self->writePngToPath = NULL;
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }

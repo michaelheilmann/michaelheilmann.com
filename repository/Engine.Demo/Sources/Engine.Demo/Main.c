@@ -60,7 +60,7 @@ main1
 
   // (8) Enter the message loop.
   while (!NativeWindow_getQuitRequested(window)) {
-    R_Arms_step();
+    Arcadia_Arms_step();
     NativeWindow_update(window);
   }
 

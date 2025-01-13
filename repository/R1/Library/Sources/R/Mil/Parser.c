@@ -107,7 +107,7 @@ R_Mil_Parser_constructImpl
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   _self->scanner = R_Mil_Scanner_create(process);
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -124,7 +124,7 @@ R_Mil_Parser_visit
     Arcadia_Process* process,
     R_Mil_Parser* self
   )
-{ R_Object_visit(self->scanner); }
+{ R_Object_visit(process, self->scanner); }
 
 static R_Mil_TokenType
 getType

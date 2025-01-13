@@ -97,7 +97,7 @@ R_Mil_LoadExpressionAst_constructImpl
 
   _self->operand = Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
 
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -107,7 +107,7 @@ R_Mil_LoadExpressionAst_visit
     R_Mil_LoadExpressionAst* self
   )
 {
-  R_Object_visit(self->operand);
+  R_Object_visit(process, self->operand);
 }
 
 R_Mil_LoadExpressionAst*

@@ -16,7 +16,7 @@
 #if !defined(R_LIST_H_INCLUDED)
 #define R_LIST_H_INCLUDED
 
-#include "R/Object.h"
+#include "Arcadia/Ring1/Include.h"
 
 Rex_declareObjectType(u8"R.List", R_List, u8"Arcadia.Object");
 

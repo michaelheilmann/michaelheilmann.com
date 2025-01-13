@@ -18,8 +18,10 @@
 #include "Arcadia/Ring1/Implementation/Types.private.h"
 
 #include "Arcadia/Ring1/Include.h"
-#include "R/ArmsIntegration.h"
+#include "Arcadia/Ring1/Implementation//ArmsIntegration.h"
 #include "Arcadia/Ring1/Implementation/Atoms.private.h" ///< @todo A better solution is required for this.
+#include <assert.h>
+#include <stdio.h>
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
@@ -73,12 +75,12 @@ TypeNode_typeRemovedCallback
 static void
 TypeNode_finalizeCallback
   (
-    Arcadia_Process* context,
+    Arcadia_Process* process,
     TypeNode* typeNode
   )
 {
   if (typeNode->parentObjectType) {
-    if (R_Arms_unlock(typeNode->parentObjectType)) {
+    if (Arcadia_Arms_unlock(process, typeNode->parentObjectType)) {
       fprintf(stderr, "%s:%d: <error>\n", __FILE__, __LINE__);
     }
   }
@@ -88,7 +90,7 @@ TypeNode_finalizeCallback
 static void
 TypeNode_visitCallback
   (
-    Arcadia_Process* context,
+    Arcadia_Process* process,
     TypeNode* typeNode
   )
 {
@@ -102,7 +104,7 @@ TypeNodes_create
   )
 { 
   TypeNodes* typeNodes = NULL;
-  if (!R_allocateUnmanaged_nojump(process, &typeNodes, sizeof(TypeNodes))) {
+  if (!Arcadia_Process_allocateUnmanaged_nojump(process, &typeNodes, sizeof(TypeNodes))) {
     return NULL;
   }
   typeNodes->typeNodes = NULL;
@@ -125,7 +127,7 @@ TypeNodes_destroy
       *previous = current->next;
       current = current->next;
       node->typeDestructing(NULL);
-      R_Arms_unlock(node);
+      Arcadia_Arms_unlock(process, node);
     } else {
       previous = &current->next;
       current = current->next;
@@ -140,7 +142,7 @@ Arcadia_Types_startup
   )
 {
   if (!g_typeNodeRegistered) {
-    if (!R_Arms_registerType_nojump(process, TypeNodeName, sizeof(TypeNodeName) - 1, process, &TypeNode_typeRemovedCallback, &TypeNode_visitCallback, &TypeNode_finalizeCallback)) {
+    if (!Arcadia_Arms_registerType_nojump(process, TypeNodeName, sizeof(TypeNodeName) - 1, process, &TypeNode_typeRemovedCallback, &TypeNode_visitCallback, &TypeNode_finalizeCallback)) {
       Arcadia_Process_jump(process);
     }
     g_typeNodeRegistered = Arcadia_BooleanValue_True;
@@ -159,7 +161,7 @@ Arcadia_Types_startup
     Arcadia_Process_popJumpTarget(process);
     TypeNodes_destroy(process, g_typeNodes);
     g_typeNodes = NULL;
-    Arcadia_Status status = R_Arms_run();
+    Arcadia_Status status = Arcadia_Arms_run();
     if (status) {
       /*Intentionally empty.*/
     }
@@ -175,14 +177,14 @@ Arcadia_Types_shutdown
   )
 {
   Arcadia_Status status;
-  status = R_Arms_run();
+  status = Arcadia_Arms_run();
   if (status) {
     /* Intentionally empty.*/
   }
   TypeNodes_destroy(process, g_typeNodes);
   g_typeNodes = NULL;
   
-  status = R_Arms_run();
+  status = Arcadia_Arms_run();
   if (status) {
     /* Intentionally empty.*/
   }
@@ -273,7 +275,7 @@ Arcadia_registerInternalType
     }
   }
   TypeNode* typeNode = NULL;
-  if (!R_allocate_nojump(process, &typeNode, TypeNodeName, sizeof(TypeNodeName) - 1, sizeof(TypeNode))) {
+  if (!Arcadia_allocate_nojump(process, &typeNode, TypeNodeName, sizeof(TypeNodeName) - 1, sizeof(TypeNode))) {
     Arcadia_Process_jump(process);
   }
   typeNode->kind = Arcadia_TypeKind_Internal;
@@ -289,7 +291,7 @@ Arcadia_registerInternalType
   typeNode->next = g_typeNodes->typeNodes;
   g_typeNodes->typeNodes = typeNode;
 
-  R_Arms_lock(typeNode);
+  Arcadia_Arms_lock(process, typeNode);
   
   return typeNode;
 }
@@ -312,7 +314,7 @@ Arcadia_registerScalarType
     }
   }
   TypeNode* typeNode = NULL;
-  if (!R_allocate_nojump(process, &typeNode, TypeNodeName, sizeof(TypeNodeName) - 1, sizeof(TypeNode))) {
+  if (!Arcadia_allocate_nojump(process, &typeNode, TypeNodeName, sizeof(TypeNodeName) - 1, sizeof(TypeNode))) {
     Arcadia_Process_jump(process);
   }
   typeNode->kind = Arcadia_TypeKind_Scalar;
@@ -328,7 +330,7 @@ Arcadia_registerScalarType
   typeNode->next = g_typeNodes->typeNodes;
   g_typeNodes->typeNodes = typeNode;
 
-  R_Arms_lock(typeNode);
+  Arcadia_Arms_lock(process, typeNode);
 
   return typeNode;
 }
@@ -353,7 +355,7 @@ Arcadia_registerObjectType
     }
   }
   TypeNode* typeNode = NULL;
-  if (!R_allocate_nojump(process, &typeNode, TypeNodeName, sizeof(TypeNodeName) - 1, sizeof(TypeNode))) {
+  if (!Arcadia_allocate_nojump(process, &typeNode, TypeNodeName, sizeof(TypeNodeName) - 1, sizeof(TypeNode))) {
     Arcadia_Process_jump(process);
   }
   typeNode->kind = Arcadia_TypeKind_Object;
@@ -361,7 +363,7 @@ Arcadia_registerObjectType
   typeNode->typeOperations = typeOperations;
   typeNode->parentObjectType = parentObjectType;
   if (typeNode->parentObjectType) {
-    if (R_Arms_lock(typeNode->parentObjectType)) { /* @todo: Can raise due to allocation failure or lock count overflow. */
+    if (Arcadia_Arms_lock(process, typeNode->parentObjectType)) { /* @todo: Can raise due to allocation failure or lock count overflow. */
       fprintf(stderr, "%s:%d: <error>\n", __FILE__, __LINE__);
     }
   }
@@ -375,7 +377,7 @@ Arcadia_registerObjectType
   typeNode->next = g_typeNodes->typeNodes;
   g_typeNodes->typeNodes = typeNode;
 
-  R_Arms_lock(typeNode); /* @todo Can raise due to allocation failure. Can we built-in a guarantee that at least one lock is always available? */
+  Arcadia_Arms_lock(process, typeNode); /* @todo Can raise due to allocation failure. Can we built-in a guarantee that at least one lock is always available? */
 
   return typeNode;
 }

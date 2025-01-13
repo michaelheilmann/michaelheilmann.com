@@ -90,7 +90,7 @@ R_Mil_ConstructorDefinitionAst_constructImpl
   _self->nativeName = R_Argument_getObjectReferenceValueOrNull(process, &argumentValues[0], _R_String_getType(process));
   _self->constructorParameters = (R_List*)R_Argument_getObjectReferenceValue(process, &argumentValues[1], _R_List_getType(process));
   _self->constructorBody = (R_List*)R_Argument_getObjectReferenceValueOrNull(process, &argumentValues[2], _R_List_getType(process));
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -100,9 +100,9 @@ R_Mil_ConstructorDefinitionAst_visit
     R_Mil_ConstructorDefinitionAst* self
   )
 {
-  R_Object_visit(self->nativeName);
-  R_Object_visit(self->constructorParameters);
-  R_Object_visit(self->constructorBody);
+  R_Object_visit(process, self->nativeName);
+  R_Object_visit(process, self->constructorParameters);
+  R_Object_visit(process, self->constructorBody);
 }
 
 R_Mil_ConstructorDefinitionAst*

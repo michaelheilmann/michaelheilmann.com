@@ -235,7 +235,7 @@ NativeWindowsIcon_constructImpl
   }
 
   _self->hIcon = hIcon;
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void

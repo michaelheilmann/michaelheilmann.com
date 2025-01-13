@@ -95,7 +95,7 @@ R_Mil_VariableOperandAst_constructImpl
   }
   _self->value = (R_String*)Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
 
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -104,7 +104,7 @@ R_Mil_VariableOperandAst_visit
     Arcadia_Process* process,
     R_Mil_VariableOperandAst* self
   )
-{ R_Object_visit(self->value); }
+{ R_Object_visit(process, self->value); }
 
 R_Mil_VariableOperandAst*
 R_Mil_VariableOperandAst_create

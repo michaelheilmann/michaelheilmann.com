@@ -94,7 +94,7 @@ R_Interpreter_Class_constructImpl
   _self->complete = Arcadia_BooleanValue_False;
   
 
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -104,11 +104,10 @@ R_Interpreter_Class_visit
     R_Interpreter_Class* self
   )
 {
-  R_Object_visit(self->className);
-  R_Object_visit(self->extendedClassName);
-  R_Object_visit(self->classMembers);
-
-  R_Object_visit(self->extendedClass);
+  R_Object_visit(process, self->className);
+  R_Object_visit(process, self->extendedClassName);
+  R_Object_visit(process, self->classMembers);
+  R_Object_visit(process, self->extendedClass);
 }
 
 R_Interpreter_Class*

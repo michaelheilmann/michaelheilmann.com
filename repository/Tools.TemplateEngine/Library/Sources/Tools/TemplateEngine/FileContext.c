@@ -328,10 +328,10 @@ FileContext_visit
     FileContext* self
   )
 {
-  R_Object_visit(self->context);
-  R_Object_visit(self->sourceFilePath);
-  R_Object_visit(self->source);
-  R_Object_visit(self->environment);
+  R_Object_visit(process, self->context);
+  R_Object_visit(process, self->sourceFilePath);
+  R_Object_visit(process, self->source);
+  R_Object_visit(process, self->environment);
 }
 
 static void
@@ -369,7 +369,7 @@ FileContext_constructImpl
   Arcadia_Value_setObjectReferenceValue(&k, (Arcadia_ObjectReferenceValue)R_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, u8"siteAddress", sizeof(u8"siteAddress") - 1)));
   Arcadia_Value_setObjectReferenceValue(&v, (Arcadia_ObjectReferenceValue)R_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, u8"https://michaelheilmann.com", sizeof(u8"https://michaelheilmann.com") - 1)));
   R_Map_set(process, _self->environment, k, v);
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 FileContext*

@@ -15,13 +15,13 @@
 
 // Last modified: 2024-09-22
 
-#if !defined(R_TYPES_PRIVATE_H_INCLUDED)
-#define R_TYPES_PRIVATE_H_INCLUDED
+#if !defined(ARCADIA_RING1_IMPLEMENTATION_TYPES_PRIVATE_H_INCLUDED)
+#define ARCADIA_RING1_IMPLEMENTATION_TYPES_PRIVATE_H_INCLUDED
 
 #if defined(R_EXPORTED_INCLUDE)
   #error("R/Types.internal.h must not be included from public header")
 #endif
-#include "R/Configure.h"
+#include "Arcadia/Ring1/Implementation/Configure.h"
 #include "Arcadia/Ring1/Include.h"
 
 typedef struct TypeNode TypeNode;
@@ -53,4 +53,4 @@ Arcadia_Types_shutdown
     Arcadia_Process* process
   );
 
-#endif // R_TYPES_PRIVATE_H_INCLUDED
+#endif // ARCADIA_RING1_IMPLEMENTATION_TYPES_PRIVATE_H_INCLUDED

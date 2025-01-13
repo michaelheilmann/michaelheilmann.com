@@ -241,7 +241,7 @@ R_Mil_Scanner_constructImpl
   On(u8"false", BooleanLiteral);
 #undef On
   //
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -259,10 +259,10 @@ R_Mil_Scanner_visit
     R_Mil_Scanner* self
   )
 {
-  R_Object_visit(self->input);
-  R_Object_visit(self->token.text);
-  R_Object_visit(self->stringTable);
-  R_Object_visit(self->keywords);
+  R_Object_visit(process, self->input);
+  R_Object_visit(process, self->token.text);
+  R_Object_visit(process, self->stringTable);
+  R_Object_visit(process, self->keywords);
 }
 
 static void

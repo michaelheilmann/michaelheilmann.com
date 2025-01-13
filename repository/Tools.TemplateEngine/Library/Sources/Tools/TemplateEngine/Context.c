@@ -91,7 +91,7 @@ Context_constructImpl
   _self->temporary = NULL;
   _self->stack = NULL;
   _self->files = R_List_create(process);
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -109,14 +109,14 @@ Context_visit
     Context* self
   )
 {
-  R_Object_visit(self->targetBuffer);
-  R_Object_visit(self->target);
+  R_Object_visit(process, self->targetBuffer);
+  R_Object_visit(process, self->target);
 
-  R_Object_visit(self->temporaryBuffer);
-  R_Object_visit(self->temporary);
+  R_Object_visit(process, self->temporaryBuffer);
+  R_Object_visit(process, self->temporary);
 
-  R_Object_visit(self->stack);
-  R_Object_visit(self->files);
+  R_Object_visit(process, self->stack);
+  R_Object_visit(process, self->files);
 }
 
 Context*

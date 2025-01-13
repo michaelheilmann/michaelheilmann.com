@@ -65,6 +65,7 @@ R_Interpreter_ProcessState_shutdown
 void
 R_Interpreter_ProcessState_visit
   (
+    Arcadia_Process* process,
     R_Interpreter_ProcessState* self
   );
 

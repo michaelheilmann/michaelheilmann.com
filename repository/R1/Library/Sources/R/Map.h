@@ -18,7 +18,7 @@
 #if !defined(R_MAP_H_INCLUDED)
 #define R_MAP_H_INCLUDED
 
-#include "R/Object.h"
+#include "Arcadia/Ring1/Include.h"
 #include "R/List.h"
 
 Rex_declareObjectType(u8"R.Map", R_Map, u8"Arcadia.Object");

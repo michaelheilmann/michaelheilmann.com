@@ -92,7 +92,7 @@ R_Mil_LabelStatementAst_constructImpl
     Arcadia_Process_jump(process);
   }
   _self->labelName = Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -101,7 +101,7 @@ R_Mil_LabelStatementAst_visit
     Arcadia_Process* process,
     R_Mil_LabelStatementAst* self
   )
-{ R_Object_visit(self->labelName); }
+{ R_Object_visit(process, self->labelName); }
 
 R_Mil_LabelStatementAst*
 R_Mil_LabelStatementAst_create

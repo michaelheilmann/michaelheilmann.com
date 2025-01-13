@@ -164,7 +164,7 @@ NativeWindowsBitmap_constructImpl
   DeleteObject(hBrush);
   hBrush = NULL;
 
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void

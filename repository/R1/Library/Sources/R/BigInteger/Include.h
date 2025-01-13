@@ -1,15 +1,8 @@
 #if !defined(R_BIGINTEGER_H_INCLUDED)
 #define R_BIGINTEGER_H_INCLUDED
 
-#include "R/Object.h"
-#include "Arcadia/Ring1/Implementation/Integer16.h"
-#include "Arcadia/Ring1/Implementation/Integer32.h"
-#include "Arcadia/Ring1/Implementation/Integer64.h"
-#include "Arcadia/Ring1/Implementation/Integer8.h"
-#include "Arcadia/Ring1/Implementation/Natural16.h"
-#include "Arcadia/Ring1/Implementation/Natural32.h"
-#include "Arcadia/Ring1/Implementation/Natural64.h"
-#include "Arcadia/Ring1/Implementation/Natural8.h"
+#include "R/Configure.h"
+#include "Arcadia/Ring1/Include.h"
 
 #define R_Configuration_BigInteger_DigitType_Natural16 (1)
 #define R_Configuration_BigInteger_DigitType_Natural32 (2)

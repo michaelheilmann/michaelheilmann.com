@@ -18,13 +18,13 @@
 #include "Arcadia/Ring1/Implementation/Atoms.private.h"
 
 #include "Arcadia/Ring1/Implementation/TypeNameParser.h"
-#include "R/cstdlib.h"
-
 #include "Arms.h"
-#include "R/ArmsIntegration.h"
+#include "Arcadia/Ring1/Implementation/ArmsIntegration.h"
 #include "Arcadia/Ring1/Implementation/getTickCount.h"
 #include "Arcadia/Ring1/Implementation/Integer32.h"
 #include "Arcadia/Ring1/Implementation/Natural64.h"
+#include <stdio.h>
+#include <string.h>
 
 // 60 seconds
 #define THRESHOLD 1000*60
@@ -170,7 +170,7 @@ resize
     }
     Arcadia_Atom** oldBuckets = g_singleton->buckets;
     Arcadia_Atom** newBuckets = NULL;
-    if (!R_allocateUnmanaged_nojump(process, (void**)&newBuckets, newCapacity * sizeof(Arcadia_Atom*))) {
+    if (!Arcadia_Process_allocateUnmanaged_nojump(process, (void**)&newBuckets, newCapacity * sizeof(Arcadia_Atom*))) {
       Arcadia_Process_jump(process);
     }
     for (Arcadia_SizeValue i = 0, n = newCapacity; i < n; ++i) {
@@ -185,7 +185,7 @@ resize
         newBuckets[j] = node;
       }
     }
-    R_deallocateUnmanaged_nojump(process, oldBuckets);
+    Arcadia_Process_deallocateUnmanaged_nojump(process, oldBuckets);
     g_singleton->buckets = newBuckets;
     g_singleton->capacity = newCapacity;
   }
@@ -198,7 +198,7 @@ Arcadia_Atoms_startup
   )
 {
   if (!g_singleton) {
-    if (!R_allocateUnmanaged_nojump(process, (void**)&g_singleton, sizeof(Singleton))) {
+    if (!Arcadia_Process_allocateUnmanaged_nojump(process, (void**)&g_singleton, sizeof(Singleton))) {
       Arcadia_Process_jump(process);
     }
     g_singleton->minimumCapacity = 8;
@@ -210,8 +210,8 @@ Arcadia_Atoms_startup
       Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
       Arcadia_Process_jump(process);
     }
-    if (!R_allocateUnmanaged_nojump(process, (void**)&g_singleton->buckets, 8 * sizeof(Arcadia_Atom*))) {
-      R_deallocateUnmanaged_nojump(process, g_singleton);
+    if (!Arcadia_Process_allocateUnmanaged_nojump(process, (void**)&g_singleton->buckets, 8 * sizeof(Arcadia_Atom*))) {
+      Arcadia_Process_deallocateUnmanaged_nojump(process, g_singleton);
       g_singleton = NULL;
       Arcadia_Process_jump(process);
     }
@@ -222,10 +222,10 @@ Arcadia_Atoms_startup
     g_singleton->capacity = 8;
 
     if (!g_typeRegistered) {
-      if (!R_Arms_registerType_nojump(process, u8"Arcadia.Atom", sizeof(u8"Arcadia.Atom") - 1, NULL, &typeRemovedCallback, &visitCallback, &finalizeCallback)) {
-        R_allocateUnmanaged_nojump(process, g_singleton->buckets, 8 * sizeof(Arcadia_Atom*));
+      if (!Arcadia_Arms_registerType_nojump(process, u8"Arcadia.Atom", sizeof(u8"Arcadia.Atom") - 1, NULL, &typeRemovedCallback, &visitCallback, &finalizeCallback)) {
+        Arcadia_Process_allocateUnmanaged_nojump(process, g_singleton->buckets, 8 * sizeof(Arcadia_Atom*));
         g_singleton->buckets = NULL;
-        R_deallocateUnmanaged_nojump(process, g_singleton);
+        Arcadia_Process_deallocateUnmanaged_nojump(process, g_singleton);
         g_singleton = NULL;
         Arcadia_Process_jump(process);
       }
@@ -260,9 +260,9 @@ Arcadia_Atoms_shutdown
     if (g_singleton->size > 0) {
       fprintf(stderr, "%s:%d warning: atoms not empty\n", __FILE__, __LINE__);
     }
-    R_deallocateUnmanaged_nojump(process, g_singleton->buckets);
+    Arcadia_Process_deallocateUnmanaged_nojump(process, g_singleton->buckets);
     g_singleton->buckets = NULL;
-    R_deallocateUnmanaged_nojump(process, g_singleton);
+    Arcadia_Process_deallocateUnmanaged_nojump(process, g_singleton);
     g_singleton = NULL;
   }
 }
@@ -315,16 +315,16 @@ Arcadia_Atoms_getOrCreateAtom
   Arcadia_SizeValue index = hash % g_singleton->capacity;
   for (Arcadia_Atom* atom = g_singleton->buckets[index]; NULL != atom; atom = atom->next) {
     if (atom->numberOfBytes == numberOfBytes && atom->hash == hash) {
-      if (!c_memcmp(atom->bytes, bytes, numberOfBytes)) {
+      if (!memcmp(atom->bytes, bytes, numberOfBytes)) {
         return atom;
       }
     }
   }
   Arcadia_Atom* atom = NULL;
-  if (!R_allocate_nojump(process, &atom, u8"Arcadia.Atom", sizeof(u8"Arcadia.Atom") - 1, sizeof(Arcadia_Atom) + numberOfBytes)) {
+  if (!Arcadia_allocate_nojump(process, &atom, u8"Arcadia.Atom", sizeof(u8"Arcadia.Atom") - 1, sizeof(Arcadia_Atom) + numberOfBytes)) {
     Arcadia_Process_jump(process);
   }
-  c_memcpy(atom->bytes, bytes, numberOfBytes);
+  memcpy(atom->bytes, bytes, numberOfBytes);
   atom->numberOfBytes = numberOfBytes;
   atom->hash = hash;
   atom->lastVisited = Arcadia_getTickCount();

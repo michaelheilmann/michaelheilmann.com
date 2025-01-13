@@ -17,8 +17,6 @@
 
 #include "R/List.h"
 
-#include "R/ArmsIntegration.h"
-#include "R/Object.h"
 #include "R/DynamicArrayUtilities.h"
 #include "R/cstdlib.h"
 
@@ -120,7 +118,7 @@ R_List_ensureFreeCapacity
     }
     newAvailableFreeCapacity = newCapacity - self->size;
   }
-  if (!R_reallocateUnmanaged_nojump(process, &self->elements, sizeof(R_Value) * newCapacity)) {
+  if (!Arcadia_Process_reallocateUnmanaged_nojump(process, &self->elements, sizeof(R_Value) * newCapacity)) {
     Arcadia_Process_jump(process);
   }
   self->capacity = newCapacity;
@@ -166,13 +164,13 @@ R_List_constructImpl
   _self->capacity = 0;
   _self->size = 0;
   _self->capacity = g_minimumCapacity;
-  if (!R_allocateUnmanaged_nojump(process, &_self->elements, sizeof(R_Value) * _self->capacity)) {
+  if (!Arcadia_Process_allocateUnmanaged_nojump(process, &_self->elements, sizeof(R_Value) * _self->capacity)) {
     Arcadia_Process_jump(process);
   }
   for (Arcadia_SizeValue i = 0, n = _self->capacity; i < n; ++i) {
     Arcadia_Value_setVoidValue(_self->elements + i, Arcadia_VoidValue_Void);
   }
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -183,7 +181,7 @@ R_List_destruct
   )
 {
   if (self->elements) {
-    R_deallocateUnmanaged_nojump(process, self->elements);
+    Arcadia_Process_deallocateUnmanaged_nojump(process, self->elements);
     self->elements = NULL;
   }
 }
@@ -197,7 +195,7 @@ R_List_visit
 {
   if (self->elements) {
     for (Arcadia_SizeValue i = 0, n = self->size; i < n; ++i) {
-      Arcadia_Value_visit(self->elements + i);
+      Arcadia_Value_visit(process, self->elements + i);
     }
   }
 }

@@ -199,7 +199,7 @@ Source_constructImpl
   }
   //R_ByteBuffer* byteBufferValue = (R_ByteBuffer*)objectValue;
   _self->xAudio2SourceVoice = NULL;
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 void

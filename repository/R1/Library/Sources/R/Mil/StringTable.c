@@ -103,14 +103,14 @@ R_Mil_StringTable_constructImpl
   _self->size = Arcadia_SizeValue_Literal(0);
   _self->capacity = Arcadia_SizeValue_Literal(0);
   static Arcadia_SizeValue const g_defaultCapacity = 8;
-  if (!R_allocateUnmanaged_nojump(process, (void**)&_self->buckets, sizeof(R_Mil_StringTable_Node*) * g_defaultCapacity)) {
+  if (!Arcadia_Process_allocateUnmanaged_nojump(process, (void**)&_self->buckets, sizeof(R_Mil_StringTable_Node*) * g_defaultCapacity)) {
     Arcadia_Process_jump(process);
   }
   for (Arcadia_SizeValue i = 0, n = g_defaultCapacity; i < n; ++i) {
     _self->buckets[i] = NULL;
   }
   _self->capacity = g_defaultCapacity;
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
                               
 static void
@@ -134,7 +134,7 @@ R_Mil_StringTable_maybeResize_nojump
     }
     R_Mil_StringTable_Node** oldBuckets = self->buckets;
     R_Mil_StringTable_Node** newBuckets = NULL;
-    if (!R_allocateUnmanaged_nojump(process, (void**)&newBuckets, sizeof(R_Mil_StringTable_Node*) * newCapacity)) {
+    if (!Arcadia_Process_allocateUnmanaged_nojump(process, (void**)&newBuckets, sizeof(R_Mil_StringTable_Node*) * newCapacity)) {
       Arcadia_Process_setStatus(process, Arcadia_Status_Success);
       return;
     }
@@ -151,7 +151,7 @@ R_Mil_StringTable_maybeResize_nojump
         newBuckets[newIndex] = node;
       }
     }
-    R_deallocateUnmanaged_nojump(process, oldBuckets);
+    Arcadia_Process_deallocateUnmanaged_nojump(process, oldBuckets);
     self->buckets = newBuckets;
     self->capacity = newCapacity;
   }
@@ -181,7 +181,7 @@ R_Mil_StringTable_visit
   for (Arcadia_SizeValue i = 0, n = self->capacity; i < n; ++i) {
     R_Mil_StringTable_Node* node = self->buckets[i];
     while (node) {
-      R_Object_visit(node->string);
+      R_Object_visit(process, node->string);
       node = node->next;
     }
   }
@@ -198,7 +198,7 @@ R_Mil_StringTable_destruct
     while (self->buckets[i]) {
       R_Mil_StringTable_Node* node = self->buckets[i];
       self->buckets[i] = self->buckets[i]->next;
-      R_deallocateUnmanaged_nojump(process, node);
+      Arcadia_Process_deallocateUnmanaged_nojump(process, node);
     }
   }
 }
@@ -235,7 +235,7 @@ R_Mil_StringTable_getOrCreateString
   Arcadia_Value_setObjectReferenceValue(&temporary, stringBuffer);
   R_String* string = R_String_create(process, temporary);
   R_Mil_StringTable_Node* node = NULL;
-  if (!R_allocateUnmanaged_nojump(process, &node, sizeof(R_Mil_StringTable_Node))) {
+  if (!Arcadia_Process_allocateUnmanaged_nojump(process, &node, sizeof(R_Mil_StringTable_Node))) {
     Arcadia_Process_jump(process);
   }
   node->string = string;

@@ -104,7 +104,7 @@ ImageWriterParameters_constructImpl
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -113,7 +113,7 @@ ImageWriterParameters_visit
     Arcadia_Process* process,
     ImageWriterParameters* self
   )
-{ R_Object_visit(self->object); }
+{ R_Object_visit(process, self->object); }
 
 static void
 ImageWriterParameters_destruct

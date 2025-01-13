@@ -19,7 +19,6 @@
 #define R_ARGUMENTSVALIDATION_H_INCLUDED
 
 #include "Arcadia/Ring1/Include.h"
-#include "R/Object.h"
 
 static inline Arcadia_ObjectReferenceValue
 R_Argument_getObjectReferenceValue

@@ -2,7 +2,6 @@
 #define R_UTF8STRINGREADER_H_INCLUDED
 
 #include "R/Utf8Reader.h"
-//#include "Arcadia/Ring1/Implementation/Size.h"
 typedef struct R_String R_String;
 
 Rex_declareObjectType(u8"R.Utf8StringReader", R_Utf8StringReader, u8"R.Utf8Reader");

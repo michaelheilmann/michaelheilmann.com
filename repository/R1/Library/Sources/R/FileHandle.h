@@ -18,10 +18,7 @@
 #if !defined(R_FILEHANDLE_H_INCLUDED)
 #define R_FILEHANDLE_H_INCLUDED
 
-#include "Arcadia/Ring1/Implementation/Boolean.h"
-#include "Arcadia/Ring1/Implementation/Natural8.h"
-#include "R/Object.h"
-#include "Arcadia/Ring1/Implementation/Size.h"
+#include "Arcadia/Ring1/Include.h"
 typedef struct R_FilePath R_FilePath;
 typedef struct R_FileSystem R_FileSystem;
 

@@ -19,7 +19,6 @@
 
 #include "R/ArgumentsValidation.h"
 #include "R/Interpreter/Include.h"
-#include "R/Object.h"
 
 static void
 R_Interpreter_Variable_constructImpl
@@ -88,7 +87,7 @@ R_Interpreter_Variable_constructImpl
   _self->index = Arcadia_SizeValue_Literal(0);
   _self->class = R_Argument_getObjectReferenceValue(process, &argumentValues[0], _R_Interpreter_Class_getType(process));
   _self->name = R_Argument_getObjectReferenceValue(process, &argumentValues[1], _R_String_getType(process));
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -98,8 +97,8 @@ R_Interpreter_Variable_visit
     R_Interpreter_Variable* self
   )
 {
-  R_Object_visit(self->class);
-  R_Object_visit(self->name);
+  R_Object_visit(process, self->class);
+  R_Object_visit(process, self->name);
 }
 
 R_Interpreter_Variable*

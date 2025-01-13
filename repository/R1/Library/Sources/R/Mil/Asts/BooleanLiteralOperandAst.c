@@ -97,7 +97,7 @@ R_Mil_BooleanLiteralOperandAst_constructImpl
   }
   R_String* stringValue = (R_String*)objectValue;
   _self->value = stringValue;
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -106,7 +106,7 @@ R_Mil_BooleanLiteralOperandAst_visit
     Arcadia_Process* process,
     R_Mil_BooleanLiteralOperandAst* self
   )
-{ R_Object_visit(self->value); }
+{ R_Object_visit(process, self->value); }
 
 R_Mil_BooleanLiteralOperandAst*
 R_Mil_BooleanLiteralOperandAst_create

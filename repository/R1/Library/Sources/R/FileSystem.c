@@ -19,7 +19,6 @@
 
 #include "R/FileHandle.h"
 #include "R/FilePath.h"
-#include "R/Object.h"
 #include "R/String.h"
 
 #if R_Configuration_OperatingSystem == R_Configuration_OperatingSystem_Windows
@@ -102,7 +101,7 @@ R_FileSystem_constructImpl
     R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void

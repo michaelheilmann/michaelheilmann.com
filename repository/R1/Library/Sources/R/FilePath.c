@@ -18,9 +18,9 @@
 #include "R/FilePath.h"
 
 #include "R/ByteBuffer.h"
-#include "R/Object.h"
 #include "R/Utf8ByteBufferReader.h"
 #include "R/Utf8ByteBufferWriter.h"
+#include <string.h>
 
 typedef struct Context {
   R_Utf8Writer* temporaryWriter;
@@ -473,7 +473,7 @@ R_FilePath_constructImpl
   _self->relative = Arcadia_BooleanValue_False;
   _self->root = NULL;
   _self->fileNames = R_List_create(process);
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -491,8 +491,8 @@ R_FilePath_visit
     R_FilePath* self
   )
 {
-  R_Object_visit(self->fileNames);
-  R_Object_visit(self->root);
+  R_Object_visit(process, self->fileNames);
+  R_Object_visit(process, self->root);
 }
 
 R_FilePath*
@@ -690,7 +690,7 @@ R_FilePath_getFullPath
     Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
     Arcadia_Process_jump(process);
   }
-  return R_FilePath_parseNative(process, buffer, c_strlen(buffer));
+  return R_FilePath_parseNative(process, buffer, strlen(buffer));
 #undef BUFFER_LENGTH
 #elif R_Configuration_OperatingSystem_Linux == R_Configuration_OperatingSystem
   R_String* s = R_FilePath_toNative(self);
@@ -700,7 +700,7 @@ R_FilePath_getFullPath
     Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
     Arcadia_Process_jump(process);
   }
-  return R_FilePath_parseNative(process, buffer, c_strlen(buffer));
+  return R_FilePath_parseNative(process, buffer, strlen(buffer));
 #else
   #error("operating system not (yet) supported")
 #endif

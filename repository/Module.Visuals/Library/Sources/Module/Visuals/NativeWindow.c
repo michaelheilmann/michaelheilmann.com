@@ -83,7 +83,7 @@ NativeWindow_constructImpl
   _self->getTitle = NULL;
   _self->setTitle  = NULL;
   _self->getCanvasSize = NULL;
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 void

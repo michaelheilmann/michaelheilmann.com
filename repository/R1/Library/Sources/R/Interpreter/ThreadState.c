@@ -17,8 +17,7 @@
 
 #include "R/Interpreter/ThreadState.private.h"
 
-#include "R/ArmsIntegration.h"
-#include "R/Object.h"
+#include "Arcadia/Ring1/Include.h"
 #include "R/DynamicArrayUtilities.h"
 
 #define R_Configuration_DefaultNumberOfArgumentRegisters 32
@@ -60,12 +59,12 @@ R_Interpreter_ThreadState_create
   )
 {
   R_Interpreter_ThreadState* thread = NULL;
-  if (!R_allocateUnmanaged_nojump(process, &thread, sizeof(R_Interpreter_ThreadState))) {
+  if (!Arcadia_Process_allocateUnmanaged_nojump(process, &thread, sizeof(R_Interpreter_ThreadState))) {
     Arcadia_Process_jump(process);
   }
   thread->numberOfRegisters = R_Configuration_DefaultNumberOfRegisters;
-  if (!R_allocateUnmanaged_nojump(process, &thread->registers, sizeof(R_Value) * thread->numberOfRegisters)) {
-    R_deallocateUnmanaged_nojump(process, thread);
+  if (!Arcadia_Process_allocateUnmanaged_nojump(process, &thread->registers, sizeof(R_Value) * thread->numberOfRegisters)) {
+    Arcadia_Process_deallocateUnmanaged_nojump(process, thread);
     thread = NULL;
     Arcadia_Process_jump(process);
   }
@@ -73,10 +72,10 @@ R_Interpreter_ThreadState_create
     Arcadia_Value_setVoidValue(thread->registers + i, Arcadia_VoidValue_Void);
   }
 
-  if (!R_allocateUnmanaged_nojump(process, &thread->calls.elements, sizeof(R_CallState))) {
-    R_deallocateUnmanaged_nojump(process, thread->registers);
+  if (!Arcadia_Process_allocateUnmanaged_nojump(process, &thread->calls.elements, sizeof(R_CallState))) {
+    Arcadia_Process_deallocateUnmanaged_nojump(process, thread->registers);
     thread->registers = NULL;
-    R_deallocateUnmanaged_nojump(process, thread);
+    Arcadia_Process_deallocateUnmanaged_nojump(process, thread);
     thread = NULL;
     Arcadia_Process_jump(process);
   }
@@ -93,27 +92,28 @@ R_Interpreter_ThreadState_destroy
     R_Interpreter_ThreadState* thread
   )
 {
-  R_deallocateUnmanaged_nojump(process, thread->calls.elements);
+  Arcadia_Process_deallocateUnmanaged_nojump(process, thread->calls.elements);
   thread->calls.elements = NULL;
-  R_deallocateUnmanaged_nojump(process, thread->registers);
+  Arcadia_Process_deallocateUnmanaged_nojump(process, thread->registers);
   thread->registers = NULL;
-  R_deallocateUnmanaged_nojump(process, thread);
+  Arcadia_Process_deallocateUnmanaged_nojump(process, thread);
   thread = NULL;
 }
 
 void
 R_Interpreter_ThreadState_visit
   (
+    Arcadia_Process* process,
     R_Interpreter_ThreadState* thread
   )
 {
   for (Arcadia_SizeValue i = 0, n = thread->numberOfRegisters; i < n; ++i) {
-    Arcadia_Value_visit(thread->registers + i);
+    Arcadia_Value_visit(process, thread->registers + i);
   }
   for (Arcadia_SizeValue i = 0, n = thread->calls.size; i < n; ++i) {
     R_CallState* callState = &(thread->calls.elements[i]);
     if (callState->flags == R_CallState_Flags_Procedure) {
-      R_Object_visit(callState->procedure);
+      R_Object_visit(process, callState->procedure);
     }
   }
 }

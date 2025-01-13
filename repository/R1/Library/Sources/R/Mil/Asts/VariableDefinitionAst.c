@@ -92,7 +92,7 @@ R_Mil_VariableDefinitionAst_constructImpl
     Arcadia_Process_jump(process);
   }
   _self->variableName = Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -101,7 +101,7 @@ R_Mil_VariableDefinitionAst_visit
     Arcadia_Process* process,
     R_Mil_VariableDefinitionAst* self
   )
-{ R_Object_visit(self->variableName); }
+{ R_Object_visit(process, self->variableName); }
 
 R_Mil_VariableDefinitionAst*
 R_Mil_VariableDefinitionAst_create

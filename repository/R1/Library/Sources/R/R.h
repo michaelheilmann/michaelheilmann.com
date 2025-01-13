@@ -18,8 +18,6 @@
 #if !defined(R_R_H_INCLUDED)
 #define R_R_H_INCLUDED
 
-#include "R/ArmsIntegration.h"
-
 #include "R/ByteBuffer.h"
 
 #include "R/CommandLine/Include.h"
@@ -35,8 +33,6 @@
 #include "R/List.h"
 
 #include "R/Map.h"
-
-#include "R/Object.h"
 
 #include "R/Interpreter/Procedure.h"
 

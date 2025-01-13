@@ -19,7 +19,6 @@
 
 #include "R/FileSystem.h"
 #include "R/FilePath.h"
-#include "R/Object.h"
 #include "R/String.h"
 #include "R/ArgumentsValidation.h"
 
@@ -101,7 +100,7 @@ R_FileHandle_constructImpl
   R_Object_lock(process, _self->fileSystem);
   _self->fd = NULL;
   _self->flags = 0;
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -129,7 +128,7 @@ R_FileHandle_visit
     R_FileHandle* self
   )
 {
-  R_Object_visit(self->fileSystem);
+  R_Object_visit(process, self->fileSystem);
 }
 
 R_FileHandle*

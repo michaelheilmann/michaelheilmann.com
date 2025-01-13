@@ -18,7 +18,6 @@
 #if !defined(ARCADIA_RING1_IMPLEMENTATION_TYPES_H_INCLUDED)
 #define ARCADIA_RING1_IMPLEMENTATION_TYPES_H_INCLUDED
 
-#include "R/Configure.h"
 #include "Arcadia/Ring1/Implementation/Boolean.h"
 #include "Arcadia/Ring1/Implementation/Size.h"
 #include "Arcadia/Ring1/Include.h"

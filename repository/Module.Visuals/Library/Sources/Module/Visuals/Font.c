@@ -106,7 +106,7 @@ TextureFontWindows_constructImpl
   _self->bitmap = NativeWindowsBitmap_create(process, width, height);
   DrawTextA(_self->bitmap->hDeviceContext, R_ByteBuffer_getBytes(byteBuffer), R_ByteBuffer_getNumberOfBytes(byteBuffer), &textRect, DT_LEFT | DT_NOCLIP | DT_NOPREFIX);
   //
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void

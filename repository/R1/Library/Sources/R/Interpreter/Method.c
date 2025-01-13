@@ -99,7 +99,7 @@ R_Interpreter_Method_constructImpl
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -110,9 +110,9 @@ R_Interpreter_Method_visit
   )
 {
   if (!self->isForeign) {
-    R_Object_visit(self->code);
+    R_Object_visit(process, self->code);
   }
-  R_Object_visit(self->unqualifiedName);
+  R_Object_visit(process, self->unqualifiedName);
 }
 
 R_Interpreter_Method*

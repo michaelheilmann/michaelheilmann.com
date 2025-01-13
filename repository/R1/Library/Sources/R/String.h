@@ -18,7 +18,7 @@
 #if !defined(R_STRING_H_INCLUDED)
 #define R_STRING_H_INCLUDED
 
-#include "R/Object.h"
+#include "Arcadia/Ring1/Include.h"
 
 Rex_declareObjectType("R.String", R_String, "Arcadia.Object");
 

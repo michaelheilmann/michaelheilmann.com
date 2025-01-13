@@ -20,7 +20,6 @@
 
 #include "Arcadia/Ring1/Include.h"
 #include "R/Interpreter/Code.h"
-#include "R/Object.h"
 #include "R/List.h"
 
 Rex_declareObjectType(u8"R.Interpreter.Method", R_Interpreter_Method, u8"Arcadia.Object");

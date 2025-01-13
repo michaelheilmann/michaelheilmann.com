@@ -108,7 +108,7 @@ R_Mil_ExpressionStatementAst_constructImpl
   
   _self->targetVariableName = (R_String*)Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
   _self->expression =  (R_Mil_ExpressionAst*)Arcadia_Value_getObjectReferenceValue(&argumentValues[1]);
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -118,8 +118,8 @@ R_Mil_ExpressionStatementAst_visit
     R_Mil_ExpressionStatementAst* self
   )
 {
-  R_Object_visit(self->targetVariableName);
-  R_Object_visit(self->expression);
+  R_Object_visit(process, self->targetVariableName);
+  R_Object_visit(process, self->expression);
 }
 
 R_Mil_ExpressionStatementAst*

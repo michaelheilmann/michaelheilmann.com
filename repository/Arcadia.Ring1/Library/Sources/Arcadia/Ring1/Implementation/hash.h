@@ -43,9 +43,6 @@
 
 #include "Arcadia/Ring1/Implementation/Void.h"
 
-typedef void Arcadia_Type;
-typedef Arcadia_Type* Arcadia_TypeValue;
-
 Arcadia_SizeValue
 Arcadia_hashAtomValue
   (

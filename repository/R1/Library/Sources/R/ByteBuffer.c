@@ -17,8 +17,6 @@
 
 #include "ByteBuffer.h"
 
-#include "R/ArmsIntegration.h"
-#include "R/Object.h"
 #include "R/DynamicArrayUtilities.h"
 #include "R/cstdlib.h"
 
@@ -84,10 +82,10 @@ R_ByteBuffer_constructImpl
   _self->p = NULL;
   _self->sz = 0;
   _self->cp = 0;
-  if (!R_allocateUnmanaged_nojump(process, &_self->p, 0)) {
+  if (!Arcadia_Process_allocateUnmanaged_nojump(process, &_self->p, 0)) {
     Arcadia_Process_jump(process);
   }
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -98,7 +96,7 @@ R_ByteBuffer_destruct
   )
 {
   if (self->p) {
-    R_deallocateUnmanaged_nojump(process, self->p);
+    Arcadia_Process_deallocateUnmanaged_nojump(process, self->p);
     self->p = NULL;
   }
 }
@@ -201,7 +199,7 @@ R_ByteBuffer_insert_pn
       Arcadia_Process_jump(process);
     }
     Arcadia_SizeValue newCapacity = oldCapacity + additionalCapacity;
-    if (!R_reallocateUnmanaged_nojump(process, &self->p, newCapacity)) {
+    if (!Arcadia_Process_reallocateUnmanaged_nojump(process, &self->p, newCapacity)) {
       Arcadia_Process_jump(process);
     }
     self->cp = newCapacity;

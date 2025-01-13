@@ -66,10 +66,10 @@ R_Mil_Keywords_destruct
     while (self->buckets[i]) {
       Keyword* node = self->buckets[i];
       self->buckets[i] = self->buckets[i]->next;
-      R_deallocateUnmanaged_nojump(process, node);
+      Arcadia_Process_deallocateUnmanaged_nojump(process, node);
     }
   }
-  R_deallocateUnmanaged_nojump(process, self->buckets);
+  Arcadia_Process_deallocateUnmanaged_nojump(process, self->buckets);
   self->buckets = NULL;
 }
 
@@ -83,7 +83,7 @@ R_Mil_Keywords_visit
   for (Arcadia_SizeValue i = 0, n = self->capacity; i < n; ++i) {
     Keyword* node = self->buckets[i];
     while (node) {
-      R_Object_visit(node->string);
+      R_Object_visit(process, node->string);
       node = node->next;
     }
   }
@@ -138,13 +138,13 @@ R_Mil_Keywords_constructImpl
   }
   _self->size = 0;
   _self->capacity = 8;
-  if (!R_allocateUnmanaged_nojump(process, (void**)&_self->buckets, sizeof(Keyword*) * _self->capacity)) {
+  if (!Arcadia_Process_allocateUnmanaged_nojump(process, (void**)&_self->buckets, sizeof(Keyword*) * _self->capacity)) {
     Arcadia_Process_jump(process);
   }
   for (Arcadia_SizeValue i = 0, n = _self->capacity; i < n; ++i) {
     _self->buckets[i] = NULL;
   }
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 R_Mil_Keywords*
@@ -178,7 +178,7 @@ R_Mil_Keywords_add
     }
   }
   Keyword* keyword = NULL;
-  if (!R_allocateUnmanaged_nojump(process, &keyword, sizeof(Keyword))) {
+  if (!Arcadia_Process_allocateUnmanaged_nojump(process, &keyword, sizeof(Keyword))) {
     Arcadia_Process_jump(process);
   }
   keyword->string = string;

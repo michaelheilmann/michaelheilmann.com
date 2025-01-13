@@ -17,8 +17,6 @@
 
 #include "R/Map.h"
 
-#include "R/ArmsIntegration.h"
-#include "R/Object.h"
 #include "R/DynamicArrayUtilities.h"
 #include "R/cstdlib.h"
 
@@ -138,7 +136,7 @@ R_Map_ensureFreeCapacity
   }
   Node** oldBuckets = self->buckets;
   Node** newBuckets = NULL;
-  if (!R_allocateUnmanaged_nojump(process, (void**)&newBuckets, sizeof(Node*) * newCapacity)) {
+  if (!Arcadia_Process_allocateUnmanaged_nojump(process, (void**)&newBuckets, sizeof(Node*) * newCapacity)) {
     Arcadia_Process_jump(process);
   }
   for (Arcadia_SizeValue i = 0, n = newCapacity; i < n; ++i) {
@@ -153,7 +151,7 @@ R_Map_ensureFreeCapacity
       newBuckets[j] = node;
     }
   }
-  R_deallocateUnmanaged_nojump(process, oldBuckets);
+  Arcadia_Process_deallocateUnmanaged_nojump(process, oldBuckets);
   self->buckets = newBuckets;
   self->capacity = newCapacity;
 }
@@ -189,12 +187,12 @@ R_Map_destruct
     while (self->buckets[i]) {
       Node* node = self->buckets[i];
       self->buckets[i] = self->buckets[i]->next;
-      R_deallocateUnmanaged_nojump(process, node);
+      Arcadia_Process_deallocateUnmanaged_nojump(process, node);
       node = NULL;
     }
   }
   if (self->buckets) {
-    R_deallocateUnmanaged_nojump(process, self->buckets);
+    Arcadia_Process_deallocateUnmanaged_nojump(process, self->buckets);
     self->buckets = NULL;
   }
 }
@@ -210,8 +208,8 @@ R_Map_visit
     for (Arcadia_SizeValue i = 0, n = self->capacity; i < n; ++i) {
       Node* node = self->buckets[i];
       while (node) {
-        Arcadia_Value_visit(&node->key);
-        Arcadia_Value_visit(&node->value);
+        Arcadia_Value_visit(process, &node->key);
+        Arcadia_Value_visit(process, &node->value);
         node = node->next;
       }
     }
@@ -238,13 +236,13 @@ R_Map_constructImpl
   _self->capacity = 0;
   _self->size = 0;
   _self->capacity = g_minimumCapacity;
-  if (!R_allocateUnmanaged_nojump(process, (void**)&_self->buckets, sizeof(Node*) * _self->capacity)) {
+  if (!Arcadia_Process_allocateUnmanaged_nojump(process, (void**)&_self->buckets, sizeof(Node*) * _self->capacity)) {
     Arcadia_Process_jump(process);
   }
   for (Arcadia_SizeValue i = 0, n = _self->capacity; i < n; ++i) {
     _self->buckets[i] = NULL;
   }
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 R_Map*
@@ -285,7 +283,7 @@ R_Map_clear
     while (self->buckets[i]) {
       Node* node = self->buckets[i];
       self->buckets[i] = self->buckets[i]->next;
-      R_deallocateUnmanaged_nojump(process, node);
+      Arcadia_Process_deallocateUnmanaged_nojump(process, node);
       node = NULL;
     }
   }
@@ -325,7 +323,7 @@ R_Map_set
     }
   }
   Node* node = NULL;
-  if (!R_allocateUnmanaged_nojump(process, &node, sizeof(Node))) {
+  if (!Arcadia_Process_allocateUnmanaged_nojump(process, &node, sizeof(Node))) {
     Arcadia_Process_jump(process);
   }
   node->value = value;

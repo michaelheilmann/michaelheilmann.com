@@ -54,6 +54,7 @@ R_Interpreter_ThreadState_destroy
 void
 R_Interpreter_ThreadState_visit
   (
+    Arcadia_Process* process,
     R_Interpreter_ThreadState* thread
   );
 

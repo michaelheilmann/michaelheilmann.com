@@ -346,11 +346,11 @@ PixelBuffer_constructImpl
     _self->pixelFormat = PixelBuffer_getPixelFormat(other);
     Arcadia_SizeValue bytesPerPixel = PixelBuffer_getBytesPerPixel(process, other);
     Arcadia_SizeValue bytes = (bytesPerPixel * _self->numberOfColumns + _self->linePadding) * _self->numberOfRows;
-    if (!R_allocateUnmanaged_nojump(process, &_self->bytes, bytes)) {
+    if (!Arcadia_Process_allocateUnmanaged_nojump(process, &_self->bytes, bytes)) {
       Arcadia_Process_jump(process);
     }
     c_memcpy(_self->bytes, other->bytes, bytes);
-    R_Object_setType((R_Object*)_self, _type);
+    R_Object_setType(process, _self, _type);
   } else if (4 == numberOfArgumentValues) {
     Arcadia_TypeValue _type = _PixelBuffer_getType(process);
     PixelBuffer* _self = Arcadia_Value_getObjectReferenceValue(self);
@@ -396,7 +396,7 @@ PixelBuffer_constructImpl
         Arcadia_Process_jump(process);
       } break;
     };
-    if (!R_allocateUnmanaged_nojump(process, &_self->bytes, (_self->numberOfColumns * bytesPerPixel + _self->linePadding) * _self->numberOfRows)) {
+    if (!Arcadia_Process_allocateUnmanaged_nojump(process, &_self->bytes, (_self->numberOfColumns * bytesPerPixel + _self->linePadding) * _self->numberOfRows)) {
       Arcadia_Process_jump(process);
     }
     switch (_self->pixelFormat) {
@@ -445,7 +445,7 @@ PixelBuffer_constructImpl
         Arcadia_Process_jump(process);
       } break;
     };
-    R_Object_setType((R_Object*)_self, _type);
+    R_Object_setType(process, _self, _type);
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Process_jump(process);
@@ -460,7 +460,7 @@ PixelBuffer_destruct
   )
 {
   if (self->bytes) {
-    R_deallocateUnmanaged_nojump(process, self->bytes);
+    Arcadia_Process_deallocateUnmanaged_nojump(process, self->bytes);
     self->bytes = NULL;
   }
 }
@@ -496,7 +496,7 @@ PixelBuffer_setPixelFormat
   Arcadia_Natural8Value* sourceBytes = self->bytes;
   Arcadia_Natural8Value* targetBytes = NULL;
   if (sourceNumberOfBytesPerPixel != targetNumberOfBytesPerPixel) {
-    if (R_allocateUnmanaged_nojump(process, &targetBytes, (self->numberOfColumns * sourceNumberOfBytesPerPixel + self->linePadding) * self->numberOfRows)) {
+    if (Arcadia_Process_allocateUnmanaged_nojump(process, &targetBytes, (self->numberOfColumns * sourceNumberOfBytesPerPixel + self->linePadding) * self->numberOfRows)) {
       Arcadia_Process_jump(process);
     }
   } else {
@@ -515,7 +515,7 @@ PixelBuffer_setPixelFormat
     }
   }
   if (sourceNumberOfBytesPerPixel != targetNumberOfBytesPerPixel) {
-    R_deallocateUnmanaged_nojump(process, sourceBytes);
+    Arcadia_Process_deallocateUnmanaged_nojump(process, sourceBytes);
     self->bytes = targetBytes;
   }
   self->pixelFormat = pixelFormat;
@@ -565,7 +565,7 @@ PixelBuffer_setLinePadding
     Arcadia_Integer32Value newLinePadding = linePadding;
     Arcadia_Natural8Value* oldBytes = self->bytes;
     Arcadia_Natural8Value* newBytes = NULL;
-    if (!R_allocateUnmanaged_nojump(process, &newBytes, (self->numberOfColumns * bytesPerPixel + newLinePadding) * self->numberOfRows)) {
+    if (!Arcadia_Process_allocateUnmanaged_nojump(process, &newBytes, (self->numberOfColumns * bytesPerPixel + newLinePadding) * self->numberOfRows)) {
       Arcadia_Process_jump(process);
     }
     for (Arcadia_SizeValue rowIndex = 0; rowIndex < self->numberOfRows; ++rowIndex) {
@@ -573,7 +573,7 @@ PixelBuffer_setLinePadding
       Arcadia_Natural8Value* newLine = newBytes + rowIndex * (self->numberOfColumns * bytesPerPixel + newLinePadding);
       c_memcpy(newLine, oldLine, self->numberOfColumns * bytesPerPixel);
     }
-    R_deallocateUnmanaged_nojump(process, oldBytes);
+    Arcadia_Process_deallocateUnmanaged_nojump(process, oldBytes);
     self->bytes = newBytes;
     self->linePadding = linePadding;
   }

@@ -93,7 +93,7 @@ R_Mil_ReturnStatementAst_constructImpl
     Arcadia_Process_jump(process);
   }
   _self->operand = Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -102,7 +102,7 @@ R_Mil_ReturnStatementAst_visit
     Arcadia_Process* process,
     R_Mil_ReturnStatementAst* self
   )
-{ R_Object_visit(self->operand); }
+{ R_Object_visit(process, self->operand); }
 
 R_Mil_ReturnStatementAst*
 R_Mil_ReturnStatementAst_create

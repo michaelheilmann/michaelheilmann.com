@@ -84,7 +84,7 @@ R_Mil_ModuleAst_constructImpl
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   _self->definitions = R_List_create(process);
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -93,9 +93,7 @@ R_Mil_ModuleAst_visit
     Arcadia_Process* process,
     R_Mil_ModuleAst* self
   )
-{
-  R_Object_visit(self->definitions);
-}
+{ R_Object_visit(process, self->definitions); }
 
 R_Mil_ModuleAst*
 R_Mil_ModuleAst_create

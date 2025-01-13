@@ -20,12 +20,21 @@
 // On R_shutdownTypes(), all type nodes are unlocked and ARMS is run.
 
 
-#include "R/Object.h"
+#include "Arcadia/Ring1/Implementation/Object.h"
 
-#include "R/cstdlib.h"
-#include "R/ArmsIntegration.h"
+#include "Arcadia/Ring1/Implementation/ArmsIntegration.h"
 #include "Arcadia/Ring1/Implementation/Atoms.h"
 #include "Arcadia/Ring1/Include.h"
+#include <stdio.h>
+
+static void
+R_Object_constructImpl
+  (
+    Arcadia_Process* process,
+    R_Value* self,
+    Arcadia_SizeValue numberOfArgumentValues,
+    R_Value* argumentValues
+  );
 
 static void
 R_Object_constructImpl
@@ -99,7 +108,7 @@ R_Object_constructImpl
 {
   R_Object* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = Arcadia_getType(process, u8"Arcadia.Object", sizeof(u8"Arcadia.Object") - 1);
-  R_Object_setType(_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 static void
@@ -158,7 +167,7 @@ static bool g_objectRegistered = false;
 static void
 onObjectTypeRemoved
   (
-    void* context,
+    Arcadia_Process* process,
     uint8_t const* name,
     size_t nameLength
   );
@@ -166,21 +175,21 @@ onObjectTypeRemoved
 static void
 onFinalizeObject
   (
-    void* context,
+    Arcadia_Process* process,
     void* object
   );
 
 static void
 onVisitObject
   (
-    void* context,
+    Arcadia_Process* process,
     void* object
   );
 
 static void
 onObjectTypeRemoved
   (
-    void* context,
+    Arcadia_Process* process,
     const uint8_t* name,
     size_t nameLength
   )
@@ -191,22 +200,22 @@ onObjectTypeRemoved
 static void
 onFinalizeObject
   (
-    void* context,
+    Arcadia_Process* process,
     void* object
   )
 {
   ObjectTag* objectTag = (ObjectTag*)object;
   Arcadia_TypeValue type = (Arcadia_TypeValue)objectTag->type;
-  if (R_Arms_unlock(type)) {
+  if (Arcadia_Arms_unlock(process, type)) {
     fprintf(stderr, "%s:%d: <error>\n", __FILE__, __LINE__);
   }
-  if (type == _Arcadia_Memory_getType(context)) {
+  if (type == _Arcadia_Memory_getType(process)) {
     return;
   }
   while (type) {
     Arcadia_Type_DestructObjectCallbackFunction* destruct = Arcadia_Type_getDestructObjectCallbackFunction(type);
     if (destruct) {
-      destruct(context, ((ObjectTag*)object) + 1);
+      destruct(process, ((ObjectTag*)object) + 1);
     }
 
     type = Arcadia_Type_getParentObjectType(type);
@@ -217,19 +226,19 @@ onFinalizeObject
 static void
 onVisitObject
   (
-    void* context,
+    Arcadia_Process* process,
     void* object
   )
 {
   ObjectTag* objectTag = (ObjectTag*)object;
   Arcadia_TypeValue type = (Arcadia_TypeValue)objectTag->type;
-  if (type == _Arcadia_Memory_getType(context)) {
+  if (type == _Arcadia_Memory_getType(process)) {
     return;
   }
   while (type) {
     Arcadia_Type_VisitObjectCallbackFunction* visit = Arcadia_Type_getVisitObjectCallbackFunction(type);
     if (visit) {
-      visit(context, ((ObjectTag*)object) + 1);
+      visit(process, ((ObjectTag*)object) + 1);
     }
     type = Arcadia_Type_getParentObjectType(type);
   }
@@ -260,11 +269,11 @@ R_allocateObject
     Arcadia_Process_setStatus(process, Arcadia_Status_AllocationFailed);
     Arcadia_Process_jump(process);
   }
-  if (!R_allocate_nojump(process, &tag, ObjectTypeName, sizeof(ObjectTypeName) - 1, sizeof(ObjectTag) + Arcadia_Type_getValueSize(type))) {
+  if (!Arcadia_allocate_nojump(process, &tag, ObjectTypeName, sizeof(ObjectTypeName) - 1, sizeof(ObjectTag) + Arcadia_Type_getValueSize(type))) {
     Arcadia_Process_jump(process);
   }
   tag->type = memoryType;
-  if (R_Arms_lock(memoryType)) {
+  if (Arcadia_Arms_lock(process, memoryType)) {
     fprintf(stderr, "%s:%d: <error>\n", __FILE__, __LINE__);
   }
   R_Value selfValue = { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = (Arcadia_ObjectReferenceValue)(R_Object*)(tag + 1) };
@@ -288,7 +297,7 @@ _R_Object_getType
   )
 {
   if (!g_objectRegistered) {
-    if (!R_Arms_registerType_nojump(process, ObjectTypeName, sizeof(ObjectTypeName) - 1, process, &onObjectTypeRemoved, &onVisitObject, &onFinalizeObject)) {
+    if (!Arcadia_Arms_registerType_nojump(process, ObjectTypeName, sizeof(ObjectTypeName) - 1, process, &onObjectTypeRemoved, &onVisitObject, &onFinalizeObject)) {
       Arcadia_Process_jump(process);
     }
     g_objectRegistered = Arcadia_BooleanValue_True;
@@ -302,18 +311,19 @@ _R_Object_getType
 void
 R_Object_setType
   (
+    Arcadia_Process* process,
     void* self,
     Arcadia_TypeValue type
   )
 {
   ObjectTag* objectTag = ((ObjectTag*)self) - 1;
   if (type) {
-    if (R_Arms_lock(type)) {
+    if (Arcadia_Arms_lock(process, type)) {
       fprintf(stderr, "%s:%d: <error>\n", __FILE__, __LINE__);
     }
   }
   if (objectTag->type) {
-    if (R_Arms_unlock(objectTag->type)) {
+    if (Arcadia_Arms_unlock(process, objectTag->type)) {
       fprintf(stderr, "%s:%d: <error>\n", __FILE__, __LINE__);
     }
   }
@@ -323,12 +333,13 @@ R_Object_setType
 void
 R_Object_visit
   (
+    Arcadia_Process* process,
     void* self
   )
 {
   ObjectTag* tag = ((ObjectTag*)self) - 1;
-  R_Arms_visit(tag->type);
-  R_Arms_visit(tag);
+  Arcadia_Arms_visit(process, tag->type);
+  Arcadia_Arms_visit(process, tag);
 }
 
 void
@@ -338,7 +349,7 @@ R_Object_lock
     void* self
   )
 {
-  Arcadia_Status status = R_Arms_lock(((ObjectTag*)self) - 1);
+  Arcadia_Status status = Arcadia_Arms_lock(process, ((ObjectTag*)self) - 1);
   if (status) {
     Arcadia_Process_setStatus(process, status);
     Arcadia_Process_jump(process);
@@ -352,7 +363,7 @@ R_Object_unlock
     void* self
   )
 {
-  Arcadia_Status status = R_Arms_unlock(((ObjectTag*)self) - 1);
+  Arcadia_Status status = Arcadia_Arms_unlock(process, ((ObjectTag*)self) - 1);
   if (status) {
     Arcadia_Process_setStatus(process, status);
     Arcadia_Process_jump(process);

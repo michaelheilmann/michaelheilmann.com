@@ -730,7 +730,7 @@ NativeWindowsImageWriter_constructImpl
   ((ImageWriter*)_self)->writeIcoToPath = (void (*)(Arcadia_Process*,ImageWriter*, R_List*, R_String*))NativeWindowsImageWriter_writeIcoToPathImpl;
   ((ImageWriter*)_self)->writePngToByteBuffer = (void (*)(Arcadia_Process*,ImageWriter*, PixelBuffer*, R_ByteBuffer*))NativeWindowsImageWriter_writePngToByteBufferImpl;
   ((ImageWriter*)_self)->writePngToPath = (void (*)(Arcadia_Process*,ImageWriter*, PixelBuffer*, R_String*))NativeWindowsImageWriter_writePngToPathImpl;
-  R_Object_setType((R_Object*)_self, _type);
+  R_Object_setType(process, _self, _type);
 }
 
 NativeWindowsImageWriter*

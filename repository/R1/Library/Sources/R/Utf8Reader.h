@@ -18,10 +18,7 @@
 #if !defined(R_UTF8READER_H_INCLUDED)
 #define R_UTF8READER_H_INCLUDED
 
-#include "Arcadia/Ring1/Implementation/Boolean.h"
-#include "Arcadia/Ring1/Implementation/Natural32.h"
-#include "R/Object.h"
-#include "Arcadia/Ring1/Implementation/Size.h"
+#include "Arcadia/Ring1/Include.h"
 
 Rex_declareObjectType(u8"R.Utf8Reader", R_Utf8Reader, u8"Arcadia.Object");
 
