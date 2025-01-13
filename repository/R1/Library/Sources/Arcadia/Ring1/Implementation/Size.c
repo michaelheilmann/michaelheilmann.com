@@ -17,8 +17,8 @@
 
 #include "Arcadia/Ring1/Implementation/Size.h"
 
+#include "Arcadia/Ring1/Implementation/_defineScalarType.h"
 #include "Arcadia/Ring1/Include.h"
-#include "R/Value.h"
 
 static void
 add
@@ -156,22 +156,22 @@ add
   )
 {
   c_static_assert(Arcadia_SizeValue_Minimum >= Arcadia_SizeValue_Literal(0), "environment not (yet) supported");
-  if (R_Value_isSizeValue(other)) {
-    R_Value_setSizeValue(target, R_Value_getSizeValue(self) + R_Value_getSizeValue(other));
-  } else if (R_Value_isNatural8Value(other)) {
+  if (Arcadia_Value_isSizeValue(other)) {
+    Arcadia_Value_setSizeValue(target, Arcadia_Value_getSizeValue(self) + Arcadia_Value_getSizeValue(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural8Value_Maximum, "environment not (yet) supported");
-    R_Value_setNatural64Value(target, R_Value_getSizeValue(self) + (Arcadia_SizeValue)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
+    Arcadia_Value_setNatural64Value(target, Arcadia_Value_getSizeValue(self) + (Arcadia_SizeValue)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural16Value_Maximum, "environment not (yet) supported");
-    R_Value_setNatural64Value(target, R_Value_getSizeValue(self) + (Arcadia_SizeValue)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
+    Arcadia_Value_setNatural64Value(target, Arcadia_Value_getSizeValue(self) + (Arcadia_SizeValue)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural32Value_Maximum, "environment not (yet) supported");
-    R_Value_setSizeValue(target, R_Value_getSizeValue(self) + (Arcadia_SizeValue)R_Value_getNatural32Value(other));
-  } else if (R_Value_isNatural64Value(other)) {
+    Arcadia_Value_setSizeValue(target, Arcadia_Value_getSizeValue(self) + (Arcadia_SizeValue)Arcadia_Value_getNatural32Value(other));
+  } else if (Arcadia_Value_isNatural64Value(other)) {
   #if Arcadia_SizeValue_Maximum < Arcadia_Natural64Value_Maximum
-    R_Value_setNatural64Value(target, (Arcadia_Natural64Value)R_Value_getSizeValue(self) + R_Value_getNatural64Value(other));
+    Arcadia_Value_setNatural64Value(target, (Arcadia_Natural64Value)Arcadia_Value_getSizeValue(self) + Arcadia_Value_getNatural64Value(other));
   #else
-    R_Value_setSizeValue(target, R_Value_getSizeValue(self) + (Arcadia_SizeValue)R_Value_getNatural64Value(other));
+    Arcadia_Value_setSizeValue(target, Arcadia_Value_getSizeValue(self) + (Arcadia_SizeValue)Arcadia_Value_getNatural64Value(other));
   #endif
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
@@ -189,47 +189,47 @@ divide
   )
 {
   c_static_assert(Arcadia_SizeValue_Minimum >= Arcadia_SizeValue_Literal(0), "environment not (yet) supported");
-  if (R_Value_isSizeValue(other)) {
-    Arcadia_SizeValue x = R_Value_getSizeValue(other);
+  if (Arcadia_Value_isSizeValue(other)) {
+    Arcadia_SizeValue x = Arcadia_Value_getSizeValue(other);
     if (Arcadia_SizeValue_Literal(0) == x) {
       Arcadia_Process_setStatus(process, Arcadia_Status_DivisionByZero);
       Arcadia_Process_jump(process);
     }
-    R_Value_setSizeValue(target, R_Value_getSizeValue(self) / x);
-  } else if (R_Value_isNatural8Value(other)) {
+    Arcadia_Value_setSizeValue(target, Arcadia_Value_getSizeValue(self) / x);
+  } else if (Arcadia_Value_isNatural8Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural8Value_Maximum, "environment not (yet) supported");
-    Arcadia_Natural8Value x = R_Value_getNatural8Value(other);
+    Arcadia_Natural8Value x = Arcadia_Value_getNatural8Value(other);
     if (Arcadia_Natural8Value_Literal(0) == x) {
       Arcadia_Process_setStatus(process, Arcadia_Status_DivisionByZero);
       Arcadia_Process_jump(process);
     }
-    R_Value_setNatural64Value(target, R_Value_getSizeValue(self) / (Arcadia_SizeValue)x);
-  } else if (R_Value_isNatural16Value(other)) {
+    Arcadia_Value_setNatural64Value(target, Arcadia_Value_getSizeValue(self) / (Arcadia_SizeValue)x);
+  } else if (Arcadia_Value_isNatural16Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural16Value_Maximum, "environment not (yet) supported");
-    Arcadia_Natural16Value x = R_Value_getNatural16Value(other);
+    Arcadia_Natural16Value x = Arcadia_Value_getNatural16Value(other);
     if (Arcadia_Natural16Value_Literal(0) == x) {
       Arcadia_Process_setStatus(process, Arcadia_Status_DivisionByZero);
       Arcadia_Process_jump(process);
     }
-    R_Value_setNatural64Value(target, R_Value_getSizeValue(self) / (Arcadia_SizeValue)x);
-  } else if (R_Value_isNatural32Value(other)) {
+    Arcadia_Value_setNatural64Value(target, Arcadia_Value_getSizeValue(self) / (Arcadia_SizeValue)x);
+  } else if (Arcadia_Value_isNatural32Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural32Value_Maximum, "environment not (yet) supported");
-    Arcadia_Natural32Value x = R_Value_getNatural32Value(other);
+    Arcadia_Natural32Value x = Arcadia_Value_getNatural32Value(other);
     if (Arcadia_Natural32Value_Literal(0) == x) {
       Arcadia_Process_setStatus(process, Arcadia_Status_DivisionByZero);
       Arcadia_Process_jump(process);
     }
-    R_Value_setSizeValue(target, R_Value_getSizeValue(self) / (Arcadia_SizeValue)x);
-  } else if (R_Value_isNatural64Value(other)) {
-    Arcadia_Natural64Value x = R_Value_getNatural64Value(other);
+    Arcadia_Value_setSizeValue(target, Arcadia_Value_getSizeValue(self) / (Arcadia_SizeValue)x);
+  } else if (Arcadia_Value_isNatural64Value(other)) {
+    Arcadia_Natural64Value x = Arcadia_Value_getNatural64Value(other);
     if (Arcadia_Natural64Value_Literal(0) == x) {
       Arcadia_Process_setStatus(process, Arcadia_Status_DivisionByZero);
       Arcadia_Process_jump(process);
     }
   #if Arcadia_SizeValue_Maximum < Arcadia_Natural64Value_Maximum
-    R_Value_setNatural64Value(target, (Arcadia_Natural64Value)R_Value_getSizeValue(self) / x);
+    Arcadia_Value_setNatural64Value(target, (Arcadia_Natural64Value)Arcadia_Value_getSizeValue(self) / x);
   #else
-    R_Value_setSizeValue(target, R_Value_getSizeValue(self) / (Arcadia_SizeValue)x);
+    Arcadia_Value_setSizeValue(target, Arcadia_Value_getSizeValue(self) / (Arcadia_SizeValue)x);
   #endif
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
@@ -246,25 +246,25 @@ equalTo
     R_Value const* other
   )
 {
-  if (R_Value_isSizeValue(other)) {
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) == R_Value_getSizeValue(other));
-  } else if (R_Value_isNatural8Value(other)) {
+  if (Arcadia_Value_isSizeValue(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) == Arcadia_Value_getSizeValue(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural8Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) == (Arcadia_SizeValue)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) == (Arcadia_SizeValue)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural16Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) == (Arcadia_SizeValue)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) == (Arcadia_SizeValue)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural32Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) == (Arcadia_SizeValue)R_Value_getNatural32Value(other));
-  } else if (R_Value_isNatural64Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) == (Arcadia_SizeValue)Arcadia_Value_getNatural32Value(other));
+  } else if (Arcadia_Value_isNatural64Value(other)) {
   #if Arcadia_SizeValue_Maximum < Arcadia_Natural64Value_Maximum
-    R_Value_setBooleanValue(target, (Arcadia_Natural64Value)R_Value_getSizeValue(self) == R_Value_getNatural64Value(other));
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Natural64Value)Arcadia_Value_getSizeValue(self) == Arcadia_Value_getNatural64Value(other));
   #else
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) == (Arcadia_SizeValue)R_Value_getNatural64Value(other));
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) == (Arcadia_SizeValue)Arcadia_Value_getNatural64Value(other));
   #endif
   } else {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
   }
 }
 
@@ -277,22 +277,22 @@ greaterThan
     R_Value const* other
   )
 {
-  if (R_Value_isSizeValue(other)) {
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) > R_Value_getSizeValue(other));
-  } else if (R_Value_isNatural8Value(other)) {
+  if (Arcadia_Value_isSizeValue(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) > Arcadia_Value_getSizeValue(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural8Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) > (Arcadia_SizeValue)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) > (Arcadia_SizeValue)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural16Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) > (Arcadia_SizeValue)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) > (Arcadia_SizeValue)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural32Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) > (Arcadia_SizeValue)R_Value_getNatural32Value(other));
-  } else if (R_Value_isNatural64Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) > (Arcadia_SizeValue)Arcadia_Value_getNatural32Value(other));
+  } else if (Arcadia_Value_isNatural64Value(other)) {
   #if Arcadia_SizeValue_Maximum < Arcadia_Natural64Value_Maximum
-    R_Value_setBooleanValue(target, (Arcadia_Natural64Value)R_Value_getSizeValue(self) > R_Value_getNatural64Value(other));
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Natural64Value)Arcadia_Value_getSizeValue(self) > Arcadia_Value_getNatural64Value(other));
   #else
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) > (Arcadia_SizeValue)R_Value_getNatural64Value(other));
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) > (Arcadia_SizeValue)Arcadia_Value_getNatural64Value(other));
   #endif
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
@@ -309,22 +309,22 @@ greaterThanOrEqualTo
     R_Value const* other
   )
 {
-  if (R_Value_isSizeValue(other)) {
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) >= R_Value_getSizeValue(other));
-  } else if (R_Value_isNatural8Value(other)) {
+  if (Arcadia_Value_isSizeValue(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) >= Arcadia_Value_getSizeValue(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural8Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) >= (Arcadia_SizeValue)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) >= (Arcadia_SizeValue)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural16Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) >= (Arcadia_SizeValue)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) >= (Arcadia_SizeValue)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural32Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) >= (Arcadia_SizeValue)R_Value_getNatural32Value(other));
-  } else if (R_Value_isNatural64Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) >= (Arcadia_SizeValue)Arcadia_Value_getNatural32Value(other));
+  } else if (Arcadia_Value_isNatural64Value(other)) {
   #if Arcadia_SizeValue_Maximum < Arcadia_Natural64Value_Maximum
-    R_Value_setBooleanValue(target, (Arcadia_Natural64Value)R_Value_getSizeValue(self) >= R_Value_getNatural64Value(other));
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Natural64Value)Arcadia_Value_getSizeValue(self) >= Arcadia_Value_getNatural64Value(other));
   #else
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) >= (Arcadia_SizeValue)R_Value_getNatural64Value(other));
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) >= (Arcadia_SizeValue)Arcadia_Value_getNatural64Value(other));
   #endif
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
@@ -340,7 +340,7 @@ hash
     R_Value const* self
   )
 {
-  R_Value_setSizeValue(target, (Arcadia_SizeValue)R_Value_getNatural64Value(self));
+  Arcadia_Value_setSizeValue(target, (Arcadia_SizeValue)Arcadia_Value_getNatural64Value(self));
 }
 
 static void
@@ -352,22 +352,22 @@ lowerThan
     R_Value const* other
   )
 {
-  if (R_Value_isSizeValue(other)) {
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) < R_Value_getSizeValue(other));
-  } else if (R_Value_isNatural8Value(other)) {
+  if (Arcadia_Value_isSizeValue(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) < Arcadia_Value_getSizeValue(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural8Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) < (Arcadia_SizeValue)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) < (Arcadia_SizeValue)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural16Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) < (Arcadia_SizeValue)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) < (Arcadia_SizeValue)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural32Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) < (Arcadia_SizeValue)R_Value_getNatural32Value(other));
-  } else if (R_Value_isNatural64Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) < (Arcadia_SizeValue)Arcadia_Value_getNatural32Value(other));
+  } else if (Arcadia_Value_isNatural64Value(other)) {
   #if Arcadia_SizeValue_Maximum < Arcadia_Natural64Value_Maximum
-    R_Value_setBooleanValue(target, (Arcadia_Natural64Value)R_Value_getSizeValue(self) < R_Value_getNatural64Value(other));
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Natural64Value)Arcadia_Value_getSizeValue(self) < Arcadia_Value_getNatural64Value(other));
   #else
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) < (Arcadia_SizeValue)R_Value_getNatural64Value(other));
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) < (Arcadia_SizeValue)Arcadia_Value_getNatural64Value(other));
   #endif
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
@@ -384,22 +384,22 @@ lowerThanOrEqualTo
     R_Value const* other
   )
 {
-  if (R_Value_isSizeValue(other)) {
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) <= R_Value_getSizeValue(other));
-  } else if (R_Value_isNatural8Value(other)) {
+  if (Arcadia_Value_isSizeValue(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) <= Arcadia_Value_getSizeValue(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural8Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) <= (Arcadia_SizeValue)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) <= (Arcadia_SizeValue)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural16Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) <= (Arcadia_SizeValue)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) <= (Arcadia_SizeValue)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural32Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) <= (Arcadia_SizeValue)R_Value_getNatural32Value(other));
-  } else if (R_Value_isNatural64Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) <= (Arcadia_SizeValue)Arcadia_Value_getNatural32Value(other));
+  } else if (Arcadia_Value_isNatural64Value(other)) {
   #if Arcadia_SizeValue_Maximum < Arcadia_Natural64Value_Maximum
-    R_Value_setBooleanValue(target, (Arcadia_Natural64Value)R_Value_getSizeValue(self) <= R_Value_getNatural64Value(other));
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Natural64Value)Arcadia_Value_getSizeValue(self) <= Arcadia_Value_getNatural64Value(other));
   #else
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) <= (Arcadia_SizeValue)R_Value_getNatural64Value(other));
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) <= (Arcadia_SizeValue)Arcadia_Value_getNatural64Value(other));
   #endif
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
@@ -417,22 +417,22 @@ multiply
   )
 {
   c_static_assert(Arcadia_SizeValue_Minimum >= Arcadia_SizeValue_Literal(0), "environment not (yet) supported");
-  if (R_Value_isSizeValue(other)) {
-    R_Value_setSizeValue(target, R_Value_getSizeValue(self) * R_Value_getSizeValue(other));
-  } else if (R_Value_isNatural8Value(other)) {
+  if (Arcadia_Value_isSizeValue(other)) {
+    Arcadia_Value_setSizeValue(target, Arcadia_Value_getSizeValue(self) * Arcadia_Value_getSizeValue(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural8Value_Maximum, "environment not (yet) supported");
-    R_Value_setNatural64Value(target, R_Value_getSizeValue(self) * (Arcadia_SizeValue)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
+    Arcadia_Value_setNatural64Value(target, Arcadia_Value_getSizeValue(self) * (Arcadia_SizeValue)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural16Value_Maximum, "environment not (yet) supported");
-    R_Value_setNatural64Value(target, R_Value_getSizeValue(self) * (Arcadia_SizeValue)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
+    Arcadia_Value_setNatural64Value(target, Arcadia_Value_getSizeValue(self) * (Arcadia_SizeValue)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural32Value_Maximum, "environment not (yet) supported");
-    R_Value_setSizeValue(target, R_Value_getSizeValue(self) * (Arcadia_SizeValue)R_Value_getNatural32Value(other));
-  } else if (R_Value_isNatural64Value(other)) {
+    Arcadia_Value_setSizeValue(target, Arcadia_Value_getSizeValue(self) * (Arcadia_SizeValue)Arcadia_Value_getNatural32Value(other));
+  } else if (Arcadia_Value_isNatural64Value(other)) {
   #if Arcadia_SizeValue_Maximum < Arcadia_Natural64Value_Maximum
-    R_Value_setNatural64Value(target, (Arcadia_Natural64Value)R_Value_getSizeValue(self) * R_Value_getNatural64Value(other));
+    Arcadia_Value_setNatural64Value(target, (Arcadia_Natural64Value)Arcadia_Value_getSizeValue(self) * Arcadia_Value_getNatural64Value(other));
   #else
-    R_Value_setSizeValue(target, R_Value_getSizeValue(self) * (Arcadia_SizeValue)R_Value_getNatural64Value(other));
+    Arcadia_Value_setSizeValue(target, Arcadia_Value_getSizeValue(self) * (Arcadia_SizeValue)Arcadia_Value_getNatural64Value(other));
   #endif
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
@@ -448,7 +448,7 @@ negate
     R_Value const* self
   )
 {
-  R_Value_setSizeValue(target, -R_Value_getSizeValue(self));
+  Arcadia_Value_setSizeValue(target, -Arcadia_Value_getSizeValue(self));
 }
 
 static void
@@ -460,25 +460,25 @@ notEqualTo
     R_Value const* other
   )
 {
-  if (R_Value_isSizeValue(other)) {
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) != R_Value_getSizeValue(other));
-  } else if (R_Value_isNatural8Value(other)) {
+  if (Arcadia_Value_isSizeValue(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) != Arcadia_Value_getSizeValue(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural8Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) != (Arcadia_SizeValue)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) != (Arcadia_SizeValue)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural16Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) != (Arcadia_SizeValue)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) != (Arcadia_SizeValue)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural32Value_Maximum, "environment not (yet) supported");
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) != (Arcadia_SizeValue)R_Value_getNatural32Value(other));
-  } else if (R_Value_isNatural64Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) != (Arcadia_SizeValue)Arcadia_Value_getNatural32Value(other));
+  } else if (Arcadia_Value_isNatural64Value(other)) {
   #if Arcadia_SizeValue_Maximum < Arcadia_Natural64Value_Maximum
-    R_Value_setBooleanValue(target, (Arcadia_Natural64Value)R_Value_getSizeValue(self) != R_Value_getNatural64Value(other));
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Natural64Value)Arcadia_Value_getSizeValue(self) != Arcadia_Value_getNatural64Value(other));
   #else
-    R_Value_setBooleanValue(target, R_Value_getSizeValue(self) != (Arcadia_SizeValue)R_Value_getNatural64Value(other));
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getSizeValue(self) != (Arcadia_SizeValue)Arcadia_Value_getNatural64Value(other));
   #endif
   } else {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
   }
 }
 
@@ -492,22 +492,22 @@ subtract
   )
 {
   c_static_assert(Arcadia_SizeValue_Minimum >= Arcadia_SizeValue_Literal(0), "environment not (yet) supported");
-  if (R_Value_isSizeValue(other)) {
-    R_Value_setSizeValue(target, R_Value_getSizeValue(self) - R_Value_getSizeValue(other));
-  } else if (R_Value_isNatural8Value(other)) {
+  if (Arcadia_Value_isSizeValue(other)) {
+    Arcadia_Value_setSizeValue(target, Arcadia_Value_getSizeValue(self) - Arcadia_Value_getSizeValue(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural8Value_Maximum, "environment not (yet) supported");
-    R_Value_setNatural64Value(target, R_Value_getSizeValue(self) - (Arcadia_SizeValue)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
+    Arcadia_Value_setNatural64Value(target, Arcadia_Value_getSizeValue(self) - (Arcadia_SizeValue)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural16Value_Maximum, "environment not (yet) supported");
-    R_Value_setNatural64Value(target, R_Value_getSizeValue(self) - (Arcadia_SizeValue)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
+    Arcadia_Value_setNatural64Value(target, Arcadia_Value_getSizeValue(self) - (Arcadia_SizeValue)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
     c_static_assert(Arcadia_SizeValue_Maximum >= Arcadia_Natural32Value_Maximum, "environment not (yet) supported");
-    R_Value_setSizeValue(target, R_Value_getSizeValue(self) - (Arcadia_SizeValue)R_Value_getNatural32Value(other));
-  } else if (R_Value_isNatural64Value(other)) {
+    Arcadia_Value_setSizeValue(target, Arcadia_Value_getSizeValue(self) - (Arcadia_SizeValue)Arcadia_Value_getNatural32Value(other));
+  } else if (Arcadia_Value_isNatural64Value(other)) {
   #if Arcadia_SizeValue_Maximum < Arcadia_Natural64Value_Maximum
-    R_Value_setNatural64Value(target, (Arcadia_Natural64Value)R_Value_getSizeValue(self) * R_Value_getNatural64Value(other));
+    Arcadia_Value_setNatural64Value(target, (Arcadia_Natural64Value)Arcadia_Value_getSizeValue(self) * Arcadia_Value_getNatural64Value(other));
   #else
-    R_Value_setSizeValue(target, R_Value_getSizeValue(self) - (Arcadia_SizeValue)R_Value_getNatural64Value(other));
+    Arcadia_Value_setSizeValue(target, Arcadia_Value_getSizeValue(self) - (Arcadia_SizeValue)Arcadia_Value_getNatural64Value(other));
   #endif
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);

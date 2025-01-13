@@ -18,7 +18,7 @@
 #if !defined(ARCADIA_RING1_IMPLEMENTATION_STATICASSERT_H_INCLUDED)
 #define ARCADIA_RING1_IMPLEMENTATION_STATICASSERT_H_INCLUDED
 
-#include "Arcadia/Ring1/Implementation//Configure.h"
+#include "Arcadia/Ring1/Implementation/Configure.h"
 
 #if __STDC_VERSION__ < 202311L 
   #define Arcadia_StaticAssert(expression, message) _Static_assert(expression, message)

@@ -22,7 +22,7 @@
 #include "Arcadia/Ring1/Implementation/StaticAssert.h"
 #include "R/cstdlib.h"
 
-typedef void* R_ObjectReferenceValue;
+typedef void* Arcadia_ObjectReferenceValue;
 
 #define Arcadia_ObjectReferenceValue_Null (NULL)
 

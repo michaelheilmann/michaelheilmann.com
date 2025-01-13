@@ -18,7 +18,6 @@
 #if !defined(R_INTERPRETER_INSTRUCTION_H_INCLUDED)
 #define R_INTERPRETER_INSTRUCTION_H_INCLUDED
 
-#include "R/Value.h"
 #include "R/Object.h"
 typedef struct R_Interpreter_Code_Constants R_Interpreter_Code_Constants;
 typedef struct R_Interpreter_ProcessState R_Interpreter_ProcessState;

@@ -21,7 +21,7 @@
 #include "R.h"
 #include "Tools/TemplateEngine/Context.h"
 
-Rex_declareObjectType(u8"Tools.TemplateEngine.FileContext", FileContext, u8"R.Object");
+Rex_declareObjectType(u8"Tools.TemplateEngine.FileContext", FileContext, u8"Arcadia.Object");
 
 struct FileContext {
   R_Object _parent;

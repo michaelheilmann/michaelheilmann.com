@@ -21,7 +21,7 @@
 #include "Arcadia/Ring1/Include.h"
 #include "R/Object.h"
 
-Rex_declareObjectType(u8"R.ByteBuffer", R_ByteBuffer, u8"R.Object");
+Rex_declareObjectType(u8"R.ByteBuffer", R_ByteBuffer, u8"Arcadia.Object");
 
 struct R_ByteBuffer {
   R_Object _parent;

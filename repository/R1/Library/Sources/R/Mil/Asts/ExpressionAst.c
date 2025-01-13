@@ -59,7 +59,7 @@ static const Arcadia_Type_Operations _R_Mil_ExpressionAst_typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"R.Mil.ExpressionAst", R_Mil_ExpressionAst, u8"R.Object", R_Object, &_R_Mil_ExpressionAst_typeOperations);
+Rex_defineObjectType(u8"R.Mil.ExpressionAst", R_Mil_ExpressionAst, u8"Arcadia.Object", R_Object, &_R_Mil_ExpressionAst_typeOperations);
 
 void
 R_Mil_ExpressionAst_constructImpl
@@ -70,10 +70,10 @@ R_Mil_ExpressionAst_constructImpl
     R_Value* argumentValues
   )
 {
-  R_Mil_ExpressionAst* _self = R_Value_getObjectReferenceValue(self);
+  R_Mil_ExpressionAst* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Mil_ExpressionAst_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (0 != numberOfArgumentValues) {

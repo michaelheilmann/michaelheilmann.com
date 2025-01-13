@@ -30,7 +30,7 @@ struct TypeNode {
   TypeNode* next;
 
   Arcadia_AtomValue typeName;
-  R_TypeKind kind;
+  Arcadia_TypeKind kind;
   TypeNode* parentObjectType;
   Arcadia_SizeValue valueSize;
   Arcadia_Type_Operations const* typeOperations;

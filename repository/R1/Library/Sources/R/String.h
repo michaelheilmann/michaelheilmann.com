@@ -19,10 +19,8 @@
 #define R_STRING_H_INCLUDED
 
 #include "R/Object.h"
-#include "R/Value.h"
-#include "R/ImmutableByteArray.h"
 
-Rex_declareObjectType("R.String", R_String, "R.Object");
+Rex_declareObjectType("R.String", R_String, "Arcadia.Object");
 
 struct R_String {
   R_Object _parent;

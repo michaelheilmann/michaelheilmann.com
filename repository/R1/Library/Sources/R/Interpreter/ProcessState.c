@@ -122,13 +122,13 @@ R_Interpreter_ProcessState_defineGlobalProcedure
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
     Arcadia_Process_jump(process);
   }
-  R_Value key = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue = procedure->unqualifiedName };
+  R_Value key = { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = procedure->unqualifiedName };
   R_Value value = R_Map_get(process, self->globals, key);
-  if (!R_Value_isVoidValue(&value)) {
+  if (!Arcadia_Value_isVoidValue(&value)) {
     Arcadia_Process_setStatus(process, Arcadia_Status_Exists);
     Arcadia_Process_jump(process);
   }
-  value = (R_Value){ .tag = R_ValueTag_ObjectReference, .objectReferenceValue = procedure };
+  value = (R_Value){ .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = procedure };
   R_Map_set(process, self->globals, key, value);
 }
 
@@ -144,13 +144,13 @@ R_Interpreter_ProcessState_defineGlobalClass
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
     Arcadia_Process_jump(process);
   }
-  R_Value key = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue = class->className };
+  R_Value key = { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = class->className };
   R_Value value = R_Map_get(process, self->globals, key);
-  if (!R_Value_isVoidValue(&value)) {
+  if (!Arcadia_Value_isVoidValue(&value)) {
     Arcadia_Process_setStatus(process, Arcadia_Status_Exists);
     Arcadia_Process_jump(process);
   }
-  value = (R_Value){ .tag = R_ValueTag_ObjectReference, .objectReferenceValue = class };
+  value = (R_Value){ .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = class };
   R_Map_set(process, self->globals, key, value);
 }
 
@@ -166,9 +166,9 @@ R_Interpreter_ProcessState_getGlobal
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
     Arcadia_Process_jump(process);
   }
-  R_Value key = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue = name };
+  R_Value key = { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = name };
   R_Value value = R_Map_get(process, self->globals, key);
-  if (R_Value_isVoidValue(&value)) {
+  if (Arcadia_Value_isVoidValue(&value)) {
     Arcadia_Process_setStatus(process, Arcadia_Status_NotExists);
     Arcadia_Process_jump(process);
   }

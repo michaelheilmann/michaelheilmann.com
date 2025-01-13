@@ -76,7 +76,7 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"R.FileHandle", R_FileHandle, u8"R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType(u8"R.FileHandle", R_FileHandle, u8"Arcadia.Object", R_Object, &_typeOperations);
 
 static void
 R_FileHandle_constructImpl
@@ -87,10 +87,10 @@ R_FileHandle_constructImpl
     R_Value* argumentValues
   )
 {
-  R_FileHandle* _self = R_Value_getObjectReferenceValue(self);
+  R_FileHandle* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_FileHandle_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (1 != numberOfArgumentValues) {
@@ -139,9 +139,9 @@ R_FileHandle_create
     R_FileSystem* fileSystem
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
   if (fileSystem) {
-    R_Value_setObjectReferenceValue(&argumentValues[0], fileSystem);
+    Arcadia_Value_setObjectReferenceValue(&argumentValues[0], fileSystem);
   }
   R_FileHandle* self = R_allocateObject(process, _R_FileHandle_getType(process), 1, &argumentValues[0]);
   return self;

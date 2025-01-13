@@ -39,7 +39,7 @@ main1
 
   R_FilePath* filePath = R_FilePath_parseGeneric(process, u8"HelloWorld.t", strlen(u8"HelloWorld.t"));
   R_Value filePathValue;
-  R_Value_setObjectReferenceValue(&filePathValue, filePath);
+  Arcadia_Value_setObjectReferenceValue(&filePathValue, filePath);
   R_Stack_push(process, context->stack, filePathValue);
   Context_onRun(process, context);
 
@@ -63,7 +63,7 @@ recursiveInclude1
 
   R_FilePath* filePath = R_FilePath_parseGeneric(process, u8"recursiveInclude1.t", strlen(u8"recursiveInclude1.t"));
   R_Value filePathValue;
-  R_Value_setObjectReferenceValue(&filePathValue, filePath);
+  Arcadia_Value_setObjectReferenceValue(&filePathValue, filePath);
   R_Stack_push(process, context->stack, filePathValue);
   R_JumpTarget jumpTarget;
   Arcadia_Process_pushJumpTarget(process, &jumpTarget);
@@ -95,7 +95,7 @@ recursiveInclude2
 
   R_FilePath* filePath = R_FilePath_parseGeneric(process, u8"recursiveInclude2.t", strlen(u8"recursiveInclude2.t"));
   R_Value filePathValue;
-  R_Value_setObjectReferenceValue(&filePathValue, filePath);
+  Arcadia_Value_setObjectReferenceValue(&filePathValue, filePath);
   R_Stack_push(process, context->stack, filePathValue);
   R_JumpTarget jumpTarget;
   Arcadia_Process_pushJumpTarget(process, &jumpTarget);

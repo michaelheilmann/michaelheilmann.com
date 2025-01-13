@@ -32,7 +32,7 @@
 ///                     | 'procedure' 'entry'? name procedureParameters procedureBody
 /// procedureBody : '{' statements '}'
 /// @endcode
-Rex_declareObjectType(u8"R.Mil.ProcedureDefinitionAst", R_Mil_ProcedureDefinitionAst, u8"R.Object");
+Rex_declareObjectType(u8"R.Mil.ProcedureDefinitionAst", R_Mil_ProcedureDefinitionAst, u8"Arcadia.Object");
 
 struct R_Mil_ProcedureDefinitionAst {
   R_Mil_DefinitionAst _parent;

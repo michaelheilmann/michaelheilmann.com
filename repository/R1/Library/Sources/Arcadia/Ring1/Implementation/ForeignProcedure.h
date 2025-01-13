@@ -18,7 +18,7 @@
 #if !defined(ARCADIA_RING1_IMPLEMENTATION_FOREIGNPROCEDURE_H_INCLUDED)
 #define ARCADIA_RING1_IMPLEMENTATION_FOREIGNPROCEDURE_H_INCLUDED
 
-#include "R/Scalar.h"
+#include "Arcadia/Ring1/Implementation/_declareScalarType.h"
 #include "Arcadia/Ring1/Implementation/Size.h"
 typedef struct R_Value R_Value;
 

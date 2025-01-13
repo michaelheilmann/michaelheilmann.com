@@ -78,10 +78,10 @@ R_Mil_ExpressionStatementAst_constructImpl
     R_Value* argumentValues
   )
 {
-  R_Mil_ExpressionStatementAst* _self = R_Value_getObjectReferenceValue(self);
+  R_Mil_ExpressionStatementAst* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Mil_ExpressionStatementAst_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
  
@@ -89,25 +89,25 @@ R_Mil_ExpressionStatementAst_constructImpl
      Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
      Arcadia_Process_jump(process);
   }
-  if (!R_Value_isObjectReferenceValue(&argumentValues[0])) {
+  if (!Arcadia_Value_isObjectReferenceValue(&argumentValues[0])) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
-  if (!Arcadia_Type_isSubType(R_Object_getType(R_Value_getObjectReferenceValue(&argumentValues[0])), _R_String_getType(process))) {
+  if (!Arcadia_Type_isSubType(R_Object_getType(Arcadia_Value_getObjectReferenceValue(&argumentValues[0])), _R_String_getType(process))) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
-  if (!R_Value_isObjectReferenceValue(&argumentValues[1])) {
+  if (!Arcadia_Value_isObjectReferenceValue(&argumentValues[1])) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
-  if (!Arcadia_Type_isSubType(R_Object_getType(R_Value_getObjectReferenceValue(&argumentValues[1])), _R_Mil_ExpressionAst_getType(process))) {
+  if (!Arcadia_Type_isSubType(R_Object_getType(Arcadia_Value_getObjectReferenceValue(&argumentValues[1])), _R_Mil_ExpressionAst_getType(process))) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
   
-  _self->targetVariableName = (R_String*)R_Value_getObjectReferenceValue(&argumentValues[0]);
-  _self->expression =  (R_Mil_ExpressionAst*)R_Value_getObjectReferenceValue(&argumentValues[1]);
+  _self->targetVariableName = (R_String*)Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
+  _self->expression =  (R_Mil_ExpressionAst*)Arcadia_Value_getObjectReferenceValue(&argumentValues[1]);
   R_Object_setType(_self, _type);
 }
 
@@ -130,8 +130,8 @@ R_Mil_ExpressionStatementAst_create
     R_Mil_ExpressionAst* expression
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_ObjectReference, .objectReferenceValue = (R_ObjectReferenceValue)targetVariableName },
-                               {.tag = R_ValueTag_ObjectReference, .objectReferenceValue = (R_ObjectReferenceValue)expression } };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = (Arcadia_ObjectReferenceValue)targetVariableName },
+                               {.tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = (Arcadia_ObjectReferenceValue)expression } };
   R_Mil_ExpressionStatementAst* self = R_allocateObject(process, _R_Mil_ExpressionStatementAst_getType(process), 2, &argumentValues[0]);
   return self;
 }

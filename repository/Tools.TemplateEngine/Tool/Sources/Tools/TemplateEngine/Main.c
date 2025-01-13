@@ -41,7 +41,7 @@ main1
   context->temporary = (R_Utf8Writer*)R_Utf8ByteBufferWriter_create(process, context->temporaryBuffer);
   R_FilePath* filePath = R_FilePath_parseNative(process, argv[1], strlen(argv[1]));
   R_Value filePathValue;
-  R_Value_setObjectReferenceValue(&filePathValue, filePath);
+  Arcadia_Value_setObjectReferenceValue(&filePathValue, filePath);
   R_Stack_push(process, context->stack, filePathValue);
   Context_onRun(process, context);
   R_FileSystem_setFileContents(process, fileSystem, R_FilePath_parseNative(process, argv[2], strlen(argv[2])), context->targetBuffer);

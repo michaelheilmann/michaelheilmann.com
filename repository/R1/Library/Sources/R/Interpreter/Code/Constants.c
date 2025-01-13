@@ -80,7 +80,7 @@ static const Arcadia_Type_Operations typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"R.Interpreter.Code.Constants", R_Interpreter_Code_Constants, u8"R.Object", R_Object, &typeOperations);
+Rex_defineObjectType(u8"R.Interpreter.Code.Constants", R_Interpreter_Code_Constants, u8"Arcadia.Object", R_Object, &typeOperations);
 
 static void
 constructImpl
@@ -91,10 +91,10 @@ constructImpl
     R_Value* argumentValues
   )
 {
-  R_Interpreter_Code_Constants* _self = R_Value_getObjectReferenceValue(self);
+  R_Interpreter_Code_Constants* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Interpreter_Code_Constants_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (0 != numberOfArgumentValues) {
@@ -131,7 +131,7 @@ visitImpl
   )
 {
   for (Arcadia_SizeValue i = 0, n = self->cp; i < n; ++i) {
-    R_Value_visit(self->p + i);
+    Arcadia_Value_visit(self->p + i);
   }
 }
 
@@ -141,7 +141,7 @@ R_Interpreter_Code_Constants_create
     Arcadia_Process* process
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
   R_Interpreter_Code_Constants* self = R_allocateObject(process, _R_Interpreter_Code_Constants_getType(process), 0, &argumentValues[0]);
   return self;
 }
@@ -155,7 +155,7 @@ getOrCreate
   )
 { 
   for (Arcadia_SizeValue i = 0, n = self->cp; i < n; ++i) {
-    if (R_Value_isEqualTo(process, self->p + i, constant)) {
+    if (Arcadia_Value_isEqualTo(process, self->p + i, constant)) {
       return i;
     }
   }
@@ -172,7 +172,7 @@ R_Interpreter_Code_Constants_getOrCreateBoolean
     Arcadia_BooleanValue booleanValue
   )
 {
-  R_Value const constant = { .tag = R_ValueTag_Boolean, .booleanValue = booleanValue };
+  R_Value const constant = { .tag = Arcadia_ValueTag_Boolean, .booleanValue = booleanValue };
   return getOrCreate(process, self, &constant);
 }
 
@@ -184,7 +184,7 @@ R_Interpreter_Code_Constants_getOrCreateForeignProcedure
     Arcadia_ForeignProcedureValue foreignProcedureValue
   )
 {
-  R_Value const constant = { .tag = R_ValueTag_ForeignProcedure, .foreignProcedureValue = foreignProcedureValue };
+  R_Value const constant = { .tag = Arcadia_ValueTag_ForeignProcedure, .foreignProcedureValue = foreignProcedureValue };
   return getOrCreate(process, self, &constant);
 }
 
@@ -196,7 +196,7 @@ R_Interpreter_Code_Constants_getOrCreateInteger16
     Arcadia_Integer16Value integer16Value
   )
 {
-  R_Value const constant = { .tag = R_ValueTag_Integer16, .integer16Value = integer16Value };
+  R_Value const constant = { .tag = Arcadia_ValueTag_Integer16, .integer16Value = integer16Value };
   return getOrCreate(process, self, &constant);
 }
 
@@ -208,7 +208,7 @@ R_Interpreter_Code_Constants_getOrCreateInteger32
     Arcadia_Integer32Value integer32Value
   )
 {
-  R_Value const constant = { .tag = R_ValueTag_Integer32, .integer32Value = integer32Value };
+  R_Value const constant = { .tag = Arcadia_ValueTag_Integer32, .integer32Value = integer32Value };
   return getOrCreate(process, self, &constant);
 }
 
@@ -220,7 +220,7 @@ R_Interpreter_Code_Constants_getOrCreateInteger64
     Arcadia_Integer64Value integer64Value
   )
 {
-  R_Value const constant = { .tag = R_ValueTag_Integer32, .integer64Value = integer64Value };
+  R_Value const constant = { .tag = Arcadia_ValueTag_Integer32, .integer64Value = integer64Value };
   return getOrCreate(process, self, &constant);
 }
 
@@ -232,7 +232,7 @@ R_Interpreter_Code_Constants_getOrCreateInteger8
     Arcadia_Integer8Value integer8Value
   )
 {
-  R_Value const constant = { .tag = R_ValueTag_Integer8, .integer8Value = integer8Value };
+  R_Value const constant = { .tag = Arcadia_ValueTag_Integer8, .integer8Value = integer8Value };
   return getOrCreate(process, self, &constant);
 }
 
@@ -244,7 +244,7 @@ R_Interpreter_Code_Constants_getOrCreateNatural16
     Arcadia_Natural16Value natural16Value
   )
 { 
-  R_Value const constant = { .tag = R_ValueTag_Natural16, .natural16Value = natural16Value };
+  R_Value const constant = { .tag = Arcadia_ValueTag_Natural16, .natural16Value = natural16Value };
   return getOrCreate(process, self, &constant);
 }
 
@@ -256,7 +256,7 @@ R_Interpreter_Code_Constants_getOrCreateNatural32
     Arcadia_Natural32Value natural32Value
   )
 {
-  R_Value const constant = { .tag = R_ValueTag_Natural32, .natural32Value = natural32Value };
+  R_Value const constant = { .tag = Arcadia_ValueTag_Natural32, .natural32Value = natural32Value };
   return getOrCreate(process, self, &constant);
 }
 
@@ -268,7 +268,7 @@ R_Interpreter_Code_Constants_getOrCreateNatural64
     Arcadia_Natural64Value natural64Value
   )
 {
-  R_Value const constant = { .tag = R_ValueTag_Natural64, .natural64Value = natural64Value };
+  R_Value const constant = { .tag = Arcadia_ValueTag_Natural64, .natural64Value = natural64Value };
   return getOrCreate(process, self, &constant);
 }
 
@@ -280,7 +280,7 @@ R_Interpreter_Code_Constants_getOrCreateNatural8
     Arcadia_Natural8Value natural8Value
   )
 {
-  R_Value const constant = { .tag = R_ValueTag_Natural8, .natural8Value = natural8Value };
+  R_Value const constant = { .tag = Arcadia_ValueTag_Natural8, .natural8Value = natural8Value };
   return getOrCreate(process, self, &constant);
 }
 
@@ -292,7 +292,7 @@ R_Interpreter_Code_Constants_getOrCreateSize
     Arcadia_SizeValue sizeValue
   )
 {
-  R_Value const constant = { .tag = R_ValueTag_Size, .sizeValue = sizeValue };
+  R_Value const constant = { .tag = Arcadia_ValueTag_Size, .sizeValue = sizeValue };
   return getOrCreate(process, self, &constant);
 }
 
@@ -304,7 +304,7 @@ R_Interpreter_Code_Constants_getOrCreateString
     R_String* stringValue
   )
 {
-  R_Value const constant = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue = stringValue };
+  R_Value const constant = { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = stringValue };
   return getOrCreate(process, self, &constant);
 }
 
@@ -316,7 +316,7 @@ R_Interpreter_Code_Constants_getOrCreateVoid
     Arcadia_VoidValue voidValue
   )
 {
-  R_Value const constant = { .tag = R_ValueTag_Void, .voidValue = voidValue };
+  R_Value const constant = { .tag = Arcadia_ValueTag_Void, .voidValue = voidValue };
   return getOrCreate(process, self, &constant);
 }
 

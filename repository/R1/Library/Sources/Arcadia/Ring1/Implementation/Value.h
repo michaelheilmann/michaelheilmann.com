@@ -24,7 +24,7 @@
 
 #include "Arcadia/Ring1/Implementation/ForeignProcedure.h"
 
-#include "R/ImmutableByteArray.h"
+#include "Arcadia/Ring1/Implementation/ImmutableByteArray.h"
 
 #include "Arcadia/Ring1/Implementation/Integer16.h"
 #include "Arcadia/Ring1/Implementation/Integer32.h"
@@ -47,35 +47,35 @@
 
 #include "Arcadia/Ring1/Implementation/Void.h"
 
-#define R_ValueTag_Atom (1)
+#define Arcadia_ValueTag_Atom (1)
 
-#define R_ValueTag_Boolean (2)
+#define Arcadia_ValueTag_Boolean (2)
 
-#define R_ValueTag_ForeignProcedure (3)
+#define Arcadia_ValueTag_ForeignProcedure (3)
 
-#define R_ValueTag_ImmutableByteArray (4)
+#define Arcadia_ValueTag_ImmutableByteArray (4)
 
-#define R_ValueTag_Integer16 (5)
-#define R_ValueTag_Integer32 (6)
-#define R_ValueTag_Integer64 (7)
-#define R_ValueTag_Integer8 (8)
+#define Arcadia_ValueTag_Integer16 (5)
+#define Arcadia_ValueTag_Integer32 (6)
+#define Arcadia_ValueTag_Integer64 (7)
+#define Arcadia_ValueTag_Integer8 (8)
 
-#define R_ValueTag_Natural16 (9)
-#define R_ValueTag_Natural32 (10)
-#define R_ValueTag_Natural64 (11)
-#define R_ValueTag_Natural8 (12)
+#define Arcadia_ValueTag_Natural16 (9)
+#define Arcadia_ValueTag_Natural32 (10)
+#define Arcadia_ValueTag_Natural64 (11)
+#define Arcadia_ValueTag_Natural8 (12)
 
-#define R_ValueTag_ObjectReference (13)
+#define Arcadia_ValueTag_ObjectReference (13)
 
-#define R_ValueTag_Real32 (14)
-#define R_ValueTag_Real64 (15)
+#define Arcadia_ValueTag_Real32 (14)
+#define Arcadia_ValueTag_Real64 (15)
 
-#define R_ValueTag_Size (16)
+#define Arcadia_ValueTag_Size (16)
 
-#define R_ValueTag_Type (17)
+#define Arcadia_ValueTag_Type (17)
 
 // The tag for type "Void" must be 0.
-#define R_ValueTag_Void (0)
+#define Arcadia_ValueTag_Void (0)
 
 typedef struct R_Value {
   uint8_t tag;
@@ -102,14 +102,14 @@ typedef struct R_Value {
     Define(Arcadia, Natural64, natural64)
     Define(Arcadia, Natural8, natural8)
 
-    Define(R, ObjectReference, objectReference)
+    Define(Arcadia, ObjectReference, objectReference)
 
     Define(Arcadia, Real32, real32)
     Define(Arcadia, Real64, real64)
 
     Define(Arcadia, Size, size)
 
-    Define(R, Type, type)
+    Define(Arcadia, Type, type)
     
     Define(Arcadia, Void, void)
 
@@ -118,7 +118,7 @@ typedef struct R_Value {
 } R_Value;
 
 static inline uint8_t
-R_Value_getTag
+Arcadia_Value_getTag
   (
     R_Value const* value
   )
@@ -126,27 +126,27 @@ R_Value_getTag
 
 #define Define(Prefix, Suffix, Variable) \
   static inline Prefix##_##Suffix##Value \
-  R_Value_get##Suffix##Value \
+  Arcadia_Value_get##Suffix##Value \
     ( \
       R_Value const* value \
     ) \
   {  return value->Variable##Value; } \
 \
   static inline bool \
-  R_Value_is##Suffix##Value \
+  Arcadia_Value_is##Suffix##Value \
     ( \
       R_Value const* value \
     ) \
-  { return R_ValueTag_##Suffix == value->tag; } \
+  { return Arcadia_ValueTag_##Suffix == value->tag; } \
   \
   static inline void \
-  R_Value_set##Suffix##Value \
+  Arcadia_Value_set##Suffix##Value \
     ( \
       R_Value* value, \
       Prefix##_##Suffix##Value const Variable##Value \
     ) \
   { \
-    value->tag = R_ValueTag_##Suffix; \
+    value->tag = Arcadia_ValueTag_##Suffix; \
     value->Variable##Value = Variable##Value; \
   }
 
@@ -168,34 +168,34 @@ Define(Arcadia, Natural32, natural32)
 Define(Arcadia, Natural64, natural64)
 Define(Arcadia, Natural8, natural8)
 
-Define(R, ObjectReference, objectReference)
+Define(Arcadia, ObjectReference, objectReference)
 
 Define(Arcadia, Real32, real32)
 Define(Arcadia, Real64, real64)
 
 Define(Arcadia, Size, size)
 
-Define(R, Type, type)
+Define(Arcadia, Type, type)
 
 Define(Arcadia, Void, void)
 
 #undef Define
 
 void
-R_Value_visit
+Arcadia_Value_visit
   (
     R_Value* self
   );
 
 Arcadia_TypeValue
-R_Value_getType
+Arcadia_Value_getType
   (
     Arcadia_Process* process,
     R_Value const* self
   );
 
 Arcadia_BooleanValue
-R_Value_isEqualTo
+Arcadia_Value_isEqualTo
   (
     Arcadia_Process* process,
     R_Value const* self,
@@ -203,7 +203,7 @@ R_Value_isEqualTo
   );
 
 Arcadia_SizeValue
-R_Value_hash
+Arcadia_Value_hash
   (
     Arcadia_Process* process,
     R_Value const* self

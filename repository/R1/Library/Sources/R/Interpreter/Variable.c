@@ -63,7 +63,7 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"R.Interpreter.Variable", R_Interpreter_Variable, u8"R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType(u8"R.Interpreter.Variable", R_Interpreter_Variable, u8"Arcadia.Object", R_Object, &_typeOperations);
 
 static void
 R_Interpreter_Variable_constructImpl
@@ -74,10 +74,10 @@ R_Interpreter_Variable_constructImpl
     R_Value* argumentValues
   )
 {
-  R_Interpreter_Variable* _self = R_Value_getObjectReferenceValue(self);
+  R_Interpreter_Variable* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Interpreter_Variable_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (2 != numberOfArgumentValues) {
@@ -111,8 +111,8 @@ R_Interpreter_Variable_create
   )
 {
   R_Value argumentValues[] = {
-    {.tag = R_ValueTag_ObjectReference, .objectReferenceValue = class },
-    {.tag = R_ValueTag_ObjectReference, .objectReferenceValue = name },
+    {.tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = class },
+    {.tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = name },
   };
   R_Interpreter_Variable* self = R_allocateObject(process, _R_Interpreter_Variable_getType(process), 2, &argumentValues[0]);
   return self;

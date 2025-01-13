@@ -18,8 +18,6 @@
 #include "R/Interpreter/Instruction.h"
 
 #include "Arcadia/Ring1/Include.h"
-#include "R/Value.h"
-
 #include "R/Interpreter/Include.h"
 #include "R/cstdlib.h"
 #include "R/Interpreter/Procedure.h"
@@ -85,11 +83,11 @@ R_InterpreterState_decodeStringConstant
     Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
     Arcadia_Process_jump(process);
   }
-  if (!Arcadia_Type_isSubType(R_Value_getType(process, R_Interpreter_Code_Constants_getAt(process, constants, indexValue)), _R_String_getType(process))) {
+  if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, R_Interpreter_Code_Constants_getAt(process, constants, indexValue)), _R_String_getType(process))) {
     Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
     Arcadia_Process_jump(process);
   }
-  return (R_String*)R_Value_getObjectReferenceValue(R_Interpreter_Code_Constants_getAt(process, constants, indexValue));
+  return (R_String*)Arcadia_Value_getObjectReferenceValue(R_Interpreter_Code_Constants_getAt(process, constants, indexValue));
 }
 
 static Arcadia_Natural32Value
@@ -128,7 +126,7 @@ R_Instructions_add
   R_Value const* firstOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
   R_Value const* secondOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
 
-  Arcadia_TypeValue firstOperandType = R_Value_getType(process, firstOperandValue);
+  Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->add) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
@@ -157,7 +155,7 @@ R_Instructions_and
   R_Value const* firstOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
   R_Value const* secondOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
 
-  Arcadia_TypeValue firstOperandType = R_Value_getType(process, firstOperandValue);
+  Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->and) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
@@ -186,7 +184,7 @@ R_Instructions_concatenate
   R_Value const* firstOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
   R_Value const* secondOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
 
-  Arcadia_TypeValue firstOperandType = R_Value_getType(process, firstOperandValue);
+  Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->concatenate) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
@@ -215,7 +213,7 @@ R_Instructions_divide
   R_Value const* firstOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
   R_Value const* secondOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
 
-  Arcadia_TypeValue firstOperandType = R_Value_getType(process, firstOperandValue);
+  Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->divide) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
@@ -244,7 +242,7 @@ R_Instructions_equalTo
   R_Value const* firstOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
   R_Value const* secondOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
 
-  Arcadia_TypeValue firstOperandType = R_Value_getType(process, firstOperandValue);
+  Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->equalTo) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
@@ -273,7 +271,7 @@ R_Instructions_greaterThan
   R_Value const* firstOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
   R_Value const* secondOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
 
-  Arcadia_TypeValue firstOperandType = R_Value_getType(process, firstOperandValue);
+  Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->greaterThan) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
@@ -302,7 +300,7 @@ R_Instructions_greaterThanOrEqualTo
   R_Value const* firstOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
   R_Value const* secondOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
 
-  Arcadia_TypeValue firstOperandType = R_Value_getType(process, firstOperandValue);
+  Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->greaterThanOrEqualTo) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
@@ -348,7 +346,7 @@ R_Instructions_lowerThan
   R_Value const* firstOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
   R_Value const* secondOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
 
-  Arcadia_TypeValue firstOperandType = R_Value_getType(process, firstOperandValue);
+  Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->lowerThan) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
@@ -377,7 +375,7 @@ R_Instructions_lowerThanOrEqualTo
   R_Value const* firstOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
   R_Value const* secondOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
 
-  Arcadia_TypeValue firstOperandType = R_Value_getType(process, firstOperandValue);
+  Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->lowerThanOrEqualTo) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
@@ -406,7 +404,7 @@ R_Instructions_multiply
   R_Value const* firstOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
   R_Value const* secondOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
 
-  Arcadia_TypeValue firstOperandType = R_Value_getType(process, firstOperandValue);
+  Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->multiply) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
@@ -434,7 +432,7 @@ R_Instructions_negate
   R_Value* targetValue = R_InterpreterState_decodeTarget(process, interpreterProcess);
   R_Value const* operandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
 
-  Arcadia_TypeValue operandType = R_Value_getType(process, operandValue);
+  Arcadia_TypeValue operandType = Arcadia_Value_getType(process, operandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(operandType);
   if (!operations->negate) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
@@ -462,7 +460,7 @@ R_Instructions_not
   R_Value* targetValue = R_InterpreterState_decodeTarget(process, interpreterProcess);
   R_Value const* operandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
 
-  Arcadia_TypeValue operandType = R_Value_getType(process, operandValue);
+  Arcadia_TypeValue operandType = Arcadia_Value_getType(process, operandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(operandType);
   if (!operations->not) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
@@ -491,7 +489,7 @@ R_Instructions_notEqualTo
   R_Value const* firstOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
   R_Value const* secondOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
 
-  Arcadia_TypeValue firstOperandType = R_Value_getType(process, firstOperandValue);
+  Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->notEqualTo) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
@@ -520,7 +518,7 @@ R_Instructions_or
   R_Value const* firstOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
   R_Value const* secondOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
 
-  Arcadia_TypeValue firstOperandType = R_Value_getType(process, firstOperandValue);
+  Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations-> or ) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
@@ -549,7 +547,7 @@ R_Instructions_subtract
   R_Value const* firstOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
   R_Value const* secondOperandValue = R_InterpreterState_decodeOperand(process, interpreterProcess);
 
-  Arcadia_TypeValue firstOperandType = R_Value_getType(process, firstOperandValue);
+  Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->subtract) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);

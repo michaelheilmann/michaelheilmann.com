@@ -20,6 +20,7 @@
 #include "Arcadia/Ring1/Implementation/TypeNameParser.h"
 #include "R/cstdlib.h"
 
+#include "Arms.h"
 #include "R/ArmsIntegration.h"
 #include "Arcadia/Ring1/Implementation/getTickCount.h"
 #include "Arcadia/Ring1/Implementation/Integer32.h"
@@ -32,13 +33,11 @@ typedef struct Singleton Singleton;
 
 struct Arcadia_Atom {
   Arcadia_Atom* next;
-  /// If the key was visited.
-  Arcadia_BooleanValue visited;
-  /// The last time this key was visited.
+  /// The last time this atom was visited.
   Arcadia_Natural64Value lastVisited;
-  /// The hash value of this keys.
+  /// The hash value of this atom.
   Arcadia_SizeValue hash;
-  /// The number of Bytes of this key.
+  /// The number of Bytes of this atom.
   Arcadia_SizeValue numberOfBytes;
   /// The Bytes of this key.
   char bytes[];
@@ -55,6 +54,28 @@ struct Singleton {
 
 static Singleton* g_singleton = NULL;
 
+static void
+typeRemovedCallback
+  (
+    Arcadia_Process* context,
+    const uint8_t* name,
+    size_t nameLength
+  );
+
+static void
+finalizeCallback
+  (
+    Arcadia_Process* context,
+    Arcadia_AtomValue atom
+  );
+
+static void
+visitCallback
+  (
+    Arcadia_Process* context,
+    Arcadia_AtomValue atom
+  );
+
 static Arcadia_SizeValue
 hashBytes
   (
@@ -67,6 +88,49 @@ resize
   (
     Arcadia_Process* process
   );
+
+static Arcadia_BooleanValue g_typeRegistered = Arcadia_BooleanValue_False;
+
+static void
+typeRemovedCallback
+  (
+    Arcadia_Process* context,
+    const uint8_t* name,
+    size_t nameLength
+  )
+{
+  g_typeRegistered = false;
+}
+
+static void
+finalizeCallback
+  (
+    Arcadia_Process* context,
+    Arcadia_AtomValue atom
+  )
+{
+  Arcadia_SizeValue index = atom->hash % g_singleton->capacity;
+  Arcadia_Atom** previous = &g_singleton->buckets[index];
+  Arcadia_Atom* current = g_singleton->buckets[index];
+  while (current) {
+    if (atom == current) {
+      *previous = current->next;
+      g_singleton->size--;
+      return;
+    } else {
+      previous = &current->next;
+      current = current->next;
+    }
+  }
+}
+
+static void
+visitCallback
+  (
+    Arcadia_Process* context,
+    Arcadia_AtomValue atom
+  )
+{/*Intentionally empty.*/}
 
 static Arcadia_SizeValue
 hashBytes
@@ -156,6 +220,17 @@ Arcadia_Atoms_startup
     }
     g_singleton->size = 0;
     g_singleton->capacity = 8;
+
+    if (!g_typeRegistered) {
+      if (!R_Arms_registerType_nojump(process, u8"Arcadia.Atom", sizeof(u8"Arcadia.Atom") - 1, NULL, &typeRemovedCallback, &visitCallback, &finalizeCallback)) {
+        R_allocateUnmanaged_nojump(process, g_singleton->buckets, 8 * sizeof(Arcadia_Atom*));
+        g_singleton->buckets = NULL;
+        R_deallocateUnmanaged_nojump(process, g_singleton);
+        g_singleton = NULL;
+        Arcadia_Process_jump(process);
+      }
+    }
+    g_typeRegistered = Arcadia_BooleanValue_True;
     g_singleton->referenceCount = 1;
   } else {
     if (g_singleton->referenceCount == Arcadia_Natural64Value_Maximum) {
@@ -195,12 +270,17 @@ Arcadia_Atoms_shutdown
 void
 Arcadia_Atoms_onPreMark
   (
+    Arcadia_Process* process,
+    Arcadia_BooleanValue purgeCache
   )
 {
+  Arcadia_Natural64Value now = Arcadia_getTickCount();
   for (Arcadia_SizeValue i = 0, n = g_singleton->capacity; i < n; ++i) {
     Arcadia_Atom* current = g_singleton->buckets[i];
     while (current) {
-      current->visited = Arcadia_BooleanValue_False;
+      if (now - current->lastVisited > THRESHOLD && !purgeCache) {
+        Arms_visit(current);
+      }
       current = current->next;
     }
   }
@@ -209,30 +289,9 @@ Arcadia_Atoms_onPreMark
 void
 Arcadia_Atoms_onFinalize
   (
-    Arcadia_Process* process,
-    Arcadia_BooleanValue purgeCache
+    Arcadia_Process* process
   )
-{
-  Arcadia_Natural64Value now = Arcadia_getTickCount();
-
-  for (Arcadia_SizeValue i = 0, n = g_singleton->capacity; i < n; ++i) {
-    Arcadia_Atom** previous = &g_singleton->buckets[i];
-    Arcadia_Atom* current = g_singleton->buckets[i];
-    while (current) {
-      if (!current->visited &&
-         ((now - current->lastVisited) > THRESHOLD || purgeCache)) {
-        Arcadia_Atom* node = current;
-        *previous = current->next;
-        current = current->next;
-        R_deallocateUnmanaged_nojump(process, node); 
-        g_singleton->size--;
-      } else {
-        previous = &current->next;
-        current = current->next;
-      }
-    }
-  }  
-}
+{/*Intentionally empty.*/}
 
 Arcadia_AtomValue
 Arcadia_Atoms_getOrCreateAtom
@@ -262,14 +321,13 @@ Arcadia_Atoms_getOrCreateAtom
     }
   }
   Arcadia_Atom* atom = NULL;
-  if (!R_allocateUnmanaged_nojump(process, &atom, sizeof(Arcadia_Atom) + numberOfBytes)) {
+  if (!R_allocate_nojump(process, &atom, u8"Arcadia.Atom", sizeof(u8"Arcadia.Atom") - 1, sizeof(Arcadia_Atom) + numberOfBytes)) {
     Arcadia_Process_jump(process);
   }
   c_memcpy(atom->bytes, bytes, numberOfBytes);
   atom->numberOfBytes = numberOfBytes;
   atom->hash = hash;
   atom->lastVisited = Arcadia_getTickCount();
-  atom->visited = Arcadia_BooleanValue_True;
   atom->next = g_singleton->buckets[index];
   g_singleton->buckets[index] = atom;
   g_singleton->size++;
@@ -284,7 +342,7 @@ Arcadia_Atom_visit
   )
 { 
   self->lastVisited = Arcadia_getTickCount();
-  self->visited = Arcadia_BooleanValue_True;
+  Arms_visit(self);
 }
 
 void const*

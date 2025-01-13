@@ -108,21 +108,21 @@ R_Utf8StringReader_constructImpl
     R_Value* argumentValues
   )
 {
-  R_Utf8StringReader* _self = R_Value_getObjectReferenceValue(self);
+  R_Utf8StringReader* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Utf8StringReader_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void }, };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void }, };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (1 != numberOfArgumentValues) {
     Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Process_jump(process);
   }
-  if (!Arcadia_Type_isSubType(R_Value_getType(process, &argumentValues[0]), _R_String_getType(process))) {
+  if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, &argumentValues[0]), _R_String_getType(process))) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
-  _self->source = (R_String*)R_Value_getObjectReferenceValue(&argumentValues[0]);
+  _self->source = (R_String*)Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
   _self->byteIndex = 0;
   _self->codePoint = CodePoint_Start;
   ((R_Utf8Reader*)_self)->getByteIndex = (Arcadia_SizeValue(*)(R_Utf8Reader*)) & R_Utf8StringReader_getByteIndexImpl;
@@ -262,7 +262,7 @@ R_Utf8StringReader_create
     R_String* source
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_ObjectReference, .objectReferenceValue = (R_ObjectReferenceValue)source } };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = (Arcadia_ObjectReferenceValue)source } };
   R_Utf8StringReader* self = R_allocateObject(process, _R_Utf8StringReader_getType(process), 1, &argumentValues[0]);
   return self;
 }

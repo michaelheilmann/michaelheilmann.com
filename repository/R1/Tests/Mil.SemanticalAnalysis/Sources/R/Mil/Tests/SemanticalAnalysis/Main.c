@@ -81,8 +81,8 @@ testNativePrintProcedure
   R_Map* foreignProcedures = R_Map_create(process);
 #define Define(Name,Function) \
   { \
-    R_Value k = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue = R_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, Name, sizeof(Name) - 1)) }; \
-    R_Value v = { .tag = R_ValueTag_ForeignProcedure, .foreignProcedureValue = &Function }; \
+    R_Value k = { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = R_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, Name, sizeof(Name) - 1)) }; \
+    R_Value v = { .tag = Arcadia_ValueTag_ForeignProcedure, .foreignProcedureValue = &Function }; \
     R_Map_set(process, foreignProcedures, k, v); \
   }
   Define(u8"KeyboardKeyMessage_construct", _Library_KeyboardKeyMessage_construct)

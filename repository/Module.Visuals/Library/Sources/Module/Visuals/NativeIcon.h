@@ -27,7 +27,7 @@
 ///   construct()
 /// }
 /// @endcode
-Rex_declareObjectType(u8"NativeIcon", NativeIcon, u8"R.Object")
+Rex_declareObjectType(u8"NativeIcon", NativeIcon, u8"Arcadia.Object")
 
 struct NativeIcon {
   R_Object _parent;

@@ -20,7 +20,7 @@
 
 #include "R.h"
 
-Rex_declareObjectType(u8"R.Mil.StringTable", R_Mil_StringTable, u8"R.Object");
+Rex_declareObjectType(u8"R.Mil.StringTable", R_Mil_StringTable, u8"Arcadia.Object");
 
 // Unmanaged.
 typedef struct R_Mil_StringTable_Node R_Mil_StringTable_Node;

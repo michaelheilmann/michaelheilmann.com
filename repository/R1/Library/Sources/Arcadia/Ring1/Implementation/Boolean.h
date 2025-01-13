@@ -18,8 +18,7 @@
 #if !defined(ARCADIA_RING1_IMPLEMENTATION_BOOLEAN_H_INCLUDED)
 #define ARCADIA_RING1_IMPLEMENTATION_BOOLEAN_H_INCLUDED
 
-#include "R/Scalar.h"
-#include "Arcadia/Ring1/Implementation/Process.h"
+#include "Arcadia/Ring1/Implementation/_declareScalarType.h"
 #include <stdbool.h>
 
 typedef bool Arcadia_BooleanValue;

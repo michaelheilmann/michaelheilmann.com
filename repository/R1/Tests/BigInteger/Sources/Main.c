@@ -28,12 +28,12 @@
   }
 
 static inline R_Value
-R_Value_fromObjectReferenceValue
+Arcadia_Value_fromObjectReferenceValue
   (
-    R_ObjectReferenceValue v
+    Arcadia_ObjectReferenceValue v
   )
 {
-  R_Value w = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue = v };
+  R_Value w = { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = v };
   return w;
 }
 
@@ -60,7 +60,7 @@ R_Test_BigInteger_assertRelational
   R_Value vb;
   pa = R_BigInteger_fromInteger64(process, a);
   pb = R_BigInteger_fromInteger64(process, b);
-  vb = R_Value_fromObjectReferenceValue(pb);
+  vb = Arcadia_Value_fromObjectReferenceValue(pb);
   switch (op) {
     case R_Test_Op_equalTo: {
       R_Test_assert(expectedResult == R_Object_equalTo(process, (R_Object*)pa, &vb));
@@ -130,7 +130,7 @@ R_Test_BigInteger_assertAdditive
   pa = R_BigInteger_fromInteger64(process, a);
   pb = R_BigInteger_fromInteger64(process,b);
   R_BigInteger* pexpectedResult = R_BigInteger_fromInteger64(process, expectedResult);
-  vb = R_Value_fromObjectReferenceValue(pb);
+  vb = Arcadia_Value_fromObjectReferenceValue(pb);
   switch (op) {
     case R_Test_Op_add: {
       R_BigInteger* preceivedResult = R_BigInteger_add(process, pa, pb);

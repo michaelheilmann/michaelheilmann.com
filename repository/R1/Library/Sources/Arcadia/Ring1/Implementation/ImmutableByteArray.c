@@ -15,14 +15,13 @@
 
 // Last modified: 2024-09-20
 
-#include "R/ImmutableByteArray.h"
+#include "Arcadia/Ring1/Implementation/ImmutableByteArray.h"
 
 #include "R/cstdlib.h"
 #include "R/ArmsIntegration.h"
 #include "Arcadia/Ring1/Include.h"
-#include "R/Value.h"
 
-#define Name u8"R.ImmutableByteArray"
+#define TypeName u8"Arcadia.ImmutableByteArray"
 
 static Arcadia_BooleanValue g_registered = Arcadia_BooleanValue_False;
 
@@ -52,13 +51,13 @@ Arcadia_ImmutableByteArray_create
     Arcadia_Process_jump(process);
   }
   if (!g_registered) {
-    if (!R_Arms_registerType_nojump(process, Name, sizeof(Name) - 1, process, &onTypeRemoved, NULL, NULL)) {
+    if (!R_Arms_registerType_nojump(process, TypeName, sizeof(TypeName) - 1, process, &onTypeRemoved, NULL, NULL)) {
       Arcadia_Process_jump(process);
     }
     g_registered = Arcadia_BooleanValue_True;
   }
   Arcadia_ImmutableByteArray*array = NULL;
-  if (!R_allocate_nojump(process, &array, Name, sizeof(Name) - 1, sizeof(Arcadia_ImmutableByteArray) + numberOfBytes)) {
+  if (!R_allocate_nojump(process, &array, TypeName, sizeof(TypeName) - 1, sizeof(Arcadia_ImmutableByteArray) + numberOfBytes)) {
     Arcadia_Process_jump(process);
   }
   c_memcpy(array->bytes, bytes, numberOfBytes);
@@ -142,10 +141,10 @@ equalTo
     R_Value const* other
   )
 {
-  if (R_Value_isImmutableByteArrayValue(other)) {
-    R_Value_setBooleanValue(target, R_Value_getImmutableByteArrayValue(self) == R_Value_getImmutableByteArrayValue(other));
+  if (Arcadia_Value_isImmutableByteArrayValue(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getImmutableByteArrayValue(self) == Arcadia_Value_getImmutableByteArrayValue(other));
   } else {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
   }
 }
 
@@ -156,7 +155,7 @@ hash
     R_Value* target,
     R_Value const* self
   )
-{ R_Value_setSizeValue(target, (Arcadia_SizeValue)(uintptr_t)R_Value_getImmutableByteArrayValue(self)); }
+{ Arcadia_Value_setSizeValue(target, (Arcadia_SizeValue)(uintptr_t)Arcadia_Value_getImmutableByteArrayValue(self)); }
 
 static void
 notEqualTo
@@ -167,10 +166,10 @@ notEqualTo
     R_Value const* other
   )
 {
-  if (R_Value_isImmutableByteArrayValue(other)) {
-    R_Value_setBooleanValue(target, R_Value_getImmutableByteArrayValue(self) != R_Value_getImmutableByteArrayValue(other));
+  if (Arcadia_Value_isImmutableByteArrayValue(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getImmutableByteArrayValue(self) != Arcadia_Value_getImmutableByteArrayValue(other));
   } else {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
   }
 }
 
@@ -192,7 +191,7 @@ _Arcadia_ImmutableByteArray_getType
   )
 {
   if (!g_type) {
-    g_type = R_registerInternalType(process, Name, sizeof(Name) - 1, &_typeOperations, &typeDestructing);
+    g_type = Arcadia_registerInternalType(process, TypeName, sizeof(TypeName) - 1, &_typeOperations, &typeDestructing);
   }
   return g_type;
 }

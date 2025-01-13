@@ -18,7 +18,6 @@
 #include "Arcadia/Ring1/Implementation/isPowerOfTwo.h"
 
 #include "Arcadia/Ring1/Include.h"
-#include "R/Value.h"
 
 Arcadia_BooleanValue
 Arcadia_isPowerOfTwoInteger8Value

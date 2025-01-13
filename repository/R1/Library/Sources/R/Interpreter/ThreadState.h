@@ -18,7 +18,7 @@
 #if !defined(R_INTERPRETER_THREADSTATE_H_INCLUDED)
 #define R_INTERPRETER_THREADSTATE_H_INCLUDED
 
-#include "R/Value.h"
+#include "Arcadia/Ring1/Include.h"
 typedef struct R_Interpreter_Code R_Interpreter_Code;
 typedef struct R_Interpreter_Procedure R_Interpreter_Procedure;
 

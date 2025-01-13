@@ -68,7 +68,7 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"Tools.TemplateEngine.Context", Context, u8"R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType(u8"Tools.TemplateEngine.Context", Context, u8"Arcadia.Object", R_Object, &_typeOperations);
 
 void
 Context_constructImpl
@@ -79,10 +79,10 @@ Context_constructImpl
     R_Value* argumentValues
   )
 {
-  Context* _self = R_Value_getObjectReferenceValue(self);
+  Context* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _Context_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   _self->targetBuffer = NULL;
@@ -125,7 +125,7 @@ Context_create
     Arcadia_Process* process
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
   Context* self = R_allocateObject(process, _Context_getType(process), 0, &argumentValues[0]);
   return self;
 }
@@ -160,7 +160,7 @@ Context_onRun
   while (!R_Stack_isEmpty(context->stack)) {
     R_Value elementValue = R_Stack_peek(process, context->stack);
     R_Stack_pop(process, context->stack);
-    R_FilePath* filePath = (R_FilePath*)R_Value_getObjectReferenceValue(&elementValue);
+    R_FilePath* filePath = (R_FilePath*)Arcadia_Value_getObjectReferenceValue(&elementValue);
     FileContext* fileContext = FileContext_create(process, context, filePath);
     R_ByteBuffer* sourceByteBuffer = R_FileSystem_getFileContents(process, fileSystem, fileContext->sourceFilePath);
     fileContext->source = (R_Utf8Reader*)R_Utf8ByteBufferReader_create(process, sourceByteBuffer);

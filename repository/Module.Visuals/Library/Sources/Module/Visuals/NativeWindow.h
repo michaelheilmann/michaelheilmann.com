@@ -28,7 +28,7 @@
 // The window is in "closed" state when it is creeated by NativeWindowsWindow_create.
 // A successful call to NativeWindowsWindow_open puts the window in "opened" state.
 // The window is put in "closed" state if it is destructed or by a successful call to NativeWindowsWindow_close.
-Rex_declareObjectType(u8"NativeWindow", NativeWindow, u8"R.Object");
+Rex_declareObjectType(u8"NativeWindow", NativeWindow, u8"Arcadia.Object");
 
 struct NativeWindow {
   R_Object _parent;

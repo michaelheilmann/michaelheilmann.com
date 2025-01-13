@@ -115,7 +115,7 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"R.Mil.Keywords", R_Mil_Keywords, u8"R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType(u8"R.Mil.Keywords", R_Mil_Keywords, u8"Arcadia.Object", R_Object, &_typeOperations);
 
 static void
 R_Mil_Keywords_constructImpl
@@ -126,10 +126,10 @@ R_Mil_Keywords_constructImpl
     R_Value* argumentValues
   )
 {
-  R_Mil_Keywords* _self = R_Value_getObjectReferenceValue(self);
+  R_Mil_Keywords* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Mil_Keywords_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (0 != numberOfArgumentValues) {
@@ -153,7 +153,7 @@ R_Mil_Keywords_create
     Arcadia_Process* process
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void }, };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void }, };
   R_Mil_Keywords* self = R_allocateObject(process, _R_Mil_Keywords_getType(process), 0, &argumentValues[0]);
   return self;
 }
@@ -167,11 +167,11 @@ R_Mil_Keywords_add
     Arcadia_Natural32Value type
   )
 {
-  Arcadia_SizeValue hash = R_Object_hash(process, (R_ObjectReferenceValue)string);
+  Arcadia_SizeValue hash = R_Object_hash(process, (Arcadia_ObjectReferenceValue)string);
   Arcadia_SizeValue index = hash % self->capacity;
   for (Keyword* keyword = self->buckets[index]; NULL != keyword; keyword = keyword->next) {
     R_Value t;
-    R_Value_setObjectReferenceValue(&t, (R_ObjectReferenceValue)string);
+    Arcadia_Value_setObjectReferenceValue(&t, (Arcadia_ObjectReferenceValue)string);
     if (R_Object_equalTo(process, (R_Object*)keyword->string, &t)) {
       Arcadia_Process_setStatus(process, Arcadia_Status_Exists);
       Arcadia_Process_jump(process);
@@ -198,11 +198,11 @@ R_Mil_Keywords_scan
   )
 {
   R_Value stringValue;
-  R_Value_setObjectReferenceValue(&stringValue, string);
-  Arcadia_SizeValue hash = R_Object_hash(process, (R_ObjectReferenceValue)string);
+  Arcadia_Value_setObjectReferenceValue(&stringValue, string);
+  Arcadia_SizeValue hash = R_Object_hash(process, (Arcadia_ObjectReferenceValue)string);
   Arcadia_SizeValue index = hash % self->capacity;
   for (Keyword* keyword = self->buckets[index]; NULL != keyword; keyword = keyword->next) {
-    if (R_Object_equalTo(process, (R_ObjectReferenceValue)keyword->string, &stringValue)) {
+    if (R_Object_equalTo(process, (Arcadia_ObjectReferenceValue)keyword->string, &stringValue)) {
       *tokenType = keyword->type;
       return Arcadia_BooleanValue_True;
     }

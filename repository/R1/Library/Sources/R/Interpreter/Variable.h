@@ -20,10 +20,9 @@
 
 #include "Arcadia/Ring1/Include.h"
 #include "R/Object.h"
-#include "R/Value.h"
 typedef struct R_Interpreter_Class R_Interpreter_Class;
 
-Rex_declareObjectType(u8"R.Interpreter.Variable", R_Interpreter_Variable, u8"R.Object");
+Rex_declareObjectType(u8"R.Interpreter.Variable", R_Interpreter_Variable, u8"Arcadia.Object");
 
 struct R_Interpreter_Variable {
   R_Object _parent;

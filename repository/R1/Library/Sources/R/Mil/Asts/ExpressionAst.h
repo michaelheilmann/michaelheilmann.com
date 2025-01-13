@@ -25,7 +25,7 @@
 /// @code
 /// class R.Mil.ExpressionAst
 /// @endcode
-Rex_declareObjectType(u8"R.Mil.ExpressionAst", R_Mil_ExpressionAst, u8"R.Object");
+Rex_declareObjectType(u8"R.Mil.ExpressionAst", R_Mil_ExpressionAst, u8"Arcadia.Object");
 
 struct R_Mil_ExpressionAst {
   R_Object _parent;

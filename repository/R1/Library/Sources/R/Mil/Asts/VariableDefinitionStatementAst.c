@@ -77,10 +77,10 @@ R_Mil_VariableDefinitionStatementAst_constructImpl
     R_Value* argumentValues
   )
 {
-  R_Mil_VariableDefinitionStatementAst* _self = R_Value_getObjectReferenceValue(self);
+  R_Mil_VariableDefinitionStatementAst* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Mil_VariableDefinitionStatementAst_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (1 != numberOfArgumentValues) {
@@ -106,7 +106,7 @@ R_Mil_VariableDefinitionStatementAst_create
     R_String* name
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_ObjectReference, .objectReferenceValue = name }, };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = name }, };
   R_Mil_VariableDefinitionStatementAst* self = R_allocateObject(process, _R_Mil_VariableDefinitionStatementAst_getType(process), 1, &argumentValues[0]);
   return self;
 }

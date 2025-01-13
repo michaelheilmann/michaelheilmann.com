@@ -23,7 +23,7 @@
 /// @code
 /// class R.Mil.Scanner
 /// @endcode
-Rex_declareObjectType(u8"R.Mil.Scanner", R_Mil_Scanner, u8"R.Object");
+Rex_declareObjectType(u8"R.Mil.Scanner", R_Mil_Scanner, u8"Arcadia.Object");
 
 /// @brief Create a MIL scanner.
 /// @return A pointer to this MIL scanner.

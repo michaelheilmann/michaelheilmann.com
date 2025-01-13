@@ -20,12 +20,9 @@
 
 #include "R/ArmsIntegration.h"
 
-
 #include "R/ByteBuffer.h"
 
 #include "R/CommandLine/Include.h"
-
-#include "R/ImmutableByteArray.h"
 
 #include "R/execute.h"
 
@@ -56,10 +53,6 @@
 #include "R/Utf8ByteBufferWriter.h"
 #include "R/Utf8StringReader.h"
 #include "R/Utf8Writer.h"
-
-#include "R/Value.h"
-
-
 
 Arcadia_Status
 R_startup

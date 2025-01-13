@@ -25,7 +25,7 @@ typedef struct R_Mil_Scope R_Mil_Scope;
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-Rex_declareObjectType(u8"R.Mil.Symbol", R_Mil_Symbol, u8"R.Object");
+Rex_declareObjectType(u8"R.Mil.Symbol", R_Mil_Symbol, u8"Arcadia.Object");
 
 struct R_Mil_Symbol {
   R_Object _parent;
@@ -47,7 +47,7 @@ R_Mil_Symbol_create
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-Rex_declareObjectType(u8"R.Mil.SymbolTable", R_Mil_SymbolTable, u8"R.Object");
+Rex_declareObjectType(u8"R.Mil.SymbolTable", R_Mil_SymbolTable, u8"Arcadia.Object");
 
 struct R_Mil_SymbolTable {
   R_Object _parent;
@@ -64,7 +64,7 @@ R_Mil_SymbolTable_create
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-Rex_declareObjectType(u8"R.Mil.Scope", R_Mil_Scope, u8"R.Object");
+Rex_declareObjectType(u8"R.Mil.Scope", R_Mil_Scope, u8"Arcadia.Object");
 
 struct R_Mil_Scope {
   R_Object _parent;

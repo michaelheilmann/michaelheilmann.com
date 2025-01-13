@@ -74,10 +74,10 @@ R_Mil_ClassMemberDefinitionAst_constructImpl
     R_Value* argumentValues
   )
 {
-  R_Mil_ClassMemberDefinitionAst* _self = R_Value_getObjectReferenceValue(self);
+  R_Mil_ClassMemberDefinitionAst* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Mil_ClassMemberDefinitionAst_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (0 != numberOfArgumentValues) {

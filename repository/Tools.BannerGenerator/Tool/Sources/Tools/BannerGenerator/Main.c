@@ -29,13 +29,13 @@ main1
   )
 {
   R_Value target, width, height;
-  R_Value_setVoidValue(&target,Arcadia_VoidValue_Void);
-  R_Value_setVoidValue(&width, Arcadia_VoidValue_Void);
-  R_Value_setVoidValue(&height, Arcadia_VoidValue_Void);
+  Arcadia_Value_setVoidValue(&target,Arcadia_VoidValue_Void);
+  Arcadia_Value_setVoidValue(&width, Arcadia_VoidValue_Void);
+  Arcadia_Value_setVoidValue(&height, Arcadia_VoidValue_Void);
   R_List* arguments = R_List_create(process);
   for (int argi = 1; argi < argc; ++argi) {
     R_String* argument = R_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, argv[argi], strlen(argv[argi])));
-    R_List_appendObjectReferenceValue(process, arguments, (R_ObjectReferenceValue)argument);
+    R_List_appendObjectReferenceValue(process, arguments, (Arcadia_ObjectReferenceValue)argument);
   }
   for (Arcadia_SizeValue i = 0, n = R_List_getSize(arguments); i < n; ++i) {
     R_String* argument = (R_String*)R_List_getObjectReferenceValueAt(process, arguments, i);
@@ -50,7 +50,7 @@ main1
       if (!value) {
         R_CommandLine_raiseNoValueError(process, key);
       }
-      R_Value_setObjectReferenceValue(&target, value);
+      Arcadia_Value_setObjectReferenceValue(&target, value);
     } else if (R_String_isEqualTo_pn(key, u8"width", sizeof(u8"width") - 1)) {
       if (!value) {
         R_CommandLine_raiseNoValueError(process, key);
@@ -58,7 +58,7 @@ main1
       R_JumpTarget jumpTarget;
       Arcadia_Process_pushJumpTarget(process, &jumpTarget);
       if (R_JumpTarget_save(&jumpTarget)) {
-        R_Value_setInteger32Value(&width, R_String_toInteger32(process, value));
+        Arcadia_Value_setInteger32Value(&width, R_String_toInteger32(process, value));
         Arcadia_Process_popJumpTarget(process);
       } else {
         Arcadia_Process_popJumpTarget(process);
@@ -71,7 +71,7 @@ main1
       R_JumpTarget jumpTarget;
       Arcadia_Process_pushJumpTarget(process, &jumpTarget);
       if (R_JumpTarget_save(&jumpTarget)) {
-        R_Value_setInteger32Value(&height, R_String_toInteger32(process, value));
+        Arcadia_Value_setInteger32Value(&height, R_String_toInteger32(process, value));
         Arcadia_Process_popJumpTarget(process);
       } else {
         Arcadia_Process_popJumpTarget(process);
@@ -87,13 +87,13 @@ main1
     }
     fwrite(u8"\n", 1, sizeof(u8"\n") - 1, stdout);
   }
-  if (R_Value_isVoidValue(&target)) {
+  if (Arcadia_Value_isVoidValue(&target)) {
     R_CommandLine_raiseRequiredArgumentMissingError(process, R_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, u8"target", sizeof(u8"target") - 1)));
   }
-  if (R_Value_isVoidValue(&width)) {
+  if (Arcadia_Value_isVoidValue(&width)) {
     R_CommandLine_raiseRequiredArgumentMissingError(process, R_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, u8"width", sizeof(u8"width") - 1)));
   }
-  if (R_Value_isVoidValue(&height)) {
+  if (Arcadia_Value_isVoidValue(&height)) {
     R_CommandLine_raiseRequiredArgumentMissingError(process, R_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, u8"height", sizeof(u8"height") - 1)));
   }
 #if R_Configuration_OperatingSystem_Windows == R_Configuration_OperatingSystem
@@ -103,8 +103,8 @@ main1
 #else
   #error("environment not (yet) supported")
 #endif
-  PixelBuffer* pixelBuffer = PixelBuffer_create(process, 0, R_Value_getInteger32Value(&width), R_Value_getInteger32Value(&height), PixelFormat_An8Rn8Gn8Bn8);
-  ImageWriter_writePngToPath(process, imageWriter, pixelBuffer, R_Value_getObjectReferenceValue(&target));
+  PixelBuffer* pixelBuffer = PixelBuffer_create(process, 0, Arcadia_Value_getInteger32Value(&width), Arcadia_Value_getInteger32Value(&height), PixelFormat_An8Rn8Gn8Bn8);
+  ImageWriter_writePngToPath(process, imageWriter, pixelBuffer, Arcadia_Value_getObjectReferenceValue(&target));
 }
 
 int

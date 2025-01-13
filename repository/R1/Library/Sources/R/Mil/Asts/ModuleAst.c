@@ -66,7 +66,7 @@ static const Arcadia_Type_Operations _R_Mil_ModuleAst_typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"R.Mil.ModuleAst", R_Mil_ModuleAst, u8"R.Object", R_Object, &_R_Mil_ModuleAst_typeOperations);
+Rex_defineObjectType(u8"R.Mil.ModuleAst", R_Mil_ModuleAst, u8"Arcadia.Object", R_Object, &_R_Mil_ModuleAst_typeOperations);
 
 static void
 R_Mil_ModuleAst_constructImpl
@@ -77,10 +77,10 @@ R_Mil_ModuleAst_constructImpl
     R_Value* argumentValues
   )
 {
-  R_Mil_ModuleAst* _self = R_Value_getObjectReferenceValue(self);
+  R_Mil_ModuleAst* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Mil_ModuleAst_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   _self->definitions = R_List_create(process);
@@ -103,7 +103,7 @@ R_Mil_ModuleAst_create
     Arcadia_Process* process
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
   R_Mil_ModuleAst* self = R_allocateObject(process, _R_Mil_ModuleAst_getType(process), 0, &argumentValues[0]);
   return self;
 }
@@ -116,7 +116,7 @@ R_Mil_ModuleAst_appendDefinition
     R_Mil_DefinitionAst* definition
   )
 { 
-  R_List_appendObjectReferenceValue(process, self->definitions, (R_ObjectReferenceValue)definition);
+  R_List_appendObjectReferenceValue(process, self->definitions, (Arcadia_ObjectReferenceValue)definition);
 }
 
 Arcadia_SizeValue
@@ -135,7 +135,7 @@ R_Mil_ModuleAst_getDefinitionAt
   )
 {
   R_Value definitionAstValue = R_List_getAt(process, self->definitions, index);
-  R_Mil_DefinitionAst* definitionAst = R_Value_getObjectReferenceValue(&definitionAstValue);
+  R_Mil_DefinitionAst* definitionAst = Arcadia_Value_getObjectReferenceValue(&definitionAstValue);
   return definitionAst;
 }
 

@@ -19,7 +19,6 @@
 
 #include "R/Object.h"
 #include "R/Utf8.h"
-#include "R/Value.h"
 
 #define CodePoint_Start (R_Utf8CodePoint_Last + 1)
 #define CodePoint_End (R_Utf8CodePoint_Last + 2)
@@ -225,21 +224,21 @@ R_Utf8ByteBufferReader_constructImpl
     R_Value* argumentValues
   )
 {
-  R_Utf8ByteBufferReader* _self = R_Value_getObjectReferenceValue(self);
+  R_Utf8ByteBufferReader* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Utf8ByteBufferReader_getType(process);
   {
-    R_Value argumentValues[] =  { { .tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void }, };
+    R_Value argumentValues[] =  { { .tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void }, };
     Rex_superTypeConstructor(process, _type, self, 0, & argumentValues[0]);
   }
   if (1 != numberOfArgumentValues) {
     Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Process_jump(process);
   }
-  if (!Arcadia_Type_isSubType(R_Value_getType(process, &argumentValues[0]), _R_ByteBuffer_getType(process))) {
+  if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, &argumentValues[0]), _R_ByteBuffer_getType(process))) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
-  _self->source = R_Value_getObjectReferenceValue(&argumentValues[0]);
+  _self->source = Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
   _self->byteIndex = 0;
   _self->codePoint = CodePoint_Start;
   ((R_Utf8Reader*)_self)->getByteIndex = (Arcadia_SizeValue(*)(R_Utf8Reader*)) & R_Utf8ByteBufferReader_getByteIndexImpl;
@@ -256,7 +255,7 @@ R_Utf8ByteBufferReader_create
     R_ByteBuffer* source
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_ObjectReference, .objectReferenceValue = source }, };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = source }, };
   R_Utf8ByteBufferReader* self = R_allocateObject(process, _R_Utf8ByteBufferReader_getType(process), 1, &argumentValues[0]);
   return self;
 }

@@ -106,8 +106,8 @@ execute1
             argumentValues[i] = *R_Interpreter_ThreadState_getRegisterAt(thread, argumentIndex);
           }
         }
-        if (R_Value_isForeignProcedureValue(&calleeValue)) {
-          Arcadia_ForeignProcedureValue foreignProcedureValue = R_Value_getForeignProcedureValue(&calleeValue);
+        if (Arcadia_Value_isForeignProcedureValue(&calleeValue)) {
+          Arcadia_ForeignProcedureValue foreignProcedureValue = Arcadia_Value_getForeignProcedureValue(&calleeValue);
           R_Interpreter_ThreadState_beginForeignProcedureCall(thread, 0, foreignProcedureValue);
           R_JumpTarget jumpTarget;
           Arcadia_Process_pushJumpTarget(process, &jumpTarget);
@@ -120,8 +120,8 @@ execute1
             R_Interpreter_ThreadState_endCall(thread); // Must not fail.
             Arcadia_Process_jump(process);
           }
-        } else if (R_Value_isObjectReferenceValue(&calleeValue)) {
-          R_Object* object = R_Value_getObjectReferenceValue(&calleeValue);
+        } else if (Arcadia_Value_isObjectReferenceValue(&calleeValue)) {
+          R_Object* object = Arcadia_Value_getObjectReferenceValue(&calleeValue);
           if (Arcadia_Type_isSubType(R_Object_getType(object), _R_Interpreter_Procedure_getType(process))) {
             R_Interpreter_ThreadState_beginProcedureCall(thread, 0, (R_Interpreter_Procedure*)object);
           } else {

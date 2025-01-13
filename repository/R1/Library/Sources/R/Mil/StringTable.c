@@ -82,7 +82,7 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"R.Mil.StringTable", R_Mil_StringTable, u8"R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType(u8"R.Mil.StringTable", R_Mil_StringTable, u8"Arcadia.Object", R_Object, &_typeOperations);
 
 static void
 R_Mil_StringTable_constructImpl
@@ -93,10 +93,10 @@ R_Mil_StringTable_constructImpl
     R_Value* argumentValues
   )
 {
-  R_Mil_StringTable* _self = R_Value_getObjectReferenceValue(self);
+  R_Mil_StringTable* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Mil_StringTable_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   _self->buckets = NULL;
@@ -145,7 +145,7 @@ R_Mil_StringTable_maybeResize_nojump
       while (oldBuckets[oldIndex]) {
         R_Mil_StringTable_Node* node = oldBuckets[oldIndex];
         oldBuckets[oldIndex] = oldBuckets[oldIndex]->next;
-        Arcadia_SizeValue hash = R_Object_hash(process, (R_ObjectReferenceValue)node->string);
+        Arcadia_SizeValue hash = R_Object_hash(process, (Arcadia_ObjectReferenceValue)node->string);
         Arcadia_SizeValue newIndex = hash % newCapacity;
         node->next = newBuckets[newIndex];
         newBuckets[newIndex] = node;
@@ -209,7 +209,7 @@ R_Mil_StringTable_create
     Arcadia_Process* process
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
   R_Mil_StringTable* self = R_allocateObject(process, _R_Mil_StringTable_getType(process), 0, &argumentValues[0]);
   return self;
 }
@@ -225,14 +225,14 @@ R_Mil_StringTable_getOrCreateString
   Arcadia_SizeValue hash = R_Mil_StringTable_hashBytes(R_StringBuffer_getBytes(stringBuffer), R_StringBuffer_getNumberOfBytes(stringBuffer));
   Arcadia_SizeValue index = hash % self->capacity;
   for (R_Mil_StringTable_Node* node = self->buckets[index]; NULL != node; node = node->next) {
-    if (R_Object_hash(process, (R_ObjectReferenceValue)node->string) == hash && R_String_getNumberOfBytes(node->string)) {
+    if (R_Object_hash(process, (Arcadia_ObjectReferenceValue)node->string) == hash && R_String_getNumberOfBytes(node->string)) {
       if (!c_memcmp(R_String_getBytes(node->string), R_StringBuffer_getBytes(stringBuffer), R_String_getNumberOfBytes(node->string))) {
         return node->string;
       }
     }
   }
   R_Value temporary;
-  R_Value_setObjectReferenceValue(&temporary, stringBuffer);
+  Arcadia_Value_setObjectReferenceValue(&temporary, stringBuffer);
   R_String* string = R_String_create(process, temporary);
   R_Mil_StringTable_Node* node = NULL;
   if (!R_allocateUnmanaged_nojump(process, &node, sizeof(R_Mil_StringTable_Node))) {

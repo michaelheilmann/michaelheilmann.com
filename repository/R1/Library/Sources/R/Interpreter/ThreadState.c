@@ -20,7 +20,6 @@
 #include "R/ArmsIntegration.h"
 #include "R/Object.h"
 #include "R/DynamicArrayUtilities.h"
-#include "R/Value.h"
 
 #define R_Configuration_DefaultNumberOfArgumentRegisters 32
 #define R_Configuration_DefaultNumberOfRegisters 256
@@ -71,7 +70,7 @@ R_Interpreter_ThreadState_create
     Arcadia_Process_jump(process);
   }
   for (Arcadia_SizeValue i = 0, n = thread->numberOfRegisters; i < n; ++i) {
-    R_Value_setVoidValue(thread->registers + i, Arcadia_VoidValue_Void);
+    Arcadia_Value_setVoidValue(thread->registers + i, Arcadia_VoidValue_Void);
   }
 
   if (!R_allocateUnmanaged_nojump(process, &thread->calls.elements, sizeof(R_CallState))) {
@@ -109,7 +108,7 @@ R_Interpreter_ThreadState_visit
   )
 {
   for (Arcadia_SizeValue i = 0, n = thread->numberOfRegisters; i < n; ++i) {
-    R_Value_visit(thread->registers + i);
+    Arcadia_Value_visit(thread->registers + i);
   }
   for (Arcadia_SizeValue i = 0, n = thread->calls.size; i < n; ++i) {
     R_CallState* callState = &(thread->calls.elements[i]);

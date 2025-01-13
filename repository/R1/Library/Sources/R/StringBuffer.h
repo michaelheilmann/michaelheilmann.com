@@ -19,14 +19,13 @@
 #define R_STRINGBUFFER_H_INCLUDED
 
 #include "R/Object.h"
-#include "R/Value.h"
 
 /// @code
 /// class StringBuffer {
 ///   constructor()
 /// }
 /// @endcode
-Rex_declareObjectType(u8"R.StringBuffer", R_StringBuffer, u8"R.Object");
+Rex_declareObjectType(u8"R.StringBuffer", R_StringBuffer, u8"Arcadia.Object");
 
 struct R_StringBuffer {
   R_Object _parent;

@@ -17,8 +17,8 @@
 
 #include "Arcadia/Ring1/Implementation/Real32.h"
 
+#include "Arcadia/Ring1/Implementation/_defineScalarType.h"
 #include "Arcadia/Ring1/Include.h"
-#include "R/Value.h"
 
 // (integer|natural)(8|16) can be represented exactly by real32
 // (integer|natural)(32) can be represented exactly by real64
@@ -158,22 +158,22 @@ add
     R_Value const* other
   )
 {
-  if (R_Value_isReal32Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) + R_Value_getReal32Value(other));
-  } else if (R_Value_isReal64Value(other)) {
-    R_Value_setReal32Value(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) + R_Value_getReal64Value(other));
-  } else if (R_Value_isNatural8Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) + (Arcadia_Real32Value)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) + (Arcadia_Real32Value)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
-    R_Value_setReal64Value(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) + (Arcadia_Real64Value)R_Value_getNatural32Value(other));
-  } else if (R_Value_isInteger8Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) + (Arcadia_Real32Value)R_Value_getInteger8Value(other));
-  } else if (R_Value_isInteger16Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) + (Arcadia_Real32Value)R_Value_getInteger16Value(other));
-  } else if (R_Value_isInteger32Value(other)) {
-    R_Value_setReal64Value(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) + (Arcadia_Real64Value)R_Value_getInteger32Value(other));
+  if (Arcadia_Value_isReal32Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) + Arcadia_Value_getReal32Value(other));
+  } else if (Arcadia_Value_isReal64Value(other)) {
+    Arcadia_Value_setReal32Value(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) + Arcadia_Value_getReal64Value(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) + (Arcadia_Real32Value)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) + (Arcadia_Real32Value)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
+    Arcadia_Value_setReal64Value(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) + (Arcadia_Real64Value)Arcadia_Value_getNatural32Value(other));
+  } else if (Arcadia_Value_isInteger8Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) + (Arcadia_Real32Value)Arcadia_Value_getInteger8Value(other));
+  } else if (Arcadia_Value_isInteger16Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) + (Arcadia_Real32Value)Arcadia_Value_getInteger16Value(other));
+  } else if (Arcadia_Value_isInteger32Value(other)) {
+    Arcadia_Value_setReal64Value(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) + (Arcadia_Real64Value)Arcadia_Value_getInteger32Value(other));
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
@@ -189,22 +189,22 @@ divide
     R_Value const* other
   )
 {
-  if (R_Value_isReal32Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) / R_Value_getReal32Value(other));
-  } else if (R_Value_isReal64Value(other)) {
-    R_Value_setReal32Value(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) / R_Value_getReal64Value(other));
-  } else if (R_Value_isNatural8Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) / (Arcadia_Real32Value)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) / (Arcadia_Real32Value)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
-    R_Value_setReal64Value(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) / (Arcadia_Real64Value)R_Value_getNatural32Value(other));
-  } else if (R_Value_isInteger8Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) / (Arcadia_Real32Value)R_Value_getInteger8Value(other));
-  } else if (R_Value_isInteger16Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) / (Arcadia_Real32Value)R_Value_getInteger16Value(other));
-  } else if (R_Value_isInteger32Value(other)) {
-    R_Value_setReal64Value(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) / (Arcadia_Real64Value)R_Value_getInteger32Value(other));
+  if (Arcadia_Value_isReal32Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) / Arcadia_Value_getReal32Value(other));
+  } else if (Arcadia_Value_isReal64Value(other)) {
+    Arcadia_Value_setReal32Value(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) / Arcadia_Value_getReal64Value(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) / (Arcadia_Real32Value)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) / (Arcadia_Real32Value)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
+    Arcadia_Value_setReal64Value(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) / (Arcadia_Real64Value)Arcadia_Value_getNatural32Value(other));
+  } else if (Arcadia_Value_isInteger8Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) / (Arcadia_Real32Value)Arcadia_Value_getInteger8Value(other));
+  } else if (Arcadia_Value_isInteger16Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) / (Arcadia_Real32Value)Arcadia_Value_getInteger16Value(other));
+  } else if (Arcadia_Value_isInteger32Value(other)) {
+    Arcadia_Value_setReal64Value(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) / (Arcadia_Real64Value)Arcadia_Value_getInteger32Value(other));
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
@@ -220,24 +220,24 @@ equalTo
     R_Value const* other
   )
 {
-  if (R_Value_isReal32Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) == R_Value_getReal32Value(other));
-  } else if (R_Value_isReal64Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) == R_Value_getReal64Value(other));
-  } else if (R_Value_isInteger8Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) == (Arcadia_Real32Value)R_Value_getInteger8Value(other));
-  } else if (R_Value_isInteger16Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) == (Arcadia_Real32Value)R_Value_getInteger16Value(other));
-  } else if (R_Value_isInteger32Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) == (Arcadia_Real64Value)R_Value_getInteger32Value(other));
-  } else if (R_Value_isNatural8Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) == (Arcadia_Real32Value)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) == (Arcadia_Real32Value)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) == (Arcadia_Real64Value)R_Value_getNatural32Value(other));
+  if (Arcadia_Value_isReal32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) == Arcadia_Value_getReal32Value(other));
+  } else if (Arcadia_Value_isReal64Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) == Arcadia_Value_getReal64Value(other));
+  } else if (Arcadia_Value_isInteger8Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) == (Arcadia_Real32Value)Arcadia_Value_getInteger8Value(other));
+  } else if (Arcadia_Value_isInteger16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) == (Arcadia_Real32Value)Arcadia_Value_getInteger16Value(other));
+  } else if (Arcadia_Value_isInteger32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) == (Arcadia_Real64Value)Arcadia_Value_getInteger32Value(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) == (Arcadia_Real32Value)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) == (Arcadia_Real32Value)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) == (Arcadia_Real64Value)Arcadia_Value_getNatural32Value(other));
   } else {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
   }
 }
 
@@ -250,22 +250,22 @@ greaterThan
     R_Value const* other
   )
 {
-  if (R_Value_isReal32Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) > R_Value_getReal32Value(other));
-  } else if (R_Value_isReal64Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) > R_Value_getReal64Value(other));
-  } else if (R_Value_isInteger8Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) > (Arcadia_Real32Value)R_Value_getInteger8Value(other));
-  } else if (R_Value_isInteger16Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) > (Arcadia_Real32Value)R_Value_getInteger16Value(other));
-  } else if (R_Value_isInteger32Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) > (Arcadia_Real64Value)R_Value_getInteger32Value(other));
-  } else if (R_Value_isNatural8Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) > (Arcadia_Real32Value)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) > (Arcadia_Real32Value)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) > (Arcadia_Real64Value)R_Value_getNatural32Value(other));
+  if (Arcadia_Value_isReal32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) > Arcadia_Value_getReal32Value(other));
+  } else if (Arcadia_Value_isReal64Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) > Arcadia_Value_getReal64Value(other));
+  } else if (Arcadia_Value_isInteger8Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) > (Arcadia_Real32Value)Arcadia_Value_getInteger8Value(other));
+  } else if (Arcadia_Value_isInteger16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) > (Arcadia_Real32Value)Arcadia_Value_getInteger16Value(other));
+  } else if (Arcadia_Value_isInteger32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) > (Arcadia_Real64Value)Arcadia_Value_getInteger32Value(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) > (Arcadia_Real32Value)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) > (Arcadia_Real32Value)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) > (Arcadia_Real64Value)Arcadia_Value_getNatural32Value(other));
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
@@ -281,22 +281,22 @@ greaterThanOrEqualTo
     R_Value const* other
   )
 {
-  if (R_Value_isReal32Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) >= R_Value_getReal32Value(other));
-  } else if (R_Value_isReal64Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) >= R_Value_getReal64Value(other));
-  } else if (R_Value_isInteger8Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) >= (Arcadia_Real32Value)R_Value_getInteger8Value(other));
-  } else if (R_Value_isInteger16Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) >= (Arcadia_Real32Value)R_Value_getInteger16Value(other));
-  } else if (R_Value_isInteger32Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) >= (Arcadia_Real64Value)R_Value_getInteger32Value(other));
-  } else if (R_Value_isNatural8Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) >= (Arcadia_Real32Value)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) >= (Arcadia_Real32Value)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) >= (Arcadia_Real64Value)R_Value_getNatural32Value(other));
+  if (Arcadia_Value_isReal32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) >= Arcadia_Value_getReal32Value(other));
+  } else if (Arcadia_Value_isReal64Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) >= Arcadia_Value_getReal64Value(other));
+  } else if (Arcadia_Value_isInteger8Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) >= (Arcadia_Real32Value)Arcadia_Value_getInteger8Value(other));
+  } else if (Arcadia_Value_isInteger16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) >= (Arcadia_Real32Value)Arcadia_Value_getInteger16Value(other));
+  } else if (Arcadia_Value_isInteger32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) >= (Arcadia_Real64Value)Arcadia_Value_getInteger32Value(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) >= (Arcadia_Real32Value)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) >= (Arcadia_Real32Value)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) >= (Arcadia_Real64Value)Arcadia_Value_getNatural32Value(other));
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
@@ -311,7 +311,7 @@ hash
     R_Value const* self
   )
 {
-  Arcadia_Real32Value x = R_Value_getReal32Value(self);
+  Arcadia_Real32Value x = Arcadia_Value_getReal32Value(self);
   if (x == 0.f) {
     x = +0.f;
   }
@@ -320,7 +320,7 @@ hash
     Arcadia_Natural32Value natural32Value;
   } Union;
   Union v = { .real32Value = x };
-  R_Value_setSizeValue(target, (Arcadia_SizeValue)v.natural32Value);
+  Arcadia_Value_setSizeValue(target, (Arcadia_SizeValue)v.natural32Value);
 }
 
 static void
@@ -332,22 +332,22 @@ lowerThan
     R_Value const* other
   )
 {
-  if (R_Value_isReal32Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) < R_Value_getReal32Value(other));
-  } else if (R_Value_isReal64Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) < R_Value_getReal64Value(other));
-  } else if (R_Value_isInteger8Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) < (Arcadia_Real32Value)R_Value_getInteger8Value(other));
-  } else if (R_Value_isInteger16Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) < (Arcadia_Real32Value)R_Value_getInteger16Value(other));
-  } else if (R_Value_isInteger32Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) < (Arcadia_Real64Value)R_Value_getInteger32Value(other));
-  } else if (R_Value_isNatural8Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) < (Arcadia_Real32Value)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) < (Arcadia_Real32Value)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) < (Arcadia_Real64Value)R_Value_getNatural32Value(other));
+  if (Arcadia_Value_isReal32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) < Arcadia_Value_getReal32Value(other));
+  } else if (Arcadia_Value_isReal64Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) < Arcadia_Value_getReal64Value(other));
+  } else if (Arcadia_Value_isInteger8Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) < (Arcadia_Real32Value)Arcadia_Value_getInteger8Value(other));
+  } else if (Arcadia_Value_isInteger16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) < (Arcadia_Real32Value)Arcadia_Value_getInteger16Value(other));
+  } else if (Arcadia_Value_isInteger32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) < (Arcadia_Real64Value)Arcadia_Value_getInteger32Value(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) < (Arcadia_Real32Value)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) < (Arcadia_Real32Value)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) < (Arcadia_Real64Value)Arcadia_Value_getNatural32Value(other));
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
@@ -363,22 +363,22 @@ lowerThanOrEqualTo
     R_Value const* other
   )
 {
-  if (R_Value_isReal32Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) <= R_Value_getReal32Value(other));
-  } else if (R_Value_isReal64Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) <= R_Value_getReal64Value(other));
-  } else if (R_Value_isInteger8Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) <= (Arcadia_Real32Value)R_Value_getInteger8Value(other));
-  } else if (R_Value_isInteger16Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) <= (Arcadia_Real32Value)R_Value_getInteger16Value(other));
-  } else if (R_Value_isInteger32Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) <= (Arcadia_Real64Value)R_Value_getInteger32Value(other));
-  } else if (R_Value_isNatural8Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) <= (Arcadia_Real32Value)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) <= (Arcadia_Real32Value)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) <= (Arcadia_Real64Value)R_Value_getNatural32Value(other));
+  if (Arcadia_Value_isReal32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) <= Arcadia_Value_getReal32Value(other));
+  } else if (Arcadia_Value_isReal64Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) <= Arcadia_Value_getReal64Value(other));
+  } else if (Arcadia_Value_isInteger8Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) <= (Arcadia_Real32Value)Arcadia_Value_getInteger8Value(other));
+  } else if (Arcadia_Value_isInteger16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) <= (Arcadia_Real32Value)Arcadia_Value_getInteger16Value(other));
+  } else if (Arcadia_Value_isInteger32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) <= (Arcadia_Real64Value)Arcadia_Value_getInteger32Value(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) <= (Arcadia_Real32Value)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) <= (Arcadia_Real32Value)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) <= (Arcadia_Real64Value)Arcadia_Value_getNatural32Value(other));
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
@@ -394,22 +394,22 @@ multiply
     R_Value const* other
   )
 {
-  if (R_Value_isReal32Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) * R_Value_getReal32Value(other));
-  } else if (R_Value_isReal64Value(other)) {
-    R_Value_setReal32Value(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) * R_Value_getReal64Value(other));
-  } else if (R_Value_isInteger8Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) * (Arcadia_Real32Value)R_Value_getInteger8Value(other));
-  } else if (R_Value_isInteger16Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) * (Arcadia_Real32Value)R_Value_getInteger16Value(other));
-  } else if (R_Value_isInteger32Value(other)) {
-    R_Value_setReal64Value(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) * (Arcadia_Real64Value)R_Value_getInteger32Value(other));
-  } else if (R_Value_isNatural8Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) * (Arcadia_Real32Value)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) * (Arcadia_Real32Value)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
-    R_Value_setReal64Value(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) * (Arcadia_Real64Value)R_Value_getNatural32Value(other));
+  if (Arcadia_Value_isReal32Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) * Arcadia_Value_getReal32Value(other));
+  } else if (Arcadia_Value_isReal64Value(other)) {
+    Arcadia_Value_setReal32Value(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) * Arcadia_Value_getReal64Value(other));
+  } else if (Arcadia_Value_isInteger8Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) * (Arcadia_Real32Value)Arcadia_Value_getInteger8Value(other));
+  } else if (Arcadia_Value_isInteger16Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) * (Arcadia_Real32Value)Arcadia_Value_getInteger16Value(other));
+  } else if (Arcadia_Value_isInteger32Value(other)) {
+    Arcadia_Value_setReal64Value(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) * (Arcadia_Real64Value)Arcadia_Value_getInteger32Value(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) * (Arcadia_Real32Value)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) * (Arcadia_Real32Value)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
+    Arcadia_Value_setReal64Value(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) * (Arcadia_Real64Value)Arcadia_Value_getNatural32Value(other));
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
@@ -424,7 +424,7 @@ negate
     R_Value const* self
   )
 {
-  R_Value_setReal32Value(target, -R_Value_getReal32Value(self));
+  Arcadia_Value_setReal32Value(target, -Arcadia_Value_getReal32Value(self));
 }
 
 static void
@@ -436,24 +436,24 @@ notEqualTo
     R_Value const* other
   )
 {
-  if (R_Value_isReal32Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) != R_Value_getReal32Value(other));
-  } else if (R_Value_isReal64Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) != R_Value_getReal64Value(other));
-  } else if (R_Value_isInteger8Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) != (Arcadia_Real32Value)R_Value_getInteger8Value(other));
-  } else if (R_Value_isInteger16Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) != (Arcadia_Real32Value)R_Value_getInteger16Value(other));
-  } else if (R_Value_isInteger32Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) != (Arcadia_Real64Value)R_Value_getInteger32Value(other));
-  } else if (R_Value_isNatural8Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) != (Arcadia_Real32Value)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
-    R_Value_setBooleanValue(target, R_Value_getReal32Value(self) != (Arcadia_Real32Value)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
-    R_Value_setBooleanValue(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) != (Arcadia_Real64Value)R_Value_getNatural32Value(other));
+  if (Arcadia_Value_isReal32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) != Arcadia_Value_getReal32Value(other));
+  } else if (Arcadia_Value_isReal64Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) != Arcadia_Value_getReal64Value(other));
+  } else if (Arcadia_Value_isInteger8Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) != (Arcadia_Real32Value)Arcadia_Value_getInteger8Value(other));
+  } else if (Arcadia_Value_isInteger16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) != (Arcadia_Real32Value)Arcadia_Value_getInteger16Value(other));
+  } else if (Arcadia_Value_isInteger32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) != (Arcadia_Real64Value)Arcadia_Value_getInteger32Value(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) != (Arcadia_Real32Value)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getReal32Value(self) != (Arcadia_Real32Value)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
+    Arcadia_Value_setBooleanValue(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) != (Arcadia_Real64Value)Arcadia_Value_getNatural32Value(other));
   } else {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
   }
 }
 
@@ -466,22 +466,22 @@ subtract
     R_Value const* other
   )
 {
-  if (R_Value_isReal32Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) - R_Value_getReal32Value(other));
-  } else if (R_Value_isReal64Value(other)) {
-    R_Value_setReal32Value(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) - R_Value_getReal64Value(other));
-  } else if (R_Value_isInteger8Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) - (Arcadia_Real32Value)R_Value_getInteger8Value(other));
-  } else if (R_Value_isInteger16Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) - (Arcadia_Real32Value)R_Value_getInteger16Value(other));
-  } else if (R_Value_isInteger32Value(other)) {
-    R_Value_setReal64Value(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) - (Arcadia_Real64Value)R_Value_getInteger32Value(other));
-  } else if (R_Value_isNatural8Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) - (Arcadia_Real32Value)R_Value_getNatural8Value(other));
-  } else if (R_Value_isNatural16Value(other)) {
-    R_Value_setReal32Value(target, R_Value_getReal32Value(self) - (Arcadia_Real32Value)R_Value_getNatural16Value(other));
-  } else if (R_Value_isNatural32Value(other)) {
-    R_Value_setReal64Value(target, (Arcadia_Real64Value)R_Value_getReal32Value(self) - (Arcadia_Real64Value)R_Value_getNatural32Value(other));
+  if (Arcadia_Value_isReal32Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) - Arcadia_Value_getReal32Value(other));
+  } else if (Arcadia_Value_isReal64Value(other)) {
+    Arcadia_Value_setReal32Value(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) - Arcadia_Value_getReal64Value(other));
+  } else if (Arcadia_Value_isInteger8Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) - (Arcadia_Real32Value)Arcadia_Value_getInteger8Value(other));
+  } else if (Arcadia_Value_isInteger16Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) - (Arcadia_Real32Value)Arcadia_Value_getInteger16Value(other));
+  } else if (Arcadia_Value_isInteger32Value(other)) {
+    Arcadia_Value_setReal64Value(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) - (Arcadia_Real64Value)Arcadia_Value_getInteger32Value(other));
+  } else if (Arcadia_Value_isNatural8Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) - (Arcadia_Real32Value)Arcadia_Value_getNatural8Value(other));
+  } else if (Arcadia_Value_isNatural16Value(other)) {
+    Arcadia_Value_setReal32Value(target, Arcadia_Value_getReal32Value(self) - (Arcadia_Real32Value)Arcadia_Value_getNatural16Value(other));
+  } else if (Arcadia_Value_isNatural32Value(other)) {
+    Arcadia_Value_setReal64Value(target, (Arcadia_Real64Value)Arcadia_Value_getReal32Value(self) - (Arcadia_Real64Value)Arcadia_Value_getNatural32Value(other));
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);

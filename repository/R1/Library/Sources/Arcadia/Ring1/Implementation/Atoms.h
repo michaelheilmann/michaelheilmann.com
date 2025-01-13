@@ -18,7 +18,7 @@
 #if !defined(ARCADIA_RING1_IMPLEMENTATION_H_INCLUDED)
 #define ARCADIA_RING1_IMPLEMENTATION_H_INCLUDED
 
-#include "R/Configure.h"
+#include "Arcadia/Ring1/Implementation/Configure.h"
 #include "Arcadia/Ring1/Implementation/Boolean.h"
 #include "Arcadia/Ring1/Implementation/Natural8.h"
 #include "Arcadia/Ring1/Implementation/Size.h"
@@ -35,6 +35,10 @@
 /// letter : ('a' - 'z') | ('A' - 'Z')
 /// digit : '0' - '9'
 /// @endcode
+/// @remarks
+/// Caching: Atoms are kept in a dats structure which allows efficient lookup of an atom by a sequence of Bytes.
+/// Atoms maintain an age. Atoms below a certain age are marked as "life" during premark phase (unless purge cache is specified).
+/// If an atom is dead, then in the finalize callback, its ADDRESS and its HASH value are used to effieciently remove the atom from the set of atoms.
 typedef struct Arcadia_Atom Arcadia_Atom;
 /// @brief Type of a pointer to an atom.
 typedef Arcadia_Atom* Arcadia_AtomValue;

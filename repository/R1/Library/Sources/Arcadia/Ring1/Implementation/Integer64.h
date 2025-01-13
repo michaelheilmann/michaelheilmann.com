@@ -18,7 +18,7 @@
 #if !defined(R_INTEGER64VALUE_H_INCLUDED)
 #define R_INTEGER64VALUE_H_INCLUDED
 
-#include "R/Scalar.h"
+#include "Arcadia/Ring1/Implementation/_declareScalarType.h"
 #include "Arcadia/Ring1/Implementation/Process.h"
 #include "Arcadia/Ring1/Implementation/StaticAssert.h"
 #include <stdint.h>

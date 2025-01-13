@@ -69,33 +69,21 @@ struct R_Object {
   { \
     if (!g_##_cName##_type) { \
       Arcadia_TypeValue parentType = _##_cParentName##_getType(process); \
-      g_##_cName##_type = R_registerObjectType(process, _cilName, sizeof(_cilName) - 1, sizeof(_cName), parentType, _cTypeOperations, &_##_cName##_typeDestructing); \
+      g_##_cName##_type = Arcadia_registerObjectType(process, _cilName, sizeof(_cilName) - 1, sizeof(_cName), parentType, _cTypeOperations, &_##_cName##_typeDestructing); \
     } \
     return g_##_cName##_type; \
   }
 
-/// @todo Make static.
-void
-R_Object_constructImpl
-  (
-    Arcadia_Process* process,
-    R_Value* self,
-    Arcadia_SizeValue numberOfArgumentValues,
-    R_Value* argumentValues
-  );
 
-/*
- * @brief Allocate a "Core.Object" or derived type value.
- * Allocate a "Core.Object" value of the specified "Core.Object" or derived type "type".
- * This operation performs the following actions:
- * a) allocate memory of size "Core.Type.getValueSize(type)" at address "a".
- * b) ensure each field denoted by "type" and all its ancestor types is initialized to the default value "void".
- * c) the type of the object is "type" such that "Core.Object.getType(a)" returns "type".
- *
- * All fields of T and all its ancestor types are initialized to the default value "void".
- * @error Core.Status.ArgumentValueInvalid if "type" is "NULL"
- * @error Core.Status.AllocationFailed if step a) fails
- */
+/// @brief Allocate an "Arcadia.Object" or derived type value.
+/// @details
+/// Allocate an "Arcadia.Object" value of the specified "Arcadia.Object" or derived type type X.
+/// a) allocate memory of size "Arcadia_Type_getValueSize(type)" at address "a".
+/// b) cast that memory into an object
+/// b) invoke the constructor of type X with the specified number of argument values
+/// c) if any of the constructors fails
+/// @error Core.Status.ArgumentValueInvalid if "type" is "NULL"
+/// @error Core.Status.AllocationFailed if step a) fails
 void*
 R_allocateObject
   (

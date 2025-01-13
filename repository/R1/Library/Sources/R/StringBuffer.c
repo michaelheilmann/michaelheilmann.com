@@ -82,7 +82,7 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"R.StringBuffer", R_StringBuffer, u8"R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType(u8"R.StringBuffer", R_StringBuffer, u8"Arcadia.Object", R_Object, &_typeOperations);
 
 static void
 R_StringBuffer_constructImpl
@@ -93,10 +93,10 @@ R_StringBuffer_constructImpl
     R_Value* argumentValues
   )
 {
-  R_StringBuffer* _self = R_Value_getObjectReferenceValue(self);
+  R_StringBuffer* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_StringBuffer_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   _self->elements = NULL;
@@ -166,7 +166,7 @@ R_StringBuffer_create
     Arcadia_Process* process
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
   R_StringBuffer* self = R_allocateObject(process, _R_StringBuffer_getType(process), 0, &argumentValues[0]);
   return self;
 }
@@ -230,11 +230,11 @@ R_StringBuffer_append
     R_Value value
   )
 {
-  if (!R_Value_isObjectReferenceValue(&value)) {
+  if (!Arcadia_Value_isObjectReferenceValue(&value)) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
-  R_ObjectReferenceValue referenceValue = R_Value_getObjectReferenceValue(&value);
+  Arcadia_ObjectReferenceValue referenceValue = Arcadia_Value_getObjectReferenceValue(&value);
   if (Arcadia_Type_isSubType(R_Object_getType(referenceValue), _R_ByteBuffer_getType(process))) {
     R_ByteBuffer* object = (R_ByteBuffer*)referenceValue;
     if (!R_isUtf8(R_ByteBuffer_getBytes(object), R_ByteBuffer_getNumberOfBytes(object), NULL)) {

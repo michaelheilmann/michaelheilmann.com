@@ -230,7 +230,7 @@ onStatements
 {
   for (Arcadia_SizeValue i = 0, n = R_List_getSize(statements); i < n; ++i) {
     R_Value elementValue = R_List_getAt(process, statements, i);
-    R_ObjectReferenceValue objectElementValue = R_Value_getObjectReferenceValue(&elementValue);
+    Arcadia_ObjectReferenceValue objectElementValue = Arcadia_Value_getObjectReferenceValue(&elementValue);
     R_Mil_StatementAst* statement = (R_Mil_StatementAst*)objectElementValue;
     if (Arcadia_Type_isSubType(R_Object_getType(statement), _R_Mil_ReturnStatementAst_getType(process))) {
       onReturnStatement(process, interpreterProcessState, code, variables, (R_Mil_ReturnStatementAst*)statement);
@@ -297,9 +297,9 @@ onProcedureDefinition
     R_Mil_ProcedureDefinitionAst* definitionAst
   )
 {
-  R_Value k = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue = definitionAst->procedureName };
+  R_Value k = { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = definitionAst->procedureName };
   R_Value v = R_Map_get(process, symbolTable, k);
-  if (!R_Value_isVoidValue(&v)) {
+  if (!Arcadia_Value_isVoidValue(&v)) {
     Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
     Arcadia_Process_jump(process);
   }
@@ -314,13 +314,13 @@ onProcedureDefinition
       Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
       Arcadia_Process_jump(process);
     }
-    R_Value k = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue = definitionAst->nativeName };
+    R_Value k = { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = definitionAst->nativeName };
     R_Value v = R_Map_get(process, foreignProcedures, k);
-    if (R_Value_isVoidValue(&v)) {
+    if (Arcadia_Value_isVoidValue(&v)) {
       Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
       Arcadia_Process_jump(process);
     }
-    R_Interpreter_Procedure* procedure = R_Interpreter_Procedure_createForeign(process, definitionAst->procedureName, R_Value_getForeignProcedureValue(&v));
+    R_Interpreter_Procedure* procedure = R_Interpreter_Procedure_createForeign(process, definitionAst->procedureName, Arcadia_Value_getForeignProcedureValue(&v));
     R_Interpreter_ProcessState_defineGlobalProcedure(process, interpreterProcessState, procedure);
   } else {
     if (!definitionAst->procedureBody) {
@@ -344,9 +344,9 @@ onConstructorDefinition
   )
 {
   R_String* name = R_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, u8"<constructor>", c_strlen(u8"<constructor>")));
-  R_Value k = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue = name };
+  R_Value k = { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = name };
   R_Value v = R_Map_get(process, symbolTable, k);
-  if (!R_Value_isVoidValue(&v)) {
+  if (!Arcadia_Value_isVoidValue(&v)) {
     Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
     Arcadia_Process_jump(process);
   }
@@ -361,13 +361,13 @@ onConstructorDefinition
       Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
       Arcadia_Process_jump(process);
     }
-    R_Value k = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue = definitionAst->nativeName };
+    R_Value k = { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = definitionAst->nativeName };
     R_Value v = R_Map_get(process, foreignProcedures, k);
-    if (R_Value_isVoidValue(&v)) {
+    if (Arcadia_Value_isVoidValue(&v)) {
       Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
       Arcadia_Process_jump(process);
     }
-    R_Interpreter_Constructor* construcor = R_Interpreter_Constructor_createForeign(process, R_Value_getForeignProcedureValue(&v));
+    R_Interpreter_Constructor* construcor = R_Interpreter_Constructor_createForeign(process, Arcadia_Value_getForeignProcedureValue(&v));
     R_Interpreter_Class_addConstructor(process, enclosing, construcor);
   } else {
     if (!definitionAst->constructorBody) {
@@ -390,9 +390,9 @@ onMethodDefinition
     R_Mil_MethodDefinitionAst* definitionAst
   )
 {
-  R_Value k = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue = definitionAst->methodName };
+  R_Value k = { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = definitionAst->methodName };
   R_Value v = R_Map_get(process, symbolTable, k);
-  if (!R_Value_isVoidValue(&v)) {
+  if (!Arcadia_Value_isVoidValue(&v)) {
     Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
     Arcadia_Process_jump(process);
   }
@@ -407,13 +407,13 @@ onMethodDefinition
       Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
       Arcadia_Process_jump(process);
     }
-    R_Value k = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue = definitionAst->nativeName };
+    R_Value k = { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = definitionAst->nativeName };
     R_Value v = R_Map_get(process, foreignProcedures, k);
-    if (R_Value_isVoidValue(&v)) {
+    if (Arcadia_Value_isVoidValue(&v)) {
       Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
       Arcadia_Process_jump(process);
     }
-    R_Interpreter_Method* method = R_Interpreter_Method_createForeign(process, definitionAst->methodName, R_Value_getForeignProcedureValue(&v));
+    R_Interpreter_Method* method = R_Interpreter_Method_createForeign(process, definitionAst->methodName, Arcadia_Value_getForeignProcedureValue(&v));
     R_Interpreter_Class_addMethod(process, enclosing, method);
   } else {
     if (!definitionAst->methodBody) {
@@ -449,7 +449,7 @@ onClassBodyDefinition
   )
 {
   for (Arcadia_SizeValue i = 0, n = R_List_getSize(classBodyAst); i < n; ++i) {
-    R_ObjectReferenceValue element = R_List_getObjectReferenceValueAt(process, classBodyAst, i);
+    Arcadia_ObjectReferenceValue element = R_List_getObjectReferenceValueAt(process, classBodyAst, i);
     if (Arcadia_Type_isSubType(R_Object_getType(element), _R_Mil_ConstructorDefinitionAst_getType(process))) {
       onConstructorDefinition(process, interpreterProcessState, symbolTable, foreignProcedures, enclosing, element);
     } else if (Arcadia_Type_isSubType(R_Object_getType(element), _R_Mil_MethodDefinitionAst_getType(process))) {

@@ -17,9 +17,8 @@
 #define R_STACK_H_INCLUDED
 
 #include "R/Object.h"
-#include "R/Value.h"
 
-Rex_declareObjectType(u8"R.Stack", R_Stack, u8"R.Object");
+Rex_declareObjectType(u8"R.Stack", R_Stack, u8"Arcadia.Object");
 
 struct R_Stack {
   R_Object _parent;
@@ -114,7 +113,7 @@ Define(Arcadia_Natural8, Natural8, natural8)
 Define(Arcadia_Natural16, Natural16, natural16)
 Define(Arcadia_Natural32, Natural32, natural32)
 Define(Arcadia_Natural64, Natural64, natural64)
-Define(R_ObjectReference, ObjectReference, objectReference)
+Define(Arcadia_ObjectReference, ObjectReference, objectReference)
 Define(Arcadia_Size, Size, size)
 Define(Arcadia_Void, Void, void)
 

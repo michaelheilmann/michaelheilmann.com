@@ -76,18 +76,16 @@ typedef void (Arcadia_Type_TypeDestructingCallbackFunction)(void* context);
 typedef void Arcadia_Type;
 typedef Arcadia_Type* Arcadia_TypeValue;
 
-//typedef Arcadia_Type R_Type; ///< @deprecated
-typedef Arcadia_Type* R_TypeValue; ///< @deprecated
-
 /// An enumeration of the type kinds.
-typedef enum R_TypeKind {
+typedef enum Arcadia_TypeKind {
 
   /// The "internal" type kind.
   /// Examples of this type kind are
   /// - <code>Arcadia.Atom</code>
   /// - <code>Arcadia.ImmutableByteArray</code>
+  /// - <code>Arcadia.Memory</code>
   /// - <code>Arcadia.Type</code>
-  R_TypeKind_Internal,
+  Arcadia_TypeKind_Internal,
 
   /// The "scalar" type kind.
   /// Examples of this type are:
@@ -98,36 +96,24 @@ typedef enum R_TypeKind {
   /// - <code>Arcadia.Real(32|64)</code>
   /// - <code>Arcadia.Size</code>
   /// - <code>Arcadia.Void</code>
-  R_TypeKind_Scalar,
+  Arcadia_TypeKind_Scalar,
 
   /// The "object" type kind.
-  R_TypeKind_Object,
+  Arcadia_TypeKind_Object,
 
-} R_TypeKind;
-
-Arcadia_TypeValue
-_Arcadia_Type_getType
-  (
-    Arcadia_Process* process
-  );
-
-Arcadia_TypeValue
-_R_Atom_getType
-  (
-    Arcadia_Process* process
-  );
+} Arcadia_TypeKind;
 
 static inline void
 Arcadia_Type_visit
   (
-    R_TypeValue self
+    Arcadia_TypeValue self
   )
 {/*Intentionally empty.*/}
 
 Arcadia_SizeValue
 Arcadia_Type_hash
   (
-    R_TypeValue self
+    Arcadia_TypeValue self
   );
 
 /// @brief Get the size, in Bytes, of a value of this type.
@@ -178,7 +164,7 @@ Arcadia_Type_hasChildren
 /// @brief Get the type kind of this type.
 /// @param self A pointer to this type.
 /// @return The type kind of this type type.
-R_TypeKind
+Arcadia_TypeKind
 Arcadia_Type_getKind
   (
     Arcadia_TypeValue self
@@ -203,7 +189,7 @@ Arcadia_Type_isInternalKind
   (
     Arcadia_TypeValue self
   )
-{ return R_TypeKind_Internal == Arcadia_Type_getKind(self); }
+{ return Arcadia_TypeKind_Internal == Arcadia_Type_getKind(self); }
 
 /// @brief Get if this type is of the kind of type "scalar".
 /// @param self A pointer to this type.
@@ -213,7 +199,7 @@ Arcadia_Type_isScalarKind
   (
     Arcadia_TypeValue self
   )
-{ return R_TypeKind_Scalar == Arcadia_Type_getKind(self); }
+{ return Arcadia_TypeKind_Scalar == Arcadia_Type_getKind(self); }
 
 /// @brief Get if this type is of the kind of type "object".
 /// @param self A pointer to this type.
@@ -223,11 +209,11 @@ Arcadia_Type_isObjectKind
   (
     Arcadia_TypeValue self
   )
-{ return R_TypeKind_Object == Arcadia_Type_getKind(self); }
+{ return Arcadia_TypeKind_Object == Arcadia_Type_getKind(self); }
 
 /* Arcadia_Status_ArgumentValueInvalid, Arcadia_Status_AllocationFailed, Arcadia_Status_TypeExists */
 Arcadia_TypeValue
-R_registerInternalType
+Arcadia_registerInternalType
   (
     Arcadia_Process* process,
     char const* name,
@@ -238,7 +224,7 @@ R_registerInternalType
 
 /* Arcadia_Status_ArgumentValueInvalid, Arcadia_Status_AllocationFailed, Arcadia_Status_TypeExists */
 Arcadia_TypeValue
-R_registerScalarType
+Arcadia_registerScalarType
   (
     Arcadia_Process* process,
     char const* name,
@@ -249,7 +235,7 @@ R_registerScalarType
 
 /* Arcadia_Status_ArgumentValueInvalid, Arcadia_Status_AllocationFailed, Arcadia_Status_TypeExists */
 Arcadia_TypeValue
-R_registerObjectType
+Arcadia_registerObjectType
   (
     Arcadia_Process* process,
     char const* name,
@@ -262,7 +248,7 @@ R_registerObjectType
 
 /* Arcadia_Status_ArgumentValueInvalid, Arcadia_Status_TypeNotExists */
 Arcadia_TypeValue
-R_getType
+Arcadia_getType
   (
     Arcadia_Process* process,
     char const* name,
@@ -279,6 +265,33 @@ Arcadia_Type_Operations const*
 Arcadia_Type_getOperations
   (
     Arcadia_TypeValue type
+  );
+
+/// @brief Get the "Arcadia.Memory" type.
+/// @param process A pointer to the Arcadia_Process object.
+/// @return The "Arcadia.Memory" type.
+Arcadia_TypeValue
+_Arcadia_Memory_getType
+  (
+    Arcadia_Process* process
+  );
+
+/// @brief Get the "Arcadia.Type" type.
+/// @param process A pointer to the Arcadia_Proces object.
+/// @return The "Arcadia.Type" type.
+Arcadia_TypeValue
+_Arcadia_Type_getType
+  (
+    Arcadia_Process* process
+  );
+
+/// @brief Get the "Arcadia.Atom" type.
+/// @param process A pointer to the Arcadia_Proces object.
+/// @return The "Arcadia.Atom" type.
+Arcadia_TypeValue
+_R_Atom_getType
+  (
+    Arcadia_Process* process
   );
 
 #endif // ARCADIA_RING1_IMPLEMENTATION_TYPES_H_INCLUDED

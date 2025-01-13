@@ -23,7 +23,7 @@
 #include "R/Object.h"
 #include "Arcadia/Ring1/Implementation/Size.h"
 
-Rex_declareObjectType(u8"R.Utf8Reader", R_Utf8Reader, u8"R.Object");
+Rex_declareObjectType(u8"R.Utf8Reader", R_Utf8Reader, u8"Arcadia.Object");
 
 struct R_Utf8Reader {
   R_Object _parent;

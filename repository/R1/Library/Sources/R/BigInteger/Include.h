@@ -78,7 +78,7 @@
 //
 // If we select a good basis (e.g., UINT8_MAX or UINT64_MAX) we can represent most numbers by a single digit.
 // The current basis is UINT64_MAX.
-Rex_declareObjectType("R.BigInteger", R_BigInteger, "R.Object");
+Rex_declareObjectType("R.BigInteger", R_BigInteger, "Arcadia.Object");
 
 struct R_BigInteger {
   R_Object _parent;

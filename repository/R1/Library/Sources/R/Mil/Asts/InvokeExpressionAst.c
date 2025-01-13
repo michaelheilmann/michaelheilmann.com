@@ -67,7 +67,7 @@ static const Arcadia_Type_Operations _R_Mil_InvokeExpressionAst_typeOperations =
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"R.Mil.InvokeExpressionAst", R_Mil_InvokeExpressionAst, u8"R.Object", R_Object, &_R_Mil_InvokeExpressionAst_typeOperations);
+Rex_defineObjectType(u8"R.Mil.InvokeExpressionAst", R_Mil_InvokeExpressionAst, u8"Arcadia.Object", R_Object, &_R_Mil_InvokeExpressionAst_typeOperations);
 
 void
 R_Mil_InvokeExpressionAst_constructImpl
@@ -78,10 +78,10 @@ R_Mil_InvokeExpressionAst_constructImpl
     R_Value* argumentValues
   )
 {
-  R_Mil_InvokeExpressionAst* _self = R_Value_getObjectReferenceValue(self);
+  R_Mil_InvokeExpressionAst* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Mil_InvokeExpressionAst_getType(process);
   {
-    R_Value argumentValues[] = { { .tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
+    R_Value argumentValues[] = { { .tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
 
@@ -90,17 +90,17 @@ R_Mil_InvokeExpressionAst_constructImpl
     Arcadia_Process_jump(process);
   }
 
-  if (!Arcadia_Type_isSubType(R_Value_getType(process, &argumentValues[0]), _R_Mil_VariableOperandAst_getType(process))) {
+  if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, &argumentValues[0]), _R_Mil_VariableOperandAst_getType(process))) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
-  if (!Arcadia_Type_isSubType(R_Value_getType(process, &argumentValues[1]), _R_List_getType(process))) {
+  if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, &argumentValues[1]), _R_List_getType(process))) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
 
-  _self->callee = R_Value_getObjectReferenceValue(&argumentValues[0]);
-  _self->operands = R_Value_getObjectReferenceValue(&argumentValues[1]);
+  _self->callee = Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
+  _self->operands = Arcadia_Value_getObjectReferenceValue(&argumentValues[1]);
 
   R_Object_setType(_self, _type);
 }
@@ -124,8 +124,8 @@ R_Mil_InvokeExpressionAst_create
     R_List* operands
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_ObjectReference, .objectReferenceValue = (R_ObjectReferenceValue)callee },
-                               {.tag = R_ValueTag_ObjectReference, .objectReferenceValue = (R_ObjectReferenceValue)operands }, };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = (Arcadia_ObjectReferenceValue)callee },
+                               {.tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = (Arcadia_ObjectReferenceValue)operands }, };
   R_Mil_InvokeExpressionAst* self = R_allocateObject(process, _R_Mil_InvokeExpressionAst_getType(process), 2, &argumentValues[0]);
   return self;
 }

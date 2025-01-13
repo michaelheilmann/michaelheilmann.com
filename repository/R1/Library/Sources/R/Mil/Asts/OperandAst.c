@@ -56,7 +56,7 @@ static const Arcadia_Type_Operations _R_Mil_OperandAst_typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"R.Mil.OperandAst", R_Mil_OperandAst, u8"R.Object", R_Object, &_R_Mil_OperandAst_typeOperations);
+Rex_defineObjectType(u8"R.Mil.OperandAst", R_Mil_OperandAst, u8"Arcadia.Object", R_Object, &_R_Mil_OperandAst_typeOperations);
 
 static void
 R_Mil_OperandAst_constructImpl
@@ -67,10 +67,10 @@ R_Mil_OperandAst_constructImpl
     R_Value* argumentValues
   )
 {
-  R_Mil_OperandAst* _self = R_Value_getObjectReferenceValue(self);
+  R_Mil_OperandAst* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Mil_OperandAst_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   R_Object_setType(_self, _type);

@@ -18,7 +18,6 @@
 #include "Arcadia/Ring1/Implementation/countLeadingZeroes.h"
 
 #include "Arcadia/Ring1/Include.h"
-#include "R/Value.h"
 
 #if R_Configuration_CompilerC == R_Configuration_CompilerC_Msvc
 #include <intrin.h>

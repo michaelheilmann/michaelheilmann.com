@@ -317,7 +317,7 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"PixelBuffer", PixelBuffer, u8"R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType(u8"PixelBuffer", PixelBuffer, u8"Arcadia.Object", R_Object, &_typeOperations);
 
 static void
 PixelBuffer_constructImpl
@@ -329,17 +329,17 @@ PixelBuffer_constructImpl
   )
 {
   if (1 == numberOfArgumentValues) {
-    PixelBuffer* _self = R_Value_getObjectReferenceValue(self);
+    PixelBuffer* _self = Arcadia_Value_getObjectReferenceValue(self);
     Arcadia_TypeValue _type = _PixelBuffer_getType(process);
     {
-      R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+      R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
       Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
     }
-    if (!Arcadia_Type_isSubType(R_Value_getType(process, &argumentValues[0]), _PixelBuffer_getType(process))) {
+    if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, &argumentValues[0]), _PixelBuffer_getType(process))) {
       Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
       Arcadia_Process_jump(process);
     }
-    PixelBuffer* other = (PixelBuffer*)R_Value_getObjectReferenceValue(&argumentValues[0]);
+    PixelBuffer* other = (PixelBuffer*)Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
     _self->numberOfColumns = PixelBuffer_getNumberOfColumns(other);
     _self->numberOfRows = PixelBuffer_getNumberOfRows(other);
     _self->linePadding = PixelBuffer_getLinePadding(other);
@@ -353,32 +353,32 @@ PixelBuffer_constructImpl
     R_Object_setType((R_Object*)_self, _type);
   } else if (4 == numberOfArgumentValues) {
     Arcadia_TypeValue _type = _PixelBuffer_getType(process);
-    PixelBuffer* _self = R_Value_getObjectReferenceValue(self);
+    PixelBuffer* _self = Arcadia_Value_getObjectReferenceValue(self);
     {
-      R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+      R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
       Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
     }
-    if (!R_Value_isInteger32Value(&argumentValues[0])) {
+    if (!Arcadia_Value_isInteger32Value(&argumentValues[0])) {
       Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
       Arcadia_Process_jump(process);
     }
-    if (!R_Value_isInteger32Value(&argumentValues[1])) {
+    if (!Arcadia_Value_isInteger32Value(&argumentValues[1])) {
       Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
       Arcadia_Process_jump(process);
     }
-    if (!R_Value_isInteger32Value(&argumentValues[2])) {
+    if (!Arcadia_Value_isInteger32Value(&argumentValues[2])) {
       Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
       Arcadia_Process_jump(process);
     }
-    if (!R_Value_isNatural32Value(&argumentValues[3])) {
+    if (!Arcadia_Value_isNatural32Value(&argumentValues[3])) {
       Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
       Arcadia_Process_jump(process);
     }
     _self->bytes = NULL;
-    _self->pixelFormat = R_Value_getNatural32Value(&argumentValues[3]);
-    _self->numberOfColumns = R_Value_getInteger32Value(&argumentValues[1]);
-    _self->numberOfRows = R_Value_getInteger32Value(&argumentValues[2]);
-    _self->linePadding = R_Value_getInteger32Value(&argumentValues[0]);
+    _self->pixelFormat = Arcadia_Value_getNatural32Value(&argumentValues[3]);
+    _self->numberOfColumns = Arcadia_Value_getInteger32Value(&argumentValues[1]);
+    _self->numberOfRows = Arcadia_Value_getInteger32Value(&argumentValues[2]);
+    _self->linePadding = Arcadia_Value_getInteger32Value(&argumentValues[0]);
     Arcadia_SizeValue bytesPerPixel = 0;
     switch (_self->pixelFormat) {
       case PixelFormat_An8Bn8Gn8Rn8:
@@ -930,10 +930,10 @@ PixelBuffer_create
     Arcadia_Natural8Value pixelFormat
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_Integer32, .integer32Value = linePadding },
-                               {.tag = R_ValueTag_Integer32, .integer32Value = width },
-                               {.tag = R_ValueTag_Integer32, .integer32Value = height },
-                               {.tag = R_ValueTag_Natural32, .natural32Value = pixelFormat } };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Integer32, .integer32Value = linePadding },
+                               {.tag = Arcadia_ValueTag_Integer32, .integer32Value = width },
+                               {.tag = Arcadia_ValueTag_Integer32, .integer32Value = height },
+                               {.tag = Arcadia_ValueTag_Natural32, .natural32Value = pixelFormat } };
   PixelBuffer* self = R_allocateObject(process, _PixelBuffer_getType(process), 4, &argumentValues[0]);
   return self;
 }
@@ -945,7 +945,7 @@ PixelBuffer_createClone
     PixelBuffer* other
   )
 { 
-  R_Value argumentValues[] = { {.tag = R_ValueTag_ObjectReference, .objectReferenceValue = other } };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = other } };
   PixelBuffer* self = R_allocateObject(process, _PixelBuffer_getType(process), 1, &argumentValues[0]);
   return self;
 }

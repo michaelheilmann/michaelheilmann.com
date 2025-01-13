@@ -20,9 +20,8 @@
 
 #include "R/Object.h"
 #include "R/List.h"
-#include "R/Value.h"
 
-Rex_declareObjectType(u8"R.Map", R_Map, u8"R.Object");
+Rex_declareObjectType(u8"R.Map", R_Map, u8"Arcadia.Object");
 
 R_Map*
 R_Map_create

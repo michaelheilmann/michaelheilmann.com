@@ -16,7 +16,6 @@
 #include "Arcadia/Ring1/Implementation/TypeNameParser.h"
 
 #include "Arcadia/Ring1/Include.h"
-#include "R/Value.h"
 
 static bool
 isAlphabetic

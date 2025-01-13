@@ -25,8 +25,16 @@
 #include "R/cstdlib.h"
 #include "R/ArmsIntegration.h"
 #include "Arcadia/Ring1/Implementation/Atoms.h"
-#include "R/Value.h"
 #include "Arcadia/Ring1/Include.h"
+
+static void
+R_Object_constructImpl
+  (
+    Arcadia_Process* process,
+    R_Value* self,
+    Arcadia_SizeValue numberOfArgumentValues,
+    R_Value* argumentValues
+  );
 
 static void
 equalTo
@@ -80,6 +88,20 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
+void
+R_Object_constructImpl
+  (
+    Arcadia_Process* process,
+    R_Value* self,
+    Arcadia_SizeValue numberOfArgumentValues,
+    R_Value* argumentValues
+  )
+{
+  R_Object* _self = Arcadia_Value_getObjectReferenceValue(self);
+  Arcadia_TypeValue _type = Arcadia_getType(process, u8"Arcadia.Object", sizeof(u8"Arcadia.Object") - 1);
+  R_Object_setType(_self, _type);
+}
+
 static void
 equalTo
   (
@@ -89,10 +111,10 @@ equalTo
     R_Value const* other
   )
 {
-  if (!R_Value_isObjectReferenceValue(other)) {
-    R_Value_setBooleanValue(target, R_Value_getObjectReferenceValue(self) == R_Value_getObjectReferenceValue(other));
+  if (!Arcadia_Value_isObjectReferenceValue(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getObjectReferenceValue(self) == Arcadia_Value_getObjectReferenceValue(other));
   } else {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
   }
 }
 
@@ -104,7 +126,7 @@ hash
     R_Value const* self
   )
 {
-  R_Value_setSizeValue(target, (Arcadia_SizeValue)(uintptr_t)R_Value_getObjectReferenceValue(self));
+  Arcadia_Value_setSizeValue(target, (Arcadia_SizeValue)(uintptr_t)Arcadia_Value_getObjectReferenceValue(self));
 }
 
 static void
@@ -116,14 +138,14 @@ notEqualTo
     R_Value const* other
   )
 {
-  if (!R_Value_isObjectReferenceValue(other)) {
-    R_Value_setBooleanValue(target, R_Value_getObjectReferenceValue(self) != R_Value_getObjectReferenceValue(other));
+  if (!Arcadia_Value_isObjectReferenceValue(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getObjectReferenceValue(self) != Arcadia_Value_getObjectReferenceValue(other));
   } else {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
   }
 }
 
-#define ObjectTypeName "R.Object"
+#define ObjectTypeName u8"Arcadia.Object"
 
 typedef struct ObjectTag ObjectTag;
 
@@ -178,6 +200,9 @@ onFinalizeObject
   if (R_Arms_unlock(type)) {
     fprintf(stderr, "%s:%d: <error>\n", __FILE__, __LINE__);
   }
+  if (type == _Arcadia_Memory_getType(context)) {
+    return;
+  }
   while (type) {
     Arcadia_Type_DestructObjectCallbackFunction* destruct = Arcadia_Type_getDestructObjectCallbackFunction(type);
     if (destruct) {
@@ -198,6 +223,9 @@ onVisitObject
 {
   ObjectTag* objectTag = (ObjectTag*)object;
   Arcadia_TypeValue type = (Arcadia_TypeValue)objectTag->type;
+  if (type == _Arcadia_Memory_getType(context)) {
+    return;
+  }
   while (type) {
     Arcadia_Type_VisitObjectCallbackFunction* visit = Arcadia_Type_getVisitObjectCallbackFunction(type);
     if (visit) {
@@ -224,6 +252,9 @@ R_allocateObject
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
     Arcadia_Process_jump(process);
   }
+
+  Arcadia_Type* memoryType = _Arcadia_Memory_getType(process);
+
   ObjectTag* tag = NULL;
   if (SIZE_MAX - sizeof(ObjectTag) < Arcadia_Type_getValueSize(type)) {
     Arcadia_Process_setStatus(process, Arcadia_Status_AllocationFailed);
@@ -232,11 +263,11 @@ R_allocateObject
   if (!R_allocate_nojump(process, &tag, ObjectTypeName, sizeof(ObjectTypeName) - 1, sizeof(ObjectTag) + Arcadia_Type_getValueSize(type))) {
     Arcadia_Process_jump(process);
   }
-  tag->type = type;
-  if (R_Arms_lock(type)) {
+  tag->type = memoryType;
+  if (R_Arms_lock(memoryType)) {
     fprintf(stderr, "%s:%d: <error>\n", __FILE__, __LINE__);
   }
-  R_Value selfValue = { .tag = R_ValueTag_ObjectReference, .objectReferenceValue = (R_ObjectReferenceValue)(R_Object*)(tag + 1) };
+  R_Value selfValue = { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = (Arcadia_ObjectReferenceValue)(R_Object*)(tag + 1) };
   Arcadia_Type_getOperations(type)->objectTypeOperations->construct(process, &selfValue, numberOfArgumentValues, &argumentValues[0]);
   return (void*)(tag + 1);
 }
@@ -263,23 +294,9 @@ _R_Object_getType
     g_objectRegistered = Arcadia_BooleanValue_True;
   }
   if (!g__R_Object_type) {
-    g__R_Object_type = R_registerObjectType(process, u8"R.Object", sizeof(u8"R.Object") - 1, sizeof(R_Object), NULL, &_typeOperations, &typeDestructing);
+    g__R_Object_type = Arcadia_registerObjectType(process, ObjectTypeName, sizeof(ObjectTypeName) - 1, sizeof(R_Object), NULL, &_typeOperations, &typeDestructing);
   }
   return g__R_Object_type;
-}
-
-void
-R_Object_constructImpl
-  (
-    Arcadia_Process* process,
-    R_Value* self,
-    Arcadia_SizeValue numberOfArgumentValues,
-    R_Value* argumentValues
-  )
-{
-  R_Object* _self = R_Value_getObjectReferenceValue(self);
-  Arcadia_TypeValue _type = R_getType(process, u8"R.Object", sizeof(u8"R.Object") - 1);
-  R_Object_setType(_self, _type);
 }
 
 void
@@ -363,9 +380,9 @@ R_Object_hash
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(type);
   R_Value selfValue;
   R_Value resultValue;
-  R_Value_setObjectReferenceValue(&selfValue, (R_ObjectReferenceValue)self);
+  Arcadia_Value_setObjectReferenceValue(&selfValue, (Arcadia_ObjectReferenceValue)self);
   operations->hash(process, &resultValue, &selfValue);
-  return R_Value_getSizeValue(&resultValue);
+  return Arcadia_Value_getSizeValue(&resultValue);
 }
 
 R_Object*
@@ -380,9 +397,9 @@ R_Object_add
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(type);
   R_Value selfValue;
   R_Value resultValue;
-  R_Value_setObjectReferenceValue(&selfValue, (R_ObjectReferenceValue)self);
+  Arcadia_Value_setObjectReferenceValue(&selfValue, (Arcadia_ObjectReferenceValue)self);
   operations->add(process, &resultValue, &selfValue, other);
-  return R_Value_getObjectReferenceValue(&resultValue);
+  return Arcadia_Value_getObjectReferenceValue(&resultValue);
 }
 
 R_Object*
@@ -397,9 +414,9 @@ R_Object_subtract
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(type);
   R_Value selfValue;
   R_Value resultValue;
-  R_Value_setObjectReferenceValue(&selfValue, (R_ObjectReferenceValue)self);
+  Arcadia_Value_setObjectReferenceValue(&selfValue, (Arcadia_ObjectReferenceValue)self);
   operations->subtract(process, &resultValue, &selfValue, other);
-  return R_Value_getObjectReferenceValue(&resultValue);
+  return Arcadia_Value_getObjectReferenceValue(&resultValue);
 }
 
 Arcadia_BooleanValue
@@ -413,10 +430,10 @@ R_Object_equalTo
   Arcadia_TypeValue type = R_Object_getType(self);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(type);
   R_Value selfValue;
-  R_Value_setObjectReferenceValue(&selfValue, (R_ObjectReferenceValue)self);
+  Arcadia_Value_setObjectReferenceValue(&selfValue, (Arcadia_ObjectReferenceValue)self);
   R_Value resultValue;
   operations->equalTo(process, &resultValue, &selfValue, other);
-  return R_Value_getBooleanValue(&resultValue);
+  return Arcadia_Value_getBooleanValue(&resultValue);
 }
 
 Arcadia_BooleanValue
@@ -430,10 +447,10 @@ R_Object_greaterThan
   Arcadia_TypeValue type = R_Object_getType(self);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(type);
   R_Value selfValue;
-  R_Value_setObjectReferenceValue(&selfValue, (R_ObjectReferenceValue)self);
+  Arcadia_Value_setObjectReferenceValue(&selfValue, (Arcadia_ObjectReferenceValue)self);
   R_Value resultValue;
   operations->greaterThan(process, &resultValue, &selfValue, other);
-  return R_Value_getBooleanValue(&resultValue);
+  return Arcadia_Value_getBooleanValue(&resultValue);
 }
 
 Arcadia_BooleanValue
@@ -447,10 +464,10 @@ R_Object_greaterThanOrEqualTo
   Arcadia_TypeValue type = R_Object_getType(self);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(type);
   R_Value selfValue;
-  R_Value_setObjectReferenceValue(&selfValue, (R_ObjectReferenceValue)self);
+  Arcadia_Value_setObjectReferenceValue(&selfValue, (Arcadia_ObjectReferenceValue)self);
   R_Value resultValue;
   operations->greaterThanOrEqualTo(process, &resultValue, &selfValue, other);
-  return R_Value_getBooleanValue(&resultValue);
+  return Arcadia_Value_getBooleanValue(&resultValue);
 }
 
 Arcadia_BooleanValue
@@ -464,10 +481,10 @@ R_Object_lowerThan
   Arcadia_TypeValue type = R_Object_getType(self);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(type);
   R_Value selfValue;
-  R_Value_setObjectReferenceValue(&selfValue, (R_ObjectReferenceValue)self);
+  Arcadia_Value_setObjectReferenceValue(&selfValue, (Arcadia_ObjectReferenceValue)self);
   R_Value resultValue;
   operations->lowerThan(process, &resultValue, &selfValue, other);
-  return R_Value_getBooleanValue(&resultValue);
+  return Arcadia_Value_getBooleanValue(&resultValue);
 }
 
 Arcadia_BooleanValue
@@ -481,10 +498,10 @@ R_Object_lowerThanOrEqualTo
   Arcadia_TypeValue type = R_Object_getType(self);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(type);
   R_Value selfValue;
-  R_Value_setObjectReferenceValue(&selfValue, (R_ObjectReferenceValue)self);
+  Arcadia_Value_setObjectReferenceValue(&selfValue, (Arcadia_ObjectReferenceValue)self);
   R_Value resultValue;
   operations->lowerThanOrEqualTo(process, &resultValue, &selfValue, other);
-  return R_Value_getBooleanValue(&resultValue);
+  return Arcadia_Value_getBooleanValue(&resultValue);
 }
 
 Arcadia_BooleanValue
@@ -498,10 +515,10 @@ R_Object_notEqualTo
   Arcadia_TypeValue type = R_Object_getType(self);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(type);
   R_Value selfValue;
-  R_Value_setObjectReferenceValue(&selfValue, (R_ObjectReferenceValue)self);
+  Arcadia_Value_setObjectReferenceValue(&selfValue, (Arcadia_ObjectReferenceValue)self);
   R_Value resultValue;
   operations->notEqualTo(process, &resultValue, &selfValue, other);
-  return R_Value_getBooleanValue(&resultValue);
+  return Arcadia_Value_getBooleanValue(&resultValue);
 }
 
 R_String*
@@ -514,8 +531,8 @@ R_Object_toString
   Arcadia_TypeValue type = R_Object_getType(self);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(type);
   R_Value selfValue;
-  R_Value_setObjectReferenceValue(&selfValue, (R_ObjectReferenceValue)self);
+  Arcadia_Value_setObjectReferenceValue(&selfValue, (Arcadia_ObjectReferenceValue)self);
   R_Value resultValue;
   operations->toString(process, &resultValue, &selfValue);
-  return R_Value_getObjectReferenceValue(&resultValue);
+  return Arcadia_Value_getObjectReferenceValue(&resultValue);
 }

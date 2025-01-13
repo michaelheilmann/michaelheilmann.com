@@ -33,7 +33,7 @@
  * - string values
  * - void values
  */
-Rex_declareObjectType(u8"R.Interpreter.Code.Constants", R_Interpreter_Code_Constants, u8"R.Object");
+Rex_declareObjectType(u8"R.Interpreter.Code.Constants", R_Interpreter_Code_Constants, u8"Arcadia.Object");
 
 typedef struct Constant Constant;
 

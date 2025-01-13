@@ -20,10 +20,9 @@
 
 #include "Arcadia/Ring1/Include.h"
 #include "R/Object.h"
-#include "R/Value.h"
 #include "R/Interpreter/Include.h"
 
-Rex_declareObjectType(u8"R.Interpreter.Constructor", R_Interpreter_Constructor, u8"R.Object");
+Rex_declareObjectType(u8"R.Interpreter.Constructor", R_Interpreter_Constructor, u8"Arcadia.Object");
 
 struct R_Interpreter_Constructor {
   R_Object _parent;

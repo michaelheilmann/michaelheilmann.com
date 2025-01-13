@@ -18,8 +18,6 @@
 #include "Arcadia/Ring1/Implementation/Types.private.h"
 
 #include "Arcadia/Ring1/Include.h"
-#include "R/Value.h"
-
 #include "R/ArmsIntegration.h"
 #include "Arcadia/Ring1/Implementation/Atoms.private.h" ///< @todo A better solution is required for this.
 
@@ -250,7 +248,7 @@ Arcadia_Type_hasChildren
   return Arcadia_BooleanValue_False;
 }
 
-R_TypeKind
+Arcadia_TypeKind
 Arcadia_Type_getKind
   (
     Arcadia_TypeValue self
@@ -258,7 +256,7 @@ Arcadia_Type_getKind
 { return ((TypeNode*)self)->kind; }
 
 Arcadia_TypeValue
-R_registerInternalType
+Arcadia_registerInternalType
   (
     Arcadia_Process* process,
     char const* name,
@@ -278,7 +276,7 @@ R_registerInternalType
   if (!R_allocate_nojump(process, &typeNode, TypeNodeName, sizeof(TypeNodeName) - 1, sizeof(TypeNode))) {
     Arcadia_Process_jump(process);
   }
-  typeNode->kind = R_TypeKind_Internal;
+  typeNode->kind = Arcadia_TypeKind_Internal;
   typeNode->typeName = typeName;
   typeNode->typeOperations = typeOperations;
   typeNode->parentObjectType = NULL;
@@ -297,7 +295,7 @@ R_registerInternalType
 }
 
 Arcadia_TypeValue
-R_registerScalarType
+Arcadia_registerScalarType
   (
     Arcadia_Process* process,
     char const* name,
@@ -317,7 +315,7 @@ R_registerScalarType
   if (!R_allocate_nojump(process, &typeNode, TypeNodeName, sizeof(TypeNodeName) - 1, sizeof(TypeNode))) {
     Arcadia_Process_jump(process);
   }
-  typeNode->kind = R_TypeKind_Scalar;
+  typeNode->kind = Arcadia_TypeKind_Scalar;
   typeNode->typeName = typeName;
   typeNode->typeOperations = typeOperations;
   typeNode->parentObjectType = NULL;
@@ -336,7 +334,7 @@ R_registerScalarType
 }
 
 Arcadia_TypeValue
-R_registerObjectType
+Arcadia_registerObjectType
   (
     Arcadia_Process* process,
     char const* name,
@@ -358,7 +356,7 @@ R_registerObjectType
   if (!R_allocate_nojump(process, &typeNode, TypeNodeName, sizeof(TypeNodeName) - 1, sizeof(TypeNode))) {
     Arcadia_Process_jump(process);
   }
-  typeNode->kind = R_TypeKind_Object;
+  typeNode->kind = Arcadia_TypeKind_Object;
   typeNode->typeName = typeName;
   typeNode->typeOperations = typeOperations;
   typeNode->parentObjectType = parentObjectType;
@@ -392,7 +390,7 @@ Arcadia_Type_isSubType
   TypeNode* self1 = (TypeNode*)self;
   TypeNode* other1 = (TypeNode*)other;
   if (self1->kind == other1->kind) {
-    if (self1->kind == R_TypeKind_Object) {
+    if (self1->kind == Arcadia_TypeKind_Object) {
       do {
         if (self1 == other1) {
           return Arcadia_BooleanValue_True;
@@ -408,8 +406,8 @@ Arcadia_Type_isSubType
   }
 }
 
-R_TypeValue
-R_getType
+Arcadia_TypeValue
+Arcadia_getType
   (
     Arcadia_Process* process,
     char const* name,
@@ -450,6 +448,38 @@ Arcadia_Type_getOperations
   return typeNode->typeOperations;
 }
 
+Arcadia_SizeValue
+Arcadia_Type_hash
+  (
+    Arcadia_TypeValue self
+  )
+{ return Arcadia_Atom_getHash(Arcadia_Type_getName(self)); }
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+static TypeNode* g_memoryType = NULL;
+
+static void
+memoryTypeDestructing
+  (
+    void* context
+  )
+{ g_memoryType = NULL; }
+
+Arcadia_TypeValue
+_Arcadia_Memory_getType
+  (
+    Arcadia_Process* process
+  )
+{
+  if (!g_memoryType) {
+    g_memoryType = Arcadia_registerInternalType(process, u8"Arcadia.Memory", sizeof(u8"Arcadia.Memory") - 1, NULL, &memoryTypeDestructing);
+  }
+  return g_memoryType;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 static TypeNode* g_typeType = NULL;
 
 static void
@@ -468,10 +498,12 @@ _Arcadia_Type_getType
   )
 {
   if (!g_typeType) {
-    g_typeType = R_registerInternalType(process, u8"R.Internal.Type", sizeof(u8"R.Internal.Type") - 1, NULL, &typeTypeDestructing);
+    g_typeType = Arcadia_registerInternalType(process, u8"Arcadia.Type", sizeof(u8"Arcadia.Type") - 1, NULL, &typeTypeDestructing);
   }
   return g_typeType;
 }
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 static TypeNode* g_atomType = NULL;
 
@@ -491,14 +523,10 @@ _R_Atom_getType
   )
 { 
   if (!g_atomType) {
-    g_atomType = R_registerInternalType(process, u8"R.Internal.Atom", sizeof(u8"R.Internal.Atom") - 1, NULL, &atomTypeDestructing);
+    g_atomType = Arcadia_registerInternalType(process, u8"Arcadia.Atom", sizeof(u8"Arcadia.Atom") - 1, NULL, &atomTypeDestructing);
   }
   return g_atomType;
 }
 
-Arcadia_SizeValue
-Arcadia_Type_hash
-  (
-    R_TypeValue self
-  )
-{ return Arcadia_Atom_getHash(Arcadia_Type_getName(self)); }
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+

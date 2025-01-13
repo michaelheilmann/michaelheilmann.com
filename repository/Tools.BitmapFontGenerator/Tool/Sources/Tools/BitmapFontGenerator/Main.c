@@ -29,11 +29,11 @@ main1
   )
 {
   R_Value target;
-  R_Value_setVoidValue(&target,Arcadia_VoidValue_Void);
+  Arcadia_Value_setVoidValue(&target,Arcadia_VoidValue_Void);
   R_List* arguments = R_List_create(process);
   for (int argi = 1; argi < argc; ++argi) {
     R_String* argument = R_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, argv[argi], strlen(argv[argi])));
-    R_List_appendObjectReferenceValue(process, arguments, (R_ObjectReferenceValue)argument);
+    R_List_appendObjectReferenceValue(process, arguments, (Arcadia_ObjectReferenceValue)argument);
   }
   for (Arcadia_SizeValue i = 0, n = R_List_getSize(arguments); i < n; ++i) {
     R_String* argument = (R_String*)R_List_getObjectReferenceValueAt(process, arguments, i);
@@ -48,7 +48,7 @@ main1
       if (!value) {
         R_CommandLine_raiseNoValueError(process, key);
       }
-      R_Value_setObjectReferenceValue(&target, value);
+      Arcadia_Value_setObjectReferenceValue(&target, value);
     } else {
       R_CommandLine_raiseUnknownArgumentError(process, key, value);
     }
@@ -59,7 +59,7 @@ main1
     }
     fwrite(u8"\n", 1, sizeof(u8"\n") - 1, stdout);
   }
-  if (R_Value_isVoidValue(&target)) {
+  if (Arcadia_Value_isVoidValue(&target)) {
     R_CommandLine_raiseRequiredArgumentMissingError(process, R_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, u8"target", sizeof(u8"target") - 1)));
   }
   TextureFontWindows* font = TextureFontWindows_create(process);
@@ -71,7 +71,7 @@ main1
 #else
   #error("environment not (yet) supported")
 #endif
-  ImageWriter_writePngToPath(process, imageWriter, pixelBuffer, R_Value_getObjectReferenceValue(&target));
+  ImageWriter_writePngToPath(process, imageWriter, pixelBuffer, Arcadia_Value_getObjectReferenceValue(&target));
 }
 
 int

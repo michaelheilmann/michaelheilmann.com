@@ -21,7 +21,7 @@ struct ImageWriterParameters {
   R_Object _parent;
   ImageWriterFormat format;
   // "object" either refers to a "R.ByteBuffer" object (if target is ImageWriter_Target_Memory) or a "R.String" object (if target is ImageWriter_Target_File).
-  R_ObjectReferenceValue object;
+  Arcadia_ObjectReferenceValue object;
 };
 
 static void
@@ -73,7 +73,7 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"ImageWriterParameters", ImageWriterParameters, u8"R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType(u8"ImageWriterParameters", ImageWriterParameters, u8"Arcadia.Object", R_Object, &_typeOperations);
 
 static void
 ImageWriterParameters_constructImpl
@@ -84,22 +84,22 @@ ImageWriterParameters_constructImpl
     R_Value* argumentValues
   )
 {
-  ImageWriterParameters* _self = R_Value_getObjectReferenceValue(self);
+  ImageWriterParameters* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _ImageWriterParameters_getType(process);
   if (2 != numberOfArgumentValues) {
     Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Process_jump(process);
   }
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
-  if (Arcadia_Type_isSubType(R_Value_getType(process, &argumentValues[0]), _R_String_getType(process))) {
-    _self->object = (R_ObjectReferenceValue)R_Value_getObjectReferenceValue(&argumentValues[0]);
-    _self->format = R_Value_getInteger32Value(&argumentValues[1]);
-  } else if (Arcadia_Type_isSubType(R_Value_getType(process, &argumentValues[0]), _R_ByteBuffer_getType(process))) {
-    _self->object = (R_ObjectReferenceValue)R_Value_getObjectReferenceValue(&argumentValues[0]);
-    _self->format = R_Value_getInteger32Value(&argumentValues[1]);
+  if (Arcadia_Type_isSubType(Arcadia_Value_getType(process, &argumentValues[0]), _R_String_getType(process))) {
+    _self->object = (Arcadia_ObjectReferenceValue)Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
+    _self->format = Arcadia_Value_getInteger32Value(&argumentValues[1]);
+  } else if (Arcadia_Type_isSubType(Arcadia_Value_getType(process, &argumentValues[0]), _R_ByteBuffer_getType(process))) {
+    _self->object = (Arcadia_ObjectReferenceValue)Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
+    _self->format = Arcadia_Value_getInteger32Value(&argumentValues[1]);
   } else {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
@@ -131,8 +131,8 @@ ImageWriterParameters_createFile
     ImageWriterFormat format
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_ObjectReference, .objectReferenceValue = path },
-                               {.tag = R_ValueTag_Integer32, .integer32Value = format }, };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = path },
+                               {.tag = Arcadia_ValueTag_Integer32, .integer32Value = format }, };
   ImageWriterParameters* self = R_allocateObject(process, _ImageWriterParameters_getType(process), 2, &argumentValues[0]);
   return self;
 }
@@ -145,8 +145,8 @@ ImageWriterParameters_createByteBuffer
     ImageWriterFormat format
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_ObjectReference, .objectReferenceValue = byteBuffer },
-                               {.tag = R_ValueTag_Integer32, .integer32Value = format }, };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = byteBuffer },
+                               {.tag = Arcadia_ValueTag_Integer32, .integer32Value = format }, };
   ImageWriterParameters* self = R_allocateObject(process, _ImageWriterParameters_getType(process), 2, &argumentValues[0]);
   return self;
 }

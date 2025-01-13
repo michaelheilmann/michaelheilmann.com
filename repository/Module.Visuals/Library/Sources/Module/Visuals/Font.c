@@ -59,7 +59,7 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"TextureFontWindows", TextureFontWindows, u8"R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType(u8"TextureFontWindows", TextureFontWindows, u8"Arcadia.Object", R_Object, &_typeOperations);
 
 static void
 TextureFontWindows_constructImpl
@@ -70,10 +70,10 @@ TextureFontWindows_constructImpl
     R_Value* argumentValues
   )
 {
-  TextureFontWindows* _self = R_Value_getObjectReferenceValue(self);
+  TextureFontWindows* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _TextureFontWindows_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   //
@@ -128,7 +128,7 @@ TextureFontWindows_create
     Arcadia_Process* process
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
   TextureFontWindows* self = R_allocateObject(process, _TextureFontWindows_getType(process), 0, &argumentValues[0]);
   return self;
 }

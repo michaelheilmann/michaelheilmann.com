@@ -13,64 +13,47 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2025-01-01
+// Last modified: 2024-09-28
 
-#if !defined(ARCADIA_RING1_INCLUDE_H_INCLUDED)
-#define ARCADIA_RING1_INCLUDE_H_INCLUDED
-
-#include "Arcadia/Ring1/Implementation/Atoms.h"
+#if !defined(ARCADIA_RING1_IMPLEMENTATION_NEXTPOWEROFTWOGREATERTHANOREQUALTO_H_INCLUDED)
+#define ARCADIA_RING1_IMPLEMENTATION_NEXTPOWEROFTWOGREATERTHANOREQUALTO_H_INCLUDED
 
 #include "Arcadia/Ring1/Implementation/Boolean.h"
-
-#include "Arcadia/Ring1/Implementation/clamp.h"
-
-#include "Arcadia/Ring1/Implementation/countLeadingZeroes.h"
-
-#include "Arcadia/Ring1/Implementation/ForeignProcedure.h"
-
-#include "Arcadia/Ring1/Implementation/hash.h"
-
-#include "Arcadia/Ring1/Implementation/getTickCount.h"
-
-#include "Arcadia/Ring1/Implementation/ImmutableByteArray.h"
 
 #include "Arcadia/Ring1/Implementation/Integer16.h"
 #include "Arcadia/Ring1/Implementation/Integer32.h"
 #include "Arcadia/Ring1/Implementation/Integer64.h"
 #include "Arcadia/Ring1/Implementation/Integer8.h"
 
-#include "Arcadia/Ring1/Implementation/isPowerOfTwo.h"
-
-#include "Arcadia/Ring1/Implementation/maximum.h"
-#include "Arcadia/Ring1/Implementation/minimum.h"
-
 #include "Arcadia/Ring1/Implementation/Natural16.h"
 #include "Arcadia/Ring1/Implementation/Natural32.h"
 #include "Arcadia/Ring1/Implementation/Natural64.h"
 #include "Arcadia/Ring1/Implementation/Natural8.h"
 
-#include "Arcadia/Ring1/Implementation/nextPowerOfTwoGreaterThan.h"
-#include "Arcadia/Ring1/Implementation/nextPowerOfTwoGreaterThanOrEqualTo.h"
-
-#include "Arcadia/Ring1/Implementation/NoReturn.h"
-
-#include "Arcadia/Ring1/Implementation/ObjectReference.h"
-
 #include "Arcadia/Ring1/Implementation/Process.h"
-
-#include "Arcadia/Ring1/Implementation/Real32.h"
-#include "Arcadia/Ring1/Implementation/Real64.h"
 
 #include "Arcadia/Ring1/Implementation/Size.h"
 
-#include "Arcadia/Ring1/Implementation/StaticAssert.h"
+#define Define(Type, Suffix) \
+  Type##Value \
+  Arcadia_nextPowerOfTwoGreaterThanOrEqualTo##Suffix##Value \
+    ( \
+      Arcadia_Process* process, \
+      Type##Value x \
+    ); 
 
-#include "Arcadia/Ring1/Implementation/swap.h"
+Define(Arcadia_Integer16, Integer16)
+Define(Arcadia_Integer32, Integer32)
+Define(Arcadia_Integer64, Integer64)
+Define(Arcadia_Integer8, Integer8)
 
-#include "Arcadia/Ring1/Implementation/Types.h"
+Define(Arcadia_Natural16, Natural16)
+Define(Arcadia_Natural32, Natural32)
+Define(Arcadia_Natural64, Natural64)
+Define(Arcadia_Natural8, Natural8)
 
-#include "Arcadia/Ring1/Implementation/Value.h"
+Define(Arcadia_Size, Size)
 
-#include "Arcadia/Ring1/Implementation/Void.h"
+#undef Define
 
-#endif // ARCADIA_RING1_INCLUDE_H_INCLUDED
+#endif // ARCADIA_RING1_IMPLEMENTATION_NEXTPOWEROFTWOGREATERTHANOREQUALTO_H_INCLUDED

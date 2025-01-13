@@ -25,7 +25,7 @@
 /// @code
 /// class R.Mil.OperandAst
 /// @endcode
-Rex_declareObjectType(u8"R.Mil.OperandAst", R_Mil_OperandAst, u8"R.Object");
+Rex_declareObjectType(u8"R.Mil.OperandAst", R_Mil_OperandAst, u8"Arcadia.Object");
 
 struct R_Mil_OperandAst {
   R_Object _parent;

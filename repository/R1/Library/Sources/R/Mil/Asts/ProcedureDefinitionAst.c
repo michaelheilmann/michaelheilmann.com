@@ -77,10 +77,10 @@ R_Mil_ProcedureDefinitionAst_constructImpl
     R_Value* argumentValues
   )
 {
-  R_Mil_ProcedureDefinitionAst* _self = R_Value_getObjectReferenceValue(self);
+  R_Mil_ProcedureDefinitionAst* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Mil_ProcedureDefinitionAst_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
 
@@ -88,7 +88,7 @@ R_Mil_ProcedureDefinitionAst_constructImpl
     Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Process_jump(process);
   }
-  _self->entry = R_Value_getBooleanValue(&argumentValues[0]);
+  _self->entry = Arcadia_Value_getBooleanValue(&argumentValues[0]);
   _self->nativeName = R_Argument_getObjectReferenceValueOrNull(process, &argumentValues[1], _R_String_getType(process));
   _self->procedureName = R_Argument_getObjectReferenceValue(process, &argumentValues[2], _R_String_getType(process));
   _self->procedureParameters = R_Argument_getObjectReferenceValue(process, &argumentValues[3], _R_List_getType(process));
@@ -124,16 +124,16 @@ R_Mil_ProcedureDefinitionAst_create
     R_List* procedureBody
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_Boolean, .booleanValue = entry },
-                               {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void },
-                               {.tag = R_ValueTag_ObjectReference, .objectReferenceValue = procedureName },
-                               {.tag = R_ValueTag_ObjectReference, .objectReferenceValue = procedureParameters },
-                               {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void }, };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Boolean, .booleanValue = entry },
+                               {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void },
+                               {.tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = procedureName },
+                               {.tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = procedureParameters },
+                               {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void }, };
   if (nativeName) {
-    R_Value_setObjectReferenceValue(&argumentValues[1], nativeName);
+    Arcadia_Value_setObjectReferenceValue(&argumentValues[1], nativeName);
   }
   if (procedureBody) {
-    R_Value_setObjectReferenceValue(&argumentValues[4], procedureBody);
+    Arcadia_Value_setObjectReferenceValue(&argumentValues[4], procedureBody);
   }
   R_Mil_ProcedureDefinitionAst* self = R_allocateObject(process, _R_Mil_ProcedureDefinitionAst_getType(process), 5, &argumentValues[0]);
   return self;

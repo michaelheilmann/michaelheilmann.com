@@ -21,10 +21,9 @@
 #include "Arcadia/Ring1/Include.h"
 #include "R/Interpreter/Code.h"
 #include "R/Object.h"
-#include "R/Value.h"
 #include "R/List.h"
 
-Rex_declareObjectType(u8"R.Interpreter.Method", R_Interpreter_Method, u8"R.Object");
+Rex_declareObjectType(u8"R.Interpreter.Method", R_Interpreter_Method, u8"Arcadia.Object");
 
 struct R_Interpreter_Method {
   R_Object _parent;

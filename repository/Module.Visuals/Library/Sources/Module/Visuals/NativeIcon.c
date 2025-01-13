@@ -52,7 +52,7 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"NativeIcon", NativeIcon, u8"R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType(u8"NativeIcon", NativeIcon, u8"Arcadia.Object", R_Object, &_typeOperations);
 
 static void
 NativeIcon_constructImpl
@@ -63,10 +63,10 @@ NativeIcon_constructImpl
     R_Value* argumentValues
   )
 {
-  NativeIcon* _self = R_Value_getObjectReferenceValue(self);
+  NativeIcon* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _NativeIcon_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (0 != numberOfArgumentValues) {

@@ -718,10 +718,10 @@ NativeWindowsImageWriter_constructImpl
     R_Value* argumentValues
   )
 {
-  NativeWindowsImageWriter* _self = R_Value_getObjectReferenceValue(self);
+  NativeWindowsImageWriter* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _NativeWindowsImageWriter_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   ((ImageWriter*)_self)->writeBmpToByteBuffer = (void (*)(Arcadia_Process*, ImageWriter*, PixelBuffer*,R_ByteBuffer*))NativeWindowsImageWriter_writeBmpToByteBufferImpl;
@@ -739,7 +739,7 @@ NativeWindowsImageWriter_create
     Arcadia_Process* process
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
   NativeWindowsImageWriter* self = R_allocateObject(process, _NativeWindowsImageWriter_getType(process), 0, &argumentValues[0]);
   return self;
 }

@@ -22,7 +22,7 @@
 
 /// @brief Code executed by the interpreter.
 /// @remarks Code executed by the interpreter is a sequence of Natural8 values.
-Rex_declareObjectType(u8"R.Interpreter.Code", R_Interpreter_Code, u8"R.Object");
+Rex_declareObjectType(u8"R.Interpreter.Code", R_Interpreter_Code, u8"Arcadia.Object");
 
 struct R_Interpreter_Code {
   R_Object _parent;

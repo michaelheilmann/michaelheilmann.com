@@ -97,8 +97,8 @@ Arcadia_Process_get
     Arcadia_Process** process
   );
 
-/// @undefined @a process does not refer to a Arcadia_Process object.
-/// @undefined @a jumpTarget does not point to an Arcadia_JumpTarget object.
+/// @undefined @a process does not refer to a Arcadia_Process object
+/// @undefined @a jumpTarget does not point to an Arcadia_JumpTarget object
 void
 Arcadia_Process_pushJumpTarget
   (
@@ -106,28 +106,32 @@ Arcadia_Process_pushJumpTarget
     R_JumpTarget* jumpTarget
   );
 
-/// @undefined @a process does not refer to a Arcadia_Process object.
-/// @undefined the jump target stack of the Arcadia_Process object is empty.
+/// @undefined @a process does not refer to a Arcadia_Process object
+/// @undefined the jump target stack of the Arcadia_Process object is empty
 void
 Arcadia_Process_popJumpTarget
   (
     Arcadia_Process* process
   );
 
-/// @undefined @a process does not refer to a Arcadia_Process object.
-/// @undefined the jump target stack of the Arcadia_Process object is empty.
+/// @undefined @a process does not refer to a Arcadia_Process object
+/// @undefined the jump target stack of the Arcadia_Process object is empty
 Arcadia_NoReturn() void
 Arcadia_Process_jump
   (
     Arcadia_Process* process
   );
 
+/// @return the status value
+/// @undefined @a process does not refer to a Arcadia_Process object
 Arcadia_Status
 Arcadia_Process_getStatus
   (
     Arcadia_Process* process
   );
 
+/// @param status the status value
+/// @undefined @a process does not refer to a Arcadia_Process object
 void
 Arcadia_Process_setStatus
   (

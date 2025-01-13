@@ -90,7 +90,7 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"R.List", R_List, u8"R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType(u8"R.List", R_List, u8"Arcadia.Object", R_Object, &_typeOperations);
 
 static void
 R_List_ensureFreeCapacity
@@ -155,11 +155,11 @@ R_List_constructImpl
     R_Value* argumentValues
   )
 {
-  R_List* _self = R_Value_getObjectReferenceValue(self);
+  R_List* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_List_getType(process);
   R_List_ensureInitialized(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   _self->elements = NULL;
@@ -170,7 +170,7 @@ R_List_constructImpl
     Arcadia_Process_jump(process);
   }
   for (Arcadia_SizeValue i = 0, n = _self->capacity; i < n; ++i) {
-    R_Value_setVoidValue(_self->elements + i, Arcadia_VoidValue_Void);
+    Arcadia_Value_setVoidValue(_self->elements + i, Arcadia_VoidValue_Void);
   }
   R_Object_setType((R_Object*)_self, _type);
 }
@@ -197,7 +197,7 @@ R_List_visit
 {
   if (self->elements) {
     for (Arcadia_SizeValue i = 0, n = self->size; i < n; ++i) {
-      R_Value_visit(self->elements + i);
+      Arcadia_Value_visit(self->elements + i);
     }
   }
 }
@@ -209,7 +209,7 @@ R_List_create
   )
 {
   R_List_ensureInitialized(process);
-  R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
   R_List* self = R_allocateObject(process, _R_List_getType(process), 0, &argumentValues[0]);
   return self;
 }
@@ -329,7 +329,7 @@ R_List_remove
     ) \
   { \
     R_Value value; \
-    R_Value_set##Suffix##Value(&value, Variable##Value); \
+    Arcadia_Value_set##Suffix##Value(&value, Variable##Value); \
     R_List_append(process, self, value); \
   } \
 \
@@ -342,7 +342,7 @@ R_List_remove
     ) \
   { \
     R_Value value; \
-    R_Value_set##Suffix##Value(&value, Variable##Value); \
+    Arcadia_Value_set##Suffix##Value(&value, Variable##Value); \
     R_List_prepend(process, self, value); \
   } \
 \
@@ -358,7 +358,7 @@ R_List_remove
       Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid); \
       Arcadia_Process_jump(process); \
     } \
-    return R_Value_is##Suffix##Value(self->elements + index); \
+    return Arcadia_Value_is##Suffix##Value(self->elements + index); \
   } \
 \
   Type##Value \
@@ -374,11 +374,11 @@ R_List_remove
       Arcadia_Process_jump(process); \
     } \
     R_Value* element = self->elements + index; \
-    if (!R_Value_is##Suffix##Value(element)) { \
+    if (!Arcadia_Value_is##Suffix##Value(element)) { \
       Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid); \
       Arcadia_Process_jump(process); \
     } \
-    return R_Value_get##Suffix##Value(element); \
+    return Arcadia_Value_get##Suffix##Value(element); \
   }
 
 Define(Arcadia_Boolean, Boolean, boolean)
@@ -391,7 +391,7 @@ Define(Arcadia_Natural8, Natural8, natural8)
 Define(Arcadia_Natural16, Natural16, natural16)
 Define(Arcadia_Natural32, Natural32, natural32)
 Define(Arcadia_Natural64, Natural64, natural64)
-Define(R_ObjectReference, ObjectReference, objectReference)
+Define(Arcadia_ObjectReference, ObjectReference, objectReference)
 Define(Arcadia_Size, Size, size)
 Define(Arcadia_Void, Void, void)
 

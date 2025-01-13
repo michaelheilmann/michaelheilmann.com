@@ -77,10 +77,10 @@ R_Mil_ConstructorDefinitionAst_constructImpl
     R_Value* argumentValues
   )
 {
-  R_Mil_ConstructorDefinitionAst* _self = R_Value_getObjectReferenceValue(self);
+  R_Mil_ConstructorDefinitionAst* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Mil_ConstructorDefinitionAst_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (3 != numberOfArgumentValues) {
@@ -115,15 +115,15 @@ R_Mil_ConstructorDefinitionAst_create
   )
 {
   R_Value argumentValues[] = {
-    {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void },
-    {.tag = R_ValueTag_ObjectReference, .objectReferenceValue = (R_ObjectReferenceValue)constructorParameters },
-    {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void },
+    {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void },
+    {.tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = (Arcadia_ObjectReferenceValue)constructorParameters },
+    {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void },
   };
   if (nativeName) {
-    R_Value_setObjectReferenceValue(&argumentValues[0], nativeName);
+    Arcadia_Value_setObjectReferenceValue(&argumentValues[0], nativeName);
   }
   if (constructorBody) {
-    R_Value_setObjectReferenceValue(&argumentValues[2], constructorBody);
+    Arcadia_Value_setObjectReferenceValue(&argumentValues[2], constructorBody);
   }
   R_Mil_ConstructorDefinitionAst* self = R_allocateObject(process, _R_Mil_ConstructorDefinitionAst_getType(process), 3, &argumentValues[0]);
   return self;

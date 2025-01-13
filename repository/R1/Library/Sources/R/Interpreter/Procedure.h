@@ -20,9 +20,8 @@
 #include "R/Interpreter/Code.h"
 #include "R/Object.h"
 #include "R/List.h"
-#include "R/Value.h"
 
-Rex_declareObjectType(u8"R.Interpreter.Procedure", R_Interpreter_Procedure, u8"R.Object");
+Rex_declareObjectType(u8"R.Interpreter.Procedure", R_Interpreter_Procedure, u8"Arcadia.Object");
 
 struct R_Interpreter_Procedure {
   R_Object _parent;

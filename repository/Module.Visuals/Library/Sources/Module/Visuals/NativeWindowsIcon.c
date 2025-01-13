@@ -59,7 +59,7 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"NativeWindowsIcon", NativeWindowsIcon, u8"R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType(u8"NativeWindowsIcon", NativeWindowsIcon, u8"Arcadia.Object", R_Object, &_typeOperations);
 
 // Arcadia_Integer32Value width
 // Arcadia_Integer32Value height
@@ -75,10 +75,10 @@ NativeWindowsIcon_constructImpl
     R_Value* argumentValues
   )
 {
-  NativeWindowsIcon* _self = R_Value_getObjectReferenceValue(self);
+  NativeWindowsIcon* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _NativeWindowsIcon_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
 
@@ -87,35 +87,35 @@ NativeWindowsIcon_constructImpl
     Arcadia_Process_jump(process);
   }
 
-  if (!R_Value_isInteger32Value(&argumentValues[0])) {
+  if (!Arcadia_Value_isInteger32Value(&argumentValues[0])) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
-  Arcadia_Integer32Value width = R_Value_getInteger32Value(&argumentValues[0]);
+  Arcadia_Integer32Value width = Arcadia_Value_getInteger32Value(&argumentValues[0]);
 
-  if (!R_Value_isInteger32Value(&argumentValues[1])) {
+  if (!Arcadia_Value_isInteger32Value(&argumentValues[1])) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
-  Arcadia_Integer32Value height = R_Value_getInteger32Value(&argumentValues[1]);
+  Arcadia_Integer32Value height = Arcadia_Value_getInteger32Value(&argumentValues[1]);
 
-  if (!R_Value_isNatural8Value(&argumentValues[2])) {
+  if (!Arcadia_Value_isNatural8Value(&argumentValues[2])) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
-  Arcadia_Natural8Value red = R_Value_getNatural8Value(&argumentValues[2]);
+  Arcadia_Natural8Value red = Arcadia_Value_getNatural8Value(&argumentValues[2]);
 
-  if (!R_Value_isNatural8Value(&argumentValues[3])) {
+  if (!Arcadia_Value_isNatural8Value(&argumentValues[3])) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
-  Arcadia_Natural8Value green = R_Value_getNatural8Value(&argumentValues[3]);
+  Arcadia_Natural8Value green = Arcadia_Value_getNatural8Value(&argumentValues[3]);
 
-  if (!R_Value_isNatural8Value(&argumentValues[4])) {
+  if (!Arcadia_Value_isNatural8Value(&argumentValues[4])) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
-  Arcadia_Natural8Value blue = R_Value_getNatural8Value(&argumentValues[4]);
+  Arcadia_Natural8Value blue = Arcadia_Value_getNatural8Value(&argumentValues[4]);
 
   HDC hMemDC;
   BITMAPV5HEADER bi;
@@ -262,11 +262,11 @@ NativeWindowsIcon_create
     Arcadia_Natural8Value blue
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_Integer32, .integer32Value = width },
-                               {.tag = R_ValueTag_Integer32, .integer32Value = height },
-                               {.tag = R_ValueTag_Natural8, .natural8Value = red },
-                               {.tag = R_ValueTag_Natural8, .natural8Value = green },
-                               {.tag = R_ValueTag_Natural8, .natural8Value = blue } };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Integer32, .integer32Value = width },
+                               {.tag = Arcadia_ValueTag_Integer32, .integer32Value = height },
+                               {.tag = Arcadia_ValueTag_Natural8, .natural8Value = red },
+                               {.tag = Arcadia_ValueTag_Natural8, .natural8Value = green },
+                               {.tag = Arcadia_ValueTag_Natural8, .natural8Value = blue } };
   NativeWindowsIcon* self = R_allocateObject(process, _NativeWindowsIcon_getType(process), 5, &argumentValues[0]);
   return self;
 }

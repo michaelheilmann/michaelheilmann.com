@@ -17,8 +17,8 @@
 
 #include "Arcadia/Ring1/Implementation/Boolean.h"
 
+#include "Arcadia/Ring1/Implementation/_defineScalarType.h"
 #include "Arcadia/Ring1/Include.h"
-#include "R/Value.h"
 
 static void
 and
@@ -101,11 +101,11 @@ and
     R_Value const* other
   )
 {
-  if (!R_Value_isBooleanValue(other)) {
+  if (!Arcadia_Value_isBooleanValue(other)) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
-  R_Value_setBooleanValue(target, R_Value_getBooleanValue(self) && R_Value_getBooleanValue(other));
+  Arcadia_Value_setBooleanValue(target, Arcadia_Value_getBooleanValue(self) && Arcadia_Value_getBooleanValue(other));
 }
 
 static void
@@ -117,10 +117,10 @@ equalTo
     R_Value const* other
   )
 { 
-  if (!R_Value_isBooleanValue(other)) {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
+  if (!Arcadia_Value_isBooleanValue(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
   } else {
-    R_Value_setBooleanValue(target, R_Value_getBooleanValue(self) == R_Value_getBooleanValue(other));
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getBooleanValue(self) == Arcadia_Value_getBooleanValue(other));
   }
 }
 
@@ -132,7 +132,7 @@ hash
     R_Value const* self
   )
 {
-  R_Value_setSizeValue(target, R_Value_getBooleanValue(self) ? 1231 : 1237);
+  Arcadia_Value_setSizeValue(target, Arcadia_Value_getBooleanValue(self) ? 1231 : 1237);
 }
 
 static void
@@ -143,7 +143,7 @@ not
     R_Value const* self
   )
 {
-  R_Value_setBooleanValue(target, !R_Value_getBooleanValue(self));
+  Arcadia_Value_setBooleanValue(target, !Arcadia_Value_getBooleanValue(self));
 }
 
 static void
@@ -155,10 +155,10 @@ notEqualTo
     R_Value const* other
   )
 {
-  if (!R_Value_isBooleanValue(other)) {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
+  if (!Arcadia_Value_isBooleanValue(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
   } else {
-    R_Value_setBooleanValue(target, R_Value_getBooleanValue(self) != R_Value_getBooleanValue(other));
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getBooleanValue(self) != Arcadia_Value_getBooleanValue(other));
   }
 }
 
@@ -171,11 +171,11 @@ or
     R_Value const* other
   )
 {
-  if (!R_Value_isBooleanValue(other)) {
+  if (!Arcadia_Value_isBooleanValue(other)) {
     Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Process_jump(process);
   }
-  R_Value_setBooleanValue(target, R_Value_getBooleanValue(self) || R_Value_getBooleanValue(other));
+  Arcadia_Value_setBooleanValue(target, Arcadia_Value_getBooleanValue(self) || Arcadia_Value_getBooleanValue(other));
 }
 
 Rex_defineScalarType(Arcadia_Boolean, "Arcadia.Boolean", &_typeOperations);

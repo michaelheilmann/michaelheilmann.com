@@ -89,7 +89,7 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"R.Mil.Parser", R_Mil_Parser, u8"R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType(u8"R.Mil.Parser", R_Mil_Parser, u8"Arcadia.Object", R_Object, &_typeOperations);
 
 static void
 R_Mil_Parser_constructImpl
@@ -100,10 +100,10 @@ R_Mil_Parser_constructImpl
     R_Value* argumentValues
   )
 {
-  R_Mil_Parser* _self = R_Value_getObjectReferenceValue(self);
+  R_Mil_Parser* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Mil_Parser_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   _self->scanner = R_Mil_Scanner_create(process);
@@ -168,7 +168,7 @@ R_Mil_Parser_create
     Arcadia_Process* process
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
   R_Mil_Parser* self = R_allocateObject(process, _R_Mil_Parser_getType(process), 0, &argumentValues[0]);
   return self;
 }
@@ -347,14 +347,14 @@ onInvokeExpression
   R_List* operands = R_List_create(process);
   if (!is(self, R_Mil_TokenType_EndOfInput) && !is(self, R_Mil_TokenType_RightParenthesis)) {
     R_Mil_OperandAst* operand = onOperand(process, self);
-    R_List_appendObjectReferenceValue(process, operands, (R_ObjectReferenceValue)operand);
+    R_List_appendObjectReferenceValue(process, operands, (Arcadia_ObjectReferenceValue)operand);
     while (is(self, R_Mil_TokenType_Comma) || is(self, R_Mil_TokenType_LineTerminator)) {
       if (is(self, R_Mil_TokenType_LineTerminator)) {
         continue;
       }
       next(process, self);
       operand = onOperand(process, self);
-      R_List_appendObjectReferenceValue(process, operands, (R_ObjectReferenceValue)operand);
+      R_List_appendObjectReferenceValue(process, operands, (Arcadia_ObjectReferenceValue)operand);
     }
   }
   if (!is(self, R_Mil_TokenType_RightParenthesis)) {
@@ -654,7 +654,7 @@ onParameters
     R_String* parameter = NULL;
     if (is(self, R_Mil_TokenType_Name)) {
       parameter = onParameter(process, self);
-      R_List_appendObjectReferenceValue(process, parameters, (R_ObjectReferenceValue)parameter);
+      R_List_appendObjectReferenceValue(process, parameters, (Arcadia_ObjectReferenceValue)parameter);
       while (is(self, R_Mil_TokenType_LineTerminator)) {
         next(process, self);
       }
@@ -664,7 +664,7 @@ onParameters
           next(process, self);
         }
         parameter = onParameter(process, self);
-        R_List_appendObjectReferenceValue(process, parameters, (R_ObjectReferenceValue)parameter);
+        R_List_appendObjectReferenceValue(process, parameters, (Arcadia_ObjectReferenceValue)parameter);
         while (is(self, R_Mil_TokenType_LineTerminator)) {
           next(process, self);
         }
@@ -717,7 +717,7 @@ onConstructorDefinition
     }
     while (!is(self, R_Mil_TokenType_EndOfInput) && !is(self, R_Mil_TokenType_RightCurlyBracket)) {
       R_Mil_StatementAst* statementAst = onStatement(process, self);
-      R_List_appendObjectReferenceValue(process, constructorBody, (R_ObjectReferenceValue)statementAst);
+      R_List_appendObjectReferenceValue(process, constructorBody, (Arcadia_ObjectReferenceValue)statementAst);
     }
     if (!is(self, R_Mil_TokenType_RightCurlyBracket)) {
       Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
@@ -782,7 +782,7 @@ onMethodDefinition
     }
     while (!is(self, R_Mil_TokenType_EndOfInput) && !is(self, R_Mil_TokenType_RightCurlyBracket)) {
       R_Mil_StatementAst* statementAst = onStatement(process, self);
-      R_List_appendObjectReferenceValue(process, methodBody, (R_ObjectReferenceValue)statementAst);
+      R_List_appendObjectReferenceValue(process, methodBody, (Arcadia_ObjectReferenceValue)statementAst);
     }
     if (!is(self, R_Mil_TokenType_RightCurlyBracket)) {
       Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
@@ -893,7 +893,7 @@ onClassDefinition
     classBody = R_List_create(process);  
     while (!is(self, R_Mil_TokenType_EndOfInput) && !is(self, R_Mil_TokenType_RightCurlyBracket)) {
       R_Mil_ClassMemberDefinitionAst* classMemberDefinitionAst = onClassMemberDefinition(process, self);
-      R_List_appendObjectReferenceValue(process, classBody, (R_ObjectReferenceValue)classMemberDefinitionAst);
+      R_List_appendObjectReferenceValue(process, classBody, (Arcadia_ObjectReferenceValue)classMemberDefinitionAst);
     }
     if (!is(self, R_Mil_TokenType_RightCurlyBracket)) {
       Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
@@ -957,7 +957,7 @@ onProcedureDefinition
     }
     while (!is(self, R_Mil_TokenType_EndOfInput) && !is(self, R_Mil_TokenType_RightCurlyBracket)) {
       R_Mil_StatementAst* statementAst = onStatement(process, self);
-      R_List_appendObjectReferenceValue(process, procedureBody, (R_ObjectReferenceValue)statementAst);
+      R_List_appendObjectReferenceValue(process, procedureBody, (Arcadia_ObjectReferenceValue)statementAst);
     }
     if (!is(self, R_Mil_TokenType_RightCurlyBracket)) {
       Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);

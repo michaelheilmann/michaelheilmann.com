@@ -35,25 +35,21 @@ Arcadia_Atoms_shutdown
   );
 
 /// Must be invoked before the pre mark phase.
+/// This marks all atoms.
+/// if now - lastVisited > threshold then the atom is marked live unless purgeCache is true
+/// otherwise it is marked dead
 void
 Arcadia_Atoms_onPreMark
   (
+    Arcadia_Process* process,
+    Arcadia_BooleanValue purgeCache
   );
 
-/// @brief
 /// Must be invoked after the finalize phase.
-/// @param purgeCache
-/// Purge the caches if @a Arcadia_BooleanValue_True.
-/// Otherwise perform @a Arcadia_BooleanValue_False retains the cahces.
-/// @remarks
-/// When an atom is visited, locked, or get (given a string), then its age is set to 0.
-/// If an atom is dead (not visited, not locked) in a garbage collection, then it is still retained unless its age exceeds a certain threshold.
-/// "purging" means that any dead atom is removed regardless of its age.
 void
 Arcadia_Atoms_onFinalize
   (
-    Arcadia_Process* process,
-    Arcadia_BooleanValue purgeCache
+    Arcadia_Process* process
   );
 
 #endif // ARCADIA_RING1_IMPLEMENTATION_ATOMS_PRIVATE_H_INCLUDED

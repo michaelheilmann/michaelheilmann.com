@@ -37,7 +37,7 @@
 ///                number of columns * bytesPerPixel + line padding
 /// - cell: A cell is uniquely adressed by its column index and its row index.
 ///         Each cell accomodates one pixel.
-Rex_declareObjectType(u8"PixelBuffer", PixelBuffer, u8"R.Object");
+Rex_declareObjectType(u8"PixelBuffer", PixelBuffer, u8"Arcadia.Object");
 
 struct PixelBuffer {
   R_Object _parent;

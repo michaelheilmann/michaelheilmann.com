@@ -18,7 +18,6 @@
 #include "R/Utf8Writer.h"
 
 #include "R/Object.h"
-#include "R/Value.h"
 #include "R/cstdlib.h"
 
 static void
@@ -56,7 +55,7 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"R.Utf8Writer", R_Utf8Writer, u8"R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType(u8"R.Utf8Writer", R_Utf8Writer, u8"Arcadia.Object", R_Object, &_typeOperations);
 
 static void
 R_Utf8Writer_constructImpl
@@ -67,11 +66,11 @@ R_Utf8Writer_constructImpl
     R_Value* argumentValues
   )
 {
-  R_Utf8Writer* _self = R_Value_getObjectReferenceValue(self);
+  R_Utf8Writer* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Utf8Writer_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
-    R_Object_constructImpl(process, self, 0, &argumentValues[0]);
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   _self->writeBytes = NULL;
   _self->writeCodePoints = NULL;

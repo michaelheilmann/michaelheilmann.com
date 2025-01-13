@@ -17,8 +17,8 @@
 
 #include "Arcadia/Ring1/Implementation/ForeignProcedure.h"
 
+#include "Arcadia/Ring1/Implementation/_defineScalarType.h"
 #include "Arcadia/Ring1/Include.h"
-#include "R/Value.h"
 
 static void
 equalTo
@@ -75,10 +75,10 @@ equalTo
     R_Value const* other
   )
 {
-  if (R_Value_isForeignProcedureValue(other)) {
-    R_Value_setBooleanValue(target, R_Value_getForeignProcedureValue(self) == R_Value_getForeignProcedureValue(other));
+  if (Arcadia_Value_isForeignProcedureValue(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getForeignProcedureValue(self) == Arcadia_Value_getForeignProcedureValue(other));
   } else {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
   }
 }
 
@@ -90,7 +90,7 @@ hash
     R_Value const* self
   )
 {
-  R_Value_setSizeValue(target, (Arcadia_SizeValue)(uintptr_t)R_Value_getForeignProcedureValue(self));
+  Arcadia_Value_setSizeValue(target, (Arcadia_SizeValue)(uintptr_t)Arcadia_Value_getForeignProcedureValue(self));
 }
 
 static void
@@ -102,10 +102,10 @@ notEqualTo
     R_Value const* other
   )
 {
-  if (R_Value_isForeignProcedureValue(other)) {
-    R_Value_setBooleanValue(target, R_Value_getForeignProcedureValue(self) != R_Value_getForeignProcedureValue(other));
+  if (Arcadia_Value_isForeignProcedureValue(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getForeignProcedureValue(self) != Arcadia_Value_getForeignProcedureValue(other));
   } else {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
   }
 }
 

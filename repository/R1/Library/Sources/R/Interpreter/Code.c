@@ -82,11 +82,11 @@ R_InterpreterState_decodeStringConstant
     Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
     Arcadia_Process_jump(process);
   }
-  if (!Arcadia_Type_isSubType(R_Value_getType(process, R_Interpreter_Code_Constants_getAt(process, constants, indexValue)), _R_String_getType(process))) {
+  if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, R_Interpreter_Code_Constants_getAt(process, constants, indexValue)), _R_String_getType(process))) {
     Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
     Arcadia_Process_jump(process);
   }
-  return (R_String*)R_Value_getObjectReferenceValue(R_Interpreter_Code_Constants_getAt(process, constants, indexValue));
+  return (R_String*)Arcadia_Value_getObjectReferenceValue(R_Interpreter_Code_Constants_getAt(process, constants, indexValue));
 }
 
 static Arcadia_Natural32Value
@@ -147,7 +147,7 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"R.Interpreter.Code", R_Interpreter_Code, u8"R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType(u8"R.Interpreter.Code", R_Interpreter_Code, u8"Arcadia.Object", R_Object, &_typeOperations);
 
 static void
 R_Interpreter_Code_constructImpl
@@ -158,10 +158,10 @@ R_Interpreter_Code_constructImpl
     R_Value* argumentValues
   )
 {
-  R_Interpreter_Code* _self = R_Value_getObjectReferenceValue(self);
+  R_Interpreter_Code* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_Interpreter_Code_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (0 != numberOfArgumentValues) {
@@ -196,7 +196,7 @@ R_Interpreter_Code_create
     Arcadia_Process* process
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
   R_Interpreter_Code* self = R_allocateObject(process, _R_Interpreter_Code_getType(process), 0, &argumentValues[0]);
   return self;
 }

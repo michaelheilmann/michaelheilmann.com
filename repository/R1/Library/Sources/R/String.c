@@ -111,7 +111,7 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"R.String", R_String, u8"R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType(u8"R.String", R_String, u8"Arcadia.Object", R_Object, &_typeOperations);
 
 #define On(Type, Suffix) \
   static Arcadia_ImmutableByteArray* \
@@ -163,63 +163,63 @@ R_String_constructImpl
     Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Process_jump(process);
   }
-  R_String* _self = R_Value_getObjectReferenceValue(self);
+  R_String* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_String_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
-  if (R_Value_isInteger16Value(&argumentValues[0])) {
-    Arcadia_ImmutableByteArray* immutableByteArray = fromInteger16(process, R_Value_getInteger16Value(&argumentValues[0]));
+  if (Arcadia_Value_isInteger16Value(&argumentValues[0])) {
+    Arcadia_ImmutableByteArray* immutableByteArray = fromInteger16(process, Arcadia_Value_getInteger16Value(&argumentValues[0]));
     /* The functions assert the Bytes are UTF-8. */
     _self->immutableByteArray = immutableByteArray;
     _self->hash = hash(Arcadia_ImmutableByteArray_getBytes(immutableByteArray), Arcadia_ImmutableByteArray_getNumberOfBytes(immutableByteArray));
-  } else if (R_Value_isInteger32Value(&argumentValues[0])) {
-    Arcadia_ImmutableByteArray* immutableByteArray = fromInteger32(process, R_Value_getInteger16Value(&argumentValues[0]));
+  } else if (Arcadia_Value_isInteger32Value(&argumentValues[0])) {
+    Arcadia_ImmutableByteArray* immutableByteArray = fromInteger32(process, Arcadia_Value_getInteger16Value(&argumentValues[0]));
     /* The functions assert the Bytes are UTF-8. */
     _self->immutableByteArray = immutableByteArray;
     _self->hash = hash(Arcadia_ImmutableByteArray_getBytes(immutableByteArray), Arcadia_ImmutableByteArray_getNumberOfBytes(immutableByteArray));
-  } else if (R_Value_isInteger64Value(&argumentValues[0])) {
-    Arcadia_ImmutableByteArray* immutableByteArray = fromInteger64(process, R_Value_getInteger16Value(&argumentValues[0]));
+  } else if (Arcadia_Value_isInteger64Value(&argumentValues[0])) {
+    Arcadia_ImmutableByteArray* immutableByteArray = fromInteger64(process, Arcadia_Value_getInteger16Value(&argumentValues[0]));
     /* The functions assert the Bytes are UTF-8. */
     _self->immutableByteArray = immutableByteArray;
     _self->hash = hash(Arcadia_ImmutableByteArray_getBytes(immutableByteArray), Arcadia_ImmutableByteArray_getNumberOfBytes(immutableByteArray));
-  } else if (R_Value_isInteger8Value(&argumentValues[0])) {
-    Arcadia_ImmutableByteArray* immutableByteArray = fromInteger8(process, R_Value_getInteger16Value(&argumentValues[0]));
+  } else if (Arcadia_Value_isInteger8Value(&argumentValues[0])) {
+    Arcadia_ImmutableByteArray* immutableByteArray = fromInteger8(process, Arcadia_Value_getInteger16Value(&argumentValues[0]));
     /* The functions assert the Bytes are UTF-8. */
     _self->immutableByteArray = immutableByteArray;
     _self->hash = hash(Arcadia_ImmutableByteArray_getBytes(immutableByteArray), Arcadia_ImmutableByteArray_getNumberOfBytes(immutableByteArray));
-  } else if (R_Value_isNatural16Value(&argumentValues[0])) {
-    Arcadia_ImmutableByteArray* immutableByteArray = fromNatural16(process, R_Value_getInteger16Value(&argumentValues[0]));
+  } else if (Arcadia_Value_isNatural16Value(&argumentValues[0])) {
+    Arcadia_ImmutableByteArray* immutableByteArray = fromNatural16(process, Arcadia_Value_getInteger16Value(&argumentValues[0]));
     /* The functions assert the Bytes are UTF-8. */
     _self->immutableByteArray = immutableByteArray;
     _self->hash = hash(Arcadia_ImmutableByteArray_getBytes(immutableByteArray), Arcadia_ImmutableByteArray_getNumberOfBytes(immutableByteArray));
-  } else if (R_Value_isNatural32Value(&argumentValues[0])) {
-    Arcadia_ImmutableByteArray* immutableByteArray = fromNatural32(process, R_Value_getInteger16Value(&argumentValues[0]));
+  } else if (Arcadia_Value_isNatural32Value(&argumentValues[0])) {
+    Arcadia_ImmutableByteArray* immutableByteArray = fromNatural32(process, Arcadia_Value_getInteger16Value(&argumentValues[0]));
     /* The functions assert the Bytes are UTF-8. */
     _self->immutableByteArray = immutableByteArray;
     _self->hash = hash(Arcadia_ImmutableByteArray_getBytes(immutableByteArray), Arcadia_ImmutableByteArray_getNumberOfBytes(immutableByteArray));
-  } else if (R_Value_isNatural64Value(&argumentValues[0])) {
-    Arcadia_ImmutableByteArray* immutableByteArray = fromNatural64(process, R_Value_getInteger16Value(&argumentValues[0]));
+  } else if (Arcadia_Value_isNatural64Value(&argumentValues[0])) {
+    Arcadia_ImmutableByteArray* immutableByteArray = fromNatural64(process, Arcadia_Value_getInteger16Value(&argumentValues[0]));
     /* The functions assert the Bytes are UTF-8. */
     _self->immutableByteArray = immutableByteArray;
     _self->hash = hash(Arcadia_ImmutableByteArray_getBytes(immutableByteArray), Arcadia_ImmutableByteArray_getNumberOfBytes(immutableByteArray));
-  } else if (R_Value_isNatural8Value(&argumentValues[0])) {
-    Arcadia_ImmutableByteArray* immutableByteArray = fromNatural8(process, R_Value_getInteger16Value(&argumentValues[0]));
+  } else if (Arcadia_Value_isNatural8Value(&argumentValues[0])) {
+    Arcadia_ImmutableByteArray* immutableByteArray = fromNatural8(process, Arcadia_Value_getInteger16Value(&argumentValues[0]));
     /* The functions assert the Bytes are UTF-8. */
     _self->immutableByteArray = immutableByteArray;
     _self->hash = hash(Arcadia_ImmutableByteArray_getBytes(immutableByteArray), Arcadia_ImmutableByteArray_getNumberOfBytes(immutableByteArray));
-  } if (R_Value_isImmutableByteArrayValue(&argumentValues[0])) {
+  } if (Arcadia_Value_isImmutableByteArrayValue(&argumentValues[0])) {
     Arcadia_SizeValue numberOfSymbols;
-    Arcadia_ImmutableByteArray* immutableByteArray = R_Value_getImmutableByteArrayValue(&argumentValues[0]);
+    Arcadia_ImmutableByteArray* immutableByteArray = Arcadia_Value_getImmutableByteArrayValue(&argumentValues[0]);
     if (!R_isUtf8(Arcadia_ImmutableByteArray_getBytes(immutableByteArray), Arcadia_ImmutableByteArray_getNumberOfBytes(immutableByteArray), &numberOfSymbols)) {
       Arcadia_Process_setStatus(process, Arcadia_Status_EncodingInvalid);
       Arcadia_Process_jump(process);
     }
     _self->immutableByteArray = immutableByteArray;
     _self->hash = hash(Arcadia_ImmutableByteArray_getBytes(immutableByteArray), Arcadia_ImmutableByteArray_getNumberOfBytes(immutableByteArray));
-  } else if (R_Value_isObjectReferenceValue(&argumentValues[0])) {
-    R_ObjectReferenceValue referenceValue = R_Value_getObjectReferenceValue(&argumentValues[0]);
+  } else if (Arcadia_Value_isObjectReferenceValue(&argumentValues[0])) {
+    Arcadia_ObjectReferenceValue referenceValue = Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
     if (Arcadia_Type_isSubType(R_Object_getType(referenceValue), _R_ByteBuffer_getType(process))) {
       R_ByteBuffer* object = (R_ByteBuffer*)referenceValue;
       if (!R_isUtf8(R_ByteBuffer_getBytes(object), R_ByteBuffer_getNumberOfBytes(object), NULL)) {
@@ -270,27 +270,27 @@ equalToImpl
     R_Value const* other
   )
 {
-  R_String* self1 = (R_String*)R_Value_getObjectReferenceValue(self);
-  if (!R_Value_isObjectReferenceValue(other)) {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
+  R_String* self1 = (R_String*)Arcadia_Value_getObjectReferenceValue(self);
+  if (!Arcadia_Value_isObjectReferenceValue(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
     return;
   }
-  R_Object* other1 = R_Value_getObjectReferenceValue(other);
+  R_Object* other1 = Arcadia_Value_getObjectReferenceValue(other);
   if ((R_Object*)self1 == other1) {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
     return;
   }
   if (!Arcadia_Type_isSubType(R_Object_getType(other1), _R_String_getType(process))) {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
     return;
   }
   R_String* otherString1 = (R_String*)other1;
   if (Arcadia_ImmutableByteArray_getNumberOfBytes(self1->immutableByteArray) == Arcadia_ImmutableByteArray_getNumberOfBytes(otherString1->immutableByteArray)) {
-    R_Value_setBooleanValue(target, !c_memcmp(Arcadia_ImmutableByteArray_getBytes(self1->immutableByteArray), 
+    Arcadia_Value_setBooleanValue(target, !c_memcmp(Arcadia_ImmutableByteArray_getBytes(self1->immutableByteArray), 
                                               Arcadia_ImmutableByteArray_getBytes(otherString1->immutableByteArray), 
                                               Arcadia_ImmutableByteArray_getNumberOfBytes(self1->immutableByteArray)));
   } else {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
   }
 }
 
@@ -302,8 +302,8 @@ hashImpl
     R_Value const* self
   )
 {
-  R_String* self1 = (R_String*)R_Value_getObjectReferenceValue(self);
-  R_Value_setSizeValue(target, self1->hash);
+  R_String* self1 = (R_String*)Arcadia_Value_getObjectReferenceValue(self);
+  Arcadia_Value_setSizeValue(target, self1->hash);
 }
 
 static void
@@ -524,7 +524,7 @@ R_String_create_pn
     Arcadia_ImmutableByteArray* immutableByteArray
   )
 {
-  R_Value argumentValues[] = { { .tag = R_ValueTag_ImmutableByteArray, .immutableByteArrayValue = immutableByteArray } };
+  R_Value argumentValues[] = { { .tag = Arcadia_ValueTag_ImmutableByteArray, .immutableByteArrayValue = immutableByteArray } };
   R_String* self = R_allocateObject(process, _R_String_getType(process), 1, &argumentValues[0]);
   return self;
 }

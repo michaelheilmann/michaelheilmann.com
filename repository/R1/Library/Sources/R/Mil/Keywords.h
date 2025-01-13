@@ -23,7 +23,7 @@
 /// @code
 /// class R.Mil.Keywords
 /// @endcode
-Rex_declareObjectType(u8"R.Mil.Keywords", R_Mil_Keywords, u8"R.Object");
+Rex_declareObjectType(u8"R.Mil.Keywords", R_Mil_Keywords, u8"Arcadia.Object");
 
 /// @brief Create a MIL keywords object.
 /// @return A pointer to this CIL keywords object.

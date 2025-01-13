@@ -25,7 +25,7 @@
 /// @code
 /// class R.Mil.DefinitionAst extends R.Object
 /// @endcode
-Rex_declareObjectType(u8"R.Mil.DefinitionAst", R_Mil_DefinitionAst, u8"R.Object");
+Rex_declareObjectType(u8"R.Mil.DefinitionAst", R_Mil_DefinitionAst, u8"Arcadia.Object");
 
 struct R_Mil_DefinitionAst {
   R_Object _parent;

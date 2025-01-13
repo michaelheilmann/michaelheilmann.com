@@ -25,7 +25,7 @@
 /// 
 /// It is typically used when strings are transferred from the C domain into the Ring2 domain, e.g.
 /// @code
-/// Arcadia_Value value = { .tag = R_ValueTag_ImmutableByteArray, .immutableByteArray = Arcadia_ImmutableByteArray_create(u8"Hello, World!", strlen(u8"Hello, World!") };
+/// Arcadia_Value value = { .tag = Arcadia_ValueTag_ImmutableByteArray, .immutableByteArray = Arcadia_ImmutableByteArray_create(u8"Hello, World!", strlen(u8"Hello, World!") };
 /// Arcadia_String_create(&value);
 /// @endcode
 typedef struct Arcadia_ImmutableByteArray {

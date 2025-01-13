@@ -17,8 +17,8 @@
 
 #include "Arcadia/Ring1/Implementation/Void.h"
 
+#include "Arcadia/Ring1/Implementation/_defineScalarType.h"
 #include "Arcadia/Ring1/Include.h"
-#include "R/Value.h"
 
 static void
 equalTo
@@ -75,10 +75,10 @@ equalTo
     R_Value const* other
   )
 {
-  if (R_Value_isVoidValue(other)) {
-    R_Value_setBooleanValue(target, R_Value_getVoidValue(self) == R_Value_getVoidValue(other));
+  if (Arcadia_Value_isVoidValue(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getVoidValue(self) == Arcadia_Value_getVoidValue(other));
   } else {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
   }
 }
 
@@ -89,7 +89,7 @@ hash
     R_Value* target,
     R_Value const* self
   )
-{ R_Value_setSizeValue(target, (Arcadia_SizeValue)71); }
+{ Arcadia_Value_setSizeValue(target, (Arcadia_SizeValue)71); }
 
 static void
 notEqualTo
@@ -100,10 +100,10 @@ notEqualTo
     R_Value const* other
   )
 {
-  if (R_Value_isVoidValue(other)) {
-    R_Value_setBooleanValue(target, R_Value_getVoidValue(self) != R_Value_getVoidValue(other));
+  if (Arcadia_Value_isVoidValue(other)) {
+    Arcadia_Value_setBooleanValue(target, Arcadia_Value_getVoidValue(self) != Arcadia_Value_getVoidValue(other));
   } else {
-    R_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
+    Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
   }
 }
 

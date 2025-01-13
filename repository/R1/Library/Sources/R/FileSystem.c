@@ -85,7 +85,7 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Rex_defineObjectType(u8"R.FileSystem", R_FileSystem, u8"R.Object", R_Object, &_typeOperations);
+Rex_defineObjectType(u8"R.FileSystem", R_FileSystem, u8"Arcadia.Object", R_Object, &_typeOperations);
 
 static void
 R_FileSystem_constructImpl
@@ -96,10 +96,10 @@ R_FileSystem_constructImpl
     R_Value* argumentValues
   )
 {
-  R_FileSystem* _self = R_Value_getObjectReferenceValue(self);
+  R_FileSystem* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _R_FileSystem_getType(process);
   {
-    R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
+    R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   R_Object_setType((R_Object*)_self, _type);
@@ -127,7 +127,7 @@ R_FileSystem_create
     Arcadia_Process* process
   )
 {
-  R_Value argumentValues[] = { {.tag = R_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
+  R_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void } };
   R_FileSystem* self = R_allocateObject(process, _R_FileSystem_getType(process), 0, &argumentValues[0]);
   return self;
 }

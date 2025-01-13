@@ -93,7 +93,7 @@ R_CommandLine_parseArgument
     R_Utf8Writer_writeCodePoints(process, writer, &codePoint, 1);
     R_Utf8Reader_next(process, reader);
   } while (!isEqualOrEnd(process, reader));
-  R_Value_setObjectReferenceValue(&temporaryValue, (R_ObjectReferenceValue)writerByteBuffer);
+  Arcadia_Value_setObjectReferenceValue(&temporaryValue, (Arcadia_ObjectReferenceValue)writerByteBuffer);
   key1 = R_String_create(process, temporaryValue);
   R_ByteBuffer_clear(writerByteBuffer);
   if (isEnd(process, reader)) {
@@ -112,7 +112,7 @@ R_CommandLine_parseArgument
     R_Utf8Writer_writeCodePoints(process, writer, &codePoint, 1);
     R_Utf8Reader_next(process, reader);
   } while (!isEnd(process, reader));
-  R_Value_setObjectReferenceValue(&temporaryValue, (R_ObjectReferenceValue)writerByteBuffer);
+  Arcadia_Value_setObjectReferenceValue(&temporaryValue, (Arcadia_ObjectReferenceValue)writerByteBuffer);
   value1 = R_String_create(process, temporaryValue);
   R_ByteBuffer_clear(writerByteBuffer);
   *key = key1;

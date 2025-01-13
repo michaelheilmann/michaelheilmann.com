@@ -13,20 +13,12 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-10-27
+// Last modified: 2024-10-25
 
-#if !defined(ARCADIA_SCALAR_H_INCLUDED)
-#define ARCADIA_SCALAR_H_INCLUDED
+#if !defined(ARCADIA_RING1_IMPLEMENTATION__DEFINESCALARTYPE_H_INCLUDED)
+#define ARCADIA_RING1_IMPLEMENTATION__DEFINESCALARTYPE_H_INCLUDED
 
-typedef void Arcadia_Type;
-typedef Arcadia_Type* Arcadia_TypeValue;
-
-#define Rex_declareScalarType(cName) \
-  Arcadia_TypeValue \
-  _##cName##Value_getType \
-    ( \
-      Arcadia_Process* process \
-    );
+#include "Arcadia/Ring1/Include.h"
 
 #define Rex_defineScalarType(cName, cilName, typeOperations) \
   static Arcadia_Type* g_##cName##_type = NULL; \
@@ -45,9 +37,9 @@ typedef Arcadia_Type* Arcadia_TypeValue;
     ) \
   { \
     if (!g_##cName##_type) { \
-      g_##cName##_type = R_registerScalarType(process, cilName, sizeof(cilName) - 1, typeOperations, &_##cName##_typeDestructing); \
+      g_##cName##_type = Arcadia_registerScalarType(process, cilName, sizeof(cilName) - 1, typeOperations, &_##cName##_typeDestructing); \
     } \
     return g_##cName##_type; \
   }
 
-#endif // ARCADIA_SCALAR_H_INCLUDED
+#endif // ARCADIA_RING1_IMPLEMENTATION__DEFINESCALARTYPE_H_INCLUDED
