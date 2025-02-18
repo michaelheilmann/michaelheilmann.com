@@ -25,15 +25,15 @@
 Arcadia_ImmutableUtf8String*
 _createFromVoid
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_VoidValue voidValue
   )
 {
   Arcadia_StaticAssert(SIZE_MAX - sizeof(Arcadia_ImmutableUtf8String) >= sizeof(u8"void") - 1, "<internal error>");
   _ensureTypeRegistered(process);
   Arcadia_ImmutableUtf8String* string = NULL;
-  Arcadia_Process1_allocate(process, &string, TypeName, sizeof(TypeName) - 1, sizeof(Arcadia_ImmutableUtf8String) + (sizeof(u8"void") - 1));
-  Arcadia_Process1_copyMemory(process, string->bytes, u8"void", sizeof(u8"void") - 1);
+  Arcadia_Process_allocate(process, &string, TypeName, sizeof(TypeName) - 1, sizeof(Arcadia_ImmutableUtf8String) + (sizeof(u8"void") - 1));
+  Arcadia_Process_copyMemory(process, string->bytes, u8"void", sizeof(u8"void") - 1);
   string->numberOfBytes = sizeof(u8"void") - 1;
   string->hash = _hashUtf8(process, string->bytes, string->numberOfBytes);
   return string;

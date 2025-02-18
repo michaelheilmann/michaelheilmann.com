@@ -29,19 +29,19 @@ main1
   )
 {
   if (argc < 3) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_FilePath* firstFile = Arcadia_FilePath_parseNative(process, argv[1], strlen(argv[1]));
   Arcadia_FilePath* secondFile = Arcadia_FilePath_parseNative(process, argv[2], strlen(argv[2]));
   Arcadia_FileSystem* fileSystem = Arcadia_FileSystem_create(process);
   if (!Arcadia_FileSystem_regularFileExists(process, fileSystem, firstFile)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NotExists);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NotExists);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!Arcadia_FileSystem_regularFileExists(process, fileSystem, secondFile)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NotExists);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NotExists);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_ByteBuffer* firstByteBuffer = Arcadia_FileSystem_getFileContents(process, fileSystem, firstFile);
   Arcadia_ByteBuffer* secondByteBuffer = Arcadia_FileSystem_getFileContents(process, fileSystem, secondFile);
@@ -61,12 +61,12 @@ main
     return EXIT_FAILURE;
   }
   Arcadia_JumpTarget jumpTarget;
-  Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     areEqual = main1(process, argc, argv);
   }
-  Arcadia_Process_popJumpTarget(process);
-  Arcadia_Status status = Arcadia_Process_getStatus(process);
+  Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
+  Arcadia_Status status = Arcadia_Thread1_getStatus(Arcadia_Process_getThread(process));
   Arcadia_Process_relinquish(process);
   process = NULL;
   if (status) {

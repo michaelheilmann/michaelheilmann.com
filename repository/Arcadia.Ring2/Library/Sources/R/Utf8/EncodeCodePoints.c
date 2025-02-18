@@ -82,8 +82,8 @@ R_Utf8_encodeCodePoints
       x[3] |= 0b10000000;
       (*callbackFunction)(process, callbackContext, &x[0], Arcadia_SizeValue_Literal(4));
     } else {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EncodingInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EncodingInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
   }
 }

@@ -158,7 +158,70 @@ apint10_swap
   );
 
 static inline int
+apint10_add_u16
+  (
+    apint10* this,
+    uint16_t x
+  );
+
+static inline int
+apint10_add_u32
+  (
+    apint10* this,
+    uint32_t x
+  );
+
+static inline int
+apint10_add_u64
+  (
+    apint10* this,
+    uint8_t x
+  );
+
+static inline int
+apint10_add_u8
+  (
+    apint10* this,
+    uint8_t x
+  );
+
+static inline int
 apint10_add
+  (
+    apint10* this,
+    apint10* other
+  );
+
+static inline int
+apint10_subtract_u16
+  (
+    apint10* this,
+    uint16_t x
+  );
+
+static inline int
+apint10_subtract_u32
+  (
+    apint10* this,
+    uint32_t x
+  );
+
+static inline int
+apint10_subtract_u64
+  (
+    apint10* this,
+    uint32_t x
+  );
+
+static inline int
+apint10_subtract_u8
+  (
+    apint10* this,
+    uint8_t x
+  );
+
+static inline int
+apint10_subtract
   (
     apint10* this,
     apint10* other
@@ -183,6 +246,12 @@ apint10_divide_p10
   (
     apint10* this,
     uint64_t e
+  );
+
+static inline int
+apint10_negate
+  (
+    apint10* this
   );
 
 static inline int
@@ -303,6 +372,7 @@ apint10_from_int8
   )
 { return apint10_from_int64(this, value); }
 
+// parse this apint10 from an UTF8 decimal integer literal string
 static inline int
 apint10_from_literal
   (
@@ -571,6 +641,59 @@ apint10_swap
 }
 
 static inline int
+apint10_add_u16
+  (
+    apint10* this,
+    uint16_t x
+  )
+{
+  return apint10_add_u64(this, x);
+}
+
+static inline int
+apint10_add_u32
+  (
+    apint10* this,
+    uint32_t x
+  )
+{
+  return apint10_add_u64(this, x);
+}
+
+static inline int
+apint10_add_u64
+  (
+    apint10* this,
+    uint8_t x
+  )
+{
+  apint10 b;
+  if (apint10_initialize(&b)) {
+    return 1;
+  }
+  if (apint10_from_uint64(&b, x)) {
+    apint10_uninitialize(&b);
+    return 1;
+  }
+  if (apint10_add(this, &b)) {
+    apint10_uninitialize(&b);
+    return 1;
+  }
+  apint10_uninitialize(&b);
+  return 0;
+}
+
+static inline int
+apint10_add_u8
+  (
+    apint10* this,
+    uint8_t x
+  )
+{
+  return apint10_add_u64(this, x);
+}
+
+static inline int
 apint10_add
   (
     apint10* this,
@@ -700,6 +823,80 @@ apint10_add
 }
 
 static inline int
+apint10_subtract_u16
+  (
+    apint10* this,
+    uint16_t x
+  )
+{ return apint10_subtract_u64(this, x); }
+
+static inline int
+apint10_subtract_u32
+  (
+    apint10* this,
+    uint32_t x
+  )
+{ return apint10_subtract_u64(this, x); }
+
+static inline int
+apint10_subtract_u64
+  (
+    apint10* this,
+    uint32_t x
+  )
+{
+  apint10 b;
+  if (apint10_initialize(&b)) {
+    return 1;
+  }
+  if (apint10_from_uint64(&b, x)) {
+    apint10_uninitialize(&b);
+    return 1;
+  }
+  if (apint10_subtract(this, &b)) {
+    apint10_uninitialize(&b);
+    return 1;
+  }
+  apint10_uninitialize(&b);
+  return 0;
+}
+
+static inline int
+apint10_subtract_u8
+  (
+    apint10* this,
+    uint8_t x
+  )
+{ return apint10_subtract_u64(this, x); }
+
+static inline int
+apint10_subtract
+  (
+    apint10* this,
+    apint10* other
+  )
+{
+  apint10 b;
+  if (apint10_initialize(&b)) {
+    return 1;
+  }
+  if (apint10_copy(&b, other)) {
+    apint10_uninitialize(&b);
+    return 1;
+  }
+  if (apint10_negate(&b)) {
+    apint10_uninitialize(&b);
+    return 1;
+  }
+  if (apint10_add(this, &b)) {
+    apint10_uninitialize(&b);
+    return 1;
+  }
+  apint10_uninitialize(&b);
+  return 0;
+}
+
+static inline int
 apint10_multiply
   (
     apint10* this,
@@ -804,6 +1001,16 @@ apint10_divide_p10
   }
   memmove(this->digits, this->digits + e, sizeof(uint8_t) * (this->size - e));
   this->size -= e;
+  return 0;
+}
+
+static inline int
+apint10_negate
+  (
+    apint10* this
+  )
+{
+  this->negative = !this->negative; 
   return 0;
 }
 

@@ -13,9 +13,19 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2025-02-02
+// Last modified: 2024-09-28
 
-#define ARCADIA_RING1_PRIVATE (1)
-#include "Arcadia/Ring1/Implementation/Stack.h"
+#if !defined(ARCADIA_RING1_TESTS_SUPPORT_APREAL10_H_INCLUDED)
+#define ARCADIA_RING1_TESTS_SUPPORT_APREAL10_H_INCLUDED
+#include <stdlib.h>
 
+#include "Arcadia/Ring1/Include.h"
+#include "Arcadia/Ring1/Implementation/Utf8ToIeee754/Include.h"
 
+void
+Arcadia_Ring1_Tests_Support_apreal10
+  (
+    Arcadia_Process* process
+  );
+
+#endif // ARCADIA_RING1_TESTS_SUPPORT_APREAL10

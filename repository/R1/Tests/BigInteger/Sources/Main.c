@@ -23,8 +23,8 @@
 /// @todo Add to R's test utilities.
 #define R_Test_assert(result) \
   if (!(result)) { \
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed); \
-    Arcadia_Process_jump(process); \
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed); \
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process)); \
   }
 
 static inline Arcadia_Value
@@ -106,8 +106,8 @@ R_Test_BigInteger_assertRelational
       R_Test_assert(expectedResult == !Arcadia_Value_isLowerThanOrEqualTo(process, &va, &vb));
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   }
 };
@@ -138,8 +138,8 @@ R_Test_BigInteger_assertAdditive
       R_Test_assert(0 == R_BigInteger_compare(preceivedResult, pexpectedResult));
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   }
 };
@@ -235,14 +235,14 @@ safeExecute
     return result;
   }
   Arcadia_JumpTarget jumpTarget;
-  Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     (*f)(process);
   } else {
     result = false;
   }
-  Arcadia_Status status = Arcadia_Process_getStatus(process);
-  Arcadia_Process_popJumpTarget(process);
+  Arcadia_Status status = Arcadia_Thread1_getStatus(Arcadia_Process_getThread(process));
+  Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
   Arcadia_Process_relinquish(process);
   process = NULL;
   if (status) {

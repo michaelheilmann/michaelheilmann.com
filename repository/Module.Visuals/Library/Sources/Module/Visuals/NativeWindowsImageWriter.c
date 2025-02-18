@@ -158,8 +158,8 @@ startupFactory
   //
   hr = CoInitialize(NULL);
   if (FAILED(hr)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   //
   hr = CoCreateInstance(&CLSID_WICImagingFactory,
@@ -169,8 +169,8 @@ startupFactory
                         (LPVOID*)&g_piFactory);
   if (FAILED(hr)) {
     CoUninitialize();
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   //
   hr = IWICImagingFactory_CreateStream(g_piFactory, &g_piStream);
@@ -178,8 +178,8 @@ startupFactory
     IWICImagingFactory_Release(g_piFactory);
     g_piFactory = NULL;
     CoUninitialize();
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 
@@ -216,25 +216,25 @@ startup1
     Arcadia_ByteBuffer_append_pn(process, b, u8"", 1);
     wchar_t* targetPathW = multiByteToWideChar(b->p);
     if (!targetPathW) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     hr = IWICStream_InitializeFromFilename(g_piStream, targetPathW, GENERIC_WRITE);
     free(targetPathW);
     if (FAILED(hr)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
   } else {
     hr = createMemoryStream(&g_piMemoryStream, 8);
     if (FAILED(hr)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     hr = IWICStream_InitializeFromIStream(g_piStream, g_piMemoryStream);
     if (FAILED(hr)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
   }
 }
@@ -280,29 +280,29 @@ startupEncoder
       break;
     default:
     case ImageWriterFormat_Undefined: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
   }
   hr = IWICImagingFactory_CreateEncoder(g_piFactory, pFormat, NULL, &g_piEncoder);
   if (FAILED(hr)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   hr = IWICBitmapEncoder_Initialize(g_piEncoder, (IStream*)g_piStream, WICBitmapEncoderNoCache);
   if (FAILED(hr)) {
     IWICBitmapEncoder_Release(g_piEncoder);
     g_piEncoder = NULL;
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   //
   hr = IWICBitmapEncoder_CreateNewFrame(g_piEncoder, &g_piBitmapFrame, &g_pPropertyBag);
   if (FAILED(hr)) {
     IWICBitmapEncoder_Release(g_piEncoder);
     g_piEncoder = NULL;
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   switch (ImageWriterParameters_getFormat(parameters)) {
     // https://learn.microsoft.com/en-us/windows/win32/wic/tiff-format-overview
@@ -321,8 +321,8 @@ startupEncoder
         g_piBitmapFrame = NULL;
         IWICBitmapEncoder_Release(g_piEncoder);
         g_piEncoder = NULL;
-        Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
     } break;
     // https://learn.microsoft.com/en-us/windows/win32/wic/png-format-overview
@@ -345,8 +345,8 @@ startupEncoder
         g_piBitmapFrame = NULL;
         IWICBitmapEncoder_Release(g_piEncoder);
         g_piEncoder = NULL;
-        Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
     } break;
     case ImageWriterFormat_Undefined:
@@ -357,8 +357,8 @@ startupEncoder
       g_piBitmapFrame = NULL;
       IWICBitmapEncoder_Release(g_piEncoder);
       g_piEncoder = NULL;
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
   };
   hr = IWICBitmapFrameEncode_Initialize(g_piBitmapFrame, g_pPropertyBag);
@@ -369,8 +369,8 @@ startupEncoder
     g_piBitmapFrame = NULL;
     IWICBitmapEncoder_Release(g_piEncoder);
     g_piEncoder = NULL;
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 
@@ -405,8 +405,8 @@ startup3
   size_t sourceHeight = PixelBuffer_getNumberOfRows(sourcePixelBuffer);
   hr = IWICBitmapFrameEncode_SetSize(g_piBitmapFrame, (UINT)sourceWidth, (UINT)sourceHeight);
   if (FAILED(hr)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   //
   WICPixelFormatGUID formatGUID = GUID_WICPixelFormatUndefined;
@@ -421,57 +421,57 @@ startup3
       formatGUID = GUID_WICPixelFormat32bppBGRA;
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   };
   hr = IWICBitmapFrameEncode_SetPixelFormat(g_piBitmapFrame, &formatGUID);
   if (FAILED(hr)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   size_t sourceLineStride = PixelBuffer_getLineStride(process, sourcePixelBuffer);
   size_t sourceSizeInPixels = sourceLineStride * sourceHeight;
   hr = IWICBitmapFrameEncode_WritePixels(g_piBitmapFrame, (UINT)sourceHeight, (UINT)sourceLineStride, (UINT)sourceSizeInPixels, (void*)sourcePixelBuffer->bytes);
   if (FAILED(hr)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   hr = IWICBitmapFrameEncode_Commit(g_piBitmapFrame);
   if (FAILED(hr)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   hr = IWICBitmapEncoder_Commit(g_piEncoder);
   if (FAILED(hr)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (ImageWriterParameters_hasByteBuffer(process, parameters)) {
     STATSTG statstg;
     hr = IStream_Stat(g_piStream, &statstg, STATFLAG_NONAME);
     if (FAILED(hr)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     if (statstg.cbSize.QuadPart > SIZE_MAX) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     size_t n = (size_t)statstg.cbSize.QuadPart;
     LPVOID p = GlobalLock(g_hMemory);
     Arcadia_JumpTarget jumpTarget;
-    Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+    Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
     if (Arcadia_JumpTarget_save(&jumpTarget)) {
       Arcadia_ByteBuffer_append_pn(process, ImageWriterParameters_getByteBuffer(process, parameters), p, n);
       GlobalUnlock(g_hMemory);
-      Arcadia_Process_popJumpTarget(process);
+      Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
     } else {
       GlobalUnlock(g_hMemory);
-      Arcadia_Process_popJumpTarget(process);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
   }
 }
@@ -509,16 +509,16 @@ write
 
   while (currentModule < numberOfModules) {
     Arcadia_JumpTarget jumpTarget;
-    Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+    Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
     if (Arcadia_JumpTarget_save(&jumpTarget)) {
       modules[currentModule++].startup(process, sourcePixelBuffer, parameters);
-      Arcadia_Process_popJumpTarget(process);
+      Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
     } else {
-      Arcadia_Process_popJumpTarget(process);
+      Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
       while (currentModule > 0) {
         modules[--currentModule].shutdown(process, sourcePixelBuffer, parameters);
       }
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
   }
 
@@ -632,18 +632,18 @@ NativeWindowsImageWriter_writeIcoToByteBufferImpl
     Arcadia_ByteBuffer_clear(process, temporary);
     ImageWriter_writePngToByteBuffer(process, (ImageWriter*)self, pixelBuffer, temporary);
     if (PixelFormat_An8Rn8Gn8Bn8 != PixelBuffer_getPixelFormat(pixelBuffer)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     size_t width = PixelBuffer_getNumberOfColumns(pixelBuffer),
            height = PixelBuffer_getNumberOfRows(pixelBuffer);
     if (width > 256) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     if (height > 256) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     if (width == 256) {
       width = 0;

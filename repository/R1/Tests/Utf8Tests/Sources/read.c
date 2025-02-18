@@ -56,18 +56,18 @@ Arcadia_Tests_Utf8_read1
   while (Arcadia_Utf8Reader_hasCodePoint(process, reader)) {
     Arcadia_Natural32Value receivedCodePoint = Arcadia_Utf8Reader_getCodePoint(process, reader);
     if (numberOfReceivedCodePoints >= numberOfExpectedCodePoints) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     if (receivedCodePoint != expectedCodePoints[numberOfReceivedCodePoints]) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     Arcadia_Utf8Reader_next(process, reader);
     numberOfReceivedCodePoints++;
   }
   if (numberOfReceivedCodePoints != numberOfExpectedCodePoints) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }

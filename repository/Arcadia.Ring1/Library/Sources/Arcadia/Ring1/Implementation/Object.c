@@ -31,15 +31,6 @@ Arcadia_Object_constructImpl
   );
 
 static void
-Arcadia_Object_constructImpl
-  (
-    Arcadia_Process* process,
-    Arcadia_Value* self,
-    Arcadia_SizeValue numberOfArgumentValues,
-    Arcadia_Value* argumentValues
-  );
-
-static void
 equalTo
   (
     Arcadia_Process* process,
@@ -260,20 +251,20 @@ R_allocateObject
   )
 {
   if (!type) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!Arcadia_Type_isObjectKind(type)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   Arcadia_Type* memoryType = _Arcadia_Memory_getType(process);
 
   ObjectTag* tag = NULL;
   if (SIZE_MAX - sizeof(ObjectTag) < Arcadia_Type_getValueSize(type)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_AllocationFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Process_allocate(process, &tag, ObjectTypeName, sizeof(ObjectTypeName) - 1, sizeof(ObjectTag) + Arcadia_Type_getValueSize(type));
   tag->type = memoryType;
@@ -353,8 +344,8 @@ Arcadia_Object_lock
 {
   Arcadia_Status status = Arcadia_Process_lockObject(process, ((ObjectTag*)self) - 1);
   if (status) {
-    Arcadia_Process_setStatus(process, status);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), status);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 
@@ -367,8 +358,8 @@ Arcadia_Object_unlock
 {
   Arcadia_Status status = Arcadia_Process_unlockObject(process, ((ObjectTag*)self) - 1);
   if (status) {
-    Arcadia_Process_setStatus(process, status);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), status);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 

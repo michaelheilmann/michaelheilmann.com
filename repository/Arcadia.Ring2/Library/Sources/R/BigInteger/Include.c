@@ -121,18 +121,18 @@ R_BigInteger_constructImpl
     Rex_superTypeConstructor(process, _type, self, 0, &arguments[0]);
   }
   if (numberOfArguments < 1) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!Arcadia_Value_isInteger32Value(&arguments[0])) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   switch (Arcadia_Value_getInteger32Value(&arguments[0])) {
     case Operation_Create: {
       if (numberOfArguments != 2) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
              if (Arcadia_Value_isInteger16Value(&arguments[1])) {
         Digits_fromInteger64(process, &_self->digits, &_self->size, &_self->capacity, &_self->sign, Arcadia_Value_getInteger16Value(&arguments[1]));
@@ -151,14 +151,14 @@ R_BigInteger_constructImpl
       } else if (Arcadia_Value_isNatural8Value(&arguments[1])) {
         Digits_fromNatural64(process, &_self->digits, &_self->size, &_self->capacity, &_self->sign, Arcadia_Value_getNatural8Value(&arguments[1]));
       } else {
-        Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
     } break;
     case Operation_Add: {
       if (numberOfArguments != 3) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       R_BigInteger* a = R_Argument_getObjectReferenceValue(process, &(arguments[1]), _R_BigInteger_getType(process));
       R_BigInteger* b = R_Argument_getObjectReferenceValue(process, &(arguments[2]), _R_BigInteger_getType(process));
@@ -166,8 +166,8 @@ R_BigInteger_constructImpl
     } break;
     case Operation_Subtract: {
       if (numberOfArguments != 3) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       R_BigInteger* a = R_Argument_getObjectReferenceValue(process, &(arguments[1]), _R_BigInteger_getType(process));
       R_BigInteger* b = R_Argument_getObjectReferenceValue(process, &(arguments[2]), _R_BigInteger_getType(process));
@@ -175,19 +175,19 @@ R_BigInteger_constructImpl
     } break;
     case Operation_Magnitude: {
       if (numberOfArguments != 1) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       R_BigInteger* a = R_Argument_getObjectReferenceValue(process, &(arguments[1]), _R_BigInteger_getType(process));
       Digits_allocate(process, &_self->digits, a->size);
-      Arcadia_Process1_copyMemory(Arcadia_Process_getProcess1(process), _self->digits, a->digits, sizeof(R_BigInteger_Digit) * a->size);
+      Arcadia_Process_copyMemory(process, _self->digits, a->digits, sizeof(R_BigInteger_Digit) * a->size);
       _self->size = a->size;
       _self->capacity = a->capacity;
       _self->sign = Arcadia_BooleanValue_True;
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   };
   Arcadia_Object_setType(process, _self, _type);
@@ -216,8 +216,8 @@ R_BigInteger_equalToImpl
 #define A1 &(arguments[0])
 #define A2 &(arguments[1])
   if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, A2), _R_BigInteger_getType(process))) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);  
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value_setBooleanValue(target, Arcadia_Integer8Value_Literal(0) == R_BigInteger_compare((R_BigInteger*)Arcadia_Value_getObjectReferenceValue(A1), (R_BigInteger*)Arcadia_Value_getObjectReferenceValue(A2)));
 #undef A2
@@ -236,8 +236,8 @@ R_BigInteger_greaterThanImpl
 #define A1 &(arguments[0])
 #define A2 &(arguments[1])
   if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, A2), _R_BigInteger_getType(process))) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);  
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value_setBooleanValue(target, Arcadia_Integer8Value_Literal(0) < R_BigInteger_compare((R_BigInteger*)Arcadia_Value_getObjectReferenceValue(A1), (R_BigInteger*)Arcadia_Value_getObjectReferenceValue(A2)));
 #undef A2
@@ -256,8 +256,8 @@ R_BigInteger_greaterThanOrEqualToImpl
 #define A1 &(arguments[0])
 #define A2 &(arguments[1])
   if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, A2), _R_BigInteger_getType(process))) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);  
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value_setBooleanValue(target, Arcadia_Integer8Value_Literal(0) <= R_BigInteger_compare((R_BigInteger*)Arcadia_Value_getObjectReferenceValue(A1), (R_BigInteger*)Arcadia_Value_getObjectReferenceValue(A2)));
 #undef A2
@@ -276,8 +276,8 @@ R_BigInteger_lowerThanImpl
 #define A1 &(arguments[0])
 #define A2 &(arguments[1])
   if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, A2), _R_BigInteger_getType(process))) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);  
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value_setBooleanValue(target, Arcadia_Integer8Value_Literal(0) > R_BigInteger_compare((R_BigInteger*)Arcadia_Value_getObjectReferenceValue(A1), (R_BigInteger*)Arcadia_Value_getObjectReferenceValue(A2)));
 #undef A2
@@ -296,8 +296,8 @@ R_BigInteger_lowerThanOrEqualToImpl
 #define A1 &(arguments[0])
 #define A2 &(arguments[1])
   if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, A2), _R_BigInteger_getType(process))) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);  
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value_setBooleanValue(target, Arcadia_Integer8Value_Literal(0) >= R_BigInteger_compare((R_BigInteger*)Arcadia_Value_getObjectReferenceValue(A1), (R_BigInteger*)Arcadia_Value_getObjectReferenceValue(A2)));
 #undef A2
@@ -316,8 +316,8 @@ R_BigInteger_notEqualToImpl
 #define A1 &(arguments[0])
 #define A2 &(arguments[1])
   if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, A2), _R_BigInteger_getType(process))) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);  
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value_setBooleanValue(target, Arcadia_Integer8Value_Literal(0) != R_BigInteger_compare((R_BigInteger*)Arcadia_Value_getObjectReferenceValue(A1), (R_BigInteger*)Arcadia_Value_getObjectReferenceValue(A2)));
 #undef A2
@@ -463,7 +463,7 @@ R_BigInteger_assign
   }
   Digits_reallocate(process, &a->digits, b->size);
   a->capacity = b->capacity;
-  Arcadia_Process1_copyMemory(Arcadia_Process_getProcess1(process), a->digits, b->digits, sizeof(R_BigInteger_Digit) * b->size);
+  Arcadia_Process_copyMemory(process, a->digits, b->digits, sizeof(R_BigInteger_Digit) * b->size);
   a->sign = b->sign;
   a->size = b->size;
 }

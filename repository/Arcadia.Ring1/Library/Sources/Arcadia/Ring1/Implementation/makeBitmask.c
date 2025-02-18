@@ -25,20 +25,20 @@
 Arcadia_Natural16Value
 Arcadia_makeBitmaskN16
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_SizeValue i,
     Arcadia_SizeValue n
   )
 {
   static const Arcadia_SizeValue width = 16;
   if (i >= width) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   // i = <width of type> - 1 and n = 1 is valid.
   if (i + n > width) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   // "mask" is initially empty.
   Arcadia_Natural8Value mask = 0;
@@ -52,20 +52,20 @@ Arcadia_makeBitmaskN16
 Arcadia_Natural32Value
 Arcadia_makeBitmaskN32
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_SizeValue i,
     Arcadia_SizeValue n
   )
 {
   static const Arcadia_SizeValue width = 32;
   if (i >= width) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   // i = <width of type> - 1 and n = 1 is valid.
   if (i + n > width) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   // "mask" is initially empty.
   Arcadia_Natural8Value mask = 0;
@@ -79,20 +79,20 @@ Arcadia_makeBitmaskN32
 Arcadia_Natural64Value
 Arcadia_makeBitmaskN64
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_SizeValue i,
     Arcadia_SizeValue n
   )
 {
   static const Arcadia_SizeValue width = 64;
   if (i >= width) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   // i = <width of type> - 1 and n = 1 is valid.
   if (i + n > width) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   // "mask" is initially empty.
   Arcadia_Natural8Value mask = 0;
@@ -106,20 +106,20 @@ Arcadia_makeBitmaskN64
 Arcadia_Natural8Value
 Arcadia_makeBitmaskN8
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_SizeValue i,
     Arcadia_SizeValue n
   )
 {
   static const Arcadia_SizeValue width = 8;
   if (i >= width) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   // i = <width of type> - 1 and n = 1 is valid.
   if (i + n > width) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   // "mask" is initially empty.
   Arcadia_Natural8Value mask = 0;

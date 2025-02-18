@@ -12,8 +12,8 @@ Digits_allocate
   )
 {
   if (Arms_MemoryManager_allocate(Arms_getDefaultMemoryManager(), array, sizeof(R_BigInteger_Digit) * (capacity))) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_AllocationFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 
@@ -35,8 +35,8 @@ Digits_reallocate
   )
 {
   if (Arms_MemoryManager_reallocate(Arms_getDefaultMemoryManager(), array, sizeof(R_BigInteger_Digit) * (capacity))) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_AllocationFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 
@@ -51,7 +51,7 @@ Digits_ensureFreeCapacity
   )
 {
   if (R_DynamicArrayUtilities_ensureFreeCapacity(array, sizeof(R_BigInteger_Digit), size, capacity, requiredFreeCapacity, R_DynamicArrayUtilities_GrowthStrategy4)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_AllocationFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }

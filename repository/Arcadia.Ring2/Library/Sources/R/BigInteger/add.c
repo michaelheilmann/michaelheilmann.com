@@ -156,7 +156,7 @@ Digits_add
     // b is zero. Return a.
     R_BigInteger_Digit* digits1 = NULL;
     Digits_allocate(process, &digits1, a->size);
-    Arcadia_Process1_copyMemory(Arcadia_Process_getProcess1(process), digits1, a->digits, sizeof(R_BigInteger_Digit) * a->size);
+    Arcadia_Process_copyMemory(process, digits1, a->digits, sizeof(R_BigInteger_Digit) * a->size);
     *digits = digits1;
     *size = a->size;
     *capacity = a->size;
@@ -168,7 +168,7 @@ Digits_add
     // Return -b.
     R_BigInteger_Digit* digits1 = NULL;
     Digits_allocate(process, &digits1, b->size);
-    Arcadia_Process1_copyMemory(Arcadia_Process_getProcess1(process), digits1, b->digits, sizeof(R_BigInteger_Digit) * b->size);
+    Arcadia_Process_copyMemory(process, digits1, b->digits, sizeof(R_BigInteger_Digit) * b->size);
     *digits = digits1;
     *size = b->size;
     *capacity = b->size;
@@ -220,7 +220,7 @@ Digits_subtract
     // b is zero. Return a.
     R_BigInteger_Digit* digits1 = NULL;
     Digits_allocate(process, &digits1, a->size);
-    Arcadia_Process1_copyMemory(Arcadia_Process_getProcess1(process), digits1, a->digits, sizeof(R_BigInteger_Digit) * a->size);
+    Arcadia_Process_copyMemory(process, digits1, a->digits, sizeof(R_BigInteger_Digit) * a->size);
     *digits = digits1;
     *size = a->size;
     *capacity = a->size;
@@ -232,7 +232,7 @@ Digits_subtract
     // Return b.
     R_BigInteger_Digit* digits1 = NULL;
     Digits_allocate(process, &digits1, b->size);
-    Arcadia_Process1_copyMemory(Arcadia_Process_getProcess1(process), digits1, b->digits, sizeof(R_BigInteger_Digit) * b->size);
+    Arcadia_Process_copyMemory(process, digits1, b->digits, sizeof(R_BigInteger_Digit) * b->size);
     *digits = digits1;
     *size = b->size;
     *capacity = b->size;

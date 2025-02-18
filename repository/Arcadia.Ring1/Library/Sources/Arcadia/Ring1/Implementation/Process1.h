@@ -23,15 +23,28 @@
 #endif
 
 #include "Arcadia/Ring1/Implementation/NoReturn.h"
+
 #if Arcadia_Configuration_CompilerC_Gcc == Arcadia_Configuration_CompilerC
 #include <stddef.h>
 #endif
+
+#include "Arcadia/Ring1/Implementation/Boolean.h"
+#include "Arcadia/Ring1/Implementation/Size.h"
+#include "Arcadia/Ring1/Implementation/Value.h"
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <inttypes.h>
 #include <setjmp.h>
 
 typedef struct Arcadia_JumpTarget Arcadia_JumpTarget;
+
+/// the thread object provides access to a thread.
+typedef struct Arcadia_Thread1 Arcadia_Thread1;
+
+/// the process object provides access to the current thread.
+/// the current thread provides access to the thread's jump target stack and the thread's status variable.
+typedef struct Arcadia_Process Arcadia_Process;
 
 struct Arcadia_JumpTarget {
   Arcadia_JumpTarget* previous;
@@ -74,26 +87,125 @@ typedef uint32_t Arcadia_ProcessStatus;
 #define Arcadia_ProcessStatus_OperationInvalid (3)
 #define Arcadia_ProcessStatus_EnvironmentFailed (4)
 
-/// the process object provides access to the current thread.
-/// the current thread provides access to the thread's jump target stack and the thread's status variable.
-typedef struct Arcadia_Process1 Arcadia_Process1;
-
-/// @return #Arcadia_ProcessStatus_Success on success.
-/// - #Arcadia_ProcessStatus_ArgumentValueInvalid @a process is a null pointer
-/// - #Arcadia_ProcessStatus_OperationInvalid the reference counter would overflow or underflow from this call
-Arcadia_ProcessStatus
-Arcadia_Process1_acquire
+/// @error Arcadia_Status_ArgumentValueInvalid @a self is a null pointer
+Arcadia_SizeValue
+Arcadia_Thread1_getValueStackSize
   (
-    Arcadia_Process1* process
+    Arcadia_Thread1* thread
+  );
+
+/// @error Arcadia_Status_ArgumentValueInvalid @a self is a null pointer
+/// @error Arcadia_Status_ArgumentValueInvalid @a value is a null pointer
+/// @error Arcadia_Status_AllocationFailed an allocation failed
+void
+Arcadia_Thread1_pushValue
+  (
+    Arcadia_Thread1* thread,
+    Arcadia_Value* value
+  );
+
+/// @error Arcadia_Status_ArgumentValueInvalid @a self is a null pointer
+/// @error Arcadia_Status_ArgumentValueInvalid @a coutn is greater than the size of the stack
+void
+Arcadia_Thread1_popValue
+  (
+    Arcadia_Thread1* thread,
+    Arcadia_SizeValue count
+  );
+
+/// @brief Push a jump target on the top of the jump target stack of this thread
+/// @param thread A pointer to this Arcadia_Thread1 object
+/// @undefined @a process does not refer to a Arcadia_Thread1 object
+/// @undefined @a jumpTarget does not point to an Arcadia_JumpTarget object
+/// @undefined Invoked without having the exclusive lock to the thread
+void
+Arcadia_Thread1_pushJumpTarget
+  (
+    Arcadia_Thread1* thread,
+    Arcadia_JumpTarget* jumpTarget
+  );
+
+/// @brief Pop a jump target from the top of the jump target stack of this thread
+/// @param thread A pointer to this Arcadia_Thread1 object
+/// @undefined @a thread does not refer to a Arcadia_Thread1 object
+/// @undefined the jump target stack of the Arcadia_Thread1 object is empty
+/// @undefined Invoked without having the exclusive lock to the thread
+void
+Arcadia_Thread1_popJumpTarget
+  (
+    Arcadia_Thread1* thread
+  );
+
+/// @brief Jump to the jump target on the top of the jump target stack of this thread
+/// @param thread A pointer to this Arcadia_Thread1 object
+/// @undefined @a thread does not refer to a Arcadia_Thread1 object
+/// @undefined the jump target stack of the Arcadia_Process object is empty
+/// @undefined Invoked without having the exclusive lock to the thread
+Arcadia_NoReturn() void
+Arcadia_Thread1_jump
+  (
+    Arcadia_Thread1* thread
+  );
+
+/// @brief Get the status variable value of this thread
+/// @param thread A pointer to this Arcadia_Thread1 object
+/// @return the status value
+/// @undefined @a thread does not refer to a Arcadia_Thread1 object
+/// @undefined Invoked without having the exclusive lock to the thread
+Arcadia_Status
+Arcadia_Thread1_getStatus
+  (
+    Arcadia_Thread1* thread
+  );
+
+/// @brief Set the status variable value of this thread
+/// @param thread A pointer to this Arcadia_Thread1 object
+/// @param status the status value
+/// @undefined @a thread does not refer to a Arcadia_Thread1 object
+/// @undefined Invoked without having the exclusive lock to the thread
+void
+Arcadia_Thread1_setStatus
+  (
+    Arcadia_Thread1* thread,
+    Arcadia_Status status
+  );
+
+/// @brief Get the process of this thread
+/// @param thread A pointer to this Arcadia_Thread1 object
+/// @retur A pointer to the process of this thread
+/// @undefined @a thread does not refer to a Arcadia_Thread1 object
+/// @undefined Invoked without having the exclusive lock to the thread
+Arcadia_Process*
+Arcadia_Thread1_getProcess
+  (
+    Arcadia_Thread1* thread
+  );
+
+/// @brief Get the thread of this process.
+/// @param process A pointer to this Arcadia_Process object.
+/// @return A pointer to the Arcadia_Thread1 object of this Arcadia_Process object.
+Arcadia_Thread1*
+Arcadia_Process_getThread
+  (
+    Arcadia_Process* process
   );
 
 /// @return #Arcadia_ProcessStatus_Success on success.
 /// - #Arcadia_ProcessStatus_ArgumentValueInvalid @a process is a null pointer
 /// - #Arcadia_ProcessStatus_OperationInvalid the reference counter would overflow or underflow from this call
 Arcadia_ProcessStatus
-Arcadia_Process1_relinquish
+Arcadia_Process_acquire
   (
-    Arcadia_Process1* process
+    Arcadia_Process* process
+  );
+
+/// @return #Arcadia_ProcessStatus_Success on success.
+/// - #Arcadia_ProcessStatus_ArgumentValueInvalid @a process is a null pointer
+/// - #Arcadia_ProcessStatus_OperationInvalid the reference counter would overflow or underflow from this call
+Arcadia_ProcessStatus
+Arcadia_Process_relinquish
+  (
+    Arcadia_Process* process
   );
 
 /// @return #Arcadia_ProcessStatus_Success on success.
@@ -102,78 +214,29 @@ Arcadia_Process1_relinquish
 /// - #Arcadia_ProcessStatus_EnvironmentFailed initialization of Arcadia ARMS failed
 /// - #Arcadia_ProcessStatus_AllocationFailed an allocation failed
 Arcadia_ProcessStatus
-Arcadia_Process1_get
+Arcadia_Process_get
   (
-    Arcadia_Process1** process
-  );
-
-/// @param process A pointer to the Arcadia_Process1 object
-/// @undefined @a process does not refer to a Arcadia_Process object
-/// @undefined @a jumpTarget does not point to an Arcadia_JumpTarget object
-void
-Arcadia_Process1_pushJumpTarget
-  (
-    Arcadia_Process1* process,
-    Arcadia_JumpTarget* jumpTarget
-  );
-
-/// @param process A pointer to the Arcadia_Process1 object
-/// @undefined @a process does not refer to a Arcadia_Process object
-/// @undefined the jump target stack of the Arcadia_Process object is empty
-void
-Arcadia_Process1_popJumpTarget
-  (
-    Arcadia_Process1* process
-  );
-
-/// @undefined @a process does not refer to a Arcadia_Process object
-/// @param process A pointer to the Arcadia_Process1 object
-/// @undefined the jump target stack of the Arcadia_Process object is empty
-Arcadia_NoReturn() void
-Arcadia_Process1_jump
-  (
-    Arcadia_Process1* process
-  );
-
-/// @brief Get the status variable value
-/// @param process A pointer to the Arcadia_Process1 object
-/// @return the status value
-/// @undefined @a process does not refer to a Arcadia_Process object
-Arcadia_Status
-Arcadia_Process1_getStatus
-  (
-    Arcadia_Process1* process
-  );
-
-/// @brief Set the status variable value
-/// @param process A pointer to the Arcadia_Process1 object
-/// @param status the status value
-/// @undefined @a process does not refer to a Arcadia_Process object
-void
-Arcadia_Process1_setStatus
-  (
-    Arcadia_Process1* process,
-    Arcadia_Status status
+    Arcadia_Process** process
   );
 
 /// @brief Fill a memory region with a specified value.
-/// @param process A pointer to the Arcadia_Process1 object
+/// @param process A pointer to the Arcadia_Process object
 /// @param p The starting address of the memory region
 /// @param n The size, in Bytes, of the memory region
 /// @param v The value to assign to the Bytes of the memory region
 /// @remarks @a p can be a null pointer
 /// @error Arcadia_Status_ArgumentValueInvalid p + n overflows
 void
-Arcadia_Process1_fillMemory
+Arcadia_Process_fillMemory
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void* p,
     size_t n,
     uint8_t v
   );
 
 /// @brief Copy the contents of a memory region to another memory region.
-/// @param process A pointer to the Arcadia_Process1 object
+/// @param process A pointer to the Arcadia_Process object
 /// @param p The starting address of the target memory region
 /// @param q The starting address of the source memory region
 /// @param n The size, in Bytes, of the memory regions
@@ -182,18 +245,18 @@ Arcadia_Process1_fillMemory
 /// @error Arcadia_Status_ArgumentValueInvalid p + n overflows
 /// @error Arcadia_Status_ArgumentValueInvalid q + n overflows
 void
-Arcadia_Process1_copyMemory
+Arcadia_Process_copyMemory
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void* p,
     const void* q,
     size_t n
   );
 
 int
-Arcadia_Process1_compareMemory
+Arcadia_Process_compareMemory
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     const void *p,
     const void* q, 
     size_t n
@@ -202,7 +265,7 @@ Arcadia_Process1_compareMemory
 /// @brief
 /// Allocate unmanaged memory.
 /// @param process
-/// A pointer to the Arcadia_Process1 object
+/// A pointer to the Arcadia_Process object
 /// @param p
 /// A pointer to a <code>void*</code> variable.
 /// @param n
@@ -214,9 +277,9 @@ Arcadia_Process1_compareMemory
 /// @error #Arcadia_Status_AllocationFailed
 /// the allocation failed
 void
-Arcadia_Process1_allocateUnmanaged
+Arcadia_Process_allocateUnmanaged
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void** p,
     size_t n
   );
@@ -224,22 +287,22 @@ Arcadia_Process1_allocateUnmanaged
 /// @brief
 /// Deallocate unmanaged memory.
 /// @param process
-/// A pointer to the Arcadia_Process1 object
+/// A pointer to the Arcadia_Process object
 /// @param p
 /// A pointer to a memory region of @a n Bytes.
 /// @error #Arcadia_Status_ArgumentValueInvalid
 /// @a p is a null pointer
 void
-Arcadia_Process1_deallocateUnmanaged
+Arcadia_Process_deallocateUnmanaged
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void* p
   );
 
 /// @brief
 /// Reallocate unmanaged memory.
 /// @param process
-/// A pointer to the Arcadia_Process1 object
+/// A pointer to the Arcadia_Process object
 /// @param p A pointer to a <code>void*</code> variable.
 /// The variable points to the memory region to reallocate.
 /// @param n
@@ -254,100 +317,100 @@ Arcadia_Process1_deallocateUnmanaged
 /// the allocation failed
 /// @remarks O
 void
-Arcadia_Process1_reallocateUnmanaged
+Arcadia_Process_reallocateUnmanaged
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void** p,
     size_t n
   );
 
-/// @param process A pointer to the Arcadia_Process1 object
+/// @param process A pointer to the Arcadia_Process object
 void
-Arcadia_Process1_visitObject
+Arcadia_Process_visitObject
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void* object
   );
 
-/// @param process A pointer to the Arcadia_Process1 object
+/// @param process A pointer to the Arcadia_Process object
 Arcadia_Status
-Arcadia_Process1_lockObject
+Arcadia_Process_lockObject
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void* object
   );
 
-/// @param process A pointer to the Arcadia_Process1 object
+/// @param process A pointer to the Arcadia_Process object
 Arcadia_Status
-Arcadia_Process1_unlockObject
+Arcadia_Process_unlockObject
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void* object
   );
 
 Arcadia_Status
-Arcadia_Process1_stepArms
+Arcadia_Process_stepArms
   (
-    Arcadia_Process1* process
+    Arcadia_Process* process
   );
 
 Arcadia_Status
-Arcadia_Process1_runArms
+Arcadia_Process_runArms
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     bool purgeCaches
   );
 
-typedef void (Arcadia_Process1_PreMarkCallback)(Arcadia_Process1* process, bool purgeCaches);
-typedef void (Arcadia_Process1_VisitCallback)(Arcadia_Process1* process);
-typedef void (Arcadia_Process1_FinalizeCallback)(Arcadia_Process1* process, size_t* destroyed);
+typedef void (Arcadia_Process_PreMarkCallback)(Arcadia_Process* process, bool purgeCaches);
+typedef void (Arcadia_Process_VisitCallback)(Arcadia_Process* process);
+typedef void (Arcadia_Process_FinalizeCallback)(Arcadia_Process* process, size_t* destroyed);
 
 void
-Arcadia_Process1_addArmsPreMarkCallback
+Arcadia_Process_addArmsPreMarkCallback
   (
-    Arcadia_Process1* process,
-    Arcadia_Process1_PreMarkCallback* callback
+    Arcadia_Process* process,
+    Arcadia_Process_PreMarkCallback* callback
   );
 
 void
-Arcadia_Process1_removeArmsPreMarkCallback
+Arcadia_Process_removeArmsPreMarkCallback
   (
-    Arcadia_Process1* process,
-    Arcadia_Process1_PreMarkCallback* callback
+    Arcadia_Process* process,
+    Arcadia_Process_PreMarkCallback* callback
   );
 
 void
-Arcadia_Process1_addArmsVisitCallback
+Arcadia_Process_addArmsVisitCallback
   (
-    Arcadia_Process1* process,
-    Arcadia_Process1_VisitCallback* callback
+    Arcadia_Process* process,
+    Arcadia_Process_VisitCallback* callback
   );
 
 void
-Arcadia_Process1_removeArmsVisitCallback
+Arcadia_Process_removeArmsVisitCallback
   (
-    Arcadia_Process1* process,
-    Arcadia_Process1_VisitCallback* callback
+    Arcadia_Process* process,
+    Arcadia_Process_VisitCallback* callback
   );
 
 void
-Arcadia_Process1_addArmsFinalizeCallback
+Arcadia_Process_addArmsFinalizeCallback
   (
-    Arcadia_Process1* process,
-    Arcadia_Process1_FinalizeCallback* callback
+    Arcadia_Process* process,
+    Arcadia_Process_FinalizeCallback* callback
   );
 
 void
-Arcadia_Process1_removeArmsFinalizeCallback
+Arcadia_Process_removeArmsFinalizeCallback
   (
-    Arcadia_Process1* process,
-    Arcadia_Process1_FinalizeCallback* callback
+    Arcadia_Process* process,
+    Arcadia_Process_FinalizeCallback* callback
   );
 
 void
-Arcadia_Process1_registerType
+Arcadia_Process_registerType
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     const char* name,
     size_t nameLength,
     void* context,
@@ -368,9 +431,9 @@ Arcadia_Process1_registerType
 /// - Arcadia_Status_TypeNotExists if the type does not exist.
 /// - Arcadia_Status_ArgumentInvalid if @a p or @a name is a null pointer.
 void
-Arcadia_Process1_allocate
+Arcadia_Process_allocate
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void** p,
     const char* name,
     size_t nameLength,
@@ -384,19 +447,19 @@ typedef struct ModuleInfo {
   const char* name;
   /// @brief Visit the module.
   /// @warning Internal function.
-  Arcadia_Process1_VisitCallback* onVisit;
+  Arcadia_Process_VisitCallback* onVisit;
   /// @brief Startup the module.
   /// @warning Internal function.
-  void (*onStartUp)(Arcadia_Process1* process);
+  void (*onStartUp)(Arcadia_Process* process);
   /// @brief Shutdown the module.
   /// @warning Internal function.
-  void (*onShutDown)(Arcadia_Process1* process);
+  void (*onShutDown)(Arcadia_Process* process);
   /// @brief Must be invoked in the pre mark phase.
   /// @warning Internal function.
-  Arcadia_Process1_PreMarkCallback* onPreMark;
+  Arcadia_Process_PreMarkCallback* onPreMark;
   /// @brief Must be invoked in the finalize phase.
   /// @warning Internal function.
-  Arcadia_Process1_FinalizeCallback* onFinalize;
+  Arcadia_Process_FinalizeCallback* onFinalize;
 } ModuleInfo;
 
 #define Arcadia_DeclareModule(Name, cName) \
@@ -409,33 +472,33 @@ typedef struct ModuleInfo {
   static void \
   _##cName##_onStartUp \
     ( \
-      Arcadia_Process1* process \
+      Arcadia_Process* process \
     ); \
 \
   static void \
   _##cName##_onShutDown \
     ( \
-      Arcadia_Process1* process \
+      Arcadia_Process* process \
     ); \
 \
   static void \
   _##cName##_onPreMark \
     ( \
-      Arcadia_Process1* process, \
+      Arcadia_Process* process, \
       bool purgeCache \
     ); \
 \
   static void \
   _##cName##_onFinalize \
     ( \
-      Arcadia_Process1* process, \
+      Arcadia_Process* process, \
       size_t* destroyed \
     ); \
 \
   static void \
   _##cName##_onVisit \
     ( \
-      Arcadia_Process1* process \
+      Arcadia_Process* process \
     ); \
 \
   static const ModuleInfo _##cName##_moduleInfo = { \

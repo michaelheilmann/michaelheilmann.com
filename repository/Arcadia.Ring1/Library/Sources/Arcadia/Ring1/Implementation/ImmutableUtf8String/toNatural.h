@@ -28,28 +28,28 @@ typedef struct Arcadia_ImmutableUtf8String Arcadia_ImmutableUtf8String;
 Arcadia_Natural16Value
 _toNatural16
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8String* immutableUtf8StringValue
   );
 
 Arcadia_Natural32Value
 _toNatural32
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8String* immutableUtf8StringValue
   );
 
 Arcadia_Natural64Value
 _toNatural64
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8String* immutableUtf8StringValue
   );
 
 Arcadia_Natural8Value
 _toNatural8
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8String* immutableUtf8StringValue
   );
 

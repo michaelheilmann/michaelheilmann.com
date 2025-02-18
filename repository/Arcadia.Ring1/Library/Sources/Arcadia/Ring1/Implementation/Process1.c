@@ -20,18 +20,65 @@
 
 #include "Arcadia/Ring1/Implementation/StaticAssert.h"
 #include "Arcadia/Ring1/Implementation/Diagnostics.h"
+#include "Arcadia/Ring1/Implementation/Atoms.private.h"
+#include "Arcadia/Ring1/Implementation/Types.private.h"
 #include <stdbool.h>
-#include <malloc.h>
 #include <string.h>
 #include "Arms.h"
+
+typedef const ModuleInfo* (GetModuleInfo)();
+static GetModuleInfo* g_modules[] = {
+  &Arcadia_Atoms_getModule,
+  &Arcadia_Types_getModule,
+};
+static size_t g_initializedModules = 0;
+static const size_t g_numberOfModules = sizeof(g_modules) / sizeof(const ModuleInfo*);
+
+static void
+startupModules
+  (
+    Arcadia_Process* process
+  )
+{
+  Arcadia_JumpTarget jumpTarget;
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
+  if (Arcadia_JumpTarget_save(&jumpTarget)) {
+    for (size_t i = 0, n = g_numberOfModules; i < n; ++i) {
+      g_modules[i]()->onStartUp(process);
+      g_initializedModules++;
+    }
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
+  } else {
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
+    while (g_initializedModules > 0) {
+      Arcadia_Process_runArms(process, true);
+      g_modules[--g_initializedModules]()->onShutDown(process);
+    }
+    Arcadia_Process_runArms(process, true);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
+  }
+}
+
+static void
+shutdownModules
+  (
+    Arcadia_Process* process
+  )
+{
+  while (g_initializedModules > 0) {
+    Arcadia_Process_runArms(process, true);
+    g_modules[--g_initializedModules]()->onShutDown(process);
+  }
+  Arcadia_Process_runArms(process, true);
+}
 
 typedef struct ArmsCallbackNode ArmsCallbackNode;
 
 struct ArmsCallbackNode {
   ArmsCallbackNode* next;
-  void (*onPreMark)(Arcadia_Process1*, bool);
-  void (*onVisit)(Arcadia_Process1*);
-  void (*onFinalize)(Arcadia_Process1*, size_t*);
+  void (*onPreMark)(Arcadia_Process*, bool);
+  void (*onVisit)(Arcadia_Process*);
+  void (*onFinalize)(Arcadia_Process*, size_t*);
 };
 
 static Arcadia_Status
@@ -96,26 +143,286 @@ shutdownArms
   };
 }
 
+/// @brief The type of a reference counter.
 typedef uint32_t ReferenceCount;
 
+/// @brief The minimum value of a reference counter.
 #define ReferenceCount_Minimum (UINT32_C(0))
+
+/// @brief The maximum value of a reference counter.
 #define ReferenceCount_Maximum (UINT32_MAX)
 
 Arcadia_StaticAssert(ReferenceCount_Minimum < ReferenceCount_Maximum, "environment not (yet) supported");
 
-struct Arcadia_Process1 {
-  ReferenceCount referenceCount;
+/// @brief Increment a reference counter.
+/// @param referenceCounter A pointer to the reference counter.
+/// @return the new reference count value
+static inline ReferenceCount ReferenceCount_increment(ReferenceCount* referenceCount) {
+  return ++(*referenceCount);
+}
+
+/// @brief Decrement a reference counter.
+/// @param referenceCounter A pointer to the reference counter.
+/// @return the new reference count value
+static inline ReferenceCount ReferenceCount_decrement(ReferenceCount* referenceCount) {
+  return --(*referenceCount);
+}
+
+struct Arcadia_Thread1 {
   Arcadia_Status status;
   Arcadia_JumpTarget* jumpTarget;
+  struct {
+    Arcadia_Value* elements;
+    Arcadia_SizeValue size;
+    Arcadia_SizeValue capacity;
+  } stack;
+  // Weak reference to the process object which owns this thread object.
+  // When the thread is constructed, this is NULL.
+  // The constructing process assigns itself to this variable after the thread is constructed.
+  Arcadia_Process* process1;
+};
+
+/*@undefined thread does not point to an uninitialized Arcadia_Thread1 object*/
+static void
+Arcadia_Thread1_initializeValueStack
+  (
+    Arcadia_Thread1* thread
+  );
+
+/*@undefined thread does not point to an uninitialized Arcadia_Thread1 object*/
+static void
+Arcadia_Thread1_uninitializeValueStack
+  (
+    Arcadia_Thread1* thread
+  );
+
+/*@undefined thread does not point to an uninitialized Arcadia_Thread1 object*/
+static void
+Arcadia_Thread1_initialize
+  (
+    Arcadia_Thread1* thread
+  );
+
+/*@undefined thread does not point to an initialized Arcadia_Thread1 object*/
+static void
+Arcadia_Thread1_uninitialize
+  (
+    Arcadia_Thread1* thread
+  );
+
+/*@undefined thread does not point to an initialized Arcadia_Thread1 object*/
+static void
+Arcadia_Thread1_increaseValueStackCapacity
+  (
+    Arcadia_Thread1* thread,
+    Arcadia_SizeValue additionalCapacity
+  );
+
+static void
+Arcadia_Thread1_ensureValueStackFreeCapacity
+  (
+    Arcadia_Thread1* thread,
+    Arcadia_SizeValue requiredFreeCapacity
+  );
+
+static void
+Arcadia_Thread1_initializeValueStack
+  (
+    Arcadia_Thread1* thread
+  )
+{ 
+  if (Arms_MemoryManager_allocate(Arms_getDefaultMemoryManager(), &thread->stack.elements, sizeof(Arcadia_Value) * 8)) {
+    Arcadia_Thread1_setStatus(thread, Arcadia_Status_AllocationFailed);
+    Arcadia_Thread1_jump(thread);
+  }
+  for (Arcadia_SizeValue i = 0; i < 8; ++i) {
+    thread->stack.elements[i] = (Arcadia_Value){ .tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void };
+  }
+  thread->stack.size = 0;
+  thread->stack.capacity = 8;
+}
+
+static void
+Arcadia_Thread1_uninitializeValueStack
+  (
+    Arcadia_Thread1* thread
+  )
+{
+  Arms_MemoryManager_deallocate(Arms_getDefaultMemoryManager(), thread->stack.elements);
+  thread->stack.elements = NULL;
+}
+
+static void
+Arcadia_Thread1_initialize
+  (
+    Arcadia_Thread1* thread
+  )
+{
+  thread->process1 = NULL;
+  thread->status = Arcadia_Status_Success;
+  thread->jumpTarget = NULL;
+  Arcadia_Thread1_initializeValueStack(thread);
+}
+
+static void
+Arcadia_Thread1_uninitialize
+  (
+    Arcadia_Thread1* thread
+  )
+{
+  Arcadia_Thread1_uninitializeValueStack(thread);
+  thread->jumpTarget = NULL;
+  thread->status = Arcadia_Status_Success;
+  thread->process1 = NULL;
+}
+
+static void
+Arcadia_Thread1_increaseValueStackCapacity
+  (
+    Arcadia_Thread1* thread,
+    Arcadia_SizeValue additionalCapacity
+  )  
+{
+  static const Arcadia_SizeValue maximumCapacity = Arcadia_SizeValue_Maximum / sizeof(Arcadia_Value);
+  static const Arcadia_SizeValue desiredAdditionalCapacity = 64;
+  Arcadia_SizeValue oldCapacity = thread->stack.capacity;
+  if (maximumCapacity - oldCapacity < additionalCapacity) {
+    Arcadia_Thread1_setStatus(thread, Arcadia_Status_AllocationFailed);
+    Arcadia_Thread1_jump(thread);
+  }
+  Arcadia_SizeValue maximumAdditionalCapacity = maximumCapacity - oldCapacity;
+  // We want to grow in steps of desiredAdditionalCapacity.
+  if (additionalCapacity < desiredAdditionalCapacity && maximumAdditionalCapacity >= desiredAdditionalCapacity) {
+    additionalCapacity = desiredAdditionalCapacity;
+  }
+
+  Arcadia_SizeValue newCapacity = oldCapacity + additionalCapacity;
+  if (Arms_MemoryManager_reallocate(Arms_getDefaultMemoryManager(), &thread->stack.elements, newCapacity * sizeof(Arcadia_Value))) {
+    Arcadia_Thread1_setStatus(thread, Arcadia_Status_AllocationFailed);
+    Arcadia_Thread1_jump(thread);
+  }
+  for (Arcadia_SizeValue i = oldCapacity; i < newCapacity; ++i) {
+    thread->stack.elements[i] = (Arcadia_Value){ .tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void };
+  }
+  thread->stack.capacity = newCapacity;
+}
+
+static void
+Arcadia_Thread1_ensureValueStackFreeCapacity
+  (
+    Arcadia_Thread1* thread,
+    Arcadia_SizeValue requiredFreeCapacity
+  )
+{
+  Arcadia_SizeValue availableFreeCapacity = thread->stack.capacity - thread->stack.size;
+  if (availableFreeCapacity < requiredFreeCapacity) {
+    Arcadia_Thread1_increaseValueStackCapacity(thread, requiredFreeCapacity - availableFreeCapacity);
+  }
+}
+
+Arcadia_SizeValue
+Arcadia_Thread1_getValueStackSize
+  (
+    Arcadia_Thread1* thread
+  )
+{ return thread->stack.size; }
+
+void
+Arcadia_Thread1_pushValue
+  (
+    Arcadia_Thread1* thread,
+    Arcadia_Value* value
+  )
+{
+  Arcadia_Thread1_ensureValueStackFreeCapacity(thread, 1);
+  thread->stack.elements[thread->stack.size] = *value;
+  thread->stack.size++;
+}
+
+void
+Arcadia_Thread1_popValue
+  (
+    Arcadia_Thread1* thread,
+    Arcadia_SizeValue count
+  )
+{
+  if (count < thread->stack.size) {
+    Arcadia_Thread1_setStatus(thread, Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(thread);
+  }
+  thread->stack.size -= count;
+}
+
+void
+Arcadia_Thread1_pushJumpTarget
+  (
+    Arcadia_Thread1* thread,
+    Arcadia_JumpTarget* jumpTarget
+  )
+{
+  jumpTarget->previous = thread->jumpTarget;
+  thread->jumpTarget = jumpTarget;
+}
+
+void
+Arcadia_Thread1_popJumpTarget
+  (
+    Arcadia_Thread1* thread
+  )
+{
+  thread->jumpTarget = thread->jumpTarget->previous;
+}
+
+Arcadia_NoReturn() void
+Arcadia_Thread1_jump
+  (
+    Arcadia_Thread1* thread
+  )
+{ 
+  longjmp(thread->jumpTarget->environment, -1);
+}
+
+Arcadia_Status
+Arcadia_Thread1_getStatus
+  (
+    Arcadia_Thread1* thread
+  )
+{ return thread->status; }
+
+void
+Arcadia_Thread1_setStatus
+  (
+    Arcadia_Thread1* thread,
+    Arcadia_Status status
+  )
+{ thread->status = status; }
+
+Arcadia_Process*
+Arcadia_Thread1_getProcess
+  (
+    Arcadia_Thread1* thread
+  )
+{ return thread->process1; }
+
+struct Arcadia_Process {
+  ReferenceCount referenceCount;
+  Arcadia_Thread1 thread;
   ArmsCallbackNode* armsCallbackNodes;
 };
 
-static Arcadia_Process1* g_process = NULL;
+static Arcadia_Process* g_process = NULL;
+
+Arcadia_Thread1*
+Arcadia_Process_getThread
+  (
+    Arcadia_Process* process
+  )
+{ return &process->thread; }
 
 Arcadia_ProcessStatus
-Arcadia_Process1_acquire
+Arcadia_Process_acquire
   (
-    Arcadia_Process1* process
+    Arcadia_Process* process
   )
 {
   if (!process) {
@@ -129,9 +436,9 @@ Arcadia_Process1_acquire
 }
 
 Arcadia_ProcessStatus
-Arcadia_Process1_relinquish
+Arcadia_Process_relinquish
   (
-    Arcadia_Process1* process
+    Arcadia_Process* process
   )
 {
   if (!process) {
@@ -142,19 +449,21 @@ Arcadia_Process1_relinquish
     return Arcadia_ProcessStatus_OperationInvalid;
   }
   if (ReferenceCount_Minimum == --process->referenceCount) {
+    shutdownModules(process);
+    Arcadia_Thread1_uninitialize(&process->thread);
+    Arms_MemoryManager_deallocate(Arms_getDefaultMemoryManager(), g_process);
+    g_process = NULL;
     if (Arms_shutdown()) {
       Arcadia_logf(Arcadia_LogFlags_Error, "%s:%d: %s failed\n", __FILE__, __LINE__, "Arms_shutdown");
     }
-    free(g_process);
-    g_process = NULL;
   }
   return Arcadia_ProcessStatus_Success;
 }
 
 Arcadia_ProcessStatus
-Arcadia_Process1_get
+Arcadia_Process_get
   (
-    Arcadia_Process1** process
+    Arcadia_Process** process
   )
 {
   if (!process) {
@@ -164,17 +473,33 @@ Arcadia_Process1_get
     if (Arms_startup()) {
       return Arcadia_ProcessStatus_EnvironmentFailed;
     }
-    g_process = malloc(sizeof(Arcadia_Process1));
-    if (!g_process) {
+    if (Arms_MemoryManager_allocate(Arms_getDefaultMemoryManager(), &g_process, sizeof(Arcadia_Process))) {
       if (Arms_shutdown()) {
         Arcadia_logf(Arcadia_LogFlags_Error, "%s:%d: %s failed\n", __FILE__, __LINE__, "Arms_shutdown");
       }
       return Arcadia_ProcessStatus_AllocationFailed;
     }
     g_process->referenceCount = ReferenceCount_Minimum + 1;
-    g_process->status = Arcadia_Status_Success;
-    g_process->jumpTarget = NULL;
+    Arcadia_Thread1_initialize(&g_process->thread);
     g_process->armsCallbackNodes = NULL;
+    g_process->thread.process1 = g_process;
+    
+    Arcadia_JumpTarget jumpTarget;
+    Arcadia_Thread1_pushJumpTarget(&g_process->thread, &jumpTarget);
+    if (Arcadia_JumpTarget_save(&jumpTarget)) {
+      startupModules(g_process);
+      Arcadia_Thread1_popJumpTarget(&g_process->thread);
+    } else {
+      Arcadia_Thread1_popJumpTarget(&g_process->thread);
+      shutdownModules(g_process);
+      Arcadia_Thread1_uninitialize(&g_process->thread);
+      Arms_MemoryManager_deallocate(Arms_getDefaultMemoryManager(), g_process);
+      g_process = NULL;
+      if (Arms_shutdown()) {
+        Arcadia_logf(Arcadia_LogFlags_Error, "%s:%d: %s failed\n", __FILE__, __LINE__, "Arms_shutdown");
+      }
+      return Arcadia_ProcessStatus_AllocationFailed;
+    }
     *process = g_process;
     return Arcadia_ProcessStatus_Success;
   }
@@ -187,55 +512,9 @@ Arcadia_Process1_get
 }
 
 void
-Arcadia_Process1_pushJumpTarget
+Arcadia_Process_fillMemory
   (
-    Arcadia_Process1* process,
-    Arcadia_JumpTarget* jumpTarget
-  )
-{
-  jumpTarget->previous = process->jumpTarget;
-  process->jumpTarget = jumpTarget;
-}
-
-void
-Arcadia_Process1_popJumpTarget
-  (
-    Arcadia_Process1* process
-  )
-{
-  process->jumpTarget = process->jumpTarget->previous;
-}
-
-Arcadia_NoReturn() void
-Arcadia_Process1_jump
-  (
-    Arcadia_Process1* process
-  )
-{ 
-  longjmp(process->jumpTarget->environment, -1);
-}
-
-Arcadia_Status
-Arcadia_Process1_getStatus
-  (
-    Arcadia_Process1* process
-  )
-{ return process->status; }
-
-void
-Arcadia_Process1_setStatus
-  (
-    Arcadia_Process1* process,
-    Arcadia_Status status
-  )
-{
-  process->status = status;
-}
-
-void
-Arcadia_Process1_fillMemory
-  (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void* p,
     size_t n,
     uint8_t v
@@ -244,16 +523,16 @@ Arcadia_Process1_fillMemory
   Arcadia_StaticAssert(UINTPTR_MAX == SIZE_MAX, "environment not (yet) supported");
 
   if (UINTPTR_MAX - n < ((uintptr_t)p)) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   memset(p, v, n);
 }
 
 void
-Arcadia_Process1_copyMemory
+Arcadia_Process_copyMemory
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void* p,
     const void* q,
     size_t n
@@ -262,8 +541,8 @@ Arcadia_Process1_copyMemory
   Arcadia_StaticAssert(UINTPTR_MAX == SIZE_MAX, "environment not (yet) supported");
 
   if (UINTPTR_MAX - n < ((uintptr_t)p) || UINTPTR_MAX - n < ((uintptr_t)q)) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   // Determine if the intervals a = [a.start, a.end] and b = [b.start, b.end] DO overlap.
   //
@@ -292,25 +571,25 @@ Arcadia_Process1_copyMemory
 }
 
 int
-Arcadia_Process1_compareMemory
+Arcadia_Process_compareMemory
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     const void* p,
     const void* q,
     size_t n
   )
 {
   if (!p || !q) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return memcmp(p, q, n);
 }
 
 void
-Arcadia_Process1_allocateUnmanaged
+Arcadia_Process_allocateUnmanaged
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void** p,
     size_t n
   )
@@ -318,38 +597,38 @@ Arcadia_Process1_allocateUnmanaged
   Arms_Status status = Arms_MemoryManager_allocate(Arms_getDefaultMemoryManager(), p, n);
   if (status) {
     if (status == Arms_Status_ArgumentValueInvalid) {
-      Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
     } else if (status == Arms_Status_AllocationFailed) {
-      Arcadia_Process1_setStatus(process, Arcadia_Status_AllocationFailed);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
     } else {
-      Arcadia_Process1_setStatus(process, Arcadia_Status_AllocationFailed); /*@todo As ARMs behaves incorrectly, we should use Arcadia_Status_EnvironmentInvalid.*/
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed); /*@todo As ARMs behaves incorrectly, we should use Arcadia_Status_EnvironmentInvalid.*/
     }
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 
 void
-Arcadia_Process1_deallocateUnmanaged
+Arcadia_Process_deallocateUnmanaged
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void* p
   )
 {
   Arms_MemoryManager_Status status = Arms_MemoryManager_deallocate(Arms_getDefaultMemoryManager(), p);
   if (status) {
     if (status == Arms_MemoryManager_Status_ArgumentValueInvalid) {
-      Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
     } else {
-      Arcadia_Process1_setStatus(process, Arcadia_Status_AllocationFailed); /*@todo As ARMs behaves incorrectly, we should use Arcadia_Status_EnvironmentInvalid.*/
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed); /*@todo As ARMs behaves incorrectly, we should use Arcadia_Status_EnvironmentInvalid.*/
     }
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 
 void
-Arcadia_Process1_reallocateUnmanaged
+Arcadia_Process_reallocateUnmanaged
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void** p,
     size_t n
   )
@@ -357,20 +636,20 @@ Arcadia_Process1_reallocateUnmanaged
   Arms_MemoryManager_Status status = Arms_MemoryManager_reallocate(Arms_getDefaultMemoryManager(), p, n);
   if (status) {
     if (status == Arms_MemoryManager_Status_ArgumentValueInvalid) {
-      Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
     } else if (status == Arms_MemoryManager_Status_AllocationFailed) {
-      Arcadia_Process1_setStatus(process, Arcadia_Status_AllocationFailed);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
     } else {
-      Arcadia_Process1_setStatus(process, Arcadia_Status_AllocationFailed); /*@todo As ARMs behaves incorrectly, we should use Arcadia_Status_EnvironmentInvalid.*/
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed); /*@todo As ARMs behaves incorrectly, we should use Arcadia_Status_EnvironmentInvalid.*/
     }
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 
 void
-Arcadia_Process1_visitObject
+Arcadia_Process_visitObject
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void* object
   )
 {
@@ -380,9 +659,9 @@ Arcadia_Process1_visitObject
 }
 
 Arcadia_Status
-Arcadia_Process1_lockObject
+Arcadia_Process_lockObject
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void* object
   )
 {
@@ -408,9 +687,9 @@ Arcadia_Process1_lockObject
 }
 
 Arcadia_Status
-Arcadia_Process1_unlockObject
+Arcadia_Process_unlockObject
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void* object
   )
 {
@@ -436,9 +715,9 @@ Arcadia_Process1_unlockObject
 }
 
 Arcadia_Status
-Arcadia_Process1_stepArms
+Arcadia_Process_stepArms
   (
-    Arcadia_Process1* process
+    Arcadia_Process* process
   )
 {
   Arms_RunStatistics statistics = { .destroyed = 0 };
@@ -462,9 +741,9 @@ Arcadia_Process1_stepArms
 }
 
 Arcadia_Status
-Arcadia_Process1_runArms
+Arcadia_Process_runArms
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     bool purgeCaches
   )
 {
@@ -508,14 +787,14 @@ Arcadia_Process1_runArms
 }
 
 void
-Arcadia_Process1_addArmsPreMarkCallback
+Arcadia_Process_addArmsPreMarkCallback
   (
-    Arcadia_Process1* process,
-    Arcadia_Process1_PreMarkCallback* callback
+    Arcadia_Process* process,
+    Arcadia_Process_PreMarkCallback* callback
   )
 {
   ArmsCallbackNode* armsCallbackNode = NULL;
-  Arcadia_Process1_allocateUnmanaged(process, &armsCallbackNode, sizeof(ArmsCallbackNode));
+  Arcadia_Process_allocateUnmanaged(process, &armsCallbackNode, sizeof(ArmsCallbackNode));
   armsCallbackNode->onFinalize = NULL;
   armsCallbackNode->onPreMark = callback;
   armsCallbackNode->onVisit = NULL;
@@ -524,10 +803,10 @@ Arcadia_Process1_addArmsPreMarkCallback
 }
 
 void
-Arcadia_Process1_removeArmsPreMarkCallback
+Arcadia_Process_removeArmsPreMarkCallback
   (
-    Arcadia_Process1* process,
-    Arcadia_Process1_PreMarkCallback* callback
+    Arcadia_Process* process,
+    Arcadia_Process_PreMarkCallback* callback
   )
 {
   ArmsCallbackNode** previous = &process->armsCallbackNodes;
@@ -536,7 +815,7 @@ Arcadia_Process1_removeArmsPreMarkCallback
     if (current->onPreMark == callback) {
       *previous = current->next;
       ArmsCallbackNode* node = current;
-      Arcadia_Process1_deallocateUnmanaged(process, node);
+      Arcadia_Process_deallocateUnmanaged(process, node);
       break;
     } else {
       previous = &current->next;
@@ -546,14 +825,14 @@ Arcadia_Process1_removeArmsPreMarkCallback
 }
 
 void
-Arcadia_Process1_addArmsVisitCallback
+Arcadia_Process_addArmsVisitCallback
   (
-    Arcadia_Process1* process,
-    Arcadia_Process1_VisitCallback* callback
+    Arcadia_Process* process,
+    Arcadia_Process_VisitCallback* callback
   )
 {
   ArmsCallbackNode* armsCallbackNode = NULL;
-  Arcadia_Process1_allocateUnmanaged(process, &armsCallbackNode, sizeof(ArmsCallbackNode));
+  Arcadia_Process_allocateUnmanaged(process, &armsCallbackNode, sizeof(ArmsCallbackNode));
   armsCallbackNode->onFinalize = NULL;
   armsCallbackNode->onPreMark = NULL;
   armsCallbackNode->onVisit = callback;
@@ -562,10 +841,10 @@ Arcadia_Process1_addArmsVisitCallback
 }
 
 void
-Arcadia_Process1_removeArmsVisitCallback
+Arcadia_Process_removeArmsVisitCallback
   (
-    Arcadia_Process1* process,
-    Arcadia_Process1_VisitCallback* callback
+    Arcadia_Process* process,
+    Arcadia_Process_VisitCallback* callback
   )
 {
   ArmsCallbackNode** previous = &process->armsCallbackNodes;
@@ -574,7 +853,7 @@ Arcadia_Process1_removeArmsVisitCallback
     if (current->onVisit == callback) {
       *previous = current->next;
       ArmsCallbackNode* node = current;
-      Arcadia_Process1_deallocateUnmanaged(process, node);
+      Arcadia_Process_deallocateUnmanaged(process, node);
       break;
     } else {
       previous = &current->next;
@@ -584,14 +863,14 @@ Arcadia_Process1_removeArmsVisitCallback
 }
 
 void
-Arcadia_Process1_addArmsFinalizeCallback
+Arcadia_Process_addArmsFinalizeCallback
   (
-    Arcadia_Process1* process,
-    Arcadia_Process1_FinalizeCallback* callback
+    Arcadia_Process* process,
+    Arcadia_Process_FinalizeCallback* callback
   )
 {
   ArmsCallbackNode* armsCallbackNode = NULL;
-  Arcadia_Process1_allocateUnmanaged(process, &armsCallbackNode, sizeof(ArmsCallbackNode));
+  Arcadia_Process_allocateUnmanaged(process, &armsCallbackNode, sizeof(ArmsCallbackNode));
   armsCallbackNode->onFinalize = callback;
   armsCallbackNode->onPreMark = NULL;
   armsCallbackNode->onVisit = NULL;
@@ -600,10 +879,10 @@ Arcadia_Process1_addArmsFinalizeCallback
 }
 
 void
-Arcadia_Process1_removeArmsFinalizeCallback
+Arcadia_Process_removeArmsFinalizeCallback
   (
-    Arcadia_Process1* process,
-    Arcadia_Process1_FinalizeCallback* callback
+    Arcadia_Process* process,
+    Arcadia_Process_FinalizeCallback* callback
   )
 {
   ArmsCallbackNode** previous = &process->armsCallbackNodes;
@@ -612,7 +891,7 @@ Arcadia_Process1_removeArmsFinalizeCallback
     if (current->onFinalize == callback) {
       *previous = current->next;
       ArmsCallbackNode* node = current;
-      Arcadia_Process1_deallocateUnmanaged(process, node);
+      Arcadia_Process_deallocateUnmanaged(process, node);
       break;
     } else {
       previous = &current->next;
@@ -622,9 +901,9 @@ Arcadia_Process1_removeArmsFinalizeCallback
 }
 
 void
-Arcadia_Process1_registerType
+Arcadia_Process_registerType
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     const char* name,
     size_t nameLength,
     void* context,
@@ -637,29 +916,29 @@ Arcadia_Process1_registerType
   if (status) {
     switch (status) {
       case Arms_Status_AllocationFailed: {
-        Arcadia_Process1_setStatus(process, Arcadia_Status_AllocationFailed);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
       } break;
       case Arms_Status_ArgumentValueInvalid: {
-        Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
       } break;
       case Arms_Status_OperationInvalid: {
-        Arcadia_Process1_setStatus(process, Arcadia_Status_OperationInvalid);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
       } break;
       case Arms_Status_TypeExists: {
-        Arcadia_Process1_setStatus(process, Arcadia_Status_OperationInvalid);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
       } break;
       default: {
-        Arcadia_Process1_setStatus(process, Arcadia_Status_OperationInvalid);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
       } break;
     };
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 
 void
-Arcadia_Process1_allocate
+Arcadia_Process_allocate
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     void** p,
     const char* name,
     size_t nameLength,
@@ -671,22 +950,22 @@ Arcadia_Process1_allocate
   if (status) {
     switch (status) {
       case Arms_Status_AllocationFailed: {
-        Arcadia_Process1_setStatus(process, Arms_Status_AllocationFailed);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arms_Status_AllocationFailed);
       } break;
       case Arms_Status_TypeNotExists: {
-        Arcadia_Process1_setStatus(process, Arms_Status_TypeNotExists);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arms_Status_TypeNotExists);
       } break;
       case Arms_Status_ArgumentValueInvalid: {
-        Arcadia_Process1_setStatus(process, Arms_Status_ArgumentValueInvalid);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arms_Status_ArgumentValueInvalid);
       } break;
       case Arms_Status_OperationInvalid: {
-        Arcadia_Process1_setStatus(process, Arms_Status_OperationInvalid);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arms_Status_OperationInvalid);
       } break;
       default: {
-        Arcadia_Process1_setStatus(process, Arms_Status_OperationInvalid);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arms_Status_OperationInvalid);
       } break;
     };
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   *p = q;
 }

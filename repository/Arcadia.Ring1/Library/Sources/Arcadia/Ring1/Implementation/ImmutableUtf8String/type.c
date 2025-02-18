@@ -33,11 +33,11 @@ _onTypeRemoved
 void
 _ensureTypeRegistered
   (
-    Arcadia_Process1* process
+    Arcadia_Process* process
   )
 {
   if (!g_registered) {
-    Arcadia_Process1_registerType(process, TypeName, sizeof(TypeName) - 1, process, &_onTypeRemoved, NULL, NULL);
+    Arcadia_Process_registerType(process, TypeName, sizeof(TypeName) - 1, process, &_onTypeRemoved, NULL, NULL);
     g_registered = Arcadia_BooleanValue_True;
   }
 }

@@ -130,8 +130,8 @@ ensureFreeCapacityBytes
     Arcadia_SizeValue additionalCapacity = requiredFreeCapacity - availableFreeCapacity;
     Arcadia_SizeValue oldCapacity = self->capacity;
     if (SIZE_MAX - oldCapacity < additionalCapacity) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_AllocationFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     Arcadia_SizeValue newCapacity = oldCapacity + additionalCapacity;
     Arcadia_Process_reallocateUnmanaged(process, &self->elements, newCapacity);
@@ -149,7 +149,7 @@ appendBytesInternal
   )
 {
   ensureFreeCapacityBytes(process, self, numberOfBytes);
-  Arcadia_Process1_copyMemory(Arcadia_Process_getProcess1(process), self->elements + self->size, bytes, numberOfBytes);
+  Arcadia_Process_copyMemory(process, self->elements + self->size, bytes, numberOfBytes);
   self->size += numberOfBytes;
 }
 
@@ -177,7 +177,7 @@ Arcadia_StringBuffer_endsWith_pn
     return Arcadia_BooleanValue_False;
   }
   Arcadia_SizeValue d = self->size - numberOfBytes;
-  return !Arcadia_Process1_compareMemory(Arcadia_Process_getProcess1(process), self->elements + d, bytes, numberOfBytes);
+  return !Arcadia_Process_compareMemory(process, self->elements + d, bytes, numberOfBytes);
 }
 
 Arcadia_BooleanValue
@@ -192,7 +192,7 @@ Arcadia_StringBuffer_startsWith_pn
   if (self->size < numberOfBytes) {
     return Arcadia_BooleanValue_False;
   }
-  return !Arcadia_Process1_compareMemory(Arcadia_Process_getProcess1(process), self->elements, bytes, numberOfBytes);
+  return !Arcadia_Process_compareMemory(process, self->elements, bytes, numberOfBytes);
 }
 
 void
@@ -205,15 +205,15 @@ Arcadia_StringBuffer_append_pn
   )
 {
   if (!bytes) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!Arcadia_isUtf8(process, bytes, numberOfBytes, NULL)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EncodingInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EncodingInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   ensureFreeCapacityBytes(process, self, numberOfBytes);
-  Arcadia_Process1_copyMemory(Arcadia_Process_getProcess1(process), self->elements + self->size, bytes, numberOfBytes);
+  Arcadia_Process_copyMemory(process, self->elements + self->size, bytes, numberOfBytes);
   self->size += numberOfBytes;
 }
 
@@ -226,34 +226,34 @@ Arcadia_StringBuffer_append
   )
 {
   if (!Arcadia_Value_isObjectReferenceValue(&value)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_ObjectReferenceValue referenceValue = Arcadia_Value_getObjectReferenceValue(&value);
   if (Arcadia_Type_isSubType(Arcadia_Object_getType(referenceValue), _Arcadia_ByteBuffer_getType(process))) {
     Arcadia_ByteBuffer* object = (Arcadia_ByteBuffer*)referenceValue;
     if (!Arcadia_isUtf8(process, Arcadia_ByteBuffer_getBytes(process, object), Arcadia_ByteBuffer_getNumberOfBytes(process, object), NULL)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EncodingInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EncodingInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     ensureFreeCapacityBytes(process, self, Arcadia_ByteBuffer_getNumberOfBytes(process, object));
-    Arcadia_Process1_copyMemory(Arcadia_Process_getProcess1(process), self->elements + self->size, Arcadia_ByteBuffer_getBytes(process, object), Arcadia_ByteBuffer_getNumberOfBytes(process, object));
+    Arcadia_Process_copyMemory(process, self->elements + self->size, Arcadia_ByteBuffer_getBytes(process, object), Arcadia_ByteBuffer_getNumberOfBytes(process, object));
     self->size += Arcadia_ByteBuffer_getNumberOfBytes(process, object);
   } else if (Arcadia_Type_isSubType(Arcadia_Object_getType(referenceValue), _Arcadia_String_getType(process))) {
     Arcadia_String* object = (Arcadia_String*)referenceValue;
     // The Byte sequence of Arcadia.String is guaranteed to be an UTF8 Byte sequence.
     ensureFreeCapacityBytes(process, self, Arcadia_String_getNumberOfBytes(process, object));
-    Arcadia_Process1_copyMemory(Arcadia_Process_getProcess1(process), self->elements + self->size, Arcadia_String_getBytes(process, object), Arcadia_String_getNumberOfBytes(process, object));
+    Arcadia_Process_copyMemory(process, self->elements + self->size, Arcadia_String_getBytes(process, object), Arcadia_String_getNumberOfBytes(process, object));
     self->size += Arcadia_String_getNumberOfBytes(process, object);
   } else if (Arcadia_Type_isSubType(Arcadia_Object_getType(referenceValue), _Arcadia_StringBuffer_getType(process))) {
     Arcadia_StringBuffer* object = (Arcadia_StringBuffer*)referenceValue;
     // The Byte sequence of Arcadia.StringBuffer is guaranteed to be an UTF8 Byte sequence.
     ensureFreeCapacityBytes(process, self, Arcadia_StringBuffer_getNumberOfBytes(object));
-    Arcadia_Process1_copyMemory(Arcadia_Process_getProcess1(process), self->elements + self->size, Arcadia_StringBuffer_getBytes(object), Arcadia_StringBuffer_getNumberOfBytes(object));
+    Arcadia_Process_copyMemory(process, self->elements + self->size, Arcadia_StringBuffer_getBytes(object), Arcadia_StringBuffer_getNumberOfBytes(object));
     self->size += Arcadia_StringBuffer_getNumberOfBytes(object);
   } else {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 
@@ -281,7 +281,7 @@ Arcadia_StringBuffer_isEqualTo
     return Arcadia_BooleanValue_True;
   }
   if (self->size == other->size) {
-    return !Arcadia_Process1_compareMemory(Arcadia_Process_getProcess1(process), self->elements, other->elements, self->size);
+    return !Arcadia_Process_compareMemory(process, self->elements, other->elements, self->size);
   } else {
     return Arcadia_BooleanValue_False;
   }

@@ -31,49 +31,49 @@ additionTestFixture
 {
   apint10 a, b, c;
   if (apint10_initialize(&a)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (apint10_initialize(&b)) {
     apint10_uninitialize(&a);
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (apint10_initialize(&c)) {
     apint10_uninitialize(&b);
     apint10_uninitialize(&a);
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   if (apint10_from_int64(&a, x) || apint10_from_int64(&b, y) || apint10_from_int64(&c, z)) {
     apint10_uninitialize(&c);
     apint10_uninitialize(&b);
     apint10_uninitialize(&a);
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (apint10_add(&a, &b)) {
     apint10_uninitialize(&c);
     apint10_uninitialize(&b);
     apint10_uninitialize(&a);
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   int result;
   if (apint10_compare(&result, &a, &c)) {
     apint10_uninitialize(&c);
     apint10_uninitialize(&b);
     apint10_uninitialize(&a);
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (result) {
     apint10_uninitialize(&c);
     apint10_uninitialize(&b);
     apint10_uninitialize(&a);
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   apint10_uninitialize(&c);
@@ -92,49 +92,49 @@ multiplicationTestFixture
 {
   apint10 a, b, c;
   if (apint10_initialize(&a)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (apint10_initialize(&b)) {
     apint10_uninitialize(&a);
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (apint10_initialize(&c)) {
     apint10_uninitialize(&b);
     apint10_uninitialize(&a);
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   if (apint10_from_int64(&a, x) || apint10_from_int64(&b, y) || apint10_from_int64(&c, z)) {
     apint10_uninitialize(&c);
     apint10_uninitialize(&b);
     apint10_uninitialize(&a);
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (apint10_multiply(&a, &b)) {
     apint10_uninitialize(&c);
     apint10_uninitialize(&b);
     apint10_uninitialize(&a);
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   int result;
   if (apint10_compare(&result, &a, &c)) {
     apint10_uninitialize(&c);
     apint10_uninitialize(&b);
     apint10_uninitialize(&a);
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (result) {
     apint10_uninitialize(&c);
     apint10_uninitialize(&b);
     apint10_uninitialize(&a);
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   apint10_uninitialize(&c);

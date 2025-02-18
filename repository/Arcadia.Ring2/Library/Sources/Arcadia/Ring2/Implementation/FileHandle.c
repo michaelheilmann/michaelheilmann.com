@@ -93,8 +93,8 @@ R_FileHandle_constructImpl
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (1 != numberOfArgumentValues) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   _self->fileSystem = R_Argument_getObjectReferenceValue(process, &argumentValues[0], _Arcadia_FileSystem_getType(process));
   Arcadia_Object_lock(process, _self->fileSystem);
@@ -158,32 +158,32 @@ void R_FileHandle_close(R_FileHandle* self) {
 
 Arcadia_BooleanValue R_FileHandle_isClosed(Arcadia_Process* process, R_FileHandle const* self) {
   if (!self) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return 0 == ((Flags_OpenRead | Flags_OpenWrite) & self->flags);
 }
 
 Arcadia_BooleanValue R_FileHandle_isOpened(Arcadia_Process* process, R_FileHandle const* self) {
   if (!self) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return 0 != (Flags_OpenWrite & self->flags);
 }
 
 Arcadia_BooleanValue R_FileHandle_isOpenedForReading(Arcadia_Process* process, R_FileHandle const* self) {
   if (!self) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return 0 != (Flags_OpenRead & self->flags);
 }
 
 Arcadia_BooleanValue R_FileHandle_isOpenedForWriting(Arcadia_Process* process, R_FileHandle const* self) {
   if (!self) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return Flags_OpenWrite == (Flags_OpenWrite & self->flags);
 }
@@ -193,8 +193,8 @@ void R_FileHandle_openForReading(Arcadia_Process* process, R_FileHandle* self, A
   Arcadia_String* nativePathString = Arcadia_FilePath_toNative(process, path);
   self->fd = fopen(Arcadia_String_getBytes(process, nativePathString), "rb");
   if (!self->fd) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_FileSystemOperationFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_FileSystemOperationFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   self->flags |= Flags_OpenRead;
 }
@@ -204,20 +204,20 @@ void R_FileHandle_openForWriting(Arcadia_Process* process, R_FileHandle* self, A
   Arcadia_String* nativePathString = Arcadia_FilePath_toNative(process, path);
   self->fd = fopen(Arcadia_String_getBytes(process, nativePathString), "wb");
   if (!self->fd) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_FileSystemOperationFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_FileSystemOperationFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   self->flags |= Flags_OpenWrite;
 }
 
 void R_FileHandle_read(Arcadia_Process* process, R_FileHandle* self, void* bytes, Arcadia_SizeValue bytesToRead, Arcadia_SizeValue* bytesRead) {
   if (!bytes || !bytesRead) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!R_FileHandle_isOpenedForReading(process, self)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!bytesToRead) {
     *bytesRead = 0;
@@ -228,8 +228,8 @@ void R_FileHandle_read(Arcadia_Process* process, R_FileHandle* self, void* bytes
     if (feof(self->fd)) {
       *bytesRead = bytesReadNow;
     } else if (ferror(self->fd)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_FileSystemOperationFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_FileSystemOperationFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
   } else{
     *bytesRead = bytesReadNow;
@@ -238,17 +238,17 @@ void R_FileHandle_read(Arcadia_Process* process, R_FileHandle* self, void* bytes
 
 void R_FileHandle_write(Arcadia_Process* process, R_FileHandle* self, void const* bytes, Arcadia_SizeValue bytesToWrite, Arcadia_SizeValue* bytesWritten) {
   if (!bytes || !bytesWritten) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!R_FileHandle_isOpenedForWriting(process, self)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   size_t bytesWrittenNow = fwrite(bytes, 1, bytesToWrite, self->fd);
   if (ferror(self->fd)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_FileSystemOperationFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_FileSystemOperationFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   *bytesWritten = bytesWrittenNow;
 }

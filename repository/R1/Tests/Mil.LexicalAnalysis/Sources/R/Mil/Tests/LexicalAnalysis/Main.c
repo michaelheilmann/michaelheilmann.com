@@ -31,12 +31,12 @@ expectAndNext
   )
 {
   if (tokenType != Arcadia_Mil_Scanner_getTokenType(scanner)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!Arcadia_String_isEqualTo_pn(process, Arcadia_Mil_Scanner_getTokenText(process, scanner), tokenText, tokenTextLength)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Mil_Scanner_step(process, scanner);
 }
@@ -102,7 +102,7 @@ testScanner3
     u8"\n"
     ;
   Arcadia_Mil_Scanner* scanner = Arcadia_Mil_Scanner_create(process);
-  Arcadia_Mil_Scanner_setInput(process, scanner, (Arcadia_Utf8Reader*)Arcadia_Utf8StringReader_create(process, Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(Arcadia_Process_getProcess1(process), input, strlen(input)))));
+  Arcadia_Mil_Scanner_setInput(process, scanner, (Arcadia_Utf8Reader*)Arcadia_Utf8StringReader_create(process, Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, input, strlen(input)))));
 
   //
   expectAndNext(process, scanner, Arcadia_Mil_TokenType_StartOfInput, u8"<start of input>", sizeof(u8"<start of input>") - 1);
@@ -188,7 +188,7 @@ testScanner2
     u8"\n"
     ;
   Arcadia_Mil_Scanner* scanner = Arcadia_Mil_Scanner_create(process);
-  Arcadia_Mil_Scanner_setInput(process, scanner, (Arcadia_Utf8Reader*)Arcadia_Utf8StringReader_create(process, Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(Arcadia_Process_getProcess1(process), input, strlen(input)))));
+  Arcadia_Mil_Scanner_setInput(process, scanner, (Arcadia_Utf8Reader*)Arcadia_Utf8StringReader_create(process, Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, input, strlen(input)))));
 
   expectAndNext(process, scanner, Arcadia_Mil_TokenType_StartOfInput, u8"<start of input>", sizeof(u8"<start of input>") - 1);
   expectAndNext(process, scanner, Arcadia_Mil_TokenType_Name, u8"Name", sizeof(u8"Name") - 1);
@@ -222,7 +222,7 @@ testScanner1
     u8""
     ;
   Arcadia_Mil_Scanner* scanner = Arcadia_Mil_Scanner_create(process);
-  Arcadia_Mil_Scanner_setInput(process, scanner, (Arcadia_Utf8Reader*)Arcadia_Utf8StringReader_create(process, Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(Arcadia_Process_getProcess1(process), input, strlen(input)))));
+  Arcadia_Mil_Scanner_setInput(process, scanner, (Arcadia_Utf8Reader*)Arcadia_Utf8StringReader_create(process, Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, input, strlen(input)))));
 
   expectAndNext(process, scanner, Arcadia_Mil_TokenType_StartOfInput, u8"<start of input>", sizeof(u8"<start of input>") - 1);
   expectAndNext(process, scanner, Arcadia_Mil_TokenType_EndOfInput, u8"<end of input>", sizeof(u8"<end of input>") - 1);
@@ -254,12 +254,12 @@ main
     return EXIT_FAILURE;
   }
   Arcadia_JumpTarget jumpTarget;
-  Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     main1(process, argc, argv);
-    Arcadia_Process_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
   }
-  status = Arcadia_Process_getStatus(process);
+  status = Arcadia_Thread1_getStatus(Arcadia_Process_getThread(process));
   Arcadia_Process_relinquish(process);
   process = NULL;
   if (status) {

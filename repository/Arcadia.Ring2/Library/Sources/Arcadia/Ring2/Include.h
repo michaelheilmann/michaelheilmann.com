@@ -20,6 +20,12 @@
 
 #include "Arcadia/Ring2/Implementation/ByteBuffer.h"
 
+#include "R/CommandLine/Include.h"
+
+#include "Arcadia/Ring1/Include.h"
+
+#include "R/DynamicArrayUtilities.h"
+
 #include "Arcadia/Ring2/Implementation/FileHandle.h"
 #include "Arcadia/Ring2/Implementation/FilePath.h"
 #include "Arcadia/Ring2/Implementation/FileSystem.h"

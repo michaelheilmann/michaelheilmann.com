@@ -216,7 +216,7 @@ normalize
   }
   if (!self->root && Arcadia_List_isEmpty(process, self->fileNames)) {
     // If the path is empty, then the path is `.`.
-    Arcadia_List_appendObjectReferenceValue(process, self->fileNames, (Arcadia_ObjectReferenceValue)Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(Arcadia_Process_getProcess1(process), u8".", sizeof(u8".") - 1)));
+    Arcadia_List_appendObjectReferenceValue(process, self->fileNames, (Arcadia_ObjectReferenceValue)Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, u8".", sizeof(u8".") - 1)));
   }
 }
 
@@ -323,7 +323,7 @@ parseUnixFilePath
 
   if (isSlash(process, &context)) {
     target->relative = Arcadia_BooleanValue_False;
-    target->root = Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(Arcadia_Process_getProcess1(process), u8"/", sizeof(u8"/") - 1));
+    target->root = Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, u8"/", sizeof(u8"/") - 1));
     next(process, &context);
   }
   // read the remaining directories
@@ -371,7 +371,7 @@ parseGenericFilePath
 
   if (isSlash(process, &context)) {
     target->relative = Arcadia_BooleanValue_False;
-    target->root = Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(Arcadia_Process_getProcess1(process), u8"/", sizeof(u8"/") - 1));
+    target->root = Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, u8"/", sizeof(u8"/") - 1));
     next(process, &context);
   }
   // read the remaining directories
@@ -466,8 +466,8 @@ Arcadia_FilePath_constructImpl
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (0 != numberOfArgumentValues) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   _self->fileNames = NULL;
   _self->relative = Arcadia_BooleanValue_False;
@@ -688,8 +688,8 @@ Arcadia_FilePath_getFullPath
   char buffer[BUFFER_LENGTH];
   DWORD result = GetFullPathName(Arcadia_String_getBytes(process, s), BUFFER_LENGTH, buffer, NULL);
   if (!result) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return Arcadia_FilePath_parseNative(process, buffer, strlen(buffer));
 #undef BUFFER_LENGTH
@@ -698,8 +698,8 @@ Arcadia_FilePath_getFullPath
   char buffer[PATH_MAX];
   char* result = realpath(Arcadia_String_getBytes(process, s), buffer);
   if (!result) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return Arcadia_FilePath_parseNative(process, buffer, strlen(buffer));
 #else
@@ -769,8 +769,8 @@ Arcadia_FilePath_append
   )
 {
   if (!Arcadia_FilePath_isRelative(other)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   for (Arcadia_SizeValue i = 0, n = Arcadia_List_getSize(process, other->fileNames); i < n; ++i) {
     Arcadia_Value v = Arcadia_List_getAt(process, other->fileNames, i);

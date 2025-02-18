@@ -25,10 +25,10 @@
 
 #include "Arcadia/Ring1/Implementation/Size.h"
 
-typedef struct Arcadia_Process1 Arcadia_Process1;
+typedef struct Arcadia_Process Arcadia_Process;
 
 /// @brief Create a bitmask.
-/// @param process A pointer to the Arcadia_Process1 object.
+/// @param process A pointer to the Arcadia_Process object.
 /// @param i The index of the first 1 bit.
 /// @param n The number of 1 bits.
 /// @return A bitmask such that the bits [i, i + n) are 1 and all other bits are zero.
@@ -36,13 +36,13 @@ typedef struct Arcadia_Process1 Arcadia_Process1;
 Arcadia_Natural16Value
 Arcadia_makeBitmaskN16
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_SizeValue i,
     Arcadia_SizeValue n
   );
 
 /// @brief Create a bitmask.
-/// @param process A pointer to the Arcadia_Process1 object.
+/// @param process A pointer to the Arcadia_Process object.
 /// @param i The index of the first 1 bit.
 /// @param n The number of 1 bits.
 /// @return A bitmask such that the bits [i, i + n) are 1 and all other bits are zero.
@@ -50,13 +50,13 @@ Arcadia_makeBitmaskN16
 Arcadia_Natural32Value
 Arcadia_makeBitmaskN32
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_SizeValue i,
     Arcadia_SizeValue n
   );
 
 /// @brief Create a bitmask.
-/// @param process A pointer to the Arcadia_Process1 object.
+/// @param process A pointer to the Arcadia_Process object.
 /// @param i The index of the first 1 bit.
 /// @param n The number of 1 bits.
 /// @return A bitmask such that the bits [i, i + n) are 1 and all other bits are zero.
@@ -64,13 +64,13 @@ Arcadia_makeBitmaskN32
 Arcadia_Natural64Value
 Arcadia_makeBitmaskN64
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_SizeValue i,
     Arcadia_SizeValue n
   );
 
 /// @brief Create a bitmask.
-/// @param process A pointer to the Arcadia_Process1 object.
+/// @param process A pointer to the Arcadia_Process object.
 /// @param i The index of the first 1 bit.
 /// @param n The number of 1 bits.
 /// @return A bitmask such that the bits [i, i + n) are 1 and all other bits are zero.
@@ -78,7 +78,7 @@ Arcadia_makeBitmaskN64
 Arcadia_Natural8Value
 Arcadia_makeBitmaskN8
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_SizeValue i,
     Arcadia_SizeValue n
   );

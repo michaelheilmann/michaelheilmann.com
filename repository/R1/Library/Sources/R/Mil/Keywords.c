@@ -133,8 +133,8 @@ Arcadia_Mil_Keywords_constructImpl
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (0 != numberOfArgumentValues) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   _self->size = 0;
   _self->capacity = 8;
@@ -172,8 +172,8 @@ Arcadia_Mil_Keywords_add
     Arcadia_Value v[] = { { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = keyword->string },
                           stringValue };
     if (Arcadia_Value_isEqualTo(process, &v[0], &v[1])) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_Exists);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_Exists);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
   }
   Keyword* keyword = NULL;

@@ -108,8 +108,8 @@ Arcadia_List_ensureFreeCapacity
       // If oldCapacity > maximumCapacity / 2 holds then oldCapacity * 2 > maximumCapacity holds.
       // Consequently, we cannot double the capacity. Try to saturate the capacity.
       if (oldCapacity == g_maximumCapacity) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_AllocationFailed);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       } else {
         newCapacity = g_maximumCapacity;
       }
@@ -135,8 +135,8 @@ Arcadia_List_ensureInitialized
       g_maximumCapacity = Arcadia_Integer32Value_Maximum;
     }
     if (g_minimumCapacity > g_maximumCapacity) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     g_initialized = Arcadia_BooleanValue_True;
   }
@@ -256,15 +256,15 @@ Arcadia_List_insertAt
   )
 {
   if (index > self->size) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (self->capacity == self->size) {
     Arcadia_List_ensureFreeCapacity(process, self, Arcadia_SizeValue_Literal(1));
   }
   if (index < self->size) {
-    Arcadia_Process1_copyMemory(Arcadia_Process_getProcess1(process), self->elements + index + 1,
-                                self->elements + index + 0, sizeof(Arcadia_Value) * (self->size - index));
+    Arcadia_Process_copyMemory(process, self->elements + index + 1,
+                               self->elements + index + 0, sizeof(Arcadia_Value) * (self->size - index));
   }
   self->elements[index] = value;
   self->size++;
@@ -279,8 +279,8 @@ Arcadia_List_getAt
   )
 {
   if (index >= self->size) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return self->elements[index];
 }
@@ -295,22 +295,22 @@ Arcadia_List_remove
   )
 {
   if (!self) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if ((Arcadia_SizeValue_Maximum - count) < index) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if ((index + count) > self->size) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_SizeValue tailLength = (self->size - index) - count;
   if (tailLength) {
     Arcadia_SizeValue tailStart = index + count;
-    Arcadia_Process1_copyMemory(Arcadia_Process_getProcess1(process), self->elements + index,
-                                self->elements + tailStart, tailLength * sizeof(Arcadia_Value));
+    Arcadia_Process_copyMemory(process, self->elements + index,
+                               self->elements + tailStart, tailLength * sizeof(Arcadia_Value));
   }
   self->size -= count;
 }
@@ -351,8 +351,8 @@ Arcadia_List_remove
     ) \
   { \
     if (index >= self->size) { \
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid); \
-      Arcadia_Process_jump(process); \
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid); \
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process)); \
     } \
     return Arcadia_Value_is##Suffix##Value(self->elements + index); \
   } \
@@ -366,13 +366,13 @@ Arcadia_List_remove
     ) \
   { \
     if (index >= self->size) { \
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid); \
-      Arcadia_Process_jump(process); \
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid); \
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process)); \
     } \
     Arcadia_Value* element = self->elements + index; \
     if (!Arcadia_Value_is##Suffix##Value(element)) { \
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid); \
-      Arcadia_Process_jump(process); \
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid); \
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process)); \
     } \
     return Arcadia_Value_get##Suffix##Value(element); \
   }

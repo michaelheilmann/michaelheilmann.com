@@ -33,7 +33,7 @@ _RegisterStack_initialize
   )
 {
   if (!R_allocateUnmanaged_nojump(&self->elements, 0 * sizeof(Arcadia_Value))) {
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   self->size = 0;
   self->capacity = 0;
@@ -64,32 +64,32 @@ R_Interpreter_ThreadState_create
 
   Arcadia_JumpTarget jumpTarget;
 
-  Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     Arcadia_Process_allocateUnmanaged(process, &thread->registers, sizeof(Arcadia_Value) * thread->numberOfRegisters);
-    Arcadia_Process_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
   } else {
-    Arcadia_Process_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
     Arcadia_Process_deallocateUnmanaged(process, thread);
     thread = NULL;
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   for (Arcadia_SizeValue i = 0, n = thread->numberOfRegisters; i < n; ++i) {
     Arcadia_Value_setVoidValue(thread->registers + i, Arcadia_VoidValue_Void);
   }
 
-  Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     Arcadia_Process_allocateUnmanaged(process, &thread->calls.elements, sizeof(R_CallState));
-    Arcadia_Process_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
   } else {
-    Arcadia_Process_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
     Arcadia_Process_deallocateUnmanaged(process, thread->registers);
     thread->registers = NULL;
     Arcadia_Process_deallocateUnmanaged(process, thread);
     thread = NULL;
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   thread->calls.size = 0;

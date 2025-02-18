@@ -25,7 +25,7 @@
 Arcadia_ImmutableUtf8String*
 _createFromNatural16
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural16Value natural16Value
   )
 { return _createFromNatural64(process, natural16Value); }
@@ -33,7 +33,7 @@ _createFromNatural16
 Arcadia_ImmutableUtf8String*
 _createFromNatural32
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural32Value natural32Value
   )
 { return _createFromNatural64(process, natural32Value); }
@@ -41,7 +41,7 @@ _createFromNatural32
 Arcadia_ImmutableUtf8String*
 _createFromNatural64
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural64Value natural64Value
   )
 {
@@ -62,14 +62,14 @@ _createFromNatural64
   }
 
   if (SIZE_MAX - sizeof(Arcadia_ImmutableUtf8String) < numberOfBytes) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_AllocationFailed);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   
   _ensureTypeRegistered(process);
   
   Arcadia_ImmutableUtf8String* string = NULL;
-  Arcadia_Process1_allocate(process, &string, TypeName, sizeof(TypeName) - 1, sizeof(Arcadia_ImmutableUtf8String) + numberOfBytes);
+  Arcadia_Process_allocate(process, &string, TypeName, sizeof(TypeName) - 1, sizeof(Arcadia_ImmutableUtf8String) + numberOfBytes);
 
 
   valueTemporary = natural64Value;
@@ -96,7 +96,7 @@ _createFromNatural64
 Arcadia_ImmutableUtf8String*
 _createFromNatural8
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural8Value natural8Value
   )
 { return _createFromNatural64(process, natural8Value); }

@@ -308,8 +308,8 @@ onOperand
       return operandAst;
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   };
 }
@@ -323,8 +323,8 @@ onInvokeExpression
 {
   next(process, self);
   if (!is(self, Arcadia_Mil_TokenType_Name)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (is(self, Arcadia_Mil_TokenType_LineTerminator)) {
     next(process, self);
@@ -337,8 +337,8 @@ onInvokeExpression
     next(process, self);
   }
   if (!is(self, Arcadia_Mil_TokenType_LeftParenthesis)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   next(process, self);
   if (is(self, Arcadia_Mil_TokenType_LineTerminator)) {
@@ -358,8 +358,8 @@ onInvokeExpression
     }
   }
   if (!is(self, Arcadia_Mil_TokenType_RightParenthesis)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   next(process, self);
   Arcadia_Mil_InvokeExpressionAst* invokeExpressionAst = Arcadia_Mil_InvokeExpressionAst_create(process, calleeAst, operands);
@@ -416,8 +416,8 @@ onExpression
       next(process, self);
       Arcadia_Mil_OperandAst* firstOperand = onOperand(process, self);
       if (!is(self, Arcadia_Mil_TokenType_Comma)) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       next(process, self);
       Arcadia_Mil_OperandAst* secondOperand = onOperand(process, self);
@@ -427,8 +427,8 @@ onExpression
       next(process, self);
       Arcadia_Mil_OperandAst* firstOperand = onOperand(process, self);
       if (!is(self, Arcadia_Mil_TokenType_Comma)) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       next(process, self);
       Arcadia_Mil_OperandAst* secondOperand = onOperand(process, self);
@@ -438,8 +438,8 @@ onExpression
       next(process, self);
       Arcadia_Mil_OperandAst* firstOperand = onOperand(process, self);
       if (!is(self, Arcadia_Mil_TokenType_Comma)) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       next(process, self);
       Arcadia_Mil_OperandAst* secondOperand = onOperand(process, self);
@@ -449,8 +449,8 @@ onExpression
       next(process, self);
       Arcadia_Mil_OperandAst* firstOperand = onOperand(process, self);
       if (!is(self, Arcadia_Mil_TokenType_Comma)) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       next(process, self);
       Arcadia_Mil_OperandAst* secondOperand = onOperand(process, self);
@@ -460,8 +460,8 @@ onExpression
       next(process, self);
       Arcadia_Mil_OperandAst* firstOperand = onOperand(process, self);
       if (!is(self, Arcadia_Mil_TokenType_Comma)) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       next(process, self);
       Arcadia_Mil_OperandAst* secondOperand = onOperand(process, self);
@@ -471,8 +471,8 @@ onExpression
       next(process, self);
       Arcadia_Mil_OperandAst* firstOperand = onOperand(process, self);
       if (!is(self, Arcadia_Mil_TokenType_Comma)) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       next(process, self);
       Arcadia_Mil_OperandAst* secondOperand = onOperand(process, self);
@@ -482,8 +482,8 @@ onExpression
       next(process, self);
       Arcadia_Mil_OperandAst* firstOperand = onOperand(process, self);
       if (!is(self, Arcadia_Mil_TokenType_Comma)) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       next(process, self);
       Arcadia_Mil_OperandAst* secondOperand = onOperand(process, self);
@@ -494,8 +494,8 @@ onExpression
       next(process, self);
       Arcadia_Mil_OperandAst* firstOperand = onOperand(process, self);
       if (!is(self, Arcadia_Mil_TokenType_Comma)) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       next(process, self);
       Arcadia_Mil_OperandAst* secondOperand = onOperand(process, self);
@@ -505,8 +505,8 @@ onExpression
       next(process, self);
       Arcadia_Mil_OperandAst* firstOperand = onOperand(process, self);
       if (!is(self, Arcadia_Mil_TokenType_Comma)) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       next(process, self);
       Arcadia_Mil_OperandAst* secondOperand = onOperand(process, self);
@@ -516,8 +516,8 @@ onExpression
       next(process, self);
       Arcadia_Mil_OperandAst* firstOperand = onOperand(process, self);
       if (!is(self, Arcadia_Mil_TokenType_Comma)) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       next(process, self);
       Arcadia_Mil_OperandAst* secondOperand = onOperand(process, self);
@@ -527,8 +527,8 @@ onExpression
       next(process, self);
       Arcadia_Mil_OperandAst* firstOperand = onOperand(process, self);
       if (!is(self, Arcadia_Mil_TokenType_Comma)) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       next(process, self);
       Arcadia_Mil_OperandAst* secondOperand = onOperand(process, self);
@@ -538,8 +538,8 @@ onExpression
       next(process, self);
       Arcadia_Mil_OperandAst* firstOperand = onOperand(process, self);
       if (!is(self, Arcadia_Mil_TokenType_Comma)) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       next(process, self);
       Arcadia_Mil_OperandAst* secondOperand = onOperand(process, self);
@@ -549,8 +549,8 @@ onExpression
       next(process, self);
       Arcadia_Mil_OperandAst* firstOperand = onOperand(process, self);
       if (!is(self, Arcadia_Mil_TokenType_Comma)) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       next(process, self);
       Arcadia_Mil_OperandAst* secondOperand = onOperand(process, self);
@@ -571,8 +571,8 @@ onExpression
       return (Arcadia_Mil_ExpressionAst*)onInvokeExpression(process, self);
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   }
 }
@@ -588,8 +588,8 @@ onEndOfStatement
     return;
   }
   if (!is(self, Arcadia_Mil_TokenType_RightCurlyBracket) && !is(self, Arcadia_Mil_TokenType_LineTerminator)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   while (is(self, Arcadia_Mil_TokenType_LineTerminator)) {
     next(process, self);
@@ -604,13 +604,13 @@ onVariableDefinitionStatement
   )
 {
   if (Arcadia_Mil_TokenType_Variable != getType(self)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   next(process, self);
   if (Arcadia_Mil_TokenType_Name != getType(self)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Mil_VariableDefinitionStatementAst* variableDefinitionStatementAst = Arcadia_Mil_VariableDefinitionStatementAst_create(process, getText(process, self));
   next(process, self);
@@ -652,8 +652,8 @@ onStatement
   // jump statement
   if (is(self, Arcadia_Mil_TokenType_Jump)) {
     if (!is(self, Arcadia_Mil_TokenType_Name)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     Arcadia_String* labelName = getText(process, self);
     next(process, self);
@@ -662,8 +662,8 @@ onStatement
     return (Arcadia_Mil_StatementAst*)statementAst;
   } else if (is(self, Arcadia_Mil_TokenType_JumpIfTrue)) {
     if (!is(self, Arcadia_Mil_TokenType_Name)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     Arcadia_String* labelName = getText(process, self);
     next(process, self);
@@ -672,8 +672,8 @@ onStatement
     return (Arcadia_Mil_StatementAst*)statementAst;
   } else if (is(self, Arcadia_Mil_TokenType_JumpIfFalse)) {
     if (!is(self, Arcadia_Mil_TokenType_Name)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     Arcadia_String* labelName = getText(process, self);
     next(process, self);
@@ -699,8 +699,8 @@ onStatement
     return (Arcadia_Mil_StatementAst*)statementAst;
   }
   if (!is(self, Arcadia_Mil_TokenType_Name)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Mil_StatementAst* statementAst = NULL;
   Arcadia_String* nameString = getText(process, self);
@@ -723,8 +723,8 @@ onStatement
       }
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   }
   while (is(self, Arcadia_Mil_TokenType_LineTerminator)) {
@@ -741,8 +741,8 @@ onParameter
   ) 
 {
   if (!is(self, Arcadia_Mil_TokenType_Name)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_String* parameter = getText(process, self);
   next(process, self);
@@ -786,8 +786,8 @@ onParameters
       }
     }
     if (!is(self, Arcadia_Mil_TokenType_RightParenthesis)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     next(process, self);
   }
@@ -805,16 +805,16 @@ onConstructorDefinition
   )
 {
   if (!is(self, Arcadia_Mil_TokenType_Constructor)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   next(process, self);
   Arcadia_String* nativeName = NULL;
   if (is(self, Arcadia_Mil_TokenType_Native)) {
     next(process, self);
     if (!is(self, Arcadia_Mil_TokenType_StringLiteral)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     nativeName = getText(process, self);
     next(process, self);
@@ -835,8 +835,8 @@ onConstructorDefinition
       Arcadia_List_appendObjectReferenceValue(process, constructorBody, (Arcadia_ObjectReferenceValue)statementAst);
     }
     if (!is(self, Arcadia_Mil_TokenType_RightCurlyBracket)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     next(process, self);
   }
@@ -845,8 +845,8 @@ onConstructorDefinition
   }
   if (is(self, Arcadia_Mil_TokenType_LeftParenthesis)) {
     if (!is(self, Arcadia_Mil_TokenType_RightParenthesis)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
   }
   Arcadia_Mil_ConstructorDefinitionAst* constructorDefinitionAst = Arcadia_Mil_ConstructorDefinitionAst_create(process, nativeName, constructorParameters, constructorBody);
@@ -864,23 +864,23 @@ onMethodDefinition
   )
 {
   if (!is(self, Arcadia_Mil_TokenType_Method)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   next(process, self);
   Arcadia_String* nativeName = NULL;
   if (is(self, Arcadia_Mil_TokenType_Native)) {
     next(process, self);
     if (!is(self, Arcadia_Mil_TokenType_StringLiteral)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     nativeName = getText(process, self);
     next(process, self);
   }
   if (!is(self, Arcadia_Mil_TokenType_Name)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_String* methodName = getText(process, self);
   next(process, self);
@@ -900,8 +900,8 @@ onMethodDefinition
       Arcadia_List_appendObjectReferenceValue(process, methodBody, (Arcadia_ObjectReferenceValue)statementAst);
     }
     if (!is(self, Arcadia_Mil_TokenType_RightCurlyBracket)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     next(process, self);
   }
@@ -921,13 +921,13 @@ onVariableDefinition
   )
 {
   if (Arcadia_Mil_TokenType_Variable != getType(self)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   next(process, self);
   if (Arcadia_Mil_TokenType_Name != getType(self)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Mil_VariableDefinitionAst* variableDefinitionAst = Arcadia_Mil_VariableDefinitionAst_create(process, getText(process, self));
   next(process, self);
@@ -957,8 +957,8 @@ onClassMemberDefinition
       return (Arcadia_Mil_ClassMemberDefinitionAst*)onVariableDefinition(process, self);
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   };
 }
@@ -973,16 +973,16 @@ onClassDefinition
   )
 {
   if (!is(self, Arcadia_Mil_TokenType_Class)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   next(process, self);
   while (is(self, Arcadia_Mil_TokenType_LineTerminator)) {
     next(process, self);
   }
   if (!is(self, Arcadia_Mil_TokenType_Name)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_String* className = getText(process, self);
   next(process, self);
@@ -993,8 +993,8 @@ onClassDefinition
       next(process, self);
     }
     if (!is(self, Arcadia_Mil_TokenType_Name)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     extendedClassName = getText(process, self);
     next(process, self);
@@ -1011,8 +1011,8 @@ onClassDefinition
       Arcadia_List_appendObjectReferenceValue(process, classBody, (Arcadia_ObjectReferenceValue)classMemberDefinitionAst);
     }
     if (!is(self, Arcadia_Mil_TokenType_RightCurlyBracket)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     next(process, self);
   }
@@ -1035,8 +1035,8 @@ onProcedureDefinition
 {
   Arcadia_BooleanValue entry = Arcadia_BooleanValue_False;
   if (!is(self, Arcadia_Mil_TokenType_Procedure)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   next(process, self);
   if (is(self, Arcadia_Mil_TokenType_Entry)) {
@@ -1047,15 +1047,15 @@ onProcedureDefinition
   if (is(self, Arcadia_Mil_TokenType_Native)) {
     next(process, self);
     if (!is(self, Arcadia_Mil_TokenType_StringLiteral)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     nativeName = getText(process, self);
     next(process, self);
   }
   if (!is(self, Arcadia_Mil_TokenType_Name)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_String* procedureName = getText(process, self);
   next(process, self);
@@ -1075,8 +1075,8 @@ onProcedureDefinition
       Arcadia_List_appendObjectReferenceValue(process, procedureBody, (Arcadia_ObjectReferenceValue)statementAst);
     }
     if (!is(self, Arcadia_Mil_TokenType_RightCurlyBracket)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     next(process, self);
   }
@@ -1097,8 +1097,8 @@ onModule
 {
   Arcadia_Mil_ModuleAst* moduleAst = Arcadia_Mil_ModuleAst_create(process);
   if (!is(self, Arcadia_Mil_TokenType_StartOfInput)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   next(process, self);
   while (!is(self, Arcadia_Mil_TokenType_EndOfInput)) {
@@ -1116,14 +1116,14 @@ onModule
         Arcadia_Mil_ModuleAst_appendDefinition(process, moduleAst, definitionAst);
       } break;
       default: {
-        Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       } break;
     };
   }
   if (!is(self, Arcadia_Mil_TokenType_EndOfInput)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SyntacticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SyntacticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return moduleAst;
 }

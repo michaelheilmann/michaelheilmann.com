@@ -142,8 +142,8 @@ recursionGuard
   for (Arcadia_SizeValue i = 0, n = Arcadia_List_getSize(process, context->files); i < n; ++i) {
     Arcadia_FilePath* p = (Arcadia_FilePath*)Arcadia_List_getObjectReferenceValueAt(process, context->files, i);
     if (Arcadia_FilePath_isEqualTo(process, p, path)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
   }
   Arcadia_List_appendObjectReferenceValue(process, context->files, path);

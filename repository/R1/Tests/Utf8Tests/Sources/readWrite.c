@@ -46,8 +46,8 @@ onReadWrite
     Arcadia_Utf8Reader_next(process, reader);
   }
   if (!Arcadia_ByteBuffer_isEqualTo(process, sourceByteBuffer, targetByteBuffer)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 

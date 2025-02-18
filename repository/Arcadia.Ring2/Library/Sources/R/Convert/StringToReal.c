@@ -37,15 +37,15 @@ toReal32
   } else if (isPeriod(state)) {
     next(state);
     if (!isDigit(state)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ConversionFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ConversionFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     do {
       next(state);
     } while (isDigit(state));
   } else {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ConversionFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ConversionFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (isExponentPrefix(state)) {
     next(state);
@@ -53,8 +53,8 @@ toReal32
       next(state);
     }
     if (!isDigit(state)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ConversionFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ConversionFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     do {
       next(state);
@@ -63,16 +63,16 @@ toReal32
   // @todo: Should be replaced by a "to_chars"-like function.
   char* start;
   if (Arms_MemoryManager_allocate(Arms_getDefaultMemoryManager(), &start, (state->end - state->start) + 1)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_AllocationFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
-  Arcadia_Process1_copyMemory(Arcadia_Process_getProcess1(process), start, state->start, state->end - state->start);
+  Arcadia_Process_copyMemory(process, start, state->start, state->end - state->start);
   start[state->end - state->start] = '\0';
   char* end;
   float d = strtof(start, &end);
   if (start == end) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ConversionFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ConversionFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arms_MemoryManager_deallocate(Arms_getDefaultMemoryManager(), start);
   return d;
@@ -96,15 +96,15 @@ toReal64
   } else if (isPeriod(state)) {
     next(state);
     if (!isDigit(state)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ConversionFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ConversionFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     do {
       next(state);
     } while (isDigit(state));
   } else {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ConversionFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ConversionFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (isExponentPrefix(state)) {
     next(state);
@@ -112,8 +112,8 @@ toReal64
       next(state);
     }
     if (!isDigit(state)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ConversionFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ConversionFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     do {
       next(state);
@@ -122,16 +122,16 @@ toReal64
   // @todo: Should be replaced by a "to_chars"-like function.
   char* start;
   if (Arms_MemoryManager_allocate(Arms_getDefaultMemoryManager(), &start, (state->end - state->start) + 1)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_AllocationFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
-  Arcadia_Process1_copyMemory(Arcadia_Process_getProcess1(process), start, state->start, state->end - state->start);
+  Arcadia_Process_copyMemory(process, start, state->start, state->end - state->start);
   start[state->end - state->start] = '\0';
   char* end = NULL;
   double d = strtod(start, &end);
   if (start == end) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ConversionFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ConversionFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arms_MemoryManager_deallocate(Arms_getDefaultMemoryManager(), start);
   return d;

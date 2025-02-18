@@ -39,7 +39,7 @@
 void
 Arcadia_safeMultiply_n16
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural16Value multiplier,
     Arcadia_Natural16Value multiplicand,
     Arcadia_Natural16Value* productHigh,
@@ -49,7 +49,7 @@ Arcadia_safeMultiply_n16
 void
 Arcadia_safeMultiply_n32
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural32Value multiplier,
     Arcadia_Natural32Value multiplicand,
     Arcadia_Natural32Value* productHigh,
@@ -62,7 +62,7 @@ Arcadia_safeMultiply_n32
 void
 Arcadia_safeMultiply_n64_x64msvc
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural64Value multiplier,
     Arcadia_Natural64Value multiplicand,
     Arcadia_Natural64Value* productHigh,
@@ -76,7 +76,7 @@ Arcadia_safeMultiply_n64_x64msvc
 void
 Arcadia_safeMultiply_n64_gcc
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural64Value multiplier,
     Arcadia_Natural64Value multiplicand,
     Arcadia_Natural64Value* productHigh,
@@ -88,7 +88,7 @@ Arcadia_safeMultiply_n64_gcc
 void
 Arcadia_safeMultiply_n64_default
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural64Value multiplier,
     Arcadia_Natural64Value multiplicand,
     Arcadia_Natural64Value* productHigh,
@@ -98,7 +98,7 @@ Arcadia_safeMultiply_n64_default
 void
 Arcadia_safeMultiply_n64
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural64Value multiplier,
     Arcadia_Natural64Value multiplicand,
     Arcadia_Natural64Value* productHigh,
@@ -108,7 +108,7 @@ Arcadia_safeMultiply_n64
 void
 Arcadia_safeMultiply_n8
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural8Value multiplier,
     Arcadia_Natural8Value multiplicand,
     Arcadia_Natural8Value* productHigh,
@@ -118,7 +118,7 @@ Arcadia_safeMultiply_n8
 void
 Arcadia_safeMultiply_sz
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_SizeValue multiplier,
     Arcadia_SizeValue multiplicand,
     Arcadia_SizeValue* productHigh,

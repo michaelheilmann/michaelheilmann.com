@@ -127,7 +127,7 @@ testNativePrintProcedure
   Arcadia_Map* foreignProcedures = Arcadia_Map_create(process);
 #define Define(Name,Function) \
   { \
-    Arcadia_Value k = { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(Arcadia_Process_getProcess1(process), Name, sizeof(Name) - 1)) }; \
+    Arcadia_Value k = { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, Name, sizeof(Name) - 1)) }; \
     Arcadia_Value v = { .tag = Arcadia_ValueTag_ForeignProcedure, .foreignProcedureValue = &Function }; \
     Arcadia_Map_set(process, foreignProcedures, k, v); \
   }
@@ -148,14 +148,14 @@ testNativePrintProcedure
   R_Interpreter_ProcessState_startup(process);
 
   Arcadia_JumpTarget jumpTarget;
-  Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     compile(process, symbolTable, foreignProcedures, paths);
-    Arcadia_Process_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
   } else {
-    Arcadia_Process_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
     R_Interpreter_ProcessState_shutdown(process);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   R_Interpreter_ProcessState_shutdown(process);
 }
@@ -183,12 +183,12 @@ main
     return EXIT_FAILURE;
   }
   Arcadia_JumpTarget jumpTarget;
-  Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     main1(process, argc, argv);
   }
-  Arcadia_Process_popJumpTarget(process);
-  Arcadia_Status status = Arcadia_Process_getStatus(process);
+  Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
+  Arcadia_Status status = Arcadia_Thread1_getStatus(Arcadia_Process_getThread(process));
   Arcadia_Process_relinquish(process);
   process = NULL;
   if (status) {

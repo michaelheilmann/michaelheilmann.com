@@ -39,7 +39,7 @@
 void
 Arcadia_safeAdd_n16
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural16Value augend,
     Arcadia_Natural16Value addend,
     Arcadia_Natural16Value* sumHigh,
@@ -49,7 +49,7 @@ Arcadia_safeAdd_n16
 void
 Arcadia_safeAdd_n32
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural32Value augend,
     Arcadia_Natural32Value addend,
     Arcadia_Natural32Value* sumHigh,
@@ -61,7 +61,7 @@ Arcadia_safeAdd_n32
 void
 Arcadia_safeAdd_n64_gcc
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural64Value augend,
     Arcadia_Natural64Value addend,
     Arcadia_Natural64Value* sumHigh,
@@ -73,7 +73,7 @@ Arcadia_safeAdd_n64_gcc
 void
 Arcadia_safeAdd_n64
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural64Value augend,
     Arcadia_Natural64Value addend,
     Arcadia_Natural64Value* sumHigh,
@@ -83,7 +83,7 @@ Arcadia_safeAdd_n64
 void
 Arcadia_safeAdd_n8
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural8Value augend,
     Arcadia_Natural8Value addend,
     Arcadia_Natural8Value* sumHigh,
