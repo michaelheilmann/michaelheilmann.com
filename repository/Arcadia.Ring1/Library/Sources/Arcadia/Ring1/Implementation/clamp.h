@@ -47,8 +47,8 @@
     ) \
   { \
     if (lower > upper) { \
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid); \
-      Arcadia_Process_jump(process); \
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid); \
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process)); \
     } \
     if (value < lower) value = lower; \
     else if (value > upper) value = upper; \

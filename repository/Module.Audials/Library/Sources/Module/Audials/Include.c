@@ -34,49 +34,49 @@ Audials_XAudio2_startup
 {
   HRESULT hr = CoInitializeEx(NULL, COINIT_MULTITHREADED);
   if (FAILED(hr)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   hr = XAudio2Create(&g_xaudio2, 0, XAUDIO2_DEFAULT_PROCESSOR);
   if (FAILED(hr)) {
     CoUninitialize();
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   hr = IXAudio2_CreateMasteringVoice(g_xaudio2, &g_xaudio2MasteringVoice, XAUDIO2_DEFAULT_CHANNELS, XAUDIO2_DEFAULT_SAMPLERATE, 0, 0, NULL, AudioCategory_Other);
   if (FAILED(hr)) {
     IXAudio2_Release(g_xaudio2);
     g_xaudio2 = NULL;
     CoUninitialize();
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_JumpTarget jumpTarget;
 
-  Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     g_sourceVoiceBuffer = Arcadia_ByteBuffer_create(process);
-    Arcadia_Process_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
   } else {
-    Arcadia_Process_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
     IXAudio2_Release(g_xaudio2);
     g_xaudio2 = NULL;
     CoUninitialize();
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
-  Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     Arcadia_Object_lock(process, g_sourceVoiceBuffer);
-    Arcadia_Process_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
   } else {
-    Arcadia_Process_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
     IXAudio2_Release(g_xaudio2);
     g_xaudio2 = NULL;
     CoUninitialize();
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 
@@ -185,17 +185,17 @@ Source_constructImpl
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (1 != numberOfArgumentValues) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!Arcadia_Value_isObjectReferenceValue(&argumentValues[0])) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Object* objectValue = Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
   if (!Arcadia_Type_isSubType(Arcadia_Object_getType(objectValue), _Arcadia_ByteBuffer_getType(process))) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   //Arcadia_ByteBuffer* byteBufferValue = (Arcadia_ByteBuffer*)objectValue;
   _self->xAudio2SourceVoice = NULL;
@@ -249,8 +249,8 @@ Audials_playSine1
 
   HRESULT hr = IXAudio2_CreateSourceVoice(g_xaudio2, &g_xaudio2SourceVoice, &waveFormatEx, 0, 1.0, NULL, NULL, NULL);
   if (FAILED(hr)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   double phase = 0.0;
   uint32_t bufferIndex = 0;
@@ -274,13 +274,13 @@ Audials_playSine1
 
   hr = IXAudio2SourceVoice_SubmitSourceBuffer(g_xaudio2SourceVoice, &xAudio2Buffer, NULL);
   if (FAILED(hr)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   hr = IXAudio2SourceVoice_Start(g_xaudio2SourceVoice, UINT32_C(0), UINT32_C(0));
   if (FAILED(hr)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 

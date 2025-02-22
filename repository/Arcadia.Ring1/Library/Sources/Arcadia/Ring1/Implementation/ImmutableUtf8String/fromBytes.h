@@ -28,7 +28,7 @@ typedef struct Arcadia_ImmutableUtf8String Arcadia_ImmutableUtf8String;
 Arcadia_ImmutableUtf8String*
 _createFromBytes
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural8Value const* bytes,
     Arcadia_SizeValue numberOfBytes
   );

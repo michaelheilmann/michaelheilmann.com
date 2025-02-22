@@ -24,7 +24,7 @@
 static Arcadia_Integer64Value
 _toInteger64Internal
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     _State* state
   )
 {
@@ -43,8 +43,8 @@ _toInteger64Internal
   }
   Arcadia_Integer64Value v = 0;
   if (!isDigit(state)) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ConversionFailed);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ConversionFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   // Skip leading zeroes.
   while (isZero(state)) {
@@ -62,29 +62,29 @@ _toInteger64Internal
     // We need to multiply v by the number of digits in w.
     while (i > 0) {
       if (v < Arcadia_Integer64Value_Minimum / 10) {
-        Arcadia_Process1_setStatus(process, Arcadia_Status_ConversionFailed);
-        Arcadia_Process1_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ConversionFailed);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       v = v * i;
       i--;
     }
     // If we cannot subtract w from v, then this number is not representable.
     if (v < Arcadia_Integer16Value_Minimum + w) {
-      Arcadia_Process1_setStatus(process, Arcadia_Status_ConversionFailed);
-      Arcadia_Process1_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ConversionFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     v -= w;
   }
   if (_Unicode_CodePoint_End != state->codePoint) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ConversionFailed);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ConversionFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (negative) {
     return v;
   }
   if (v == Arcadia_Integer64Value_Minimum) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ConversionFailed);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ConversionFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   v = -v;
   return v;
@@ -93,14 +93,14 @@ _toInteger64Internal
 Arcadia_Integer16Value
 _toInteger16
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8String* immutableUtf8StringValue
   )
 {
   Arcadia_Integer64Value v = _toInteger64(process, immutableUtf8StringValue);
   if (v < Arcadia_Integer16Value_Minimum || v > Arcadia_Integer16Value_Maximum) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ConversionFailed);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ConversionFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return (Arcadia_Integer16Value)v;
 }
@@ -108,14 +108,14 @@ _toInteger16
 Arcadia_Integer32Value
 _toInteger32
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8String* immutableUtf8StringValue
   )
 {
   Arcadia_Integer64Value v = _toInteger64(process, immutableUtf8StringValue);
   if (v < Arcadia_Integer32Value_Minimum || v > Arcadia_Integer32Value_Maximum) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ConversionFailed);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ConversionFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return (Arcadia_Integer32Value)v;
 }
@@ -123,7 +123,7 @@ _toInteger32
 Arcadia_Integer64Value
 _toInteger64
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8String* immutableUtf8StringValue
   )
 {
@@ -132,15 +132,15 @@ _toInteger64
                       Arcadia_ImmutableUtf8String_getNumberOfBytes(process, immutableUtf8StringValue));
   Arcadia_Integer64Value value;
   Arcadia_JumpTarget jumpTarget;
-  Arcadia_Process1_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     value = _toInteger64Internal(process, &state);
     _State_uninit(&state);
-    Arcadia_Process1_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
   } else {
     _State_uninit(&state);
-    Arcadia_Process1_popJumpTarget(process);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return value;
 }
@@ -148,14 +148,14 @@ _toInteger64
 Arcadia_Integer8Value
 _toInteger8
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8String* immutableUtf8StringValue
   )
 {
   Arcadia_Integer64Value v = _toInteger64(process, immutableUtf8StringValue);
   if (v < Arcadia_Integer8Value_Minimum || v > Arcadia_Integer8Value_Maximum) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ConversionFailed);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ConversionFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return (Arcadia_Integer8Value)v;
 }

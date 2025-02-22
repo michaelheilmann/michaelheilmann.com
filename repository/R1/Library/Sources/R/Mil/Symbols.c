@@ -17,6 +17,7 @@
 
 #include "R/Mil/Symbols.h"
 
+#include "Arcadia/Ring2/Include.h"
 #include "R/ArgumentsValidation.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -81,8 +82,8 @@ Arcadia_Mil_Symbol_constructImpl
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (4 != numberOfArgumentValues) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   _self->name = R_Argument_getObjectReferenceValue(process, &argumentValues[0], _Arcadia_String_getType(process));
   _self->sibling = R_Argument_getObjectReferenceValueOrNull(process, &argumentValues[1], _Arcadia_Mil_Symbol_getType(process));
@@ -209,14 +210,14 @@ Arcadia_Mil_SymbolTable_doubleCapacity
 
   Arcadia_SizeValue oldCapacity = self->capacity;
   Arcadia_SizeValue newCapacity, overflow;
-  Arcadia_safeMultiply_sz(Arcadia_Process_getProcess1(process), oldCapacity, 2, &overflow, &newCapacity);
+  Arcadia_safeMultiply_sz(process, oldCapacity, 2, &overflow, &newCapacity);
   if (overflow) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_AllocationFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (newCapacity > maximalCapacity) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_AllocationFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Process_reallocateUnmanaged(process, (void**)&self->elements, sizeof(void*) * newCapacity);
   for (Arcadia_SizeValue i = oldCapacity, n = newCapacity; i < n; ++i) {

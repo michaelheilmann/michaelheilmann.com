@@ -78,16 +78,16 @@ NativeWindowsBitmap_constructImpl
   }
  
   if (2 != numberOfArgumentValues) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!Arcadia_Value_isInteger32Value(&argumentValues[0])) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!Arcadia_Value_isInteger32Value(&argumentValues[1])) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   _self->hBitmap = NULL;
@@ -95,15 +95,15 @@ NativeWindowsBitmap_constructImpl
 
   HDC hScreenDeviceContext = GetDC(NULL);
   if (!hScreenDeviceContext) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   _self->hDeviceContext = CreateCompatibleDC(hScreenDeviceContext);
   if (!_self->hDeviceContext) {
     ReleaseDC(NULL, hScreenDeviceContext);
     hScreenDeviceContext = NULL;
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   ReleaseDC(NULL, hScreenDeviceContext);
   hScreenDeviceContext = NULL;
@@ -121,16 +121,16 @@ NativeWindowsBitmap_constructImpl
   if (!_self->hBitmap) {
     DeleteDC(_self->hDeviceContext);
     _self->hDeviceContext = NULL;
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (bmi.bmiHeader.biBitCount != 24) {
     DeleteObject(_self->hBitmap);
     _self->hBitmap = NULL;
     DeleteDC(_self->hDeviceContext);
     _self->hDeviceContext = NULL;
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   _self->width = Arcadia_Value_getInteger32Value(&argumentValues[0]);
   _self->height = Arcadia_Value_getInteger32Value(&argumentValues[1]);
@@ -141,8 +141,8 @@ NativeWindowsBitmap_constructImpl
     _self->hBitmap = NULL;
     DeleteDC(_self->hDeviceContext);
     _self->hDeviceContext = NULL;
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   _self->lineStride = (int32_t)lineStride;
   _self->linePadding = (uint32_t)linePadding;
@@ -155,8 +155,8 @@ NativeWindowsBitmap_constructImpl
     _self->hBitmap = NULL;
     DeleteDC(_self->hDeviceContext);
     _self->hDeviceContext = NULL;
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   SelectObject(_self->hDeviceContext, _self->hBitmap);
   RECT fillRetc = { .left = 0, .top = 0, .right = _self->width, .bottom = _self->height };
@@ -210,8 +210,8 @@ NativeWindowsBitmap_fill
 {
   HBRUSH hBrush = CreateSolidBrush(RGB(r, g, b));
   if (!hBrush) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   SelectObject(self->hDeviceContext, self->hBitmap);
   RECT fillRetc = { .left = 0, .top = 0, .right = self->width, .bottom = self->height };
@@ -229,8 +229,8 @@ NativeWindowsBitmap_toPixelBuffer
 {
   DIBSECTION dibSection;
   if (!GetObject(self->hBitmap, sizeof(DIBSECTION), &dibSection)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   uint8_t* sourceBytes = dibSection.dsBm.bmBits;
   // Currently, we assume that NativeWindowsBitmap is BGR format.

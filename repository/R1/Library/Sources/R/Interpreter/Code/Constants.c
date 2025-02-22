@@ -17,11 +17,6 @@
 
 #include "R/Interpreter/Code/Constants.h"
 
-#include "Arcadia/Ring2/Include.h"
-#if 0
-#include "R/DynamicArrayUtilities.h"
-#include "Arcadia/Ring2/Implementation/String.h"
-#endif
 #include "R/Interpreter/Include.h"
 
 static void
@@ -99,8 +94,8 @@ constructImpl
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (0 != numberOfArgumentValues) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   _self->p = NULL;
   _self->sz = 0;
@@ -158,7 +153,7 @@ getOrCreate
       return i;
     }
   }
-  Arcadia_Arrays_resizeByFreeCapacity(Arcadia_Process_getProcess1(process), Arms_getDefaultMemoryManager(), &self->p, sizeof(Arcadia_Value), self->sz, &self->cp, 1, Arcadia_Arrays_ResizeStrategy_Type4);
+  Arcadia_Arrays_resizeByFreeCapacity(Arcadia_Process_getThread(process), Arms_getDefaultMemoryManager(), &self->p, sizeof(Arcadia_Value), self->sz, &self->cp, 1, Arcadia_Arrays_ResizeStrategy_Type4);
   self->p[self->sz++] = *constant;
   return self->sz - 1;
 }
@@ -328,8 +323,8 @@ R_Interpreter_Code_Constants_getAt
   )
 {
   if (index >= self->sz) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return self->p + index;
 }

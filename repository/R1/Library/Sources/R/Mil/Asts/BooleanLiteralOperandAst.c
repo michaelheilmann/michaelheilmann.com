@@ -83,17 +83,17 @@ Arcadia_Mil_BooleanLiteralOperandAst_constructImpl
   }
 
   if (1 != numberOfArgumentValues) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!Arcadia_Value_isObjectReferenceValue(&argumentValues[0])) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Object* objectValue = Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
   if (!Arcadia_Type_isSubType(Arcadia_Object_getType(objectValue), _Arcadia_String_getType(process))) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_String* stringValue = (Arcadia_String*)objectValue;
   _self->value = stringValue;

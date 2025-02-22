@@ -83,7 +83,7 @@ typedef enum Arcadia_Arrays_ResizeStrategy {
 void
 Arcadia_Arrays_resizeByAdditionalCapacity
   (
-    Arcadia_Process1* process,
+    Arcadia_Thread1* thread,
     Arms_MemoryManager* memoryManager,
     void** elements,
     Arcadia_SizeValue elementSize,
@@ -108,7 +108,7 @@ Arcadia_Arrays_resizeByAdditionalCapacity
 void
 Arcadia_Arrays_resizeByFreeCapacity
   (
-    Arcadia_Process1* process,
+    Arcadia_Thread1* thread,
     Arms_MemoryManager* memoryManager,
     void** elements,
     Arcadia_SizeValue elementSize,

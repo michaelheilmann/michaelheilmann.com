@@ -265,7 +265,7 @@ NativeWindowsWindow_setTitleHelper
   Arcadia_Value value;
   Arcadia_Value_setObjectReferenceValue(&value, (Arcadia_ObjectReferenceValue)title);
   Arcadia_StringBuffer_append(process, stringBuffer, value);
-  Arcadia_Value_setObjectReferenceValue(&value, (Arcadia_ObjectReferenceValue)Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(Arcadia_Process_getProcess1(process), u8"", 1)));
+  Arcadia_Value_setObjectReferenceValue(&value, (Arcadia_ObjectReferenceValue)Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, u8"", 1)));
   Arcadia_StringBuffer_append(process, stringBuffer, value);
   SendMessage(windowHandle, WM_SETTEXT, 0, (LPARAM)Arcadia_StringBuffer_getBytes(stringBuffer));
 }
@@ -287,7 +287,7 @@ NativeWindowsWindow_constructImpl
   }
   _self->instanceHandle = NULL;
   _self->windowHandle = NULL;
-  _self->title = Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(Arcadia_Process_getProcess1(process), g_title, sizeof(g_title) - 1));
+  _self->title = Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, g_title, sizeof(g_title) - 1));
   _self->bigIcon = NULL;
   _self->smallIcon = NULL;
 
@@ -330,8 +330,8 @@ openImpl
 
   self->instanceHandle = GetModuleHandleA(NULL);
   if (!self->instanceHandle) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   // Register the window class.
@@ -344,8 +344,8 @@ openImpl
 
   if (!RegisterClass(&wc)) {
     self->instanceHandle = NULL;
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   self->windowHandle =
@@ -366,8 +366,8 @@ openImpl
   if (!self->windowHandle) {
     UnregisterClass(g_className, self->instanceHandle);
     self->instanceHandle = NULL;
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   if (!SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)) {
@@ -375,8 +375,8 @@ openImpl
     self->windowHandle = NULL;
     UnregisterClass(g_className, self->instanceHandle);
     self->instanceHandle = NULL;
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   self->windowDeviceContextHandle = GetDC(self->windowHandle);
@@ -385,22 +385,22 @@ openImpl
     self->windowHandle = NULL;
     UnregisterClass(g_className, self->instanceHandle);
     self->instanceHandle = NULL;
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   Arcadia_JumpTarget jumpTarget;
-  Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     NativeWindowsWindow_setTitleHelper(process, self->windowHandle, self->title);
-    Arcadia_Process_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
   } else {
-    Arcadia_Process_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
     DestroyWindow(self->windowHandle);
     self->windowHandle = NULL;
     UnregisterClass(g_className, self->instanceHandle);
     self->instanceHandle = NULL;
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   ShowWindow(self->windowHandle, SW_SHOW);
@@ -542,8 +542,8 @@ setTitleImpl
   )
 {
   if (!title) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   self->title = title;
   if (self->windowHandle) {
@@ -561,13 +561,13 @@ getCanvasSizeImpl
   )
 { 
   if (!self->windowHandle) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   RECT clientRectangle;
   if (!GetClientRect(self->windowHandle, &clientRectangle)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_StaticAssert(LONG_MAX <= INT32_MAX, "<internal error>");
   *width = clientRectangle.right - clientRectangle.left;

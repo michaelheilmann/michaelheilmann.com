@@ -66,15 +66,15 @@ recursiveInclude1
   Arcadia_Value_setObjectReferenceValue(&filePathValue, filePath);
   Arcadia_Stack_push(process, context->stack, filePathValue);
   Arcadia_JumpTarget jumpTarget;
-  Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     Context_onRun(process, context);
-    Arcadia_Process_popJumpTarget(process);
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   } else {
-    Arcadia_Process_popJumpTarget(process);
-    Arcadia_Process_setStatus(process, Arcadia_Status_Success);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_Success);
   }
 }
 
@@ -98,15 +98,15 @@ recursiveInclude2
   Arcadia_Value_setObjectReferenceValue(&filePathValue, filePath);
   Arcadia_Stack_push(process, context->stack, filePathValue);
   Arcadia_JumpTarget jumpTarget;
-  Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     Context_onRun(process, context);
-    Arcadia_Process_popJumpTarget(process);
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   } else {
-    Arcadia_Process_popJumpTarget(process);
-    Arcadia_Process_setStatus(process, Arcadia_Status_Success);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_Success);
   }
 }
 
@@ -122,14 +122,14 @@ main
     return EXIT_FAILURE;
   }
   Arcadia_JumpTarget jumpTarget;
-  Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     main1(process, argc, argv);
     recursiveInclude1(process, argc, argv);
     recursiveInclude2(process, argc, argv);
   }
-  Arcadia_Process_popJumpTarget(process);
-  Arcadia_Status status = Arcadia_Process_getStatus(process);
+  Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
+  Arcadia_Status status = Arcadia_Thread1_getStatus(Arcadia_Process_getThread(process));
   Arcadia_Process_relinquish(process);
   process = NULL;
   if (status) {

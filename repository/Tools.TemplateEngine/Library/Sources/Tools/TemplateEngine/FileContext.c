@@ -109,8 +109,8 @@ onIdentifier
   )
 {
   if (!isUnderscore(process, context) && !isLetter(process, context)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   do {
     Arcadia_Natural32Value targetCodePoint = Arcadia_Utf8Reader_getCodePoint(process, context->source);
@@ -127,16 +127,16 @@ onString
   )
 {
   if (!is(process, context, '"')) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Utf8Reader_next(process, context->source);
 
   Arcadia_BooleanValue lastWasSlash = Arcadia_BooleanValue_False;
   while (true) {
     if (!Arcadia_Utf8Reader_hasCodePoint(process, context->source)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     Arcadia_Natural32Value current = Arcadia_Utf8Reader_getCodePoint(process, context->source);
     if (lastWasSlash) {
@@ -152,8 +152,8 @@ onString
           lastWasSlash = Arcadia_BooleanValue_False;
         } break;
         default: {
-          Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-          Arcadia_Process_jump(process);
+          Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+          Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
         } break;
       };
     } else {
@@ -169,8 +169,8 @@ onString
       }
     }
   }
-  Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-  Arcadia_Process_jump(process);
+  Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+  Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
 }
 
 static void
@@ -181,8 +181,8 @@ onIncludeDirective
   )
 {
   if (!isLeftParenthesis(process, context)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Utf8Reader_next(process, context->source);
   Arcadia_ByteBuffer_clear(process, context->context->temporaryBuffer);
@@ -192,8 +192,8 @@ onIncludeDirective
   Arcadia_Value_setObjectReferenceValue(&value, filePath);
   Arcadia_Stack_push(process, context->context->stack, value);
   if (!isRightParenthesis(process, context)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Utf8Reader_next(process, context->source);
 }
@@ -216,13 +216,13 @@ onStatement
     Arcadia_Value_setObjectReferenceValue(&t, (Arcadia_ObjectReferenceValue)Arcadia_String_create(process, t));
     t = Arcadia_Map_get(process, context->environment, t);
     if (!Arcadia_Value_isObjectReferenceValue(&t)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     Arcadia_Object* object = Arcadia_Value_getObjectReferenceValue(&t);
     if (!Arcadia_Type_isSubType(Arcadia_Object_getType(object), _Arcadia_String_getType(process))) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     Arcadia_ByteBuffer_append_pn(process, context->context->targetBuffer, Arcadia_String_getBytes(process, (Arcadia_String*)object), Arcadia_String_getNumberOfBytes(process, (Arcadia_String*)object));
   }
@@ -236,8 +236,8 @@ onDirective
   )
 {
   if (!Arcadia_Utf8Reader_hasCodePoint(process, context->source)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Natural32Value current = Arcadia_Utf8Reader_getCodePoint(process, context->source);
   switch (current) {
@@ -250,14 +250,14 @@ onDirective
       Arcadia_Utf8Reader_next(process, context->source);
       onStatement(process, context);
       if (!is(process, context, '}')) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       Arcadia_Utf8Reader_next(process, context->source);
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   };
 }
@@ -350,24 +350,24 @@ FileContext_constructImpl
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (2 != numberOfArgumentValues) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, &argumentValues[0]), _Context_getType(process))) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, &argumentValues[1]), _Arcadia_FilePath_getType(process))) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   _self->context = Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
   _self->sourceFilePath = Arcadia_Value_getObjectReferenceValue(&argumentValues[1]);
   _self->source = NULL;
   _self->environment = Arcadia_Map_create(process);
   Arcadia_Value k, v;
-  Arcadia_Value_setObjectReferenceValue(&k, (Arcadia_ObjectReferenceValue)Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(Arcadia_Process_getProcess1(process), u8"siteAddress", sizeof(u8"siteAddress") - 1)));
-  Arcadia_Value_setObjectReferenceValue(&v, (Arcadia_ObjectReferenceValue)Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(Arcadia_Process_getProcess1(process), u8"https://michaelheilmann.com", sizeof(u8"https://michaelheilmann.com") - 1)));
+  Arcadia_Value_setObjectReferenceValue(&k, (Arcadia_ObjectReferenceValue)Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, u8"siteAddress", sizeof(u8"siteAddress") - 1)));
+  Arcadia_Value_setObjectReferenceValue(&v, (Arcadia_ObjectReferenceValue)Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, u8"https://michaelheilmann.com", sizeof(u8"https://michaelheilmann.com") - 1)));
   Arcadia_Map_set(process, _self->environment, k, v);
   Arcadia_Object_setType(process, _self, _type);
 }

@@ -260,8 +260,8 @@ getTranscodeCallbacks
   }
 
   if (!sourceEntry || !targetEntry) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   *decode = sourceEntry->decodeCallback;
@@ -338,8 +338,8 @@ PixelBuffer_constructImpl
       Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
     }
     if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, &argumentValues[0]), _PixelBuffer_getType(process))) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     PixelBuffer* other = (PixelBuffer*)Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
     _self->numberOfColumns = PixelBuffer_getNumberOfColumns(other);
@@ -349,7 +349,7 @@ PixelBuffer_constructImpl
     Arcadia_SizeValue bytesPerPixel = PixelBuffer_getBytesPerPixel(process, other);
     Arcadia_SizeValue bytes = (bytesPerPixel * _self->numberOfColumns + _self->linePadding) * _self->numberOfRows;
     Arcadia_Process_allocateUnmanaged(process, &_self->bytes, bytes);
-    Arcadia_Process1_copyMemory(Arcadia_Process_getProcess1(process), _self->bytes, other->bytes, bytes);
+    Arcadia_Process_copyMemory(process, _self->bytes, other->bytes, bytes);
     Arcadia_Object_setType(process, _self, _type);
   } else if (4 == numberOfArgumentValues) {
     Arcadia_TypeValue _type = _PixelBuffer_getType(process);
@@ -359,20 +359,20 @@ PixelBuffer_constructImpl
       Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
     }
     if (!Arcadia_Value_isInteger32Value(&argumentValues[0])) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     if (!Arcadia_Value_isInteger32Value(&argumentValues[1])) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     if (!Arcadia_Value_isInteger32Value(&argumentValues[2])) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     if (!Arcadia_Value_isNatural32Value(&argumentValues[3])) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     _self->bytes = NULL;
     _self->pixelFormat = Arcadia_Value_getNatural32Value(&argumentValues[3]);
@@ -392,8 +392,8 @@ PixelBuffer_constructImpl
         bytesPerPixel = 3;
       } break;
       default: {
-        Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       } break;
     };
     Arcadia_Process_allocateUnmanaged(process, &_self->bytes, (_self->numberOfColumns * bytesPerPixel + _self->linePadding) * _self->numberOfRows);
@@ -439,14 +439,14 @@ PixelBuffer_constructImpl
         }
       } break;
       default: {
-        Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       } break;
     };
     Arcadia_Object_setType(process, _self, _type);
   } else {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 
@@ -536,8 +536,8 @@ PixelBuffer_setLinePadding
 {
   if (self->linePadding != linePadding) {
     if (linePadding < 0) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     Arcadia_Integer32Value bytesPerPixel = 0;
     switch (self->pixelFormat) {
@@ -553,8 +553,8 @@ PixelBuffer_setLinePadding
         bytesPerPixel = 3;
       } break;
       default: {
-        Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       } break;
     }
     Arcadia_Integer32Value oldLinePadding = self->linePadding;
@@ -565,7 +565,7 @@ PixelBuffer_setLinePadding
     for (Arcadia_SizeValue rowIndex = 0; rowIndex < self->numberOfRows; ++rowIndex) {
       Arcadia_Natural8Value* oldLine = oldBytes + rowIndex * (self->numberOfColumns * bytesPerPixel + oldLinePadding);
       Arcadia_Natural8Value* newLine = newBytes + rowIndex * (self->numberOfColumns * bytesPerPixel + newLinePadding);
-      Arcadia_Process1_copyMemory(Arcadia_Process_getProcess1(process), newLine, oldLine, self->numberOfColumns * bytesPerPixel);
+      Arcadia_Process_copyMemory(process, newLine, oldLine, self->numberOfColumns * bytesPerPixel);
     }
     Arcadia_Process_deallocateUnmanaged(process, oldBytes);
     self->bytes = newBytes;
@@ -589,12 +589,12 @@ PixelBuffer_getPixelRgba
   )
 {
   if (column < 0 || column > PixelBuffer_getNumberOfColumns(self)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (row < 0 || row > PixelBuffer_getNumberOfRows(self)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_SizeValue offset = row * PixelBuffer_getLineStride(process, self) + column * PixelBuffer_getBytesPerPixel(process, self);
   Arcadia_Natural8Value* bytes = self->bytes + offset;
@@ -619,8 +619,8 @@ PixelBuffer_getPixelRgba
       DECODE_RGBA(bytes, &pixel);
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   };
   *r = pixel.r;
@@ -643,12 +643,12 @@ PixelBuffer_setPixelRgba
   )
 {
   if (column < 0 || column >= PixelBuffer_getNumberOfColumns(self)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (row < 0 || row >= PixelBuffer_getNumberOfRows(self)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_SizeValue offset = row * PixelBuffer_getLineStride(process, self) + column * PixelBuffer_getBytesPerPixel(process, self);
   Arcadia_Natural8Value* bytes = self->bytes + offset;
@@ -673,8 +673,8 @@ PixelBuffer_setPixelRgba
       ENCODE_RGBA(bytes, &pixel);
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   };
 }
@@ -766,8 +766,8 @@ PixelBuffer_fill
       }
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   };
 }
@@ -784,12 +784,12 @@ PixelBuffer_swapColumns
   )
 {
   if (column1 < 0 || column1 >= self->numberOfColumns) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (column2 < 0 || column2 >= self->numberOfColumns) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (column1 == column2) {
     return;
@@ -815,12 +815,12 @@ PixelBuffer_swapRows
   )
 {
   if (row1 < 0 || row1 >= self->numberOfRows) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (row2 < 0 || row2 >= self->numberOfRows) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (row1 == row2) {
     return;
@@ -905,8 +905,8 @@ PixelBuffer_getBytesPerPixel
       bytesPerPixel = 3;
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   }
   return bytesPerPixel;

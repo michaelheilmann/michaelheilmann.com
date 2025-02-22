@@ -94,8 +94,8 @@ parseName
   )
 {
   if (!isAlphabetic(*current, start, end) && !isUnderscore(*current, start, end)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   (*current)++;
   while (isAlphabetic(*current, start, end) || isUnderscore(*current, start, end) || isAlphanumeric(*current, start, end)) {
@@ -132,7 +132,7 @@ R_Names_parseTypeName
             * end = ((uint8_t const*)bytes) + numberOfBytes;
   parseQualifiedName(process, &current, start, end);
   if (!isEnd(current, start, end)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }

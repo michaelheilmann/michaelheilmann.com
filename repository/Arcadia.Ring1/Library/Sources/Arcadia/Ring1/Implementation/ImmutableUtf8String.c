@@ -33,7 +33,7 @@
 Arcadia_ImmutableUtf8String*
 Arcadia_ImmutableUtf8String_create
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural8Value const* bytes,
     Arcadia_SizeValue numberOfBytes
   )
@@ -44,7 +44,7 @@ Arcadia_ImmutableUtf8String_create
 Arcadia_ImmutableUtf8String*
 Arcadia_ImmutableUtf8String_createFromBoolean
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_BooleanValue booleanValue
   )
 { return _createFromBoolean(process, booleanValue); }
@@ -53,7 +53,7 @@ Arcadia_ImmutableUtf8String_createFromBoolean
 Arcadia_ImmutableUtf8String*
 Arcadia_ImmutableUtf8String_createFromInteger16
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Integer16Value integer16Value
   )
 { return _createFromInteger16(process, integer16Value); }
@@ -61,7 +61,7 @@ Arcadia_ImmutableUtf8String_createFromInteger16
 Arcadia_ImmutableUtf8String*
 Arcadia_ImmutableUtf8String_createFromInteger32
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Integer32Value integer32Value
   )
 { return _createFromInteger32(process, integer32Value); }
@@ -69,7 +69,7 @@ Arcadia_ImmutableUtf8String_createFromInteger32
 Arcadia_ImmutableUtf8String*
 Arcadia_ImmutableUtf8String_createFromInteger64
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Integer64Value integer64Value
   )
 { return _createFromInteger64(process, integer64Value); }
@@ -77,7 +77,7 @@ Arcadia_ImmutableUtf8String_createFromInteger64
 Arcadia_ImmutableUtf8String*
 Arcadia_ImmutableUtf8String_createFromInteger8
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Integer8Value integer8Value
   )
 { return _createFromInteger8(process, integer8Value); }
@@ -85,7 +85,7 @@ Arcadia_ImmutableUtf8String_createFromInteger8
 Arcadia_ImmutableUtf8String*
 Arcadia_ImmutableUtf8String_createFromNatural16
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural16Value natural16Value
   )
 { return _createFromNatural16(process, natural16Value); }
@@ -93,7 +93,7 @@ Arcadia_ImmutableUtf8String_createFromNatural16
 Arcadia_ImmutableUtf8String*
 Arcadia_ImmutableUtf8String_createFromNatural32
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural32Value natural32Value
   )
 { return _createFromNatural32(process, natural32Value); }
@@ -101,7 +101,7 @@ Arcadia_ImmutableUtf8String_createFromNatural32
 Arcadia_ImmutableUtf8String*
 Arcadia_ImmutableUtf8String_createFromNatural64
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural64Value natural64Value
   )
 { return _createFromNatural64(process, natural64Value); }
@@ -109,7 +109,7 @@ Arcadia_ImmutableUtf8String_createFromNatural64
 Arcadia_ImmutableUtf8String*
 Arcadia_ImmutableUtf8String_createFromNatural8
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural8Value natural8Value
   )
 { return _createFromNatural8(process, natural8Value); }
@@ -117,7 +117,7 @@ Arcadia_ImmutableUtf8String_createFromNatural8
 Arcadia_ImmutableUtf8String*
 Arcadia_ImmutableUtf8String_createFromVoid
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_VoidValue voidValue
   )
 { return _createFromVoid(process, voidValue); }
@@ -125,15 +125,15 @@ Arcadia_ImmutableUtf8String_createFromVoid
 void
 Arcadia_ImmutableUtf8String_visit
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8StringValue self
   )
-{ Arcadia_Process1_visitObject(process, self); }
+{ Arcadia_Process_visitObject(process, self); }
 
 Arcadia_Natural8Value const*
 Arcadia_ImmutableUtf8String_getBytes
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8StringValue self
   )
 { return self->bytes; }
@@ -141,7 +141,7 @@ Arcadia_ImmutableUtf8String_getBytes
 Arcadia_SizeValue
 Arcadia_ImmutableUtf8String_getNumberOfBytes
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8StringValue self
   )
 { return self->numberOfBytes; }
@@ -149,7 +149,7 @@ Arcadia_ImmutableUtf8String_getNumberOfBytes
 Arcadia_SizeValue
 Arcadia_ImmutableUtf8String_getHash
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8StringValue self
   )
 { return self->hash; }
@@ -157,7 +157,7 @@ Arcadia_ImmutableUtf8String_getHash
 Arcadia_BooleanValue
 Arcadia_ImmutableUtf8String_toBoolean
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8StringValue self
   )
 { return _toBoolean(process, self); }
@@ -165,7 +165,7 @@ Arcadia_ImmutableUtf8String_toBoolean
 Arcadia_Integer16Value
 Arcadia_ImmutableUtf8String_toInteger16
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8StringValue self
   )
 { return _toInteger16(process, self); }
@@ -173,7 +173,7 @@ Arcadia_ImmutableUtf8String_toInteger16
 Arcadia_Integer32Value
 Arcadia_ImmutableUtf8String_toInteger32
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8StringValue self
   )
 { return _toInteger32(process, self); }
@@ -181,7 +181,7 @@ Arcadia_ImmutableUtf8String_toInteger32
 Arcadia_Integer64Value
 Arcadia_ImmutableUtf8String_toInteger64
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8StringValue self
   )
 { return _toInteger64(process, self); }
@@ -189,7 +189,7 @@ Arcadia_ImmutableUtf8String_toInteger64
 Arcadia_Integer8Value
 Arcadia_ImmutableUtf8String_toInteger8
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8StringValue self
   )
 { return _toInteger8(process, self); }
@@ -197,7 +197,7 @@ Arcadia_ImmutableUtf8String_toInteger8
 Arcadia_Natural16Value
 Arcadia_ImmutableUtf8String_toNatural16
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8StringValue self
   )
 { return _toNatural16(process, self); }
@@ -205,7 +205,7 @@ Arcadia_ImmutableUtf8String_toNatural16
 Arcadia_Natural32Value
 Arcadia_ImmutableUtf8String_toNatural32
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8StringValue self
   )
 { return _toNatural32(process, self); }
@@ -213,7 +213,7 @@ Arcadia_ImmutableUtf8String_toNatural32
 Arcadia_Natural64Value
 Arcadia_ImmutableUtf8String_toNatural64
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8StringValue self
   )
 { return _toNatural64(process, self); }
@@ -221,7 +221,7 @@ Arcadia_ImmutableUtf8String_toNatural64
 Arcadia_Natural8Value
 Arcadia_ImmutableUtf8String_toNatural8
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8StringValue self
   )
 { return _toNatural8(process, self); }
@@ -229,7 +229,7 @@ Arcadia_ImmutableUtf8String_toNatural8
 Arcadia_VoidValue
 Arcadia_ImmutableUtf8String_toVoid
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8StringValue self
   )
 { return _toVoid(process, self); }

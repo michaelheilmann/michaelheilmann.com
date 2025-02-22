@@ -48,11 +48,11 @@ writeCallback
   )
 {
   Arcadia_JumpTarget jumpTarget;
-  Arcadia_Process_pushJumpTarget(context->process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(context->process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     Arcadia_ByteBuffer_append_pn(context->process, context->byteBuffer, data, size);
   }
-  Arcadia_Process_popJumpTarget(context->process);
+  Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(context->process));
 }
 
 void
@@ -81,20 +81,20 @@ _Visuals_Linux_writeBmpToByteBuffer
       components = 4;
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   };
 
   if (!stbi_write_bmp_to_func((stbi_write_func*)&writeCallback, &context,
                               PixelBuffer_getWidth(pixelBuffer),
                               PixelBuffer_getHeight(pixelBuffer),
-                               components,
+                              components,
                               pixelBuffer->bytes)) {
     context.status = Arcadia_Status_EnvironmentFailed;
   }
   if (context.status) {
-    Arcadia_Process_setStatus(process, context.status);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), context.status);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }

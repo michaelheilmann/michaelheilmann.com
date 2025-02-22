@@ -23,6 +23,7 @@
 #include "Arcadia/Ring1/Implementation/ImmutableByteArray.h"
 #include "Arcadia/Ring1/Implementation/ImmutableUtf8String.h"
 #include "Arcadia/Ring1/Implementation/Object.h"
+#include "Arcadia/Ring1/Implementation/Process1.h"
 // exit, EXIT_FAILURE
 #include <stdlib.h>
 
@@ -114,10 +115,10 @@ Arcadia_Value_visit
       /* Intentionally empty. */
     } break;
     case Arcadia_ValueTag_ImmutableByteArray: {
-      Arcadia_ImmutableByteArray_visit(Arcadia_Process_getProcess1(process), self->immutableByteArrayValue);
+      Arcadia_ImmutableByteArray_visit(process, self->immutableByteArrayValue);
     } break;
     case Arcadia_ValueTag_ImmutableUtf8String: {
-      Arcadia_ImmutableUtf8String_visit(Arcadia_Process_getProcess1(process), self->immutableUtf8StringValue);
+      Arcadia_ImmutableUtf8String_visit(process, self->immutableUtf8StringValue);
     } break;
     case Arcadia_ValueTag_Integer16: {
       /* Intentionally empty. */
@@ -354,8 +355,8 @@ Arcadia_Value_isLowerThan
 {
   switch (self->tag) {
     case Arcadia_ValueTag_Atom: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
     OnRelational(Boolean, lowerThan);
     OnRelational(ForeignProcedure, lowerThan);
@@ -382,8 +383,8 @@ Arcadia_Value_isLowerThan
       return Arcadia_Value_getBooleanValue(&resultValue);
     } break;
     case Arcadia_ValueTag_Type: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
     default: {
       Arcadia_logf(Arcadia_LogFlags_Error, "%s:%d: unreachable code reached\n", __FILE__, __LINE__);
@@ -402,8 +403,8 @@ Arcadia_Value_isLowerThanOrEqualTo
 {
   switch (self->tag) {
     case Arcadia_ValueTag_Atom: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
     OnRelational(Boolean, lowerThanOrEqualTo);
     OnRelational(ForeignProcedure, lowerThanOrEqualTo);
@@ -430,8 +431,8 @@ Arcadia_Value_isLowerThanOrEqualTo
       return Arcadia_Value_getBooleanValue(&resultValue);
     } break;
     case Arcadia_ValueTag_Type: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
     default: {
       Arcadia_logf(Arcadia_LogFlags_Error, "%s:%d: unreachable code reached\n", __FILE__, __LINE__);
@@ -450,8 +451,8 @@ Arcadia_Value_isGreaterThan
 {
   switch (self->tag) {
     case Arcadia_ValueTag_Atom: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
     OnRelational(Boolean, greaterThan);
     OnRelational(ForeignProcedure, greaterThan);
@@ -478,8 +479,8 @@ Arcadia_Value_isGreaterThan
       return Arcadia_Value_getBooleanValue(&resultValue);
     } break;
     case Arcadia_ValueTag_Type: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
     default: {
       Arcadia_logf(Arcadia_LogFlags_Error, "%s:%d: unreachable code reached\n", __FILE__, __LINE__);
@@ -498,8 +499,8 @@ Arcadia_Value_isGreaterThanOrEqualTo
 {
   switch (self->tag) {
     case Arcadia_ValueTag_Atom: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
     OnRelational(Boolean, greaterThanOrEqualTo);
     OnRelational(ForeignProcedure, greaterThanOrEqualTo);
@@ -526,8 +527,8 @@ Arcadia_Value_isGreaterThanOrEqualTo
       return Arcadia_Value_getBooleanValue(&resultValue);
     } break;
     case Arcadia_ValueTag_Type: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
     default: {
       Arcadia_logf(Arcadia_LogFlags_Error, "%s:%d: unreachable code reached\n", __FILE__, __LINE__);

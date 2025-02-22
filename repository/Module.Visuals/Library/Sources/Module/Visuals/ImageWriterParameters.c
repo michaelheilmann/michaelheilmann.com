@@ -87,8 +87,8 @@ ImageWriterParameters_constructImpl
   ImageWriterParameters* _self = Arcadia_Value_getObjectReferenceValue(self);
   Arcadia_TypeValue _type = _ImageWriterParameters_getType(process);
   if (2 != numberOfArgumentValues) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   {
     Arcadia_Value argumentValues[] = { {.tag = Arcadia_ValueTag_Void, .voidValue = Arcadia_VoidValue_Void} };
@@ -101,8 +101,8 @@ ImageWriterParameters_constructImpl
     _self->object = (Arcadia_ObjectReferenceValue)Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
     _self->format = Arcadia_Value_getInteger32Value(&argumentValues[1]);
   } else {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Object_setType(process, _self, _type);
 }
@@ -170,8 +170,8 @@ ImageWriterParameters_getPath
   )
 {
   if (!ImageWriterParameters_hasPath(process, self)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return (Arcadia_String*)self->object;
 }
@@ -195,8 +195,8 @@ ImageWriterParameters_getByteBuffer
   )
 {
   if (!ImageWriterParameters_hasByteBuffer(process, self)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return (Arcadia_ByteBuffer*)self->object;
 }

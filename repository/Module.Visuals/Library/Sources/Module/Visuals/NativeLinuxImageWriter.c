@@ -109,35 +109,35 @@ void LibPngState_destroy(Arcadia_Process* process, LibPngState* state) {
 LibPngState* LibPngState_create(Arcadia_Process* process) {
   LibPngState* state = malloc(sizeof(LibPngState));
   if (!state) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_AllocationFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   state->png_struct = NULL;
   state->png_info = NULL;
   state->row_pointers = NULL;
   Arcadia_JumpTarget jumpTarget;
-  Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     state->png_struct = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
     if (!state->png_struct) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     state->png_info = png_create_info_struct(state->png_struct);
     if (!state->png_info) {
       png_destroy_write_struct(&state->png_struct, (png_infopp)NULL);
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
-    Arcadia_Process_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
   } else {
-    Arcadia_Process_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
     if (!state->png_info) {
       png_destroy_write_struct(&state->png_struct, (png_infopp)NULL);
     }
     free(state);
     state = NULL;
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return state;
 }
@@ -152,12 +152,12 @@ on_write
 {
   LibPngWriteState* ws = (LibPngWriteState*)png_get_io_ptr(png_struct);
   Arcadia_JumpTarget jumpTarget;
-  Arcadia_Process_pushJumpTarget(ws->process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(ws->process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     Arcadia_ByteBuffer_append_pn(ws->process, ws->byteBuffer, data, length);
-    Arcadia_Process_popJumpTarget(ws->process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(ws->process));
   } else {
-    Arcadia_Process_popJumpTarget(ws->process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(ws->process));
     png_error(png_struct, "error");
   }
 }
@@ -202,8 +202,8 @@ NativeLinuxImageWriter_writePngToPathImpl
       colorType = PNG_COLOR_TYPE_RGB;
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   };
   uint32_t width = PixelBuffer_getWidth(sourcePixelBuffer);
@@ -217,8 +217,8 @@ NativeLinuxImageWriter_writePngToPathImpl
   if (!setjmp(png_jmpbuf(state->png_struct))) {
     state->row_pointers = malloc(sizeof(uint8_t*) * height);
     if (!state->row_pointers) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     for (size_t i = 0; i < height; ++i) {
       state->row_pointers[i] = pixels + lineStride * i;
@@ -227,8 +227,8 @@ NativeLinuxImageWriter_writePngToPathImpl
     Arcadia_String* filePathString = Arcadia_FilePath_toNative(process, filePath);
     fp = fopen(Arcadia_String_getBytes(process, filePathString), "wb");
     if (!fp) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     png_init_io(state->png_struct, fp);
     png_set_IHDR
@@ -252,8 +252,8 @@ NativeLinuxImageWriter_writePngToPathImpl
       fclose(fp);
       fp = NULL;
     }
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   LibPngState_destroy(process, state);
   state = NULL;
@@ -296,8 +296,8 @@ NativeLinuxImageWriter_writePngToByteBufferImpl
       colorType = PNG_COLOR_TYPE_RGB;
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   };
   uint32_t width = PixelBuffer_getWidth(sourcePixelBuffer);
@@ -310,8 +310,8 @@ NativeLinuxImageWriter_writePngToByteBufferImpl
   if (!setjmp(png_jmpbuf(state->png_struct))) {
     state->row_pointers = malloc(sizeof(uint8_t*) * height);
     if (!state->row_pointers) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     for (size_t i = 0; i < height; ++i) {
       state->row_pointers[i] = pixels + lineStride * i;
@@ -335,8 +335,8 @@ NativeLinuxImageWriter_writePngToByteBufferImpl
   } else {
     LibPngState_destroy(process, state);
     state = NULL;
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   LibPngState_destroy(process, state);
   state = NULL;
@@ -420,18 +420,18 @@ NativeLinuxImageWriter_writeIcoToByteBufferImpl
     Arcadia_ByteBuffer_clear(process, temporary);
     ImageWriter_writePngToByteBuffer(process, (ImageWriter*)self, pixelBuffer, temporary);
     if (PixelFormat_An8Rn8Gn8Bn8 != PixelBuffer_getPixelFormat(pixelBuffer)) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     size_t width = PixelBuffer_getNumberOfColumns(pixelBuffer),
            height = PixelBuffer_getNumberOfRows(pixelBuffer);
     if (width > 256) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     if (height > 256) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     if (width == 256) {
       width = 0;

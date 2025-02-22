@@ -25,7 +25,7 @@
 Arcadia_VoidValue
 _toVoid
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8String* immutableUtf8StringValue
   )
 {
@@ -33,12 +33,12 @@ _toVoid
   _State_init(&state, Arcadia_ImmutableUtf8String_getBytes(process, immutableUtf8StringValue),
                       Arcadia_ImmutableUtf8String_getNumberOfBytes(process, immutableUtf8StringValue));
   Arcadia_JumpTarget jumpTarget;
-  Arcadia_Process1_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     #define check(x) \
       if (!is(&state, (x))) { \
-        Arcadia_Process1_setStatus(process, Arcadia_Status_ConversionFailed); \
-        Arcadia_Process1_jump(process); \
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ConversionFailed); \
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process)); \
       } \
 
     next(&state);
@@ -50,11 +50,11 @@ _toVoid
       
     #undef check
     _State_uninit(&state);
-    Arcadia_Process1_popJumpTarget(process);   
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
   } else {
     _State_uninit(&state);
-    Arcadia_Process1_popJumpTarget(process);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 
   return Arcadia_VoidValue_Void;

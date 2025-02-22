@@ -122,8 +122,8 @@ Arcadia_Map_ensureFreeCapacity
       // If oldCapacity > maximumCapacity / 2 holds then oldCapacity * 2 > maximumCapacity holds.
       // Consequently, we cannot double the capacity. Try to saturate the capacity.
       if (oldCapacity == g_maximumCapacity) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_AllocationFailed);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       } else {
         newCapacity = g_maximumCapacity;
       }
@@ -165,8 +165,8 @@ Arcadia_Map_ensureInitialized
       g_maximumCapacity = Arcadia_Integer32Value_Maximum;
     }
     if (g_minimumCapacity > g_maximumCapacity) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     g_initialized = Arcadia_BooleanValue_True;
   }
@@ -302,8 +302,8 @@ Arcadia_Map_set
   )
 { 
   if (Arcadia_Value_isVoidValue(&key)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_SizeValue hash = Arcadia_Value_getHash(process, &key);
   Arcadia_SizeValue index = hash % self->capacity;
@@ -335,8 +335,8 @@ Arcadia_Map_get
   )
 { 
   if (Arcadia_Value_isVoidValue(&key)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_SizeValue hash = Arcadia_Value_getHash(process, &key);
   Arcadia_SizeValue index = hash % self->capacity;

@@ -31,8 +31,8 @@ Arcadia_nextPowerOfTwoGreaterThan##Suffix##Value \
   /* i is Bits is x is 0. i is Bits - 1 if x is 1. i is Bits - 2 if x is 2 or 3. ... i is 0 if x >= greatestPowerOfTwo. Consequently the shift is Bits - i.*/ \
   Arcadia_SizeValue numberOfLeadingZeroes = Arcadia_countLeadingZeroes##Suffix##Value(process, x); \
   if (!numberOfLeadingZeroes) { \
-    Arcadia_Process_setStatus(process, Arcadia_Status_NotExists); \
-    Arcadia_Process_jump(process); \
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NotExists); \
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process)); \
   } \
   Arcadia_SizeValue shift = Bits - numberOfLeadingZeroes; \
   Type##Value t = Type##Value_Literal(1) << shift; \

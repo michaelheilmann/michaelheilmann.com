@@ -21,7 +21,7 @@
 void
 Arcadia_safeMultiply_n16
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural16Value multiplier,
     Arcadia_Natural16Value multiplicand,
     Arcadia_Natural16Value* productHigh,
@@ -29,8 +29,8 @@ Arcadia_safeMultiply_n16
   )
 {
   if (!productHigh | !productLow) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Natural32Value a = multiplier;
   Arcadia_Natural32Value b = multiplicand;
@@ -42,7 +42,7 @@ Arcadia_safeMultiply_n16
 void
 Arcadia_safeMultiply_n32
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural32Value multiplier,
     Arcadia_Natural32Value multiplicand,
     Arcadia_Natural32Value* productHigh,
@@ -50,8 +50,8 @@ Arcadia_safeMultiply_n32
   )
 {
   if (!productHigh | !productLow) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Natural64Value a = multiplier;
   Arcadia_Natural64Value b = multiplicand;
@@ -68,7 +68,7 @@ Arcadia_safeMultiply_n32
 void
 Arcadia_safeMultiply_n64_x64msvc
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural64Value multiplier,
     Arcadia_Natural64Value multiplicand,
     Arcadia_Natural64Value* productHigh,
@@ -76,8 +76,8 @@ Arcadia_safeMultiply_n64_x64msvc
   )
 {
   if (!productHigh | !productLow) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   unsigned long long productLow_;
   unsigned long long productHigh_;
@@ -92,7 +92,7 @@ Arcadia_safeMultiply_n64_x64msvc
 void
 Arcadia_safeMultiply_n64_gcc
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural64Value multiplier,
     Arcadia_Natural64Value multiplicand,
     Arcadia_Natural64Value* productHigh,
@@ -100,8 +100,8 @@ Arcadia_safeMultiply_n64_gcc
   )
 {
   if (!productHigh | !productLow) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   unsigned __int128 product = (unsigned __int128)multiplier * (unsigned __int128)multiplicand;
   *productHigh = product >> 64;
@@ -114,7 +114,7 @@ Arcadia_safeMultiply_n64_gcc
 void
 Arcadia_safeMultiply_n64_default
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural64Value multiplier,
     Arcadia_Natural64Value multiplicand,
     Arcadia_Natural64Value* productHigh,
@@ -122,8 +122,8 @@ Arcadia_safeMultiply_n64_default
   )
 {
   if (!productHigh | !productLow) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   // multiplier   = ab = a * 2^32 + b
   // multiplicand = cd = c * 2^32 + d
@@ -154,7 +154,7 @@ Arcadia_safeMultiply_n64_default
 void
 Arcadia_safeMultiply_n64
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural64Value multiplier,
     Arcadia_Natural64Value multiplicand,
     Arcadia_Natural64Value* productHigh,
@@ -174,7 +174,7 @@ Arcadia_safeMultiply_n64
 void
 Arcadia_safeMultiply_n8
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_Natural8Value multiplier,
     Arcadia_Natural8Value multiplicand,
     Arcadia_Natural8Value* productHigh,
@@ -182,8 +182,8 @@ Arcadia_safeMultiply_n8
   )
 {
   if (!productHigh | !productLow) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Natural16Value a = multiplier;
   Arcadia_Natural16Value b = multiplicand;
@@ -195,7 +195,7 @@ Arcadia_safeMultiply_n8
 void
 Arcadia_safeMultiply_sz
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_SizeValue multiplier,
     Arcadia_SizeValue multiplicand,
     Arcadia_SizeValue* productHigh,
@@ -203,8 +203,8 @@ Arcadia_safeMultiply_sz
   )
 {
   if (!productHigh | !productLow) {
-    Arcadia_Process1_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process1_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 #if Arcadia_Configuration_CompilerC_Msvc == Arcadia_Configuration_CompilerC
   #if Arcadia_Configuration_InstructionSetArchitecture_X64 == Arcadia_Configuration_InstructionSetArchitecture

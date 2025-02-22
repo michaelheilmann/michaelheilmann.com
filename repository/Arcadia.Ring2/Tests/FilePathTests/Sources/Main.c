@@ -30,12 +30,12 @@ checkNormalized
   Arcadia_FilePath* filePath = Arcadia_FilePath_parseNative(process, p, strlen(p));
   Arcadia_String* filePathString = Arcadia_FilePath_toNative(process, filePath);
   if (Arcadia_String_getNumberOfBytes(process, filePathString) != strlen(q) + 1) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (memcmp(Arcadia_String_getBytes(process, filePathString), q, strlen(q))) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 

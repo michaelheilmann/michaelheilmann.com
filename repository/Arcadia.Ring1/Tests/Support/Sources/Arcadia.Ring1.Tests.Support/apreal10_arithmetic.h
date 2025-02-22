@@ -20,7 +20,6 @@
 #include <stdlib.h>
 
 #include "Arcadia/Ring1/Include.h"
-#include "Arcadia/Ring1/Implementation/Utf8ToIeee754/Include.h"
 
 void
 Arcadia_Ring1_Tests_Support_apreal10_arithmetic

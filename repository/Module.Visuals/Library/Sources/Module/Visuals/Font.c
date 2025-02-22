@@ -79,15 +79,15 @@ TextureFontWindows_constructImpl
   //
   HDC hScreenDeviceContext = GetDC(NULL);
   if (!hScreenDeviceContext) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   HDC hDeviceContext = CreateCompatibleDC(hScreenDeviceContext);
   if (!hDeviceContext) {
     ReleaseDC(NULL, hScreenDeviceContext);
     hScreenDeviceContext = NULL;
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   ReleaseDC(NULL, hScreenDeviceContext);
   hScreenDeviceContext = NULL;
@@ -144,15 +144,15 @@ TextureFontWindows_setCodePoint
   if (self->codePoint != codePoint) {
     HDC hScreenDeviceContext = GetDC(NULL);
     if (!hScreenDeviceContext) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     HDC hDeviceContext = CreateCompatibleDC(hScreenDeviceContext);
     if (!hDeviceContext) {
       ReleaseDC(NULL, hScreenDeviceContext);
       hScreenDeviceContext = NULL;
-      Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     ReleaseDC(NULL, hScreenDeviceContext);
     hScreenDeviceContext = NULL;

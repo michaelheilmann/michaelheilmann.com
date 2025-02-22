@@ -16,7 +16,6 @@
 #if !defined(R_INTERPRETER_PROCEDURE_H_INCLUDED)
 #define R_INTERPRETER_PROCEDURE_H_INCLUDED
 
-#include "Arcadia/Ring1/Include.h"
 #include "Arcadia/Ring2/Include.h"
 #include "R/Interpreter/Code.h"
 

@@ -58,8 +58,8 @@ Error:
   while (k > 0) {
     apint10_uninitialize(&v[--k]);
   }
-  Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-  Arcadia_Process_jump(process);
+  Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+  Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
 }
 
 static void
@@ -100,8 +100,8 @@ Error:
   while (k > 0) {
     apint10_uninitialize(&v[--k]);
   }
-  Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed);
-  Arcadia_Process_jump(process);
+  Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed);
+  Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
 }
 
 static void

@@ -120,7 +120,7 @@ Arcadia_Mil_StringTable_maybeResize_nojump
 {
   if (self->size >= self->capacity) {
     Arcadia_JumpTarget jumpTarget;
-    Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+    Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
     if (Arcadia_JumpTarget_save(&jumpTarget)) {
       Arcadia_SizeValue maximumCapacity = Arcadia_SizeValue_Maximum / sizeof(Arcadia_Mil_StringTable_Node*);
       Arcadia_SizeValue oldCapacity = self->capacity;
@@ -153,9 +153,9 @@ Arcadia_Mil_StringTable_maybeResize_nojump
       Arcadia_Process_deallocateUnmanaged(process, oldBuckets);
       self->buckets = newBuckets;
       self->capacity = newCapacity;
-      Arcadia_Process_popJumpTarget(process);
+      Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
     } else {
-      Arcadia_Process_popJumpTarget(process);
+      Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
       // Fail silently.
     }
   }
@@ -231,7 +231,7 @@ Arcadia_Mil_StringTable_getOrCreateString
   for (Arcadia_Mil_StringTable_Node* node = self->buckets[index]; NULL != node; node = node->next) {
     Arcadia_Value nodeValue = { .tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = (Arcadia_ObjectReferenceValue)node->string };
     if (Arcadia_Value_getHash(process, &nodeValue) == hash && Arcadia_String_getNumberOfBytes(process, node->string)) {
-      if (!Arcadia_Process1_compareMemory(Arcadia_Process_getProcess1(process), Arcadia_String_getBytes(process, node->string), Arcadia_StringBuffer_getBytes(stringBuffer), Arcadia_String_getNumberOfBytes(process, node->string))) {
+      if (!Arcadia_Process_compareMemory(process, Arcadia_String_getBytes(process, node->string), Arcadia_StringBuffer_getBytes(stringBuffer), Arcadia_String_getNumberOfBytes(process, node->string))) {
         return node->string;
       }
     }

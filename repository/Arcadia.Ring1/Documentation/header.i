@@ -2,7 +2,7 @@
 <link rel='stylesheet' href='@{siteAddress}/assets/reset.css?v=3'>
 <link rel='stylesheet' href='@{siteAddress}/assets/index.css?v=3'>
 <link rel='canonical' href='@{siteAddress}/repository/R1/'>
-<title>Michael Heilmann's Runtime Mark 1</title>
+<title>Michael Heilmann's Arcadia Ring 1</title>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@@3.2.2/es5/tex-mml-chtml.min.js"></script>
 <style>
   /* variable */

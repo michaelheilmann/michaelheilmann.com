@@ -25,7 +25,7 @@ typedef struct Arcadia_ImmutableUtf8String Arcadia_ImmutableUtf8String;
 Arcadia_BooleanValue
 _toBoolean
   (
-    Arcadia_Process1* process,
+    Arcadia_Process* process,
     Arcadia_ImmutableUtf8String* immutableUtf8StringValue
   );
 

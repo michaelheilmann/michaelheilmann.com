@@ -86,24 +86,24 @@ Arcadia_Mil_ExpressionStatementAst_constructImpl
   }
  
   if (2 != numberOfArgumentValues) {
-     Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-     Arcadia_Process_jump(process);
+     Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+     Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!Arcadia_Value_isObjectReferenceValue(&argumentValues[0])) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!Arcadia_Type_isSubType(Arcadia_Object_getType(Arcadia_Value_getObjectReferenceValue(&argumentValues[0])), _Arcadia_String_getType(process))) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!Arcadia_Value_isObjectReferenceValue(&argumentValues[1])) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!Arcadia_Type_isSubType(Arcadia_Object_getType(Arcadia_Value_getObjectReferenceValue(&argumentValues[1])), _Arcadia_Mil_ExpressionAst_getType(process))) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   
   _self->targetVariableName = (Arcadia_String*)Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);

@@ -37,8 +37,8 @@ R_InterpreterState_decodeTarget
   Arcadia_Natural32Value indexValue;
   R_Interpreter_Code_decodeIndex(process, code, &call->instructionIndex, &indexKind, &indexValue);
   if (R_Machine_Code_IndexKind_Register != indexKind) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SemanticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return R_Interpreter_ThreadState_getRegisterAt(thread, indexValue);
 }
@@ -79,12 +79,12 @@ R_InterpreterState_decodeStringConstant
   Arcadia_Natural32Value indexValue;
   R_Interpreter_Code_decodeIndex(process, code, &call->instructionIndex, &indexKind, &indexValue);
   if (R_Machine_Code_IndexKind_Constant != indexKind) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SemanticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, R_Interpreter_Code_Constants_getAt(process, constants, indexValue)), _Arcadia_String_getType(process))) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SemanticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return (Arcadia_String*)Arcadia_Value_getObjectReferenceValue(R_Interpreter_Code_Constants_getAt(process, constants, indexValue));
 }
@@ -133,8 +133,8 @@ R_Instructions_add
   Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->add) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value args[2] = { *firstOperandValue, *secondOperandValue };
   operations->add(process, targetValue, 2, &args[0]);
@@ -160,8 +160,8 @@ R_Instructions_and
   Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->and) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value args[2] = { *firstOperandValue, *secondOperandValue };
   operations->and(process, targetValue, 2, &args[0]);
@@ -187,8 +187,8 @@ R_Instructions_concatenate
   Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->concatenate) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value args[2] = { *firstOperandValue, *secondOperandValue };
   operations->concatenate(process, targetValue, 2, &args[0]);
@@ -214,8 +214,8 @@ R_Instructions_divide
   Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->divide) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value args[2] = { *firstOperandValue, *secondOperandValue };
   operations->divide(process, targetValue, 2, &args[0]);
@@ -241,8 +241,8 @@ R_Instructions_isEqualTo
   Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->equalTo) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value args[2] = { *firstOperandValue, *secondOperandValue };
   operations->equalTo(process, targetValue, 2, &args[0]);
@@ -268,8 +268,8 @@ R_Instructions_isGreaterThan
   Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->greaterThan) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value args[2] = { *firstOperandValue, *secondOperandValue };
   operations->greaterThan(process, targetValue, 2, &args[0]);
@@ -295,8 +295,8 @@ R_Instructions_isGreaterThanOrEqualTo
   Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->greaterThanOrEqualTo) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value args[2] = { *firstOperandValue, *secondOperandValue };
   operations->greaterThanOrEqualTo(process, targetValue, 2, &args[0]);
@@ -336,8 +336,8 @@ R_Instructions_islowerThan
   Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->lowerThan) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value args[2] = { *firstOperandValue, *secondOperandValue };
   operations->lowerThan(process, targetValue, 2, &args[0]);
@@ -363,8 +363,8 @@ R_Instructions_isLowerThanOrEqualTo
   Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->lowerThanOrEqualTo) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value args[2] = { *firstOperandValue, *secondOperandValue };
   operations->lowerThanOrEqualTo(process, targetValue, 2, &args[0]);
@@ -390,8 +390,8 @@ R_Instructions_multiply
   Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->multiply) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value args[2] ={ *firstOperandValue, *secondOperandValue };
   operations->multiply(process, targetValue, 2, &args[0]);
@@ -419,8 +419,8 @@ R_Instructions_negate
   Arcadia_TypeValue operandType = Arcadia_Value_getType(process, operandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(operandType);
   if (!operations->negate) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value args[1] = { *operandValue };
   operations->negate(process, targetValue, 1, &args[0]);
@@ -448,8 +448,8 @@ R_Instructions_not
   Arcadia_TypeValue operandType = Arcadia_Value_getType(process, operandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(operandType);
   if (!operations->not) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value args[1] = { *operandValue };
   operations->not(process, targetValue, 1, &args[0]);
@@ -475,8 +475,8 @@ R_Instructions_notEqualTo
   Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->notEqualTo) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value args[2] = { *firstOperandValue, *secondOperandValue };
   operations->notEqualTo(process, targetValue, 2, &args[0]);
@@ -502,8 +502,8 @@ R_Instructions_or
   Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations-> or ) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value args[2] = { *firstOperandValue, *secondOperandValue };
   operations->or(process, targetValue, 2, &args[0]);
@@ -529,8 +529,8 @@ R_Instructions_subtract
   Arcadia_TypeValue firstOperandType = Arcadia_Value_getType(process, firstOperandValue);
   Arcadia_Type_Operations const* operations = Arcadia_Type_getOperations(firstOperandType);
   if (!operations->subtract) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value args[2] = { *firstOperandValue, *secondOperandValue };
   operations->subtract(process, targetValue, 2, &args[0]);

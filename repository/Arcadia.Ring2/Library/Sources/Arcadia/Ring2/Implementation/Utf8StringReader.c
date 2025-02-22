@@ -114,12 +114,12 @@ Arcadia_Utf8StringReader_constructImpl
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (1 != numberOfArgumentValues) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!Arcadia_Type_isSubType(Arcadia_Value_getType(process, &argumentValues[0]), _Arcadia_String_getType(process))) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   _self->source = (Arcadia_String*)Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
   _self->byteIndex = 0;
@@ -149,8 +149,8 @@ Arcadia_Utf8StringReader_nextImpl
   )
 {
   if (self->codePoint == CodePoint_End || self->codePoint == CodePoint_Error) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_SizeValue n = Arcadia_String_getNumberOfBytes(process, self->source);
   if (self->byteIndex == n) {
@@ -166,14 +166,14 @@ Arcadia_Utf8StringReader_nextImpl
   } else if (x <= 0b11011111) {
     codePoint = x & 0b00011111;
     if (n - self->byteIndex < 2) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EncodingInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EncodingInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     for (size_t i = 1; i < 2; ++i) {
       x = Arcadia_String_getByteAt(process, self->source, self->byteIndex + i);
       if (0x80 != x & 0xc0) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_EncodingInvalid);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EncodingInvalid);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       codePoint <<= 6;
       codePoint |= x;
@@ -183,14 +183,14 @@ Arcadia_Utf8StringReader_nextImpl
   } else if (x <= 0b11101111) {
     codePoint = x & 0b00001111;
     if (n - self->byteIndex < 3) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EncodingInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EncodingInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     for (size_t i = 1; i < 3; ++i) {
       x = Arcadia_String_getByteAt(process, self->source, self->byteIndex + i);
       if (0x80 != x & 0xc0) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_EncodingInvalid);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EncodingInvalid);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       codePoint <<= 6;
       codePoint |= x & 0b00111111;
@@ -200,14 +200,14 @@ Arcadia_Utf8StringReader_nextImpl
   } else if (x <= 0b11110111) {
     codePoint = x & 0b00000111;
     if (n - self->byteIndex < 4) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_EncodingInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EncodingInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     for (size_t i = 1; i < 4; ++i) {
       x = Arcadia_String_getByteAt(process, self->source, self->byteIndex + i);
       if (0x80 != x & 0xc0) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_EncodingInvalid);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EncodingInvalid);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       }
       codePoint <<= 6;
       codePoint |= x;
@@ -215,8 +215,8 @@ Arcadia_Utf8StringReader_nextImpl
     self->byteIndex += 4;
     self->codePoint = codePoint;
   } else {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EncodingInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EncodingInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 
@@ -228,8 +228,8 @@ Arcadia_Utf8StringReader_getCodePointImpl
   )
 {
   if (self->codePoint == CodePoint_Start || self->codePoint == CodePoint_End) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return self->codePoint;
 }

@@ -29,8 +29,8 @@
 #define Arcadia_Tests_assertTrue(expression) \
   if (!(expression)) { \
     Arcadia_logf(Arcadia_LogFlags_Error, "%s:%d: test assertion `%s` failed\n", __FILE__, __LINE__, #expression); \
-    Arcadia_Process_setStatus(process, Arcadia_Status_TestFailed); \
-    Arcadia_Process_jump(process); \
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_TestFailed); \
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process)); \
   }
 
 static inline Arcadia_BooleanValue
@@ -46,14 +46,14 @@ Arcadia_Tests_safeExecute
     return result;
   }
   Arcadia_JumpTarget jumpTarget;
-  Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     (*f)(process);
   } else {
     result = Arcadia_BooleanValue_False;
   }
-  Arcadia_Process_popJumpTarget(process);
-  Arcadia_Status status = Arcadia_Process_getStatus(process);
+  Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
+  Arcadia_Status status = Arcadia_Thread1_getStatus(Arcadia_Process_getThread(process));
   Arcadia_Process_relinquish(process);
   process = NULL;
   if (status) {

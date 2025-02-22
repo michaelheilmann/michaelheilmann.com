@@ -194,7 +194,7 @@ Arcadia_Mil_Scanner_constructImpl
   //
   _self->token.type = Arcadia_Mil_TokenType_StartOfInput;
   _self->stringTable = Arcadia_Mil_StringTable_create(process);
-  _self->input = (Arcadia_Utf8Reader*)Arcadia_Utf8StringReader_create(process, Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(Arcadia_Process_getProcess1(process), u8"", sizeof(u8"") - 1)));
+  _self->input = (Arcadia_Utf8Reader*)Arcadia_Utf8StringReader_create(process, Arcadia_String_create_pn(process, Arcadia_ImmutableByteArray_create(process, u8"", sizeof(u8"") - 1)));
   _self->token.text = Arcadia_StringBuffer_create(process);
   //
   Arcadia_StringBuffer_append_pn(process, _self->token.text, u8"<start of input>", sizeof(u8"<start of input>") - 1);
@@ -502,8 +502,8 @@ Arcadia_Mil_Scanner_step
             next(process, self);
           } break;
           default: {
-            Arcadia_Process_setStatus(process, Arcadia_Status_LexicalError);
-            Arcadia_Process_jump(process);
+            Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_LexicalError);
+            Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
           } break;
         }
         lastWasSlash = Arcadia_BooleanValue_False;
@@ -515,8 +515,8 @@ Arcadia_Mil_Scanner_step
           next(process, self);
           break;
         } else if (CodePoint_End == self->symbol) {
-          Arcadia_Process_setStatus(process, Arcadia_Status_LexicalError);
-          Arcadia_Process_jump(process);
+          Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_LexicalError);
+          Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
         } else {
           saveAndNext(process, self);
         }
@@ -548,8 +548,8 @@ Arcadia_Mil_Scanner_step
           saveAndNext(process, self);
         }
         if (!isDigit(process, self)) {
-          Arcadia_Process_setStatus(process, Arcadia_Status_LexicalError);
-          Arcadia_Process_jump(process);
+          Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_LexicalError);
+          Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
         }
         do {
           saveAndNext(process, self);
@@ -566,8 +566,8 @@ Arcadia_Mil_Scanner_step
       next(process, self);
       while (true) {
         if (CodePoint_End == self->symbol) {
-          Arcadia_Process_setStatus(process, Arcadia_Status_LexicalError);
-          Arcadia_Process_jump(process);
+          Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_LexicalError);
+          Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
         } else if ('\n' == self->symbol) {
           next(process, self);
         } else if ('\r' == self->symbol) {
@@ -594,12 +594,12 @@ Arcadia_Mil_Scanner_step
       }
       onEndToken(self, Arcadia_Mil_TokenType_SingleLineComment);
     } else {
-      Arcadia_Process_setStatus(process, Arcadia_Status_LexicalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_LexicalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
   } else {
-    Arcadia_Process_setStatus(process, Arcadia_Status_LexicalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_LexicalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 }
 

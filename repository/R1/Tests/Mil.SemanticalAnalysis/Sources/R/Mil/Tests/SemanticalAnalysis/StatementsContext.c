@@ -80,8 +80,8 @@ Arcadia_Mil_CallableContext_constructImpl
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (0 != numberOfArgumentValues) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   _self->labels = Arcadia_Map_create(process);
   _self->variables = Arcadia_List_create(process);
@@ -140,8 +140,8 @@ Arcadia_Mil_CallableContext_onDefineLabel
   Arcadia_Value_setObjectReferenceValue(&k, name);
   Arcadia_Value v = Arcadia_Map_get(process, self->labels, k);
   if (!Arcadia_Value_isVoidValue(&v)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SemanticalError);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Value_setObjectReferenceValue(&v, ast);
   Arcadia_Map_set(process, self->labels, k, v);
@@ -160,8 +160,8 @@ Arcadia_Mil_CallableContext_onParameterVariableDefinition
     Arcadia_Value args[2] = { {.tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = name },
                               Arcadia_List_getAt(process, self->variables, i) };
     if (Arcadia_Value_isEqualTo(process, &args[0], &args[1])) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SemanticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
   }
 }
@@ -179,8 +179,8 @@ Arcadia_Mil_CallableContext_onLocalVariableDefinition
     Arcadia_Value args[2] = { {.tag = Arcadia_ValueTag_ObjectReference, .objectReferenceValue = name },
                               Arcadia_List_getAt(process, context->variables, i) };
     if (Arcadia_Value_isEqualTo(process, &args[0], &args[1])) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_SemanticalError);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_SemanticalError);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
   }
 }

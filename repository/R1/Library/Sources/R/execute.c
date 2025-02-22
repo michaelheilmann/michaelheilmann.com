@@ -61,8 +61,8 @@ execute1
       } break;
       case R_Machine_Code_Opcode_Return: {
         // Not yet implemented.
-        Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       } break;
       case R_Machine_Code_Opcode_Invoke: {
         assert(R_Machine_Code_Opcode_Invoke == *(currentCallState->procedure->code->p + currentCallState->instructionIndex));
@@ -73,8 +73,8 @@ execute1
         Arcadia_Value* targetValue = NULL;
         R_Interpreter_Code_decodeIndex(process, currentCallState->procedure->code, &currentCallState->instructionIndex, &targetIndexKind, &targetIndex);
         if (targetIndexKind == R_Machine_Code_IndexKind_Constant) {
-          Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-          Arcadia_Process_jump(process);
+          Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+          Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
         } else {
           targetValue = R_Interpreter_ThreadState_getRegisterAt(thread, targetIndex);
         }
@@ -92,8 +92,8 @@ execute1
         Arcadia_Natural32Value count;
         R_Interpreter_Code_decodeCount(process, currentCallState->procedure->code, &currentCallState->instructionIndex, &count);
         if (count > R_Machine_Code_NumberOfArguments_Maximum) {
-          Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-          Arcadia_Process_jump(process);
+          Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+          Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
         }
         Arcadia_Value argumentValues[R_Machine_Code_NumberOfArguments_Maximum];
         for (Arcadia_Natural32Value i = 0, n = count; i < n; ++i) {
@@ -110,33 +110,33 @@ execute1
           Arcadia_ForeignProcedureValue foreignProcedureValue = Arcadia_Value_getForeignProcedureValue(&calleeValue);
           R_Interpreter_ThreadState_beginForeignProcedureCall(process, thread, 0, foreignProcedureValue);
           Arcadia_JumpTarget jumpTarget;
-          Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+          Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
           if (Arcadia_JumpTarget_save(&jumpTarget)) {
             (*foreignProcedureValue)(process, targetValue, count, &(argumentValues[0]));
-            Arcadia_Process_popJumpTarget(process);
+            Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
             R_Interpreter_ThreadState_endCall(thread); // Must not fail.
           } else {
-            Arcadia_Process_popJumpTarget(process);
+            Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
             R_Interpreter_ThreadState_endCall(thread); // Must not fail.
-            Arcadia_Process_jump(process);
+            Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
           }
         } else if (Arcadia_Value_isObjectReferenceValue(&calleeValue)) {
           Arcadia_Object* object = Arcadia_Value_getObjectReferenceValue(&calleeValue);
           if (Arcadia_Type_isSubType(Arcadia_Object_getType(object), _R_Interpreter_Procedure_getType(process))) {
             R_Interpreter_ThreadState_beginProcedureCall(process, thread, 0, (R_Interpreter_Procedure*)object);
           } else {
-            Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-            Arcadia_Process_jump(process);
+            Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+            Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
           }
         } else {
-          Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-          Arcadia_Process_jump(process);
+          Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+          Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
         }
       } break;
       default: {
         // Borked code. This should never happen.
-        Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       } break;
     };
   }

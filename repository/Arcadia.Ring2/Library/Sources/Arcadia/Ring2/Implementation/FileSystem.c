@@ -199,8 +199,8 @@ Arcadia_FileSystem_regularFileExists
     switch (errno) {
       case EOVERFLOW:
       case ENOMEM: {
-        Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       } break;
     };
     return Arcadia_BooleanValue_False;
@@ -229,8 +229,8 @@ Arcadia_FileSystem_directoryFileExists
     switch (errno) {
       case EOVERFLOW:
       case ENOMEM: {
-        Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       } break;
     };
     return Arcadia_BooleanValue_False;
@@ -252,13 +252,13 @@ Arcadia_FileSystem_createDirectory
   Arcadia_String* nativePath = Arcadia_FilePath_toNative(process, path);
 #if Arcadia_Configuration_OperatingSystem == Arcadia_Configuration_OperatingSystem_Windows
   if (FALSE == CreateDirectory(Arcadia_String_getBytes(process, nativePath), NULL)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_FileSystemOperationFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_FileSystemOperationFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 #elif Arcadia_Configuration_OperatingSystem == Arcadia_Configuration_OperatingSystem_Linux
   if (-1 == mkdir(Arcadia_String_getBytes(process, nativePath), 0777)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_FileSystemOperationFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_FileSystemOperationFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 #else
   #error("operating system not (yet) supported")
@@ -275,41 +275,41 @@ Arcadia_FileSystem_getWorkingDirectory
 #if Arcadia_Configuration_OperatingSystem == Arcadia_Configuration_OperatingSystem_Windows
   DWORD dwBufferSize = GetCurrentDirectory(0, NULL);
   if (0 == dwBufferSize) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   char* pBuffer = NULL;
   if (Arms_MemoryManager_allocate(Arms_getSlabMemoryManager(), &pBuffer, dwBufferSize)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_AllocationFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   if (!GetCurrentDirectory(dwBufferSize, pBuffer)) {
     Arms_MemoryManager_deallocate(Arms_getSlabMemoryManager(), pBuffer);
     pBuffer = NULL;
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_JumpTarget jumpTarget;
-  Arcadia_Process_pushJumpTarget(process, &jumpTarget);
+  Arcadia_Thread1_pushJumpTarget(Arcadia_Process_getThread(process), &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
     Arcadia_FilePath* filePath = Arcadia_FilePath_parseWindows(process, pBuffer, dwBufferSize - 1);
-    Arcadia_Process_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
     Arms_MemoryManager_deallocate(Arms_getSlabMemoryManager(), pBuffer);
     pBuffer = NULL;
     return filePath;
   } else {
-    Arcadia_Process_popJumpTarget(process);
+    Arcadia_Thread1_popJumpTarget(Arcadia_Process_getThread(process));
     Arms_MemoryManager_deallocate(Arms_getSlabMemoryManager(), pBuffer);
     pBuffer = NULL;
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
 #elif Arcadia_Configuration_OperatingSystem_Linux == Arcadia_Configuration_OperatingSystem
   Arcadia_StaticAssert(PATH_MAX < Arcadia_SizeValue_Maximum, "environment not (yet) supported");
   #define CWD_CAPACITY (PATH_MAX+1)
   char cwd[CWD_CAPACITY];
   if (!getcwd(cwd, CWD_CAPACITY)) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_FilePath* filePath = Arcadia_FilePath_parseUnix(process, cwd, strlen(cwd));
   return filePath;

@@ -117,8 +117,8 @@ Arcadia_Stack_ensureFreeCapacity
       // If oldCapacity > maximumCapacity / 2 holds then oldCapacity * 2 > maximumCapacity holds.
       // Consequently, we cannot double the capacity. Try to saturate the capacity.
       if (oldCapacity == g_maximumCapacity) {
-        Arcadia_Process_setStatus(process, Arcadia_Status_AllocationFailed);
-        Arcadia_Process_jump(process);
+        Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_AllocationFailed);
+        Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
       } else {
         newCapacity = g_maximumCapacity;
       }
@@ -144,8 +144,8 @@ Arcadia_Stack_ensureInitialized
       g_maximumCapacity = Arcadia_Integer32Value_Maximum;
     }
     if (g_minimumCapacity > g_maximumCapacity) {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     }
     g_initialized = Arcadia_BooleanValue_True;
   }
@@ -252,8 +252,8 @@ Arcadia_Stack_pop
   )
 {
   if (0 == self->size) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   --self->size;
 }
@@ -266,8 +266,8 @@ Arcadia_Stack_peek
   )
 {
   if (0 == self->size) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_OperationInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_OperationInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   return self->elements[self->size - 1];
 }
@@ -295,8 +295,8 @@ Arcadia_Stack_peek
     ) \
   { \
     if (index >= self->size) { \
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid); \
-      Arcadia_Process_jump(process); \
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid); \
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process)); \
     } \
     return Arcadia_Value_is##Suffix##Value(self->elements + self->size - index - 1); \
   } \
@@ -310,13 +310,13 @@ Arcadia_Stack_peek
     ) \
   { \
     if (index >= self->size) { \
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid); \
-      Arcadia_Process_jump(process); \
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid); \
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process)); \
     } \
     Arcadia_Value* element = self->elements + self->size - index - 1; \
     if (!Arcadia_Value_is##Suffix##Value(element)) { \
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid); \
-      Arcadia_Process_jump(process); \
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid); \
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process)); \
     } \
     return Arcadia_Value_get##Suffix##Value(element); \
   }

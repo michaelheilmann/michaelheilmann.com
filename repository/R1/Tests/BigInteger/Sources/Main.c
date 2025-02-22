@@ -98,8 +98,8 @@ R_Test_BigInteger_assertRelational
       Arcadia_Tests_assertTrue(expectedResult == !Arcadia_Value_isLowerThanOrEqualTo(process, &va, &vb));
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   }
 };
@@ -130,8 +130,8 @@ R_Test_BigInteger_assertAdditive
       Arcadia_Tests_assertTrue(0 == Arcadia_BigInteger_compare(process, preceivedResult, pexpectedResult));
     } break;
     default: {
-      Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Process_jump(process);
+      Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
     } break;
   }
 };

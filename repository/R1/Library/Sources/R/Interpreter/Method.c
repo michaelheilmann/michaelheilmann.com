@@ -80,8 +80,8 @@ R_Interpreter_Method_constructImpl
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   if (2 != numberOfArgumentValues) {
-    Arcadia_Process_setStatus(process, Arcadia_Status_NumberOfArgumentsInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_NumberOfArgumentsInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   _self->ready = Arcadia_BooleanValue_False;
   _self->index = Arcadia_SizeValue_Literal(0);
@@ -94,8 +94,8 @@ R_Interpreter_Method_constructImpl
     _self->isForeign = Arcadia_BooleanValue_False;
     _self->code = Arcadia_Value_getObjectReferenceValue(&argumentValues[1]);
   } else {
-    Arcadia_Process_setStatus(process, Arcadia_Status_ArgumentTypeInvalid);
-    Arcadia_Process_jump(process);
+    Arcadia_Thread1_setStatus(Arcadia_Process_getThread(process), Arcadia_Status_ArgumentTypeInvalid);
+    Arcadia_Thread1_jump(Arcadia_Process_getThread(process));
   }
   Arcadia_Object_setType(process, _self, _type);
 }
