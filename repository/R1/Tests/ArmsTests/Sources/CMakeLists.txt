@@ -35,19 +35,15 @@ FetchProduct(${MyProjectName}.R "${REPOSITORY_SOURCE_DIR}/R1/Library" "path to t
 set(MyTestName ${MyProjectName}.R.Tests.Arms)
 
 if (NOT TARGET ${MyTestName})
-  add_executable(${MyTestName})
-  BeginProduct(${MyTestName})
-
-  add_test(NAME ${MyTestName} COMMAND ${MyTestName} WORKING_DIRECTORY $<TARGET_FILE_DIR:${MyTestName}>)
+  BeginProduct(${MyTestName} test)
 
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/R/Tests/Arms/Configure.h.i ${CMAKE_CURRENT_BINARY_DIR}/R/Tests/Arms/Configure.h @ONLY)
 
   list(APPEND ${MyTestName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/R/Tests/Arms/Main.c)
   list(APPEND ${MyTestName}.ConfigurationFiles ${CMAKE_CURRENT_BINARY_DIR}/R/Tests/Arms/Configure.h)
 
-  target_link_libraries(${MyTestName} Arcadia.R Arcadia.Arms)
+  list(APPEND ${MyTestName}.Libraries ${MyProjectName}.R ${MyProjectName}.Arms)
 
+  EndProduct(${MyTestName} test)
   set_target_properties(${MyTestName} PROPERTIES FOLDER "R")
-
-  EndProduct(${MyTestName} executable)
 endif()

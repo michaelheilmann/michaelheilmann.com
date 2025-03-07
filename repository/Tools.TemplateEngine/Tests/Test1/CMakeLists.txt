@@ -33,8 +33,9 @@ FetchProduct(${MyProjectName}.Arms "${REPOSITORY_SOURCE_DIR}/Arms1/Library" "pat
 FetchProduct(${MyProjectName}.R "${REPOSITORY_SOURCE_DIR}/R1/Library" "path to the R1 library directory")
 
 set(MyTestName ${MyProjectName}.Tools.TemplateEngine.Tests.Test1)
-add_executable(${MyTestName})
-BeginProduct(${MyTestName})
+
+# Create test executable.
+BeginProduct(${MyTestName} test)
 
 # Create configuration file.
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Sources/Tools.TemplateEngine.Tests.Test1/Configure.h.i ${CMAKE_CURRENT_BINARY_DIR}/Sources/Tools.TemplateEngine.Tests.Test1/Configure.h @ONLY)
@@ -44,13 +45,11 @@ list(APPEND ${MyTestName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Tools.
 
 # Copy assets.
 add_custom_command(TARGET ${MyTestName} POST_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/Assets $<TARGET_FILE_DIR:${MyTestName}>)           
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/Assets ${${MyTestName}.WorkingDirectory}) 
 
-target_link_libraries(${MyTestName} ${MyProjectName}.Tools.TemplateEngineLibrary ${MyProjectName}.R ${MyProjectName}.Arms)
+list(APPEND ${MyTestName}.PrivateLibraries ${MyProjectName}.Tools.TemplateEngineLibrary ${MyProjectName}.R ${MyProjectName}.Arms)
 
-add_test(NAME ${MyTestName} COMMAND ${MyTestName} WORKING_DIRECTORY $<TARGET_FILE_DIR:${MyTestName}>)
-set_property(TARGET ${MyTestName} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY $<TARGET_FILE_DIR:${MyTestName}>)
-
+EndProduct(${MyTestName} test)
+# Adjust working directory.
+set(${MyTestName}.WorkingDirectory $<TARGET_FILE_DIR:${MyTestName}>)
 set_target_properties(${MyTestName} PROPERTIES FOLDER "Tools/TemplateEngine")
-
-EndProduct(${MyTestName} executable)

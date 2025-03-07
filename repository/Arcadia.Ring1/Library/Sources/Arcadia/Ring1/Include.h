@@ -72,6 +72,8 @@
 
 #include "Arcadia/Ring1/Implementation/NoReturn.h"
 
+#include "Arcadia/Ring1/Implementation/NumberLiteral.h"
+
 #include "Arcadia/Ring1/Implementation/Object.h"
 
 #include "Arcadia/Ring1/Implementation/ObjectReference.h"
@@ -91,6 +93,8 @@
 #include "Arcadia/Ring1/Implementation/swap.h"
 
 #include "Arcadia/Ring1/Implementation/Tests.h"
+
+#include "Arcadia/Ring1/Implementation/ToReal/toReal64.h"
 
 #include "Arcadia/Ring1/Implementation/Types.h"
 

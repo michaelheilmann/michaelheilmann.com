@@ -55,8 +55,8 @@ Arcadia_BigInteger_toNatural64
   }
   Arcadia_Natural64Value v = 0;
   for (size_t i = self->numberOfLimps; i > 0; --i) {  // This loop is executed exactly one times or two times.
-    v = ((Arcadia_Natural64Value)self->limps[i - 1])
-      + v << 32;
+    v <<= 32;
+    v += ((Arcadia_Natural64Value)self->limps[i - 1]);
   }
            
   if (self->sign == -1) {

@@ -18,18 +18,10 @@
 #include <stdlib.h>
 
 #include "Arcadia/Ring1/Include.h"
-#include "Arcadia/Ring1/Implementation/ToReal/ToReal64.h"
 
 #include <math.h>
-
-static Arcadia_Real64Value
-Arcadia_Utf8ToReal64
-  (
-    Arcadia_Thread* thread,
-    const Arcadia_Natural8Value* p,
-    Arcadia_SizeValue n
-  )
-{ return Arcadia_toReal64(thread, p, n); }
+#include <stdio.h>
+#include <string.h>
 
 static void
 test1
@@ -46,7 +38,39 @@ test1
   Arcadia_Tests_assertTrue(thread, u == v);
 }
 
-#include <stdio.h>
+static void
+test2
+  (
+    Arcadia_Thread* thread
+  )
+{
+  uint64_t u = UINT64_C(9007199254740992);
+  Arcadia_Tests_assertTrue(thread, u <= UINT64_MAX);
+  Arcadia_Tests_assertTrue(thread, u <= INT64_MAX);
+  Arcadia_BigInteger* bigInteger = Arcadia_BigInteger_create(thread);
+  Arcadia_BigInteger_setDecimalDigits(thread, bigInteger, u8"9007199254740992", sizeof(u8"9007199254740992") - 1);
+  uint64_t v = Arcadia_BigInteger_toNatural64(thread, bigInteger);
+  Arcadia_Tests_assertTrue(thread, u == v);
+}
+
+// Parses a strig into a real64 value using Arcadia.Ring1 functionality.
+// Parses the same string into a real64 using sscanf.
+// If both operations are successful and the results are equal, the test terminates with success. Otherwise it terminates with failure.
+static void
+testFixtureStringToReal64
+  (
+    Arcadia_Thread* thread,
+    const char* p
+  )
+{
+  Arcadia_Real64Value expected;
+  if (1 != sscanf(p, "%lg", &expected)) {
+    Arcadia_Thread_setStatus(thread, Arcadia_Status_TestFailed);
+    Arcadia_Thread_jump(thread);
+  }
+  Arcadia_Real64Value received = Arcadia_toReal64(thread, p, strlen(p));
+  Arcadia_Tests_assertTrue(thread, expected == received);
+}
 
 static void
 test
@@ -55,11 +79,8 @@ test
   )
 {
 #define On(Text, Number) \
-  { \
-    Arcadia_Real64Value v = Arcadia_Utf8ToReal64(thread, Text, sizeof(Text) - 1); \
-    Arcadia_Tests_assertTrue(thread, v == Number); \
-  }
-
+  testFixtureStringToReal64(thread, Text); \
+  
   On(u8"0", 0.);
   On(u8"00", 0.);
   On(u8"9007199254740992", 9007199254740992.);
@@ -67,9 +88,9 @@ test
   On(u8"+1e+309", Arcadia_Real64Value_PositiveInfinity);
   On(u8"-1e+309", Arcadia_Real64Value_NegativeInfinity);
   On(u8"-1.0", -1.);
-  double u;
-  Arcadia_Tests_assertTrue(thread, 1 == sscanf("1.e1000", "%lg", &u));
-  //On(u8"1.e10000", 1.e1000);
+  On(u8"1.e1000", 1.e1000);
+
+#undef On
 }
 
 int
@@ -80,6 +101,9 @@ main
   )
 {
   if (!Arcadia_Tests_safeExecute(&test1)) {
+    return EXIT_FAILURE;
+  }
+  if (!Arcadia_Tests_safeExecute(&test2)) {
     return EXIT_FAILURE;
   }
   if (!Arcadia_Tests_safeExecute(&test)) {

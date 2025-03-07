@@ -31,16 +31,16 @@ if (NOT MyProjectIsDefined)
 endif()
 
 FetchProduct(${MyProjectName}.Arms "${REPOSITORY_SOURCE_DIR}/Arms1/Library" "path to the ARMS1 library directory")
-FetchProduct(${MyProjectName}.R "${REPOSITORY_SOURCE_DIR}/R1/Library" "path to the R1 library directory")
+FetchProduct(${MyProjectName}.Ring1 "${REPOSITORY_SOURCE_DIR}/Arcadia.Ring1/Library" "path to the Arcadia.Ring1 library directory")
 
-set(MyTestName ${MyProjectName}.R.Tests.Execute)
+set(MyTestName ${MyProjectName}.Ring1.Tests.StringToRealTests) 
 
 # Create test executable.
 BeginProduct(${MyTestName} test)
 
-list(APPEND ${MyTestName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Main.c)
+list(APPEND ${MyTestName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia.Ring1.Tests.StringToReal/Main.c)
 
-list(APPEND ${MyTestName}.Libraries ${MyProjectName}.R ${MyProjectName}.Arms)
+list(APPEND ${MyTestName}.PrivateLibraries ${MyProjectName}.Ring1 ${MyProjectName}.Arms)
 
 EndProduct(${MyTestName} test)
-set_target_properties(${MyTestName} PROPERTIES FOLDER "R")
+set_target_properties(${MyTestName} PROPERTIES FOLDER "Arcadia")

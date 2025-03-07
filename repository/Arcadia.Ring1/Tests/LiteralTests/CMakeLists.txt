@@ -33,11 +33,19 @@ endif()
 FetchProduct(${MyProjectName}.Arms "${REPOSITORY_SOURCE_DIR}/Arms1/Library" "path to the ARMS1 library directory")
 FetchProduct(${MyProjectName}.Ring1 "${REPOSITORY_SOURCE_DIR}/Arcadia.Ring1/Library" "path to the Arcadia.Ring1 library directory")
 
+<<<<<<<< HEAD:repository/Arcadia.Ring1/Tests/BigIntegerTests/CMakeLists.txt
 set(MyTestName ${MyProjectName}.Ring1.Tests.BigIntegerTests) 
+========
+set(MyTestName ${MyProjectName}.Ring1.Tests.LiteralTests) 
+>>>>>>>> 39f6684 (Update Week 4 February 2025):repository/Arcadia.Ring1/Tests/LiteralTests/CMakeLists.txt
 
 # Create test executable.
-BeginProduct(${MyTestName} test)
+add_executable(${MyTestName})
+BeginProduct(${MyTestName})
 
+add_test(NAME ${MyTestName} COMMAND ${MyTestName} WORKING_DIRECTORY $<TARGET_FILE_DIR:${MyTestName}>)
+
+<<<<<<<< HEAD:repository/Arcadia.Ring1/Tests/BigIntegerTests/CMakeLists.txt
 list(APPEND ${MyTestName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia.Ring1.Tests.BigInteger/Main.c)
 list(APPEND ${MyTestName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia.Ring1.Tests.BigInteger/Relational.c)
 list(APPEND ${MyTestName}.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia.Ring1.Tests.BigInteger/Relational.h)
@@ -47,8 +55,12 @@ list(APPEND ${MyTestName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadi
 list(APPEND ${MyTestName}.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia.Ring1.Tests.BigInteger/Multiplicative.h)
 list(APPEND ${MyTestName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia.Ring1.Tests.BigInteger/PowersOf.c)
 list(APPEND ${MyTestName}.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia.Ring1.Tests.BigInteger/PowersOf.h)
+========
+list(APPEND ${MyTestName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia.Ring1.Tests.LiteralTests/Main.c)
+>>>>>>>> 39f6684 (Update Week 4 February 2025):repository/Arcadia.Ring1/Tests/LiteralTests/CMakeLists.txt
 
-list(APPEND ${MyTestName}.PrivateLibraries ${MyProjectName}.Ring1 ${MyProjectName}.Arms)
+target_link_libraries(${MyTestName} ${MyProjectName}.Ring1 ${MyProjectName}.Arms)
 
-EndProduct(${MyTestName} test)
 set_target_properties(${MyTestName} PROPERTIES FOLDER "Arcadia")
+
+EndProduct(${MyTestName} executable)
