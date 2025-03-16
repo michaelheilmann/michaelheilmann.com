@@ -96,6 +96,7 @@
 
 #include "Arcadia/Ring1/Implementation/Tests.h"
 
+#include "Arcadia/Ring1/Implementation/ToReal/toReal32.h"
 #include "Arcadia/Ring1/Implementation/ToReal/toReal64.h"
 
 #include "Arcadia/Ring1/Implementation/Types.h"

@@ -18,7 +18,6 @@
 #include "Arcadia.Ring1.Tests.Support/ieee754.h"
 
 #include <stdlib.h>
-#include "Arcadia/Ring1/Support/ieee754.h"
 
 static void
 testFloatConstants
@@ -38,10 +37,10 @@ testFloatConstants
     Arcadia_Thread* thread
   )
 {
-  Arcadia_Tests_assertTrue(thread, FLT_SIGNIFICAND_BITS == 23);
-  Arcadia_Tests_assertTrue(thread, FLT_SIGNIFICAND_MASK == 0b11111111111111111111111);
-  Arcadia_Tests_assertTrue(thread, FLT_EXPONENT_MASK == 0b1111111100000000000000000000000);
-  Arcadia_Tests_assertTrue(thread, FLT_SIGN_MASK == 0b10000000000000000000000000000000);
+  Arcadia_Tests_assertTrue(thread, Arcadia_Real32Value_NumberOfExplicitSignificandBits == 23);
+  Arcadia_Tests_assertTrue(thread, Arcadia_Real32Value_SignificandBitsMask == 0b11111111111111111111111);
+  Arcadia_Tests_assertTrue(thread, Arcadia_Real32Value_ExponentBitsMask == 0b1111111100000000000000000000000);
+  Arcadia_Tests_assertTrue(thread, Arcadia_Real32Value_SignBitsMask == 0b10000000000000000000000000000000);
 }
 
 static void
@@ -50,10 +49,10 @@ testDoubleConstants
     Arcadia_Thread* thread
   )
 {
-  Arcadia_Tests_assertTrue(thread, DBL_SIGNIFICAND_BITS == 52);
-  Arcadia_Tests_assertTrue(thread, DBL_SIGNIFICAND_MASK == 0b1111111111111111111111111111111111111111111111111111);
-  Arcadia_Tests_assertTrue(thread, DBL_EXPONENT_MASK == 0b111111111110000000000000000000000000000000000000000000000000000);
-  Arcadia_Tests_assertTrue(thread, DBL_SIGN_MASK == 0b1000000000000000000000000000000000000000000000000000000000000000);
+  Arcadia_Tests_assertTrue(thread, Arcadia_Real64Value_NumberOfExplicitSignificandBits == 52);
+  Arcadia_Tests_assertTrue(thread, Arcadia_Real64Value_SignificandBitsMask == 0b1111111111111111111111111111111111111111111111111111);
+  Arcadia_Tests_assertTrue(thread, Arcadia_Real64Value_ExponentBitsMask == 0b111111111110000000000000000000000000000000000000000000000000000);
+  Arcadia_Tests_assertTrue(thread, Arcadia_Real64Value_SignBitsMask == 0b1000000000000000000000000000000000000000000000000000000000000000);
 }
 
 void

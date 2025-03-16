@@ -18,16 +18,34 @@
       <div style='display: flex; flex-direction: row'>
         <div class="topic">
           <div class="header">
-            <span>Projects</span>
+            <span>Software</span>
           </div>
           <div class="body" style="display: flex; flex-direction: row;">
             <a href = '@{siteAddress}/repository/Arms1'>ARMS</a>
             <a href = '@{siteAddress}/repository/Arcadia.Ring1'>Arcadia Ring1</a>
             <a href = '@{siteAddress}/repository/Arcadia.Ring2'>Arcadia Ring2</a>
             <a href = '@{siteAddress}/repository/R1'>R1</a>
+          </div>
+        </div>
+        
+        <div class="topic">
+          <div class="header">
+            <span>Specifications</span>
+          </div>
+          <div class="body" style="display: flex; flex-direction: row;">
+            <a href = '@{siteAddress}/specifications/ddl'>Data Definition Language</a>
+          </div>
+        </div>
+        
+        <div class="topic">
+          <div class="header">
+            <span>Organizational</span>
+          </div>
+          <div class="body" style="display: flex; flex-direction: row;">
             <a href = '@{siteAddress}/roadmap'>Roadmap</a>
           </div>
         </div>
+        
       </div>
     </div>
 

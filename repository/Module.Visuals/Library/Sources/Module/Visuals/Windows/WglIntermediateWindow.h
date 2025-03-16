@@ -15,39 +15,46 @@
 
 // Last modified: 2024-11-11
 
-#if !defined(MODULE_VISUALS_NATIVEWINDOWSWINDOW_H_INCLUDED)
-#define MODULE_VISUALS_NATIVEWINDOWSWINDOW_H_INCLUDED
+#if !defined(MODULE_VISUALS_WINDOWS_WGLINTERMEDIATEWINDOW_H_INCLUDED)
+#define MODULE_VISUALS_WINDOWS_WGLINTERMEDIATEWINDOW_H_INCLUDED
 
-#include "R/Include.h"
-#include "Module/Visuals/NativeWindow.h"
-#include "Module/Visuals/NativeWindowsIcon.h"
-#include "Module/Visuals/PixelBuffer.h"
-
+#include "Arcadia/Ring2/Include.h"
 #define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+#include <windows.h>
+#include <GL/GL.h>
+#include <GL/wglext.h>
 
-// The window is in "closed" state when it is creeated by NativeWindowsWindow_create.
-// A successful call to NativeWindowsWindow_open puts the window in "opened" state.
-// The window is put in "closed" state if it is destructed or by a successful call to NativeWindowsWindow_close.
-Rex_declareObjectType(u8"NativeWindowsWindow", NativeWindowsWindow, u8"NativeWindow");
+Rex_declareObjectType(u8"Visuals.Windows.WglIntermediateWindow", Visuals_Window_WglIntermediateWindow, u8"Arcadia.Object");
 
-struct NativeWindowsWindow {
-  NativeWindow _parent;
-  ATOM classAtom;
+struct Visuals_Window_WglIntermediateWindow {
+  Arcadia_Object parent;
   HINSTANCE instanceHandle;
+  ATOM classAtom;
   HWND windowHandle;
   HDC deviceContextHandle;
   HGLRC glResourceContextHandle;
-
-  Arcadia_String* title;
-  NativeWindowsIcon* smallIcon;
-  NativeWindowsIcon* bigIcon;
+  PFNWGLCHOOSEPIXELFORMATARBPROC choosePixelFormat;
+  PFNWGLCREATECONTEXTATTRIBSARBPROC createContextAttribs;
 };
 
-NativeWindowsWindow*
-NativeWindowsWindow_create
+Visuals_Window_WglIntermediateWindow*
+Visuals_Window_WglIntermediateWindow_create
   (
     Arcadia_Thread* thread
   );
 
-#endif // MODULE_VISUALS_NATIVEWINDOWSWINDOW_H_INCLUDED
+void
+Visuals_Window_WglIntermediateWindow_open
+  (
+    Arcadia_Thread* thread,
+    Visuals_Window_WglIntermediateWindow* self
+  );
+
+void
+Visuals_Window_WglIntermediateWindow_close
+  (
+    Arcadia_Thread* thread,
+    Visuals_Window_WglIntermediateWindow* self
+  );
+
+#endif // MODULE_VISUALS_WINDOWS_WGLINTERMEDIATEWINDOW_H_INCLUDED

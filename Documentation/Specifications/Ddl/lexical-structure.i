@@ -1,4 +1,4 @@
-<h2>Lexical Structure</h2>
+<h2 id="lexical-structure">Lexical Structure</h2>
 <p>The lexical grammar describes the translation of Unicode code points into words. The goal non-terminal of the lexical grammar is the <code>word</code> symbol.</code>
 
 <h3>goal symbol</h3>

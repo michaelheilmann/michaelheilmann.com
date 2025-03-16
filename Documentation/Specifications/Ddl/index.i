@@ -28,9 +28,8 @@
     <h1>Data Definition Language</h1>
     <h2>Introduction</h2>
     <p>This document is the specification of the <em>Data Definition Language</em>.
-    Programs of this language describe data as text for the purpose of storing and exchanging that data between entities (humans and machines alike).
-    For the purpose of describing such data, the language offers built-in data types consisting of scalar values (boolean values, number values, string values, and void values)
-    as well as aggregate values (map values and list values).
+    Programs of this language are sets of UTF8 files of this language and describe structured data for the purpose of for exchanging that data between entities (humans and machines alike).
+    The language provides scalar types (boolean type, number type, string type, and void type)  as well as aggregate types (map values and list values).
     </p>
     
     <p>
@@ -49,7 +48,17 @@
   <footer>
     <div class="left-column"></div>
     <div class="center-column"></div>
-    <div class="right-column"></div>
+    <div class="right-column">
+   <nav>
+      <ul style="list-style: none">
+        <li><a href="@{siteAddress}/specifications/ddl/#introduction">Introduction</a></li>
+        <li><a href="@{siteAddress}/specifications/ddl/#grammars">Grammars</a></li>
+        <li><a href="@{siteAddress}/specifications/ddl/#lexical-structure">Lexical Structure</a></li>
+        <li><a href="@{siteAddress}/specifications/ddl/#syntactical-structure">Syntactical Structure</a></li>
+        <li><a href="@{siteAddress}/specifications/ddl/#semantical-structure">Semantical Structure</a></li>
+      </ul>
+    </nav>
+    </div>
     <span style="font-style: italic">Webite maintained by Michael Heilmann. Last modified on 25 Feburary 2025.</span>
     </div>
   </footer>

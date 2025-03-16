@@ -3,6 +3,15 @@
   <link rel='stylesheet' href='@{siteAddress}/assets/index.css?v=3'>
   <link rel='canonical' href='@{siteAddress}/specifications/mil/index.html'>
   <title>Machine Interface Language</title>
+  <style>
+  my-lhs {
+    display: block;
+  }
+  my-rhs {
+    display: block;
+    margin-left: 1rem;
+  }
+  </style>
 </head>
 <body class="my-content-page-1">
   <header>
@@ -48,6 +57,7 @@
     When entering the procedure, the contents of the registers <code>$1</code>, <code>$2</code>, <code>$3</code> are pushed on the stack.
     When leaving the procedure, the contents of the registers <code>$1</code>, <code>$2</code>, <code>$3</code> are restored from the stack.
     </p>
+    @{include("./Specifications/mil/syntactical-grammar.i")}
   </div>
   <div class="right-column"></div>   
   </main>

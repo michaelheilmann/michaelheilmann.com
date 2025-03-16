@@ -13,11 +13,23 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-09-26
+// Last modified: 2024-10-27
 
-#if !defined(R_CONVERT_INCLUDE_H_INCLUDED)
-#define R_CONVERT_INCLUDE_H_INCLUDED
+#define ARCADIA_RING1_PRIVATE (1)
+#include "Arcadia/Ring1/Implementation/Real64_getBits.h"
 
-#include "R/Convert/StringToReal.h"
-
-#endif // R_CONVERT_INCLUDE_H_INCLUDED
+Arcadia_Natural64Value
+Arcadia_Real64Value_getBits
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Real64Value v
+  )
+{
+  typedef union union_t {
+    double f64;
+    uint64_t uint64;
+  } union_t;
+  union_t u;
+  u.f64 = v;
+  return u.uint64;
+}

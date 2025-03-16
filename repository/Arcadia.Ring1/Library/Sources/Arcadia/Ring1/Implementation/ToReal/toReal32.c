@@ -13,36 +13,20 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2025-02-19
+// Last modified: 2025-03-07
 
-#include "Arcadia/Ring1/Support/ieee754.h"
+#define ARCADIA_RING1_PRIVATE (1)
+#include "Arcadia/Ring1/Implementation/ToReal/toReal32.h"
 
-uint32_t
-flt_to_uint32
+#include "Arcadia/Ring1/Include.h"
+
+Arcadia_Real32Value
+Arcadia_toReal32
   (
-    float v
+    Arcadia_Thread* thread,
+    const Arcadia_Natural8Value *p,
+    Arcadia_SizeValue n
   )
 {
-  typedef union union_t {
-    float f32;
-    uint32_t uint32;
-  } union_t;
-  union_t u;
-  u.f32 = v;
-  return u.uint32;
-}
-
-uint64_t
-dbl_to_uint64
-  (
-    double v
-  )
-{
-  typedef union union_t {
-    double f64;
-    uint64_t uint64;
-  } union_t;
-  union_t u;
-  u.f64 = v;
-  return u.uint64;
+  return (Arcadia_Real32Value)Arcadia_toReal64(thread, p, n);
 }

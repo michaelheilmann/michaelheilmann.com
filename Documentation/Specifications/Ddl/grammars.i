@@ -1,4 +1,4 @@
-<h2>Grammars</h3>
+<h2 id="grammars">Grammars</h3>
 <p>This section describes context-free grammars used in this specification to define the lexical and syntactical structure of a <em>Data Definition Language</em> program.</p>
 
 <h3>Context-free grammars</h3>

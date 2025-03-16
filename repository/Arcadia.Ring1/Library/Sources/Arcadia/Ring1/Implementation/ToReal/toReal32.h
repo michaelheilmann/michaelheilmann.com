@@ -13,6 +13,26 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-09-26
+// Last modified: 2025-03-07
 
-#include "R/Convert/Include.h"
+#if !defined(ARCADIA_RING1_IMPLEMENTATION_TOREAL_TOREAL32_H_INCLUDED)
+#define ARCADIA_RING1_IMPLEMENTATION_TOREAL_TOREAL32_H_INCLUDED
+
+#if !defined(ARCADIA_RING1_PRIVATE)
+  #error("do not include directly, include `Arcadia/Ring1/Include.h` instead")
+#endif
+
+#include "Arcadia/Ring1/Implementation/Natural8.h"
+#include "Arcadia/Ring1/Implementation/Real32.h"
+#include "Arcadia/Ring1/Implementation/Size.h"
+typedef struct Arcadia_BigInteger Arcadia_BigInteger;
+
+Arcadia_Real32Value
+Arcadia_toReal32
+  (
+    Arcadia_Thread* thread,
+    const Arcadia_Natural8Value *p,
+    Arcadia_SizeValue n
+  );
+
+#endif // ARCADIA_RING1_IMPLEMENTATION_TOREAL_TOREAL32_H_INCLUDED

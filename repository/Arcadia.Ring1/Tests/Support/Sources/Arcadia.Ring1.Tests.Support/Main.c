@@ -19,10 +19,6 @@
 
 #include "Arcadia/Ring1/Include.h"
 #include "Arcadia.Ring1.Tests.Support/ieee754.h"
-#include "Arcadia.Ring1.Tests.Support/apint10.h"
-#include "Arcadia.Ring1.Tests.Support/apint10_arithmetic.h"
-#include "Arcadia.Ring1.Tests.Support/apreal10.h"
-#include "Arcadia.Ring1.Tests.Support/apreal10_arithmetic.h"
 
 int
 main
@@ -32,18 +28,6 @@ main
   )
 {
   if (!Arcadia_Tests_safeExecute(&Arcadia_Ring1_Tests_Support_ieee754)) {
-    return EXIT_FAILURE;
-  }
-  if (!Arcadia_Tests_safeExecute(&Arcadia_Ring1_Tests_Support_apint10)) {
-    return EXIT_FAILURE;
-  }
-  if (!Arcadia_Tests_safeExecute(&Arcadia_Ring1_Tests_Support_apint10_arithmetic)) {
-    return EXIT_FAILURE;
-  }
-  if (!Arcadia_Tests_safeExecute(&Arcadia_Ring1_Tests_Support_apreal10)) {
-    return EXIT_FAILURE;
-  }
-  if (!Arcadia_Tests_safeExecute(&Arcadia_Ring1_Tests_Support_apreal10_arithmetic)) {
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;

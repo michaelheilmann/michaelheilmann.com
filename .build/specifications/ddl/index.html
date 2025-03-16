@@ -42,9 +42,8 @@
     <h1>Data Definition Language</h1>
     <h2>Introduction</h2>
     <p>This document is the specification of the <em>Data Definition Language</em>.
-    Programs of this language describe data as text for the purpose of storing and exchanging that data between entities (humans and machines alike).
-    For the purpose of describing such data, the language offers built-in data types consisting of scalar values (boolean values, number values, string values, and void values)
-    as well as aggregate values (map values and list values).
+    Programs of this language are sets of UTF8 files of this language and describe structured data for the purpose of for exchanging that data between entities (humans and machines alike).
+    The language provides scalar types (boolean type, number type, string type, and void type)  as well as aggregate types (map values and list values).
     </p>
     
     <p>
@@ -52,7 +51,7 @@
     A conversion between JSON and DDL is possible without the loss of data.
     </p>
 
-    <h2>Grammars</h3>
+    <h2 id="grammars">Grammars</h3>
 <p>This section describes context-free grammars used in this specification to define the lexical and syntactical structure of a <em>Data Definition Language</em> program.</p>
 
 <h3>Context-free grammars</h3>
@@ -155,7 +154,7 @@ comma : #2c
 </code></p>
 </div>    
 
-    <h2>Lexical Structure</h2>
+    <h2 id="lexical-structure">Lexical Structure</h2>
 <p>The lexical grammar describes the translation of Unicode code points into words. The goal non-terminal of the lexical grammar is the <code>word</code> symbol.</code>
 
 <h3>goal symbol</h3>
@@ -436,7 +435,7 @@ digit : /* A single Unicode character from the code point range +U0030 to +U0039
 </code></p>
 </div>
 
-    <h2>Syntactical Structure</h2>
+    <h2 id="syntactical-structure">Syntactical Structure</h2>
 <p>The syntactical grammar describes the translation of the words into sentences. The goal non-terminal of the syntactical grammar is the <code>sentence</code> symbol.</p>
 
 <p>The words <code>whitespace</code>, <code>line_terminator</code>, and <code>comment</code> are removed from the sequence of words before the translation to sentences is performed.</p>
@@ -499,7 +498,7 @@ list_body_element : value
 </code></p>
 </div>
 
-    <h2>Semantical Structure</h2>
+    <h2 id="semantical-structure">Semantical Structure</h2>
 <p>
 The <em>Data Definition Language</em> knows six basic types
 <em>List</em> and <em>Map</em>, which are the so called aggregate types, and
@@ -580,7 +579,17 @@ Implementations, however, may impose restrictions.
   <footer>
     <div class="left-column"></div>
     <div class="center-column"></div>
-    <div class="right-column"></div>
+    <div class="right-column">
+   <nav>
+      <ul style="list-style: none">
+        <li><a href="https://michaelheilmann.com/specifications/ddl/#introduction">Introduction</a></li>
+        <li><a href="https://michaelheilmann.com/specifications/ddl/#grammars">Grammars</a></li>
+        <li><a href="https://michaelheilmann.com/specifications/ddl/#lexical-structure">Lexical Structure</a></li>
+        <li><a href="https://michaelheilmann.com/specifications/ddl/#syntactical-structure">Syntactical Structure</a></li>
+        <li><a href="https://michaelheilmann.com/specifications/ddl/#semantical-structure">Semantical Structure</a></li>
+      </ul>
+    </nav>
+    </div>
     <span style="font-style: italic">Webite maintained by Michael Heilmann. Last modified on 25 Feburary 2025.</span>
     </div>
   </footer>

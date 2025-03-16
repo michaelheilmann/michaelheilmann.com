@@ -13,18 +13,23 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-09-28
+// Last modified: 2024-10-27
 
-#if !defined(ARCADIA_RING1_TESTS_SUPPORT_APREAL10_H_INCLUDED)
-#define ARCADIA_RING1_TESTS_SUPPORT_APREAL10_H_INCLUDED
-#include <stdlib.h>
+#define ARCADIA_RING1_PRIVATE (1)
+#include "Arcadia/Ring1/Implementation/Real32_getBits.h"
 
-#include "Arcadia/Ring1/Include.h"
-
-void
-Arcadia_Ring1_Tests_Support_apreal10
+Arcadia_Natural32Value
+Arcadia_Real32Value_getBits
   (
-    Arcadia_Thread* thread
-  );
-
-#endif // ARCADIA_RING1_TESTS_SUPPORT_APREAL10_H_INCLUDED
+    Arcadia_Thread* thread,
+    Arcadia_Real32Value v
+  )
+{
+  typedef union union_t {
+    float f32;
+    uint32_t uint32;
+  } union_t;
+  union_t u;
+  u.f32 = v;
+  return u.uint32;
+}

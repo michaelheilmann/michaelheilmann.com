@@ -13,18 +13,23 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-09-28
+// Last modified: 2024-10-27
 
-#if !defined(ARCADIA_RING1_TESTS_SUPPORT_APREAL10_ARITHMETIC_H_INCLUDED)
-#define ARCADIA_RING1_TESTS_SUPPORT_APREAL10_ARITHMETIC_H_INCLUDED
-#include <stdlib.h>
+#if !defined(ARCADIA_RING1_IMPLEMENTATION_REAL64_GETBITS_H_INCLUDED)
+#define ARCADIA_RING1_IMPLEMENTATION_REAL64_GETBITS_H_INCLUDED
 
-#include "Arcadia/Ring1/Include.h"
+#if !defined(ARCADIA_RING1_PRIVATE)
+  #error("do not include directly, include `Arcadia/Ring1/Include.h` instead")
+#endif
 
-void
-Arcadia_Ring1_Tests_Support_apreal10_arithmetic
+#include "Arcadia/Ring1/Implementation/Real64.h"
+#include "Arcadia/Ring1/Implementation/Natural64.h"
+
+Arcadia_Natural64Value
+Arcadia_Real64Value_getBits
   (
-    Arcadia_Thread* thread
+    Arcadia_Thread* thread,
+    Arcadia_Real64Value self
   );
 
-#endif // ARCADIA_RING1_TESTS_SUPPORT_APREAL10_ARITHMETIC_H_INCLUDED
+#endif // ARCADIA_RING1_IMPLEMENTATION_REAL64_GETBITS_H_INCLUDED
