@@ -74,7 +74,7 @@ macro(EndProduct target)
     
     target_link_libraries(${target} PRIVATE ${${target}.PrivateLibraries})
     target_link_libraries(${target} PUBLIC ${${target}.Libraries})
-
+    
     if (${${target}.Type} STREQUAL library)
 
       target_include_directories(${target} PRIVATE ${${target}.IncludeDirectories})

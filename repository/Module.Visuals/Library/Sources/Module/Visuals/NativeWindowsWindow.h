@@ -33,6 +33,7 @@ Rex_declareObjectType(u8"NativeWindowsWindow", NativeWindowsWindow, u8"NativeWin
 
 struct NativeWindowsWindow {
   NativeWindow _parent;
+  ATOM classAtom;
   HINSTANCE instanceHandle;
   HWND windowHandle;
   HDC windowDeviceContextHandle;

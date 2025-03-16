@@ -297,6 +297,7 @@ NativeWindowsWindow_constructImpl
     Rex_superTypeConstructor(process, _type, self, 0, &argumentValues[0]);
   }
   _self->instanceHandle = NULL;
+  _self->classAtom = 0;
   _self->windowHandle = NULL;
   _self->title = Arcadia_String_create_pn(Arcadia_Process_getThread(process), Arcadia_ImmutableByteArray_create(Arcadia_Process_getThread(process), g_title, sizeof(g_title) - 1));
   _self->bigIcon = NULL;
@@ -339,55 +340,62 @@ openImpl
     return;
   }
 
-  self->instanceHandle = GetModuleHandleA(NULL);
   if (!self->instanceHandle) {
-    Arcadia_Thread_setStatus(thread, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Thread_jump(thread);
+    self->instanceHandle = GetModuleHandleA(NULL);
+    if (!self->instanceHandle) {
+      Arcadia_Thread_setStatus(thread, Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread_jump(thread);
+    }
   }
 
-  // Register the window class.
-  WNDCLASS wc = { 0 };
+  if (!self->classAtom) {
+    // Register the window class.
+    WNDCLASS wc = { 0 };
 
-  wc.lpfnWndProc = WindowProc;
-  wc.hInstance = self->instanceHandle;
-  wc.lpszClassName = g_className;
-  wc.hCursor = LoadCursor(NULL, IDC_ARROW); // Prevent the busy cursor from showing up.
+    wc.lpfnWndProc = WindowProc;
+    wc.hInstance = self->instanceHandle;
+    wc.lpszClassName = g_className;
+    wc.hCursor = LoadCursor(NULL, IDC_ARROW); // Prevent the busy cursor from showing up.
 
-  if (!RegisterClass(&wc)) {
-    self->instanceHandle = NULL;
-    Arcadia_Thread_setStatus(thread, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Thread_jump(thread);
+    self->classAtom = RegisterClass(&wc);
+    if (!self->classAtom) {
+      self->instanceHandle = NULL;
+      Arcadia_Thread_setStatus(thread, Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread_jump(thread);
+    }
   }
-
-  self->windowHandle =
-    CreateWindowEx
-      (
-        0,                               // Optional window styles.
-        g_className,                     // Window class
-        "Windows Window",                // Window text
-        WS_OVERLAPPEDWINDOW,             // Window style
-        CW_USEDEFAULT, CW_USEDEFAULT,    // Default position
-        CW_USEDEFAULT, CW_USEDEFAULT,    // Default size
-        NULL,                            // Parent window    
-        NULL,                            // Menu
-        self->instanceHandle,            // Instance handle
-        NULL                             // Additional application data
-      );
 
   if (!self->windowHandle) {
-    UnregisterClass(g_className, self->instanceHandle);
-    self->instanceHandle = NULL;
-    Arcadia_Thread_setStatus(thread, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Thread_jump(thread);
-  }
+    self->windowHandle =
+      CreateWindowEx
+        (
+          0,                               // Optional window styles.
+          g_className,                     // Window class
+          "Windows Window",                // Window text
+          WS_OVERLAPPEDWINDOW,             // Window style
+          CW_USEDEFAULT, CW_USEDEFAULT,    // Default position
+          CW_USEDEFAULT, CW_USEDEFAULT,    // Default size
+          NULL,                            // Parent window    
+          NULL,                            // Menu
+          self->instanceHandle,            // Instance handle
+          NULL                             // Additional application data
+        );
 
-  if (!SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)) {
-    DestroyWindow(self->windowHandle);
-    self->windowHandle = NULL;
-    UnregisterClass(g_className, self->instanceHandle);
-    self->instanceHandle = NULL;
-    Arcadia_Thread_setStatus(thread, Arcadia_Status_EnvironmentFailed);
-    Arcadia_Thread_jump(thread);
+    if (!self->windowHandle) {
+      UnregisterClass(g_className, self->instanceHandle);
+      self->instanceHandle = NULL;
+      Arcadia_Thread_setStatus(thread, Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread_jump(thread);
+    }
+
+    if (!SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)) {
+      DestroyWindow(self->windowHandle);
+      self->windowHandle = NULL;
+      UnregisterClass(g_className, self->instanceHandle);
+      self->instanceHandle = NULL;
+      Arcadia_Thread_setStatus(thread, Arcadia_Status_EnvironmentFailed);
+      Arcadia_Thread_jump(thread);
+    }
   }
 
   self->windowDeviceContextHandle = GetDC(self->windowHandle);
@@ -427,10 +435,18 @@ closeImpl
   if (!self->windowHandle) {
     return;
   }
-  ReleaseDC(self->windowHandle, self->windowDeviceContextHandle);
-  self->windowDeviceContextHandle = NULL;
-  DestroyWindow(self->windowHandle);
-  self->windowHandle = NULL;
+  if (self->windowDeviceContextHandle) {
+    ReleaseDC(self->windowHandle, self->windowDeviceContextHandle);
+    self->windowDeviceContextHandle = NULL;
+  }
+  if (self->windowHandle) {
+    DestroyWindow(self->windowHandle);
+    self->windowHandle = NULL;
+  }
+  if (self->classAtom) {
+    UnregisterClass(g_className, self->instanceHandle);
+    self->classAtom = 0;
+  }
   self->instanceHandle = NULL;
 }
 

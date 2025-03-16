@@ -376,3 +376,58 @@ _Arcadia_BigIntegerValue_getType
   }
   return g_type;
 }
+
+#include <stdio.h>
+
+void
+Arcadia_BigInteger_toStdoutDebug
+  (
+    Arcadia_Thread* thread,
+    Arcadia_BigInteger* self
+  )
+{
+  if (Arcadia_BigInteger_isZero(thread, self)) {
+    fprintf(stdout, "%s\n", "0");
+  } else {
+    Arcadia_BigInteger* ten = Arcadia_BigInteger_create(thread);
+    Arcadia_BigInteger_setInteger16(thread, ten, 10);
+    Arcadia_BigInteger* quotient = Arcadia_BigInteger_create(thread);
+    Arcadia_BigInteger_copy(thread, quotient, self);
+    Arcadia_BigInteger* remainder = Arcadia_BigInteger_create(thread);
+    if (Arcadia_BigInteger_isNegative(thread, self)) {
+      fprintf(stdout, "-");
+    }
+    char* p;
+    Arcadia_SizeValue i = 0, n = 1024;
+    Arcadia_Process_allocateUnmanaged(Arcadia_Thread_getProcess(thread), &p, 1024);
+    Arcadia_JumpTarget jumpTarget;
+    Arcadia_Thread_pushJumpTarget(thread, &jumpTarget);
+    if (Arcadia_JumpTarget_save(&jumpTarget)) {
+      do {
+        Arcadia_BigInteger_divide3(thread, quotient, ten, quotient, remainder);
+        Arcadia_Natural8Value digit = Arcadia_BigInteger_toNatural8(thread, remainder);
+        if (i == n) {
+          Arcadia_SizeValue m = 2 * n;
+          if (m < n) {
+            Arcadia_Thread_setStatus(thread, Arcadia_Status_AllocationFailed);
+            Arcadia_Thread_jump(thread);
+          }
+          Arcadia_Process_reallocateUnmanaged(Arcadia_Thread_getProcess(thread), &p, m);
+          n = m;
+        }
+        p[i++] = (char)(digit + '0');
+
+      } while (!Arcadia_BigInteger_isZero(thread, quotient));
+      for (Arcadia_SizeValue j = 0; j < i / 2; ++j) {
+        char t = p[j];
+        p[j] = p[i - j - 1];
+        p[i - j - 1] = t;
+      }
+      p[i] = '\0';
+      fprintf(stdout, "%s\n", p);
+    }
+    Arcadia_Thread_popJumpTarget(thread);
+    Arcadia_Process_deallocateUnmanaged(Arcadia_Thread_getProcess(thread), p);
+    p = NULL;
+  }
+}

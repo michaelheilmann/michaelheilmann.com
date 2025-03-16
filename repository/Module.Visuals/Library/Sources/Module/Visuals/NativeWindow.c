@@ -84,6 +84,8 @@ NativeWindow_constructImpl
   _self->getTitle = NULL;
   _self->setTitle  = NULL;
   _self->getCanvasSize = NULL;
+  _self->beginRender = NULL;
+  _self->endRender = NULL;
   Arcadia_Object_setType(thread, _self, _type);
 }
 
@@ -208,3 +210,19 @@ NativeWindow_getCanvasSize
     Arcadia_Integer32Value* height
   )
 { self->getCanvasSize(thread, self, width, height); }
+
+void
+NativeWindow_beginRender
+  (
+    Arcadia_Thread* thread,
+    NativeWindow* self
+  )
+{ self->beginRender(thread, self); }
+
+void
+NativeWindow_endRender
+  (
+    Arcadia_Thread* thread,
+    NativeWindow* self
+  )
+{ self->endRender(thread, self); }

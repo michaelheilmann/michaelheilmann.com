@@ -71,6 +71,8 @@ if (NOT TARGET ${MyModule})
     list(APPEND ${MyModule}.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Module/Visuals/NativeWindowsIcon.h)
     list(APPEND ${MyModule}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Module/Visuals/NativeWindowsWindow.c)
     list(APPEND ${MyModule}.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Module/Visuals/NativeWindowsWindow.h)
+    list(APPEND ${MyModule}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Module/Visuals/Windows/WglIntermediateWindow.c)
+    list(APPEND ${MyModule}.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Module/Visuals/Windows/WglIntermediateWindow.h)
   endif()
 
   list(APPEND ${MyModule}.PrivateLibraries ${MyProjectName}.R ${MyProjectName}.Arms)
@@ -81,6 +83,13 @@ if (NOT TARGET ${MyModule})
       message(FATAL_ERROR "libPNG not found")
     endif()
     list(APPEND ${MyModule}.PrivateLibraries PNG::PNG)
+  endif()
+  
+
+  if (${${MyModule}.OperatingSystem} STREQUAL ${${MyModule}.OperatingSystem.Windows})
+  	find_package(OpenGL REQUIRED)
+    list(APPEND ${MyModule}.PrivateLibraries ${OPENGL_LIBRARIES})
+    list(APPEND ${MyModule}.IncludeDirectories ${CMAKE_CURRENT_SOURCE_DIR}/../External/OpenGl)
   endif()
 
   EndProduct(${MyModule})
