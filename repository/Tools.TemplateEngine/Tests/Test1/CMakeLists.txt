@@ -13,8 +13,6 @@
 # REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 # OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-# Last modified: 2024-09-16
-
 cmake_minimum_required(VERSION 3.20)
 
 if (NOT MyProjectIsDefined)
@@ -35,12 +33,15 @@ set(MyTestName ${MyProjectName}.Tools.TemplateEngine.Tests.Test1)
 # Create test executable.
 BeginProduct(${MyTestName} test)
 
-# Create configuration file.
+# Configuration files.
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Sources/Tools.TemplateEngine.Tests.Test1/Configure.h.i ${CMAKE_CURRENT_BINARY_DIR}/Sources/Tools.TemplateEngine.Tests.Test1/Configure.h @ONLY)
-# Add source and header files.
+list(APPEND ${MyTestName}.ConfigurationTemplateFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Tools.TemplateEngine.Tests.Test1/Configure.h.i)
 list(APPEND ${MyTestName}.ConfigurationFiles ${CMAKE_CURRENT_BINARY_DIR}/Sources/Tools.TemplateEngine.Tests.Test1/Configure.h)
+
+# Source and header files.
 list(APPEND ${MyTestName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Tools.TemplateEngine.Tests.Test1/Main.c)
 
+# Libraries.
 list(APPEND ${MyTestName}.PrivateLibraries ${MyProjectName}.Tools.TemplateEngineLibrary ${MyProjectName}.Machine ${MyProjectName}.Arms)
 
 EndProduct(${MyTestName})

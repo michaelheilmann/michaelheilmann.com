@@ -13,8 +13,6 @@
 # REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 # OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-# Last modified: 2024-09-09
-
 cmake_minimum_required(VERSION 3.20)
 
 if (NOT MyProjectIsDefined)
@@ -36,9 +34,10 @@ if (${${MyTool}.OperatingSystem} STREQUAL ${${MyTool}.OperatingSystem.Windows})
   FetchProduct(${MyProjectName}.Machine "${REPOSITORY_SOURCE_DIR}/Machine/Library" "path to the Machine library directory")
 
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Tools/BitmapFontGenerator/Configure.h.i ${CMAKE_CURRENT_BINARY_DIR}/Tools/BitmapFontGenerator/Configure.h @ONLY)
+  list(APPEND ${MyTool}.ConfigurationTemplateFiles ${CMAKE_CURRENT_SOURCE_DIR}/Tools/BitmapFontGenerator/Configure.h.i)
+  list(APPEND ${MyTool}.ConfigurationFiles ${CMAKE_CURRENT_BINARY_DIR}/Tools/BitmapFontGenerator/Configure.h)
 
   list(APPEND ${MyTool}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Tools/BitmapFontGenerator/Main.c)
-  list(APPEND ${MyTool}.ConfigurationFiles ${CMAKE_CURRENT_BINARY_DIR}/Tools/BitmapFontGenerator/Configure.h)
 
   list(APPEND ${MyTool}.PrivateLibraries ${MyProjectName}.Visuals ${MyProjectName}.Machine ${MyProjectName}.Arms)
 else()
