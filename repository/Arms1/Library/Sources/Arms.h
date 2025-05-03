@@ -102,6 +102,33 @@ Arms_visit
   (
     void* object
   );
+
+#if defined(Arms_Configuration_WithNotifyDestroy) && 1 ==  Arms_Configuration_WithNotifyDestroy
+
+typedef void Arms_NotifyDestroyContext;
+typedef void (Arms_NotifyDestroyCallback)(Arms_NotifyDestroyContext* context, void* object);
+ 
+Arms_Status
+Arms_addNotifyDestroy
+  (
+    void* object,
+    Arms_NotifyDestroyContext* context,
+    Arms_NotifyDestroyCallback* callback
+  );
+
+Arms_Status
+Arms_removeNotifyDestroy
+  (
+    void* object,
+    Arms_NotifyDestroyContext* context,
+    Arms_NotifyDestroyCallback* callback
+  );
+
+#endif // Arms_Configuration_WithNotifyDestroy
+
+#if defined(Arms_Configuration_WithBarriers) && 1 == Arms_Configuration_WithBarriers
+
+#endif // Arms_Configuration_WithBarriers
   
 #if defined(Arms_Configuration_WithLocks) && 1 == Arms_Configuration_WithLocks
 

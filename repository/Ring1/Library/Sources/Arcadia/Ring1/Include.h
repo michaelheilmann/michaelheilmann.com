@@ -54,6 +54,8 @@
 
 #include "Arcadia/Ring1/Implementation/NoReturn.h"
 
+#include "Arcadia/Ring1/Implementation/NoWarnUnused.h"
+
 #include "Arcadia/Ring1/Implementation/NumberLiteral.h"
 
 #include "Arcadia/Ring1/Implementation/Numerics/Include.h"

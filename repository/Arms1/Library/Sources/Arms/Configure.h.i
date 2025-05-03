@@ -19,6 +19,12 @@
 // Define to 1 to enable locks.
 #define Arms_Configuration_WithLocks (1)
 
+// Define to 1 to enable barriers.
+#define Arms_Configuration_WithBarriers (1)
+
+// Define to 1 to enable destroy notifications.
+#define Arms_Configuration_WithNotifyDestroy (1)
+
 #define Arms_Configuration_InstructionSetArchitecture_Unknown @Arcadia.Arms.InstructionSetArchitecture.Unknown@
 #define Arms_Configuration_InstructionSetArchitecture_X86 @Arcadia.Arms.InstructionSetArchitecture.X86@
 #define Arms_Configuration_InstructionSetArchitecture_X64 @Arcadia.Arms.InstructionSetArchitecture.X64@

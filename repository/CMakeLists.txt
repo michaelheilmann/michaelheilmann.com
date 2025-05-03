@@ -39,6 +39,7 @@ add_subdirectory(Engine.Demo)
 add_subdirectory(Tools.ConcatenateFiles)
 add_subdirectory(Tools.CompareFiles)
 add_subdirectory(Tools.TemplateEngine)
+add_subdirectory(Tools.Compiler)
 
 add_subdirectory(Module.Visuals)
 add_subdirectory(Module.Audials)

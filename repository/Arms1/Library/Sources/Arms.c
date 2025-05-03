@@ -18,6 +18,8 @@
 #include "Arms/MemoryManager.private.h"
 #include "Arms/DefaultMemoryManager.h"
 #include "Arms/SlabMemoryManager.h"
+#include "Arms/NotifyDestroy.h"
+
 #include "Arms/Internal/Common.h"
 
 // malloc, free, realloc
@@ -229,6 +231,17 @@ Arms_startup
   #if defined(Arms_Configuration_WithLocks) && 1 == Arms_Configuration_WithLocks
     g_locks = NULL;
   #endif
+
+  #if defined(Arms_Configuration_WithNotifyDestroy) && 1 == Arms_Configuration_WithNotifyDestroy
+    if (Arms_NotifyDestroyModule_shutdown()) {
+      Arms_MemoryManager_destroy((Arms_MemoryManager*)g_slabMemoryManager);
+      g_slabMemoryManager = NULL;
+      Arms_MemoryManager_destroy((Arms_MemoryManager*)g_defaultMemoryManager);
+      g_defaultMemoryManager = NULL;
+      return Arms_Status_EnvironmentFailed;
+    }
+  #endif
+
   }
   g_referenceCount++;
   return Arms_Status_Success;
@@ -252,6 +265,9 @@ Arms_shutdown
     if (g_locks) {
       Cxx_fatalError();
     }  
+  #endif
+  #if defined(Arms_Configuration_WithNotifyDestroy) && 1 == Arms_Configuration_WithNotifyDestroy
+    Arms_NotifyDestroyModule_shutdown();
   #endif
     while (g_types) {
       Arms_Type* type = g_types;

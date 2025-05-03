@@ -14,4 +14,8 @@
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
 #define ARCADIA_RING1_PRIVATE (1)
+<<<<<<<< HEAD:repository/Ring1/Library/Sources/Arcadia/Ring1/Implementation/NoWarnUnused.c
+#include "Arcadia/Ring1/Implementation/NoWarnUnused.h"
+========
 #include "Arcadia/Ring1/Implementation/Numerics/Include.h"
+>>>>>>>> eaa3f7cb (Update Week 1 May 2025):repository/Ring1/Library/Sources/Arcadia/Ring1/Implementation/Numerics/Include.c
