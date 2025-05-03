@@ -13,8 +13,6 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-09-01
-
 #define ARCADIA_RING2_PRIVATE (1)
 #include "Arcadia/Ring2/Implementation/String.h"
 
@@ -208,7 +206,7 @@ Arcadia_String_constructImpl
     fromImmutableUtf8String(thread, &_self->immutableUtf8String, Arcadia_Value_getImmutableUtf8StringValue(&arguments[0]));
   } else if (Arcadia_Value_isObjectReferenceValue(&arguments[0])) {
     Arcadia_ObjectReferenceValue referenceValue = Arcadia_Value_getObjectReferenceValue(&arguments[0]);
-    if (Arcadia_Type_isSubType(thread, Arcadia_Object_getType(referenceValue), _Arcadia_ByteBuffer_getType(thread))) {
+    if (Arcadia_Type_isSubType(thread, Arcadia_Object_getType(thread, referenceValue), _Arcadia_ByteBuffer_getType(thread))) {
       Arcadia_ByteBuffer* object = (Arcadia_ByteBuffer*)referenceValue;
       _self->immutableUtf8String =
         Arcadia_ImmutableUtf8String_create
@@ -217,10 +215,10 @@ Arcadia_String_constructImpl
             Arcadia_ByteBuffer_getBytes(thread, object),
             Arcadia_ByteBuffer_getNumberOfBytes(thread, object)
           );
-    } else if (Arcadia_Type_isSubType(thread, Arcadia_Object_getType(referenceValue), _Arcadia_String_getType(thread))) {
+    } else if (Arcadia_Type_isSubType(thread, Arcadia_Object_getType(thread, referenceValue), _Arcadia_String_getType(thread))) {
       Arcadia_String* object = (Arcadia_String*)referenceValue;
       _self->immutableUtf8String = object->immutableUtf8String;
-    } else if (Arcadia_Type_isSubType(thread, Arcadia_Object_getType(referenceValue), _Arcadia_StringBuffer_getType(thread))) {
+    } else if (Arcadia_Type_isSubType(thread, Arcadia_Object_getType(thread, referenceValue), _Arcadia_StringBuffer_getType(thread))) {
       Arcadia_StringBuffer* object = (Arcadia_StringBuffer*)referenceValue;
       _self->immutableUtf8String = Arcadia_ImmutableUtf8String_create(thread, Arcadia_StringBuffer_getBytes(thread, object), Arcadia_StringBuffer_getNumberOfBytes(thread, object));
     } else {
@@ -234,7 +232,7 @@ Arcadia_String_constructImpl
     Arcadia_Thread_setStatus(thread, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Thread_jump(thread);
   }
-  Arcadia_Object_setType(thread, _self, _type);
+  Arcadia_Object_setType(thread, (Arcadia_Object*)_self, _type);
 }
 
 static Arcadia_SizeValue
@@ -272,7 +270,7 @@ equalToImpl
     Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
     return;
   }
-  if (!Arcadia_Type_isSubType(thread, Arcadia_Object_getType(other1), _Arcadia_String_getType(thread))) {
+  if (!Arcadia_Type_isSubType(thread, Arcadia_Object_getType(thread, other1), _Arcadia_String_getType(thread))) {
     Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_False);
     return;
   }
@@ -324,7 +322,7 @@ notEqualToImpl
     Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
     return;
   }
-  if (!Arcadia_Type_isSubType(thread, Arcadia_Object_getType(other1), _Arcadia_String_getType(thread))) {
+  if (!Arcadia_Type_isSubType(thread, Arcadia_Object_getType(thread, other1), _Arcadia_String_getType(thread))) {
     Arcadia_Value_setBooleanValue(target, Arcadia_BooleanValue_True);
     return;
   }
@@ -643,7 +641,7 @@ Arcadia_String_getNumberOfSymbols
   )
 {
   Arcadia_SizeValue numberOfSymbols;
-  Arcadia_isUtf8(Arcadia_Thread_getProcess(thread), Arcadia_String_getBytes(thread, self), Arcadia_String_getNumberOfBytes(thread, self), &numberOfSymbols);
+  Arcadia_isUtf8(thread, Arcadia_String_getBytes(thread, self), Arcadia_String_getNumberOfBytes(thread, self), &numberOfSymbols);
   return numberOfSymbols;
 }
 

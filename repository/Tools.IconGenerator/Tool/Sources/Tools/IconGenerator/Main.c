@@ -13,11 +13,9 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-09-16
-
 #include <stdlib.h>
 #include <string.h>
-#include "R/Include.h"
+#include "Arcadia/Include.h"
 #include "Module/Visuals/Include.h"
 
 static void
@@ -76,12 +74,12 @@ main1
 #if Arcadia_Configuration_OperatingSystem_Windows == Arcadia_Configuration_OperatingSystem
   ImageWriter* imageWriter = (ImageWriter*)NativeWindowsImageWriter_create(thread);
 #elif Arcadia_Configuration_OperatingSystem_Linux == Arcadia_Configuration_OperatingSystem
-  ImageWriter* imageWriter = (ImageWriter*)NativeLinuxImageWriter_create(thread);
+  ImageWriter* imageWriter = (ImageWriter*)LibPngImageWriter_create(thread);
 #else
   #error("environment not (yet) supported")
 #endif
   for (Arcadia_SizeValue i = 0, n = sizeof(sizes) / sizeof(size_t); i < n; ++i) {
-    PixelBuffer* pixelBuffer = PixelBuffer_create(thread, 0, sizes[i], sizes[i], Arcadia_Visuals_PixelFormat_An8Rn8Gn8Bn8);
+    Arcadia_Visuals_PixelBuffer* pixelBuffer = Arcadia_Visuals_PixelBuffer_create(thread, 0, sizes[i], sizes[i], Arcadia_Visuals_PixelFormat_An8Rn8Gn8Bn8);
     Arcadia_List_appendObjectReferenceValue(thread, pixelBufferList, (Arcadia_ObjectReferenceValue)pixelBuffer);
   }
   ImageWriter_writeIcoToPath(thread, imageWriter, pixelBufferList, Arcadia_Value_getObjectReferenceValue(&target));

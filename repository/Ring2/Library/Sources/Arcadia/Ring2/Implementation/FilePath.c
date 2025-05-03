@@ -13,8 +13,6 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-10-07
-
 #define ARCADIA_RING2_PRIVATE (1)
 #include "Arcadia/Ring2/Implementation/FilePath.h"
 
@@ -484,7 +482,7 @@ Arcadia_FilePath_constructImpl
   _self->relative = Arcadia_BooleanValue_False;
   _self->root = NULL;
   _self->fileNames = Arcadia_List_create(thread);
-  Arcadia_Object_setType(thread, _self, _type);
+  Arcadia_Object_setType(thread, (Arcadia_Object*)_self, _type);
 }
 
 static void
@@ -502,8 +500,8 @@ Arcadia_FilePath_visit
     Arcadia_FilePath* self
   )
 {
-  Arcadia_Object_visit(thread, self->fileNames);
-  Arcadia_Object_visit(thread, self->root);
+  Arcadia_Object_visit(thread, (Arcadia_Object*)self->fileNames);
+  Arcadia_Object_visit(thread, (Arcadia_Object*)self->root);
 }
 
 Arcadia_FilePath*

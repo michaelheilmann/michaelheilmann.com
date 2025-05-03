@@ -13,8 +13,6 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-09-16
-
 #include "Module/Visuals/ImageWriterParameters.h"
 
 struct ImageWriterParameters {
@@ -104,7 +102,7 @@ ImageWriterParameters_constructImpl
     Arcadia_Thread_setStatus(thread, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Thread_jump(thread);
   }
-  Arcadia_Object_setType(thread, _self, _type);
+  Arcadia_Object_setType(thread, (Arcadia_Object*)_self, _type);
 }
 
 static void
@@ -158,7 +156,7 @@ ImageWriterParameters_hasPath
     ImageWriterParameters* self
   )
 {
-  Arcadia_TypeValue type = Arcadia_Object_getType(self->object);
+  Arcadia_TypeValue type = Arcadia_Object_getType(thread, self->object);
   return Arcadia_Type_isSubType(thread, type, _Arcadia_String_getType(thread));
 }
 
@@ -183,7 +181,7 @@ ImageWriterParameters_hasByteBuffer
     ImageWriterParameters* self
   )
 {
-  Arcadia_TypeValue type = Arcadia_Object_getType(self->object);
+  Arcadia_TypeValue type = Arcadia_Object_getType(thread, self->object);
   return Arcadia_Type_isSubType(thread, type, _Arcadia_ByteBuffer_getType(thread));
 }
 

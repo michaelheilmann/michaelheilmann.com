@@ -13,13 +13,12 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-08-31
-
 #include "Arms.h"
 
 #include "Arms/MemoryManager.private.h"
 #include "Arms/DefaultMemoryManager.h"
 #include "Arms/SlabMemoryManager.h"
+#include "Arms/Internal/Common.h"
 
 // malloc, free, realloc
 #include <malloc.h>
@@ -31,12 +30,6 @@
 #include <stdbool.h>
 // assert()
 #include <assert.h>
-
-#if __STDC_VERSION__ < 202311L 
-  #define c_static_assert(expression, message) _Static_assert(expression, message)
-#else
-  #define c_static_assert(expression, message) static_assert(expression, message)
-#endif
 
 #if defined(Arms_Configuration_WithLocks) && 1 == Arms_Configuration_WithLocks
 
@@ -109,9 +102,9 @@ struct Arms_Tag {
 #endif
 
 #if Arms_Configuration_InstructionSetArchitecture_X64 == Arms_Configuration_InstructionSetArchitecture
-  c_static_assert(sizeof(Arms_Tag) % 8 == 0, "Arms_Tag size not 8 Byte aligned");
+  Cxx_staticAssert(sizeof(Arms_Tag) % 8 == 0, "Arms_Tag size not 8 Byte aligned");
 #elif Arms_Configuration_InstructionSetArchitecture_X32 == Arms_Configuration_InstructionSetArchitecture
-  c_static_assert(sizeof(Arms_Tag) % 4 == 0, "Arms_Tag size not 4 Byte aligned");
+  Cxx_staticAssert(sizeof(Arms_Tag) % 4 == 0, "Arms_Tag size not 4 Byte aligned");
 #endif
 
 #if defined(Arms_Configuration_WithLocks) && 1 == Arms_Configuration_WithLocks
@@ -253,11 +246,11 @@ Arms_shutdown
   int32_t referenceCount = g_referenceCount - 1;
   if (!referenceCount) {
     if (g_grayObjects || g_universe) {
-      return Arms_Status_ArgumentValueInvalid;
+      Cxx_fatalError();
     }
   #if defined(Arms_Configuration_WithLocks) && 1 == Arms_Configuration_WithLocks
     if (g_locks) {
-      return Arms_Status_OperationInvalid;
+      Cxx_fatalError();
     }  
   #endif
     while (g_types) {

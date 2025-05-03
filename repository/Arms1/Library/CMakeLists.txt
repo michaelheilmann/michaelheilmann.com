@@ -13,8 +13,6 @@
 # REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 # OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-# Last modified: 2024-12-29
-
 cmake_minimum_required(VERSION 3.20)
 
 if (NOT MyProjectIsDefined)
@@ -28,25 +26,29 @@ if (NOT MyProjectIsDefined)
 endif()
 
 # Create a library.
-if (NOT TARGET ${MyProjectName}.Arms)
-    BeginProduct(${MyProjectName}.Arms library)
+set(MyLibraryName ${MyProjectName}.Arms)
+if (NOT TARGET ${MyLibraryName})
+    BeginProduct(${MyLibraryName} library)
 
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/Configure.h.i ${CMAKE_CURRENT_BINARY_DIR}/Sources/Arms/Configure.h @ONLY)
+    list(APPEND ${MyLibraryName}.ConfigurationTemplateFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/Configure.h.i)
+    list(APPEND ${MyLibraryName}.ConfigurationFiles ${CMAKE_CURRENT_BINARY_DIR}/Sources/Arms/Configure.h)
 
-    list(APPEND ${MyProjectName}.Arms.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms.c)
-    list(APPEND ${MyProjectName}.Arms.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms.h)
-    list(APPEND ${MyProjectName}.Arms.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/MemoryManager.c)
-    list(APPEND ${MyProjectName}.Arms.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/MemoryManager.h)
-    list(APPEND ${MyProjectName}.Arms.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/MemoryManager.private.c)
-    list(APPEND ${MyProjectName}.Arms.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/MemoryManager.private.h)
-    list(APPEND ${MyProjectName}.Arms.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/SizeType.c)
-    list(APPEND ${MyProjectName}.Arms.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/SizeType.h)
-    list(APPEND ${MyProjectName}.Arms.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/DefaultMemoryManager.c)
-    list(APPEND ${MyProjectName}.Arms.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/DefaultMemoryManager.h)
-    list(APPEND ${MyProjectName}.Arms.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/SlabMemoryManager.c)
-    list(APPEND ${MyProjectName}.Arms.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/SlabMemoryManager.h)
-    list(APPEND ${MyProjectName}.Arms.ConfigurationFiles ${CMAKE_CURRENT_BINARY_DIR}/Sources/Arms/Configure.h)
+    list(APPEND ${MyLibraryName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms.c)
+    list(APPEND ${MyLibraryName}.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms.h)
+    list(APPEND ${MyLibraryName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/MemoryManager.c)
+    list(APPEND ${MyLibraryName}.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/MemoryManager.h)
+    list(APPEND ${MyLibraryName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/MemoryManager.private.c)
+    list(APPEND ${MyLibraryName}.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/MemoryManager.private.h)
+    list(APPEND ${MyLibraryName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/SizeType.c)
+    list(APPEND ${MyLibraryName}.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/SizeType.h)
+    list(APPEND ${MyLibraryName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/DefaultMemoryManager.c)
+    list(APPEND ${MyLibraryName}.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/DefaultMemoryManager.h)
+    list(APPEND ${MyLibraryName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/SlabMemoryManager.c)
+    list(APPEND ${MyLibraryName}.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/SlabMemoryManager.h)
+    list(APPEND ${MyLibraryName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/Internal/Common.c)
+    list(APPEND ${MyLibraryName}.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arms/Internal/Common.h)
 
-    EndProduct(${MyProjectName}.Arms)
-    set_target_properties(${MyProjectName}.Arms PROPERTIES FOLDER "Arms")
+    EndProduct(${MyLibraryName})
+    set_target_properties(${MyLibraryName} PROPERTIES FOLDER "Arcadia.Arms")
 endif()

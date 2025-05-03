@@ -13,8 +13,6 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-09-09
-
 #include "Tools/TemplateEngine/Context.h"
 
 #include "Tools/TemplateEngine/FileContext.h"
@@ -91,7 +89,7 @@ Context_constructImpl
   _self->temporary = NULL;
   _self->stack = NULL;
   _self->files = Arcadia_List_create(thread);
-  Arcadia_Object_setType(thread, _self, _type);
+  Arcadia_Object_setType(thread, (Arcadia_Object*)_self, _type);
 }
 
 static void
@@ -109,14 +107,14 @@ Context_visit
     Context* self
   )
 {
-  Arcadia_Object_visit(thread, self->targetBuffer);
-  Arcadia_Object_visit(thread, self->target);
+  Arcadia_Object_visit(thread, (Arcadia_Object*)self->targetBuffer);
+  Arcadia_Object_visit(thread, (Arcadia_Object*)self->target);
 
-  Arcadia_Object_visit(thread, self->temporaryBuffer);
-  Arcadia_Object_visit(thread, self->temporary);
+  Arcadia_Object_visit(thread, (Arcadia_Object*)self->temporaryBuffer);
+  Arcadia_Object_visit(thread, (Arcadia_Object*)self->temporary);
 
-  Arcadia_Object_visit(thread, self->stack);
-  Arcadia_Object_visit(thread, self->files);
+  Arcadia_Object_visit(thread, (Arcadia_Object*)self->stack);
+  Arcadia_Object_visit(thread, (Arcadia_Object*)self->files);
 }
 
 Context*

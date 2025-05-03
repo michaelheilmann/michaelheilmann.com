@@ -13,8 +13,6 @@
 # REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 # OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-# Last modified: 2024-09-09
-
 cmake_minimum_required(VERSION 3.20)
 
 if (NOT MyProjectIsDefined)
@@ -35,9 +33,10 @@ if (NOT TARGET ${MyTool})
     BeginProduct(${MyTool} executable)
 
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Tools/CompareFiles/Configure.h.i ${CMAKE_CURRENT_BINARY_DIR}/Tools/CompareFiles/Configure.h @ONLY)
+    list(APPEND ${MyTool}.ConfigurationTemplateFiles ${CMAKE_CURRENT_SOURCE_DIR}/Tools/CompareFiles/Configure.h.i)
+    list(APPEND ${MyTool}.ConfigurationFiles ${CMAKE_CURRENT_BINARY_DIR}/Tools/CompareFiles/Configure.h)
 
     list(APPEND ${MyTool}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Tools/CompareFiles/Main.c)
-    list(APPEND ${MyTool}.ConfigurationFiles ${CMAKE_CURRENT_BINARY_DIR}/Tools/CompareFiles/Configure.h)
 
     list(APPEND ${MyTool}.PrivateLibraries ${MyProjectName}.Machine ${MyProjectName}.Arms)
 

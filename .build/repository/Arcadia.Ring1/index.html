@@ -147,7 +147,7 @@ refer to <a href="https://github.com/michaelheilmann/michaelheilmann.com/tree/ma
   </code></my-signature>
 
   <my-summary>
-  Two's complment integer number types 
+  Two's complment integer number types
   where <my-mv>Suffix</my-mv> denotes the number of Bits of the two's complement integer and can be one of <code>8</code>, <code>16</code>, <code>32</code>, or <code>64</code>.
   </my-summary>
 
@@ -174,39 +174,17 @@ refer to <a href="https://github.com/michaelheilmann/michaelheilmann.com/tree/ma
   The value is always equal to <code>Arcadia_Integer<my-mv>Suffix</my-mv>Value_NumberOfBits</code> divided by 8.
   </my-summary>
 
-<h3 id="Arcadia_Integer*Value_Minimum">Arcadia_Integer*Value_Minimum</h3>
-  
-  <my-signature><code>
-  #define Arcadia_Integer<my-mv>Suffix</my-mv>Value_Minimum <my-mv>implementation detail</my-mv>
-  </code></my-signature>
-  
-  <my-summary>
-  The least value representable by a the <code>Arcadia_Integer<my-mv>Suffix</my-mv>Value</code> type
-  where <my-mv>Suffix</my-mv> denotes the number of Bits of the two's complement integer and can be one of <code>8</code>, <code>16</code>, <code>32</code>, or <code>64</code>.
-  </my-summary>
-  
-  <p>
-  The following table denotes the value of the constant for the respective <my-mv>Suffix</my-mv>
-  </p>
-  <table>
-  <tr><td><my-mv>Suffix</my-mv></td><td>Value</td></tr>
-  <tr><td>8                    </td><td>-128</td></tr>
-  <tr><td>16                   </td><td>-32768</td></tr>
-  <tr><td>32                   </td><td>-2147483648</td></tr>
-  <tr><td>64                   </td><td>-9223372036854775808</td></tr>
-  </table>
-
 <h3 id="Arcadia_Integer*Value_Maximum">Arcadia_Integer*Value_Maximum</h3>
 
   <my-signature><code>
   #define Arcadia_Integer<my-mv>Suffix</my-mv>Value_Maximum <my-mv>implementation detail</my-mv>
   </code><my-signature>
-  
+
   <my-summary>
   The greatest value representable by a the <code>Arcadia_Integer<my-mv>Suffix</my-mv>Value</code> type
   where <my-mv>Suffix</my-mv> denotes the number of Bits of the two's complement integer and can be one of <code>8</code>, <code>16</code>, <code>32</code>, or <code>64</code>.
   </my-summary>
-  
+
   <p>
   The following table denotes the value of the constant for the respective <my-mv>Suffix</my-mv>
   </p>
@@ -218,17 +196,39 @@ refer to <a href="https://github.com/michaelheilmann/michaelheilmann.com/tree/ma
   <tr><td>64                   </td><td>9223372036854775807</td></tr>
   </table>
 
+<h3 id="Arcadia_Integer*Value_Minimum">Arcadia_Integer*Value_Minimum</h3>
+
+  <my-signature><code>
+  #define Arcadia_Integer<my-mv>Suffix</my-mv>Value_Minimum <my-mv>implementation detail</my-mv>
+  </code></my-signature>
+
+  <my-summary>
+  The least value representable by a the <code>Arcadia_Integer<my-mv>Suffix</my-mv>Value</code> type
+  where <my-mv>Suffix</my-mv> denotes the number of Bits of the two's complement integer and can be one of <code>8</code>, <code>16</code>, <code>32</code>, or <code>64</code>.
+  </my-summary>
+
+  <p>
+  The following table denotes the value of the constant for the respective <my-mv>Suffix</my-mv>
+  </p>
+  <table>
+  <tr><td><my-mv>Suffix</my-mv></td><td>Value</td></tr>
+  <tr><td>8                    </td><td>-128</td></tr>
+  <tr><td>16                   </td><td>-32768</td></tr>
+  <tr><td>32                   </td><td>-2147483648</td></tr>
+  <tr><td>64                   </td><td>-9223372036854775808</td></tr>
+  </table>
+
 <h3 id="Arcadia_Integer*Value_Literal">Arcadia_Integer*Value_Literal</h3>
-  
+
   <my-signature><code>
   #define Arcadia_Integer<my-mv>Suffix</my-mv>Value_Literal(x) <my-mv>implementation detail</my-mv>
   </code></my-signature>
-  
+
   <my-summary>
   Macro used to write a literal of the type <code>Arcadia_Integer<my-mv>Suffix</my-mv>Value</code> in C source code
   where <my-mv>Suffix</my-mv> denotes the number of Bits of the two's complement integer and can be one of <code>8</code>, <code>16</code>, <code>32</code>, or <code>64</code>.
   </my-summary>
-  
+
   <p>
   The following table denotes  the expansions of the macro:
   </p>
@@ -375,7 +375,7 @@ A valid value of the <code>Arcadia_ObjectReferenceValue</code> is the null refer
   <my-summary>
   IEEE 754 binary real number type where <my-mv>Suffix</my-mv> denotes the number of Bits of the type and can be one of <code>32</code> or <code>64</code>.
   </my-summary>
-  
+
 <h3 id="Arcadia_Real*Value_NumberOfBits">Arcadia_Real*Value_NumberOfBits</h3>
 
   <p>The macros in this section all include the <my-mv>Suffix</my-mv> metavariable and are defined for the
@@ -403,36 +403,16 @@ A valid value of the <code>Arcadia_ObjectReferenceValue</code> is the null refer
   The value is always equal to <code>Arcadia_Real<my-mv>Suffix</my-mv>Value_NumberOfBits</code> divided by 8.
   </my-summary>
 
-<h3 id="Arcadia_Real*Value_Minimum">Arcadia_Real*Value_Minimum</h3>
-
-  <my-signature><code>
-  #define Arcadia_Real<my-mv>Suffix</my-mv>Value_Minimum <my-mv>implementation detail</my-mv>
-  </code></my-signature>
-  
-  <my-summary>
-  The least value representable by a the <code>Arcadia_Real<my-mv>Suffix</my-mv>Value</code> type
-  where <my-mv>Suffix</my-mv> denotes the number of Bits of the type and can be one of <code>32</code> or <code>64</code>.
-  </my->summary>
-  
-  <p>
-  The following table denotes the value of the constant for the respective <code><my-mv>Suffix</my-mv></code>
-  </p>
-  <table>
-  <tr><td><my-mv>Suffix</my-mv></td><td>Value</td></tr>
-  <tr><td>32                   </td><td><code>-FLT_MAX</code></td></tr>
-  <tr><td>64                   </td><td><code>-DBL_MAX</code></td></tr>
-  </table>
-
 <h3 id="Arcadia_Real*Value_Maximum">Arcadia_Real*Value_Maximum</h3>
 
   <my-signature><code>
   #define Arcadia_Real<my-mv>Suffix</my-mv>Value_Maximum <my-mv>implementation detail</my-mv>
   </code></my-signature>
-  
+
   <my-summary>
   The greatest value representable by a the <code>Arcadia_Real<my-mv>Suffix</my-mv>Value</code> type.
   </my-summary>
-  
+
   <p>
   The following table denotes the value of the constant for the respective <code><span>Suffix</span></code>
   </p>
@@ -440,6 +420,26 @@ A valid value of the <code>Arcadia_ObjectReferenceValue</code> is the null refer
   <tr><td><code><span>Constant</span></code></td><td>Value</td></tr>
   <tr><td>32                                </td><td><code>+FLT_MAX</code></td></tr>
   <tr><td>64                                </td><td><code>+DBL_MAX</code></td></tr>
+  </table>
+
+<h3 id="Arcadia_Real*Value_Minimum">Arcadia_Real*Value_Minimum</h3>
+
+  <my-signature><code>
+  #define Arcadia_Real<my-mv>Suffix</my-mv>Value_Minimum <my-mv>implementation detail</my-mv>
+  </code></my-signature>
+
+  <my-summary>
+  The least value representable by a the <code>Arcadia_Real<my-mv>Suffix</my-mv>Value</code> type
+  where <my-mv>Suffix</my-mv> denotes the number of Bits of the type and can be one of <code>32</code> or <code>64</code>.
+  </my->summary>
+
+  <p>
+  The following table denotes the value of the constant for the respective <code><my-mv>Suffix</my-mv></code>
+  </p>
+  <table>
+  <tr><td><my-mv>Suffix</my-mv></td><td>Value</td></tr>
+  <tr><td>32                   </td><td><code>-FLT_MAX</code></td></tr>
+  <tr><td>64                   </td><td><code>-DBL_MAX</code></td></tr>
   </table>
 
 <section class="cxx entity procedure">
@@ -489,13 +489,13 @@ A valid value of the <code>Arcadia_ObjectReferenceValue</code> is the null refer
   <my-summary>
   An alias for the builtin <code>size_t</code> type.
   </my-summary>
-  
+
 <h3 id="Arcadia_SizeValue_NumberOfBits">Arcadia_SizeValue_NumberOfBits</h3>
 
   <my-signature><code>
   #define Arcadia_SizeValue_NumberOfBits <my-mv>implementation detail</my-mv>
   </code></my-signature>
-  
+
   <my-summary>
   The number of Bits of a value of the type <code>Arcadia_SizeValue</code> occupies.
   This is a positive multiple of 8.
@@ -508,10 +508,20 @@ A valid value of the <code>Arcadia_ObjectReferenceValue</code> is the null refer
   <my-signature><code>
   #define Arcadia_SizeValue_NumberOfBytes <my-mv>implementation detail</my-mv>
   </code></my-signature>
-  
+
   <my-summary>
   The number of Bytes a value of the type <code>Arcadia_SizeValue</code> occupies.
   The value is always equal to <code>Arcadia_SizeValue</code> divided by 8.
+  </my-summary>
+
+<h3 id="Arcadia_SizeValue_Maximum">Arcadia_SizeValue_Maximum</h3>
+
+  <my-signature><code>
+  #define Arcadia_SizeValue_Maximum <my-mv>implementation detail</my-mv>
+  </code></my-signature>
+
+  <my-summary>
+  The greatest value representable by a the <code>Arcadia_SizeValue</code> type.
   </my-summary>
 
 <h3 id="Arcadia_SizeValue_Minimum">Arcadia_SizeValue_Minimum</h3>
@@ -519,27 +529,17 @@ A valid value of the <code>Arcadia_ObjectReferenceValue</code> is the null refer
   <my-signature><code>
   #define Arcadia_SizeValue_Minimum <my-mv>implementation detail</my-mv>
   </code></my-signature>
-  
+
   <my-signature>
   The least value representable by a the <code>Arcadia_SizeValue</code> type.
   </my-signature>
 
-<h3 id="Arcadia_SizeValue_Maximum">Arcadia_SizeValue_Maximum</h3>
-
-  <my-signature><code>
-  #define Arcadia_SizeValue_Maximum <my-mv>implementation detail</my-mv>
-  </code></my-signature>
-  
-  <my-summary>
-  The greatest value representable by a the <code>Arcadia_SizeValue</code> type.
-  </my-summary>
-
-<h3 id="Arcadia_SizeValue_Maximum">Arcadia_SizeValue_Maximum</h3>
+<h3 id="Arcadia_SizeValue_Literal">Arcadia_SizeValue_Literal</h3>
 
   <my-signature><code>
   #define Arcadia_SizeValue_Literal(x) <my-mv>implementation detail</my-mv>
   </code></my-signature>
-  
+
   <my-summary>
   Macro used to write a literal of the type <code>Arcadia_SizeValue</code> in C source code.
   </my-summary>
@@ -587,7 +587,7 @@ A valid value of the <code>Arcadia_ObjectReferenceValue</code> is the null refer
   The value is always equal to <code>Arcadia_VoidValue</code> divided by 8.
   </my-summary>
 
-<h3 id="value-type">Value Type</h3>
+<h3 id="Arcadia_Value">Arcadia_Value</h3>
 <p>
 <code>Arcadia_Value</code> is a tagged union of values supported by the
 runtime. It consists of a tag indicating the value stored in the
@@ -595,8 +595,8 @@ union and the union of the values. The following table lists all
 possible tags and their corresponding type.
 </p>
 <table>
-  <tr><td>Tag                       </td><td>Type                  </td></tr>
-
+  <tr><td>Tag                             </td><td>Type                        </td></tr>
+  <tr><td>Arcadia_ValueTag_Atom           </td><td>Arcadia_AtomValue           </td></tr>
   <tr><td>Arcadia_ValueTag_Boolean        </td><td>Arcadia_BooleanValue        </td></tr>
 
   <tr><td>Arcadia_ValueTag_Integer16      </td><td>Arcadia_Integer16Value      </td></tr>
@@ -611,7 +611,12 @@ possible tags and their corresponding type.
 
   <tr><td>Arcadia_ValueTag_ObjectReference</td><td>Arcadia_ObjectReferenceValue</td></tr>
 
+  <tr><td>Arcadia_ValueTag_Real32         </td><td>Arcadia_Real32Value         </td></tr>
+  <tr><td>Arcadia_ValueTag_Real64         </td><td>Arcadia_Real64Value         </td></tr>
+
   <tr><td>Arcadia_ValueTag_Size           </td><td>Arcadia_SizeValue           </td></tr>
+
+  <tr><td>Arcadia_ValueTag_Type           </td><td>Arcadia_TypeValue           </td></tr>
 
   <tr><td>Arcadia_ValueTag_Void           </td><td>Arcadia_VoidValue           </td></tr>
 </table>
@@ -627,6 +632,7 @@ void Arcadia_Value_set<my-mv>Suffix</my-mv>(Arcadia_Value* value, Arcadia_<my-mv
 <p>The following table lists the valid combinations of <my-mv>Suffix</my-mv> and <my-mv>Variable</my-mv></p>
 
 <table>
+  <tr><td>Atom           </td><td>atom           </td></tr>
   <tr><td>Boolean        </td><td>boolean        </td></tr>
 
   <tr><td>Integer16      </td><td>integer16      </td></tr>
@@ -638,10 +644,15 @@ void Arcadia_Value_set<my-mv>Suffix</my-mv>(Arcadia_Value* value, Arcadia_<my-mv
   <tr><td>Natural32      </td><td>natural32      </td></tr>
   <tr><td>Natural64      </td><td>natural64      </td></tr>
   <tr><td>Natural8       </td><td>natural8       </td></tr>
+
+  <tr><td>Real32         </td><td>reall32        </td></tr>
+  <tr><td>Real64         </td><td>real64         </td></tr>
   
   <tr><td>ObjectReference</td><td>objectReference</td></tr>
 
   <tr><td>Size           </td><td>size           </td></tr>
+
+  <tr><td>Type           </td><td>type           </td></tr>
 
   <tr><td>Void           </td><td>void           </td></tr>
 </table>
@@ -656,6 +667,75 @@ a value of the type corresponding to <my-mv>Suffix</my-mv>.</p>
 the <code>Arcadia_Value</code>. The behavior of <code>Arcadia_Value_set<my-mv>Suffix
 </my-mv></code> is undefined if the value does not store a value of  the
 type corresponding to <my-mv>Suffix</my-mv>.</p>
+
+
+<h4>hash</h4>
+<p><code>
+Arcadia_Size
+Arcadia_Value_hash
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Value* self
+  );
+</code></p>
+<p>Get the hash value of this <code>Arcadia_Value</code>.</p>
+
+<h5>Parameters</h5>
+<table>
+  <tr><td>thread</td><td>A pointer to the <code>Arcadia_Thread</code> object.</td></tr>
+  <tr><td>self</td><td>A pointer to this <code>Arcadia_Value</code> object.</td></tr>
+</table>
+
+<h5>Return value</h5>
+<p>The hash of the value of the value of this<code>Arcadia_Value</code> object.</p>
+
+<h4>isEqualTo</h4>
+<p><code>
+Arcadia_BooleanValue
+Arcadia_Value_isEqualTo
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Value* self,
+    Arcadia_Value* other
+  );
+</code></p>
+<p>Compare the value of this <code>Arcadia_Value</code> object to the value of another <code>Arcadia_Value</code> object.</p>
+
+<h5>Parameters</h5>
+<table>
+  <tr><td>thread</td><td>A pointer to the <code>Arcadia_Thread</code> object.</td></tr>
+  <tr><td>self</td><td>A pointer to this <code>Arcadia_Value</code> object.</td></tr>
+  <tr><td>object</td><td>A pointer to the other <code>Arcadia_Value</code> object.</td></tr>
+</table>
+
+<h5>Return value</h5>
+<p>
+<code>Arcadia_BooleanValue_True</code> if the value of this <code>Arcadia_Value</code> object is equal to the value of the other <code>Arcadia_Value</code> object.
+<code>Arcadia_BooleanValue_False</code> otherwise.
+</p>
+
+
+<h4>isEqualTo</h4>
+<p><code>
+Arcadia_TypeValue
+Arcadia_Value_isEqualTo
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Value* self
+  );
+</code></p>
+<p>Get thet type of the value of this <code>Arcadia_Value</code> object.</p>
+
+<h5>Parameters</h5>
+<table>
+  <tr><td>thread</td><td>A pointer to the <code>Arcadia_Thread</code> object.</td></tr>
+  <tr><td>self</td><td>A pointer to this <code>Arcadia_Value</code> object.</td></tr>
+ </table>
+
+<h5>Return value</h5>
+<p>
+The type of the value of this <code>Arcadia_Value</code> object.
+</p>
 
   <h3 id="status-codes">Status Codes</h3>
   <p>
@@ -812,6 +892,46 @@ type corresponding to <my-mv>Suffix</my-mv>.</p>
 <h3>Numeric functions</h3>
 <section class="cxx entity procedure">
 
+  <h1 id="Arcadia_ceil*">Arcadia_ceil*</h1>
+
+  <my-signature><code>
+  <my-mv>Type</my-mv><br>
+  Arcadia_ceil<my-mv>Suffix</my-mv><br>
+  &nbsp;(<br>
+  &nbsp;&nbsp;Arcadia_Thread* thread,<br>
+  &nbsp;&nbsp;<my-mv>Type</my-mv> x<br>
+  &nbsp;)
+  </code></my-signature>
+
+  <my-summary>Compute the least integer not less than <code>x</code>.</my-summary>
+
+  <p>The following table lists the combinations of <my-mv>Type</my-mv> and <my-mv>Suffix</my-mv> for which the above functions are defined</p>
+
+  <table>
+  <tr><td><my-mv>Suffix</my-mv></td><td><my-mv>Type</my-mv></td></tr>
+  <tr><td><code>Real32Value</code>    </td><td><code>Arcadia_Real32Value</code></td></tr>
+  <tr><td><code>Real64Value</code>    </td><td><code>Arcadia_Real64Value</code></td></tr>
+  </table>
+
+  <section class="cxx parameters">
+    <h1>Parameters</h1>
+    <div><div>Arcadia_Thread* thread</div><div>A pointer to the <code>Arcadia_Thread</code> object.</div></div>
+    <div><div><my-mv>Type</my-mv> x</div><div>The value to compute the ceil of.</div></div>
+  </section>
+
+  <p>
+  If <code>x</code> is ±0, ±∞, or not a number, then <code>x</code> is returned.
+  </p>
+
+  <section class="cxx return-value">
+    <h1>Return value</h1>
+    <p>The ceil of <code>x</code>.</p>
+  </section>
+
+</section>
+
+<section class="cxx entity procedure">
+
   <h1 id="Arcadia_clamp*">Arcadia_clamp*</h1>
 
   <my-signature><code>
@@ -861,6 +981,48 @@ type corresponding to <my-mv>Suffix</my-mv>.</p>
   <section class="cxx return-value">
     <h1>Return value</h1>
     <p>The value <code>value</code> clamped to the range <code>[lower, upper]</code>.</p>
+  </section>
+
+</section>
+
+<section class="cxx entity procedure">
+
+  <h1 id="Arcadia_cos*">Arcadia_cos*</h1>
+
+  <my-signature><code>
+  <my-mv>Type</my-mv><br>
+  Arcadia_cos<my-mv>Suffix</my-mv><br>
+  &nbsp;(<br>
+  &nbsp;&nbsp;Arcadia_Thread* thread,<br>
+  &nbsp;&nbsp;<my-mv>Type</my-mv> x<br>
+  &nbsp;)
+  </code></my-signature>
+
+  <my-summary>Compute the cosine of <code>x</code>.</my-summary>
+
+  <p>The following table lists the combinations of <my-mv>Type</my-mv> and <my-mv>Suffix</my-mv> for which the above functions are defined</p>
+
+  <table>
+  <tr><td><my-mv>Suffix</my-mv></td><td><my-mv>Type</my-mv></td></tr>
+  <tr><td><code>Real32Value</code>    </td><td><code>Arcadia_Real32Value</code></td></tr>
+  <tr><td><code>Real64Value</code>    </td><td><code>Arcadia_Real64Value</code></td></tr>
+  </table>
+
+  <section class="cxx parameters">
+    <h1>Parameters</h1>
+    <div><div>Arcadia_Thread* thread</div><div>A pointer to the <code>Arcadia_Thread</code> object.</div></div>
+    <div><div><my-mv>Type</my-mv> x</div><div>The value to compute the cosine of.</div></div>
+  </section>
+
+  <p>
+  This function returns the cosine <code>x</code>.
+  If <code>x</code> is ±0 then the result is 1.
+  If <code>x</code> is ±∞ or not a number then the result is not a number.
+  </p>
+
+  <section class="cxx return-value">
+    <h1>Return value</h1>
+    <p>The cosine of <code>x</code>.</p>
   </section>
 
 </section>
@@ -958,6 +1120,93 @@ type corresponding to <my-mv>Suffix</my-mv>.</p>
   </section>
 
 </section>
+<section class="cxx entity procedure">
+
+  <h1 id="Arcadia_countTrailingZeroes*">Arcadia_countTrailingZeroes*</h1>
+
+  <my-signature><code>
+  Arcadia_SizeValue<br>
+  Arcadia_countTrailingZeroes<my-mv>Suffix</my-mv><br>
+  &nbsp;(<br>
+  &nbsp;&nbsp;Arcadia_Thread* thread,<br>
+  &nbsp;&nbsp;<my-mv>Type</my-mv> value<br>
+  &nbsp;)
+  </code></my-signature>
+
+  <my-summary>Return the number of trailing zeroes of the binary representation of a value.</my-summary>
+
+  <p>The following table lists the combinations of <my-mv>Type</my-mv> and <my-mv>Suffix</my-mv> for which the above functions are defined</p>
+
+  <table>
+  <tr><td><my-mv>Suffix</my-mv></td><td><my-mv>Type</my-mv></td></tr>
+  <tr><td><code>Integer8Value</code>  </td><td><code>Arcadia_Integer8Value</code></td></tr>
+  <tr><td><code>Integer16Value</code> </td><td><code>Arcadia_Integer16Value</code></td></tr>
+  <tr><td><code>Integer32Value</code> </td><td><code>Arcadia_Integer32Value</code></td></tr>
+  <tr><td><code>Integer64Value</code> </td><td><code>Arcadia_Integer64Value</code></td></tr>
+  <tr><td><code>Natural8Value</code>  </td><td><code>Arcadia_Natural8Value</code></td></tr>
+  <tr><td><code>Natural16Value</code> </td><td><code>Arcadia_Natural16Value</code></td></tr>
+  <tr><td><code>Natural32Value</code> </td><td><code>Arcadia_Natural32Value</code></td></tr>
+  <tr><td><code>Natural64Value</code> </td><td><code>Arcadia_Natural64Value</code></td></tr>
+  <tr><td><code>SizeValue</code>      </td><td><code>Arcadia_SizeValue</code></td></tr>
+  </table>
+
+  <p>This function returns the number of trailing zeroes of the binary representation of <code>value</code>.</p>
+
+  <section class="cxx parameters">
+    <my-parameters>Parameters</my-parameters>
+    <table>
+      <tr><td>Arcadia_Thread* thread</td><td>A pointer to the <code>Arcadia_Thread</code> object.</td></tr>
+      <tr><td><my-mv>Type</my-mv> value</td><td>The value.</td></tr>
+    </table>
+  </section>
+
+  <section class="cxx return-value">
+    <my-return-value>Return value</my-return-value>
+    <p>The number of leading zeroes.</p>
+  </section>
+
+</section>
+
+<section class="cxx entity procedure">
+
+  <h1 id="Arcadia_floor*">Arcadia_floor*</h1>
+
+  <my-signature><code>
+  <my-mv>Type</my-mv><br>
+  Arcadia_floor<my-mv>Suffix</my-mv><br>
+  &nbsp;(<br>
+  &nbsp;&nbsp;Arcadia_Thread* thread,<br>
+  &nbsp;&nbsp;<my-mv>Type</my-mv> x<br>
+  &nbsp;)
+  </code></my-signature>
+
+  <my-summary>Compute the greatest integer value not greater than <code>x</code>.</my-summary>
+
+  <p>The following table lists the combinations of <my-mv>Type</my-mv> and <my-mv>Suffix</my-mv> for which the above functions are defined</p>
+
+  <table>
+  <tr><td><my-mv>Suffix</my-mv></td><td><my-mv>Type</my-mv></td></tr>
+  <tr><td><code>Real32Value</code>    </td><td><code>Arcadia_Real32Value</code></td></tr>
+  <tr><td><code>Real64Value</code>    </td><td><code>Arcadia_Real64Value</code></td></tr>
+  </table>
+
+  <section class="cxx parameters">
+    <h1>Parameters</h1>
+    <div><div>Arcadia_Thread* thread</div><div>A pointer to the <code>Arcadia_Thread</code> object.</div></div>
+    <div><div><my-mv>Type</my-mv> x</div><div>The value to compute the floor of.</div></div>
+  </section>
+
+  <p>
+  If <code>x</code> is ±0, ±∞, or not a number, then <code>x</code> is returned.
+  </p>
+
+  <section class="cxx return-value">
+    <h1>Return value</h1>
+    <p>The floor of <code>x</code>.</p>
+  </section>
+
+</section>
+
 <section class="cxx entity procedure">
 
   <h1 id="Arcadia_hash*">Arcadia_hash*</h1>
@@ -1395,9 +1644,50 @@ type corresponding to <my-mv>Suffix</my-mv>.</p>
 
 </section>
 
+<section class="cxx entity procedure">
+
+  <h1 id="Arcadia_sin*">Arcadia_sin*</h1>
+
+  <my-signature><code>
+  <my-mv>Type</my-mv><br>
+  Arcadia_sin<my-mv>Suffix</my-mv><br>
+  &nbsp;(<br>
+  &nbsp;&nbsp;Arcadia_Thread* thread,<br>
+  &nbsp;&nbsp;<my-mv>Type</my-mv> x<br>
+  &nbsp;)
+  </code></my-signature>
+
+  <my-summary>Compute the sine of <code>x</code>.</my-summary>
+
+  <p>The following table lists the combinations of <my-mv>Type</my-mv> and <my-mv>Suffix</my-mv> for which the above functions are defined</p>
+
+  <table>
+  <tr><td><my-mv>Suffix</my-mv></td><td><my-mv>Type</my-mv></td></tr>
+  <tr><td><code>Real32Value</code>    </td><td><code>Arcadia_Real32Value</code></td></tr>
+  <tr><td><code>Real64Value</code>    </td><td><code>Arcadia_Real64Value</code></td></tr>
+  </table>
+
+  <section class="cxx parameters">
+    <h1>Parameters</h1>
+    <div><div>Arcadia_Thread* thread</div><div>A pointer to the <code>Arcadia_Thread</code> object.</div></div>
+    <div><div><my-mv>Type</my-mv> x</div><div>The value to compute the sine of.</div></div>
+  </section>
+
+  <p>
+  This function returns the sine <code>x</code>.
+  If <code>x</code> is ±0 then the result is 0.
+  If <code>x</code> is ±∞ or not a number then the result is not a number.
+  </p>
+
+  <section class="cxx return-value">
+    <h1>Return value</h1>
+    <p>The sine of <code>x</code>.</p>
+  </section>
+
+</section>
+
 
 <h3>Time and Date Functions</h3>
-
 <section class="cxx entity procedure">
 
   <h1 id="Arcadia_getTickCount">Arcadia_getTickCount</h1>
@@ -1427,11 +1717,11 @@ type corresponding to <my-mv>Suffix</my-mv>.</p>
 
 </section>
 
-<h3>Unicode Functions</h3>
 
+<h3>Unicode Functions</h3>
 <section class="cxx entity procedure">
 
-  <h1 id="arcadia-isutf8">Arcadia_isUtf8</h1>
+  <h1 id="Arcadia_isUtf8">Arcadia_isUtf8</h1>
 
   <my-signature><code>
   Arcadia_BooleanValue<br>
@@ -1467,189 +1757,133 @@ type corresponding to <my-mv>Suffix</my-mv>.</p>
 
 </section>
 
-<h3 id="Arcadia_Value">Arcadia_Value</h3>
-<p>
-<code>Arcadia_Value</code> is a tagged union of values supported by the
-runtime. It consists of a tag indicating the value stored in the
-union and the union of the values. The following table lists all
-possible tags and their corresponding type.
-</p>
-<table>
-  <tr><td>Tag                             </td><td>Type                        </td></tr>
-  <tr><td>Arcadia_ValueTag_Atom n         </td><td>Arcadia_AtomValue           </td></tr>
-  <tr><td>Arcadia_ValueTag_Boolean        </td><td>Arcadia_BooleanValue        </td></tr>
 
-  <tr><td>Arcadia_ValueTag_Integer16      </td><td>Arcadia_Integer16Value      </td></tr>
-  <tr><td>Arcadia_ValueTag_Integer32      </td><td>Arcadia_Integer32Value      </td></tr>
-  <tr><td>Arcadia_ValueTag_Integer64      </td><td>Arcadia_Integer64Value      </td></tr>
-  <tr><td>Arcadia_ValueTag_Integer8       </td><td>Arcadia_Integer8Value       </td></tr>
+<h3>Miscellaneous Functions</h3>
+<section class="cxx entity procedure">
 
-  <tr><td>Arcadia_ValueTag_Natural16      </td><td>Arcadia_Natural16Value      </td></tr>
-  <tr><td>Arcadia_ValueTag_Natural32      </td><td>Arcadia_Natural32Value      </td></tr>
-  <tr><td>Arcadia_ValueTag_Natural64      </td><td>Arcadia_Natural64Value      </td></tr>
-  <tr><td>Arcadia_ValueTag_Natural8       </td><td>Arcadia_Natural8Value       </td></tr>
+  <h1 id="Arcadia_getNumberOfCores">Arcadia_getNumberOfCores</h1>
 
-  <tr><td>Arcadia_ValueTag_ObjectReference</td><td>Arcadia_ObjectReferenceValue</td></tr>
-
-  <tr><td>Arcadia_ValueTag_Real32         </td><td>Arcadia_Real32Value         </td></tr>
-  <tr><td>Arcadia_ValueTag_Real64         </td><td>Arcadia_Real64Value         </td></tr>
-
-  <tr><td>Arcadia_ValueTag_Size           </td><td>Arcadia_SizeValue           </td></tr>
-
-  <tr><td>Arcadia_ValueTag_Type           </td><td>Arcadia_TypeValue           </td></tr>
-
-  <tr><td>Arcadia_ValueTag_Void           </td><td>Arcadia_VoidValue           </td></tr>
-</table>
-
-<p>
-For each type, <code>Arcadia_Value</code> has three functions associated:
-</p>
-<p><code>
-<my-mv>Type</my-mv> Arcadia_Value_get<my-mv>Suffix</my-mv>(Arcadia_Value const* value)<br>
-bool Arcadia_Value_is<my-mv>Suffix</my-mv>(Arcadia_Value const* value)<br>
-void Arcadia_Value_set<my-mv>Suffix</my-mv>(Arcadia_Value* value, Arcadia_<my-mv>Suffix</my-mv>Value <my-mv>Variable</my-mv>Value)
-</code></p>
-<p>The following table lists the valid combinations of <my-mv>Suffix</my-mv> and <my-mv>Variable</my-mv></p>
-
-<table>
-  <tr><td>Atom           </td><td>atom           </td></tr>
-  <tr><td>Boolean        </td><td>boolean        </td></tr>
-
-  <tr><td>Integer16      </td><td>integer16      </td></tr>
-  <tr><td>Integer32      </td><td>integer32      </td></tr>
-  <tr><td>Integer64      </td><td>integer64      </td></tr>
-  <tr><td>Integer8       </td><td>integer8       </td></tr>
-
-  <tr><td>Natural16      </td><td>natural16      </td></tr>
-  <tr><td>Natural32      </td><td>natural32      </td></tr>
-  <tr><td>Natural64      </td><td>natural64      </td></tr>
-  <tr><td>Natural8       </td><td>natural8       </td></tr>
-
-  <tr><td>Real32         </td><td>reall32        </td></tr>
-  <tr><td>Real64         </td><td>real64         </td></tr>
+  <my-signature><code>
+  Arcadia_Natural64Value<br>
+  Arcadia_getNumberOfCores<br>
+  &nbsp;(<br>
+  &nbsp;&nbsp;Arcadia_Thread* thread<br>
+  &nbsp;)
+  </code></my-signature>
   
-  <tr><td>ObjectReference</td><td>objectReference</td></tr>
+  <my-summary>Get the number of CPU cores.</my-summary>
 
-  <tr><td>Size           </td><td>size           </td></tr>
+  <section class="cxx parameters">
+    <h1>Parameters</h1>
+    <div><div>Arcadia_Thread* thread</div><div>A pointer to the <code>Arcadia_Thread</code> object.</div></div>
+  </section>
 
-  <tr><td>Type           </td><td>type           </td></tr>
+  <section class="cxx return-value">
+    <h1>Return value</h1>
+    <p>
+    The number of CPU cores.
+    </p>
+  </section>
 
-  <tr><td>Void           </td><td>void           </td></tr>
-</table>
+</section>
 
-<p><code>Arcadia_Value_is<my-mv>Suffix</my-mv></code> returns <code>true</code> if
-the <code>Arcadia_Value</code> stores a value of the type corresponding to <my-mv>Suffix</my-mv>. Otherwise it returns <code>false</code>.</p>
+<section class="cxx entity procedure">
 
-<p><code>Arcadia_Value_set<my-mv>Suffix</my-mv></code> assigns the <code>Arcadia_Value</code>
-a value of the type corresponding to <my-mv>Suffix</my-mv>.</p>
+  <h1 id="Arcadia_getPageSize">Arcadia_getPageSize</h1>
 
-<p><code>Arcadia_Value_get<my-mv>Type</my-mv></code> get the value stored   in
-the <code>Arcadia_Value</code>. The behavior of <code>Arcadia_Value_set<my-mv>Suffix
-</my-mv></code> is undefined if the value does not store a value of  the
-type corresponding to <my-mv>Suffix</my-mv>.</p>
+  <my-signature><code>
+  Arcadia_Natural64Value<br>
+  Arcadia_getPageSize<br>
+  &nbsp;(<br>
+  &nbsp;&nbsp;Arcadia_Thread* thread<br>
+  &nbsp;)
+  </code></my-signature>
+  
+  <my-summary>Get the memory page size.</my-summary>
 
+  <section class="cxx parameters">
+    <h1>Parameters</h1>
+    <div><div>Arcadia_Thread* thread</div><div>A pointer to the <code>Arcadia_Thread</code> object.</div></div>
+  </section>
 
+  <section class="cxx return-value">
+    <h1>Return value</h1>
+    <p>
+    The memory page size.
+    </p>
+  </section>
 
+</section>
 
-<h4>hash</h4>
-<p><code>
-Arcadia_Size
-Arcadia_Value_hash
-  (
-    Arcadia_Process* process,
-    Arcadia_Value* self
-  );
-</code></p>
-<p>Get the hash value of this <code>Arcadia_Value</code>.</p>
-
-<h5>Parameters</h5>
-<table>
-  <tr><td>process</td><td>A pointer to the <code>Arcadia_Process</code> object.</td></tr>
-  <tr><td>self</td><td>A pointer to this <code>Arcadia_Value</code> object.</td></tr>
-</table>
-
-<h5>Return value</h5>
-<p>The hash of the value of the value of this<code>Arcadia_Value</code> object.</p>
-
-
-
-
-<h4>isEqualTo</h4>
-<p><code>
-Arcadia_BooleanValue
-Arcadia_Value_isEqualTo
-  (
-    Arcadia_Process* process,
-    Arcadia_Value* self,
-    Arcadia_Value* other
-  );
-</code></p>
-<p>Compare the value of this <code>Arcadia_Value</code> object to the value of another <code>Arcadia_Value</code> object.</p>
-
-<h5>Parameters</h5>
-<table>
-  <tr><td>process</td><td>A pointer to the <code>Arcadia_Process</code> object.</td></tr>
-  <tr><td>self</td><td>A pointer to this <code>Arcadia_Value</code> object.</td></tr>
-  <tr><td>object</td><td>A pointer to the other <code>Arcadia_Value</code> object.</td></tr>
-</table>
-
-<h5>Return value</h5>
-<p>
-<code>Arcadia_BooleanValue_True</code> if the value of this <code>Arcadia_Value</code> object is equal to the value of the other <code>Arcadia_Value</code> object.
-<code>Arcadia_BooleanValue_False</code> otherwise.
-</p>
-
-
-
-<h4>isEqualTo</h4>
-<p><code>
-Arcadia_TypeValue
-Arcadia_Value_isEqualTo
-  (
-    Arcadia_Process* process,
-    Arcadia_Value* self
-  );
-</code></p>
-<p>Get thet type of the value of this <code>Arcadia_Value</code> object.</p>
-
-<h5>Parameters</h5>
-<table>
-  <tr><td>process</td><td>A pointer to the <code>Arcadia_Process</code> object.</td></tr>
-  <tr><td>self</td><td>A pointer to this <code>Arcadia_Value</code> object.</td></tr>
- </table>
-
-<h5>Return value</h5>
-<p>
-The type of the value of this <code>Arcadia_Value</code> object.
-</p>
 
   </div>
   <div class="right-column">
     <nav>
       <ul style="list-style: none">
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_BooleanValue">Arcadia_BooleanValue</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_ceil*">Arcadia_ceil*</a></li>
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_clamp*">Arcadia_clamp*</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_cos*">Arcadia_cos*</a></li>
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_countLeadingZeroes*">Arcadia_countLeadingZeroes*</a></li>
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_countSignificandBits*">Arcadia_countSignificandBits*</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_countTrailingZeroes*">Arcadia_countTrailingZeroes*</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_floor*">Arcadia_floor*</a></li>
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_ForeignProcedureValue">Arcadia_ForeignProcedureValue</a></li>
+        
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_getNumberOfCores">Arcadia_getNumberOfCores</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_getPageSize">Arcadia_getPageSize</a></li>             
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_getTickCount">Arcadia_getTickCount</a></li>
+        
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_hash*">Arcadia_hash*</a></li>
+
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Integer*Value">Arcadia_Integer*Value</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Integer*Value_NumberOfBits">Arcadia_Integer*Value_NumberOfBits</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Integer*Value_NumberOfBytes">Arcadia_Integer*Value_NumberOfBytes</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Integer*Value_Maximum">Arcadia_Integer*Value_Maximum</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Integer*Value_Minimum">Arcadia_Integer*Value_Minimum</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Integer*Value_Literal">Arcadia_Integer*Value_Literal</a></li>
+
+
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_isUtf8">Arcadia_isUtf8</a></li>
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_maximum*">Arcadia_maximum*</a></li>
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_minimum*">Arcadia_minimum*</a></li>
+
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Natural*Value">Arcadia_Natural*Value</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Natural*Value_NumberOfBits">Arcadia_Natural*Value_NumberOfBits</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Natural*Value_NumberOfBytes">Arcadia_Natural*Value_NumberOfBytes</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Natural*Value_Maximum">Arcadia_Natural*Value_Maximum</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Natural*Value_Minimum">Arcadia_Natural*Value_Minimum</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Natural*Value_Literal">Arcadia_Natural*Value_Literal</a></li>
+
+
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_nextPowerOfTwoGreaterThan*">Arcadia_nextPowerOfTwoGreaterThan*</a></li>
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_nextPowerOfTwoGreaterThanOrEqualTo*">Arcadia_nextPowerOfTwoGreaterThanOrEqualTo*</a></li>
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_ObjectReferenceValue">Arcadia_ObjectReferenceValue</a></li>
-        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_quotiendRemainder*">Arcadia_quotientRemainder*</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_quotientRemainder*">Arcadia_quotientRemainder*</a></li>
+
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Real*Value">Arcadia_Real*Value</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Real*Value_NumberOfBits">Arcadia_Real*Value_NumberOfBits</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Real*Value_NumberOfBytes">Arcadia_Real*Value_NumberOfBytes</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Real*Value_Maximum">Arcadia_Real*Value_Maximum</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Real*Value_Minimum">Arcadia_Real*Value_Minimum</a></li>
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Real*Value_getBits">Arcadia_Real*Value_getBits</a></li>
+
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_safeAdd*">Arcadia_safeAdd*</a></li>
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_safeMultiply*">Arcadia_safeMultiply*</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_sin*">Arcadia_sin*</a></li>
+
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_SizeValue">Arcadia_SizeValue</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_SizeValue_NumberOfBits">Arcadia_SizeValue_NumberOfBits</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_SizeValue_NumberOfBytes">Arcadia_SizeValue_NumberOfBytes</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_SizeValue_Maximum">Arcadia_SizeValue_Maximum</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_SizeValue_Minimum">Arcadia_SizeValue_Minimum</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_SizeValue_Literal">Arcadia_SizeValue_Literal</a></li>
+
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_Value">Arcadia_Value</a></li>
+
         <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_VoidValue">Arcadia_VoidValue</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_VoidValue_NumberOfBits">Arcadia_VoidValue_NumberOfBits</a></li>
+        <li><a href="https://michaelheilmann.com/repository/Arcadia.Ring1/#Arcadia_VoidValue_NumberOfBytes">Arcadia_VoidValue_NumberOfBytes</a></li>
       </ul>
     </nav>
   </div>

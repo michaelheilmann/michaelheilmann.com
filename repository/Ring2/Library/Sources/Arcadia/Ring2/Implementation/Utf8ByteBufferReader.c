@@ -13,8 +13,6 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2025-02-15
-
 #define ARCADIA_RING2_PRIVATE (1)
 #include "Arcadia/Ring2/Implementation/Utf8ByteBufferReader.h"
 
@@ -71,7 +69,7 @@ Arcadia_Utf8ByteBufferReader_visit
     Arcadia_Utf8ByteBufferReader* self
   )
 {
-  Arcadia_Object_visit(thread, self->source);
+  Arcadia_Object_visit(thread, (Arcadia_Object*)self->source);
 }
 
 static void
@@ -246,7 +244,7 @@ Arcadia_Utf8ByteBufferReader_constructImpl
   ((Arcadia_Utf8Reader*)_self)->getCodePoint = (Arcadia_Natural32Value (*)(Arcadia_Thread*, Arcadia_Utf8Reader*)) & Arcadia_Utf8ByteBufferReader_getCodePointImpl;
   ((Arcadia_Utf8Reader*)_self)->hasCodePoint = (Arcadia_BooleanValue (*)(Arcadia_Thread*, Arcadia_Utf8Reader*)) &Arcadia_Utf8ByteBufferReader_hasCodePointImpl;
   ((Arcadia_Utf8Reader*)_self)->next = (void (*)(Arcadia_Thread*, Arcadia_Utf8Reader*)) &Arcadia_Utf8ByteBufferReader_nextImpl;
-  Arcadia_Object_setType(thread, _self, _type);
+  Arcadia_Object_setType(thread, (Arcadia_Object*)_self, _type);
 }
 
 Arcadia_Utf8ByteBufferReader*

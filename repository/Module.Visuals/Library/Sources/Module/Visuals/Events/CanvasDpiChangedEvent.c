@@ -13,11 +13,7 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2025-04-19
-
 #include "Module/Visuals/Events/CanvasDpiChangedEvent.h"
-
-#include "R/ArgumentsValidation.h"
 
 static void
 Arcadia_Visuals_CanvasDpiChangedEvent_constructImpl
@@ -75,10 +71,10 @@ Arcadia_Visuals_CanvasDpiChangedEvent_constructImpl
     Arcadia_superTypeConstructor(thread, _type, self, 1, &argumentValues[0]);
   }
   //
-  _self->horizontalDpi = R_Argument_getInteger32Value(thread, &argumentValues[1]);
-  _self->verticalDpi = R_Argument_getInteger32Value(thread, &argumentValues[2]);
+  _self->horizontalDpi = Arcadia_ArgumentsValidation_getInteger32Value(thread, &argumentValues[1]);
+  _self->verticalDpi = Arcadia_ArgumentsValidation_getInteger32Value(thread, &argumentValues[2]);
   //
-  Arcadia_Object_setType(thread, _self, _type);  
+  Arcadia_Object_setType(thread, (Arcadia_Object*)_self, _type);
 }
 
 Arcadia_Visuals_CanvasDpiChangedEvent*

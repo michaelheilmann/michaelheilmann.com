@@ -13,8 +13,6 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-11-11
-
 #include "Module/Visuals/Windows/TemporaryWindow.h"
 
 #define WindowClassName "Arcadia.Visuals.Windows.TemporaryWindow"
@@ -123,7 +121,7 @@ Arcadia_Visuals_Windows_TemporaryWindow_constructImpl
   _self->classAtom = 0;
   _self->windowHandle = NULL;
   _self->deviceContextHandle = NULL;
-  Arcadia_Object_setType(thread, _self, _type);
+  Arcadia_Object_setType(thread, (Arcadia_Object*)_self, _type);
 }
 
 Arcadia_Visuals_Windows_TemporaryWindow*

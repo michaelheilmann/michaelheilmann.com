@@ -13,15 +13,13 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-10-07
-
 #define ARCADIA_RING2_PRIVATE (1)
 #include "Arcadia/Ring2/Implementation/FileHandle.h"
 
+#include "Arcadia/Ring2/Implementation/ArgumentsValidation.h"
 #include "Arcadia/Ring2/Implementation/FileSystem.h"
 #include "Arcadia/Ring2/Implementation/FilePath.h"
 #include "Arcadia/Ring2/Implementation/String.h"
-#include "R/ArgumentsValidation.h"
 
 #define Flags_OpenRead (1)
 
@@ -97,11 +95,11 @@ Arcadia_FileHandle_constructImpl
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
   }
-  _self->fileSystem = R_Argument_getObjectReferenceValue(thread, &argumentValues[0], _Arcadia_FileSystem_getType(thread));
-  Arcadia_Object_lock(thread, _self->fileSystem);
+  _self->fileSystem = Arcadia_ArgumentsValidation_getObjectReferenceValue(thread, &argumentValues[0], _Arcadia_FileSystem_getType(thread));
+  Arcadia_Object_lock(thread, (Arcadia_Object*)_self->fileSystem);
   _self->fd = NULL;
   _self->flags = 0;
-  Arcadia_Object_setType(thread, _self, _type);
+  Arcadia_Object_setType(thread, (Arcadia_Object*)_self, _type);
 }
 
 static void
@@ -118,7 +116,7 @@ Arcadia_FileHandle_destruct
     self->fd = NULL;
     self->flags = 0;
   }
-  Arcadia_Object_unlock(thread, self->fileSystem);
+  Arcadia_Object_unlock(thread, (Arcadia_Object*)self->fileSystem);
   self->fileSystem = NULL;
 }
 
@@ -129,7 +127,7 @@ Arcadia_FileHandle_visit
     Arcadia_FileHandle* self
   )
 {
-  Arcadia_Object_visit(thread, self->fileSystem);
+  Arcadia_Object_visit(thread, (Arcadia_Object*)self->fileSystem);
 }
 
 Arcadia_FileHandle*

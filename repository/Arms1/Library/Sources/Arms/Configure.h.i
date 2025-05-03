@@ -13,13 +13,10 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2025-01-01
+#if !defined(ARCADIA_ARMS_CONFIGURE_H_INCLUDED)
+#define ARCADIA_ARMS_CONFIGURE_H_INCLUDED
 
-#if !defined(ARMS_CONFIGURE_H_INCLUDED)
-#define ARMS_CONFIGURE_H_INCLUDED
-
-// Define to 0 or undefine to disable locks.
-// Note that without locks, ARMS1 will consider any object as dead when invoking Arms_run() which restricts the usage scenarios.
+// Define to 1 to enable locks.
 #define Arms_Configuration_WithLocks (1)
 
 #define Arms_Configuration_InstructionSetArchitecture_Unknown @Arcadia.Arms.InstructionSetArchitecture.Unknown@
@@ -48,4 +45,4 @@
 
 #define Arms_Configuration_CompilerC @Arcadia.Arms.Configuration.Compiler.C@
 
-#endif // ARMS_CONFIGURE_H_INCLUDED
+#endif // ARCADIA_ARMS_CONFIGURE_H_INCLUDED

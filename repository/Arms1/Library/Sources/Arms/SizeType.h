@@ -13,10 +13,8 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-// Last modified: 2024-08-31
-
-#if !defined(ARMS_SIZETYPE_H_INCLUDED)
-#define ARMS_SIZETYPE_H_INCLUDED
+#if !defined(ARCADIA_ARMS_SIZETYPE_H_INCLUDED)
+#define ARCADIA_ARMS_SIZETYPE_H_INCLUDED
 
 // size_t
 #include <stddef.h>
@@ -33,4 +31,4 @@ typedef size_t Arms_Size;
 /// The maximum value of Arms_Size.
 #define Arms_Size_Maximum (SIZE_MAX)
 
-#endif // ARMS_SIZETYPE_H_INCLUDED
+#endif // ARCADIA_ARMS_SIZETYPE_H_INCLUDED
