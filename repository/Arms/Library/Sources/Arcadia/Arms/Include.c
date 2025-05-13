@@ -19,6 +19,7 @@
 #include "Arcadia/Arms/Internal/DefaultMemoryManager.h"
 #include "Arcadia/Arms/Internal/SlabMemoryManager.h"
 #include "Arcadia/Arms/Internal/Statistics.h"
+#include "Arcadia/Arms/NotifyDestroy.h"
 
 #include "Arcadia/Arms/Internal/Common.h"
 
@@ -233,6 +234,16 @@ Arms_startup
     g_locks = NULL;
   #endif
 
+  #if defined(Arcadia_Arms_Configuration_WithNotifyDestroy) && 1 == Arcadia_Arms_Configuration_WithNotifyDestroy
+    if (Arms_NotifyDestroyModule_shutdown()) {
+      Arms_MemoryManager_destroy((Arms_MemoryManager*)g_slabMemoryManager);
+      g_slabMemoryManager = NULL;
+      Arms_MemoryManager_destroy((Arms_MemoryManager*)g_defaultMemoryManager);
+      g_defaultMemoryManager = NULL;
+      return Arcadia_Arms_Status_EnvironmentFailed;
+    }
+  #endif
+
   }
   g_referenceCount++;
   return Arcadia_Arms_Status_Success;
@@ -256,6 +267,9 @@ Arms_shutdown
     if (g_locks) {
       Cxx_fatalError();
     }
+  #endif
+  #if defined(Arcadia_Arms_Configuration_WithNotifyDestroy) && 1 == Arcadia_Arms_Configuration_WithNotifyDestroy
+    Arms_NotifyDestroyModule_shutdown();
   #endif
   #if defined(Arcadia_Arms_Configuration_WithNotifyDestroy) && 1 == Arcadia_Arms_Configuration_WithNotifyDestroy
     Arms_NotifyDestroyModule_shutdown();

@@ -13,13 +13,29 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
+<<<<<<<< HEAD:repository/Ring1/Library/Sources/Arcadia/Ring1/Implementation/Annotations/Likely.h
+#if !defined(ARCADIA_RING1_IMPLEMENTATION_ANNOTATIONS_LIKELY_H_INCLUDED)
+#define ARCADIA_RING1_IMPLEMENTATION_ANNOTATIONS_LIKELY_H_INCLUDED
+========
 // https://michaelheilmann.com/repository/Arcadia.Visuals/#Arcadia_Visuals_MousePointerAction
 enumeration Arcadia.Visuals.MousePointerAction {
 
   Entered = 1,
+>>>>>>>> 550fffe5 (Update Week 2 May 2025):repository/Visuals/Library/Sources/Module/Visuals/Events/MousePointerAction.mil
 
   Exited,
 
+<<<<<<<< HEAD:repository/Ring1/Library/Sources/Arcadia/Ring1/Implementation/Annotations/Likely.h
+// https://michaelheilmann.com/Arcadia/Ring1/#Arcadia_Likely"
+#if (Arcadia_Configuration_CompilerC_Gcc == Arcadia_Configuration_CompilerC || Arcadia_Configuration_CompilerC_Clang == Arcadia_Configuration_CompilerC)
+  #define Arcadia_Likely(expression) (__builtin_expect((expression) ? 1 : 0, 1))
+#else
+  #define Arcadia_Likely(expression) (expression)
+#endif
+
+#endif // ARCADIA_RING1_IMPLEMENTATION_ANNOTATIONS_LIKELY_H_INCLUDED
+========
   Moved,
 
 };
+>>>>>>>> 550fffe5 (Update Week 2 May 2025):repository/Visuals/Library/Sources/Module/Visuals/Events/MousePointerAction.mil
