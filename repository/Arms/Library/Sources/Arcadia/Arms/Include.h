@@ -103,6 +103,10 @@ Arms_removeNotifyDestroy
 
 #endif // Arcadia_Arms_Configuration_WithNotifyDestroy
 
+#if defined(Arcadia_Arms_Configuration_WithBarriers) && 1 == Arcadia_Arms_Configuration_WithBarriers
+
+#endif // Arcadia_Arms_Configuration_WithBarriers
+
 #if defined(Arcadia_Arms_Configuration_WithLocks) && 1 == Arcadia_Arms_Configuration_WithLocks
 
 Arcadia_Arms_Status
