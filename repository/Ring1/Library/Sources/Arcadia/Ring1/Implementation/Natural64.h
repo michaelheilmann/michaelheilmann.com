@@ -52,4 +52,5 @@ Arcadia_declareScalarType(Arcadia_Natural64);
 /// Hence the number hexadecimal digits which can safely be stored in an Arcadia_Natural64Value value is 16.
 #define Arcadia_Natural64Value_MaximumNumberOfHexadecimalDigits (16)
 
+
 #endif // ARCADIA_RING1_IMPLEMENTATION_NATURAL64_H_INCLUDED

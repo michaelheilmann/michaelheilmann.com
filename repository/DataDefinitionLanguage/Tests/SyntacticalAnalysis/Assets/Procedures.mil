@@ -1,0 +1,7 @@
+procedure MyProcedure
+{}
+
+procedure MyProcedure (variable a, variable b)
+{}
+
+procedure native "print" print (variable a)
