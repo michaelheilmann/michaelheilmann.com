@@ -13,26 +13,26 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-#if !defined(ARCADIA_RING1_BIGINTEGER_GETHIGH64_H_INCLUDED)
-#define ARCADIA_RING1_BIGINTEGER_GETHIGH64_H_INCLUDED
+#if !defined(ARCADIA_ARMS_NOTIFYDESTROY_H_INCLUDED)
+#define ARCADIA_ARMS_NOTIFYDESTROY_H_INCLUDED
 
-#if !defined(ARCADIA_RING1_PRIVATE)
-  #error("do not include directly, include `Arcadia/Ring1/Include.h` instead")
-#endif
+#include "Arcadia/Arms/Include.h"
+#include <stdbool.h>
 
-#include "Arcadia/Ring1/Implementation/Boolean.h"
-#include "Arcadia/Ring1/Implementation/Natural64.h"
-
-typedef struct Arcadia_BigInteger Arcadia_BigInteger;
-typedef Arcadia_BigInteger* Arcadia_BigIntegerValue;
-
-// Get the most significant 64 bits.
-Arcadia_Natural64Value
-Arcadia_BigInteger_getHigh64
+/* private */ Arcadia_Arms_Status
+Arms_NotifyDestroyModule_startup
   (
-    Arcadia_Thread* thread,
-    Arcadia_BigInteger* self,
-    Arcadia_BooleanValue* truncated
   );
 
-#endif // ARCADIA_RING1_BIGINTEGER_GETHIGH64_H_INCLUDED
+/* private */ Arcadia_Arms_Status
+Arms_NotifyDestroyModule_shutdown
+  (
+  );
+
+/* private */ void
+Arms_NotifyDestroyModule_notifyDestroy
+  (
+    void* object
+  );
+
+#endif // ARCADIA_ARMS_NOTIFYDESTROY_H_INCLUDED
