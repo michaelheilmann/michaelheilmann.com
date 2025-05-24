@@ -26,3 +26,4 @@ if (NOT MyProjectIsDefined)
 endif()
 
 add_subdirectory(LexicalAnalysis)
+#add_subdirectory(SyntacticalAnalysis)
