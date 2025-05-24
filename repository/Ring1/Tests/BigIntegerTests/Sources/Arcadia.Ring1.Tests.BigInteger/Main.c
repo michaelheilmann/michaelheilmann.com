@@ -14,6 +14,7 @@
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "Arcadia/Ring1/Include.h"
 #include "Arcadia.Ring1.Tests.BigInteger/Additive.h"
@@ -21,6 +22,7 @@
 #include "Arcadia.Ring1.Tests.BigInteger/PowersOf.h"
 #include "Arcadia.Ring1.Tests.BigInteger/QuotientRemainder.h"
 #include "Arcadia.Ring1.Tests.BigInteger/Relational.h"
+#include "Arcadia.Ring1.Tests.BigInteger/Shift.h"
 
 // Regression.
 static void
@@ -84,8 +86,6 @@ test4
   uint64_t v = Arcadia_BigInteger_toNatural64(thread, a);
   Arcadia_Tests_assertTrue(thread, v == 30);
 }
-
-#include <string.h>
 
 static void
 test5
@@ -161,10 +161,13 @@ main
   if (!Arcadia_Tests_safeExecute(&Arcadia_Ring1_Tests_BigInteger_powersOfOperations)) {
     return EXIT_FAILURE;
   }
+  if (!Arcadia_Tests_safeExecute(&Arcadia_Ring1_Tests_BigInteger_quotientRemainderOperations)) {
+    return EXIT_FAILURE;
+  }
   if (!Arcadia_Tests_safeExecute(&Arcadia_Ring1_Tests_BigInteger_relationalOperations)) {
     return EXIT_FAILURE;
   }
-  if (!Arcadia_Tests_safeExecute(&Arcadia_Ring1_Tests_BigInteger_quotientRemainderOperations)) {
+  if (!Arcadia_Tests_safeExecute(&Arcadia_Ring1_Tests_BigInteger_shiftOperations)) {
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;

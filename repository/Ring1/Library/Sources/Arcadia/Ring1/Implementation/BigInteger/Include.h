@@ -41,6 +41,8 @@
 #include "Arcadia/Ring1/Implementation/BigInteger/setPowerOfFive.h"
 #include "Arcadia/Ring1/Implementation/BigInteger/setPowerOfTen.h"
 #include "Arcadia/Ring1/Implementation/BigInteger/setPowerOfTwo.h"
+#include "Arcadia/Ring1/Implementation/BigInteger/shiftLeft.h"
+#include "Arcadia/Ring1/Implementation/BigInteger/shiftRight.h"
 #include "Arcadia/Ring1/Implementation/BigInteger/subtract.h"
 #include "Arcadia/Ring1/Implementation/BigInteger/toInteger.h"
 #include "Arcadia/Ring1/Implementation/BigInteger/toNatural.h"
@@ -57,6 +59,9 @@ typedef Arcadia_BigInteger* Arcadia_BigIntegerValue;
 
 typedef uint32_t Hidden(BigInteger_Limp);
 typedef uint64_t Hidden(BigInteger_LongLimp);
+
+#define Arcadia_BigInteger_MaximumNumberOfLimps (SIZE_MAX / sizeof(uint32_t))
+#define Arcadia_BigInteger_BitsPerLimp (sizeof(uint32_t) * 8)
 
 // This big integer type is used a) for decimal to IEEE754 conversion and b) if the Ring1 is set to arbitrary precision mode.
 // This is a working horse and should be highly optimized.
