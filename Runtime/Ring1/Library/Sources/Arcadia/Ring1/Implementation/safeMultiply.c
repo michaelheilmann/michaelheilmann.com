@@ -39,7 +39,7 @@ Arcadia_safeMultiplyNatural16Value
   Arcadia_Natural32Value c = a * b;
   *productHigh = (c & 0xffff0000) >> 16;
   *productLow = (Arcadia_Natural16Value)(c & 0x0000ffff);
-  return (*productHigh);
+  return !(*productHigh);
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -63,7 +63,7 @@ Arcadia_safeMultiplyNatural32Value
   Arcadia_Natural64Value c = a * b;
   *productHigh = (c & 0xffffffff00000000) >> 32;
   *productLow = (Arcadia_Natural32Value)(c & 0x00000000ffffffff);
-  return (*productHigh);
+  return !(*productHigh);
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -132,7 +132,7 @@ Arcadia_safeMultiplyNatural64Value
   *productHigh = hi;
   *productLow = lo;
 
-  return (*productHigh);
+  return !(*productHigh);
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -156,7 +156,7 @@ Arcadia_safeMultiplyNatural8Value
   Arcadia_Natural16Value c = a * b;
   *productHigh = (c & 0xff00) >> 8;
   *productLow = (Arcadia_Natural8Value)(c & 0x00ff);
-  return (*productHigh);
+  return !(*productHigh);
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

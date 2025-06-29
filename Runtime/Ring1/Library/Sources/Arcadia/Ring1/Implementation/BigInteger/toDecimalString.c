@@ -57,7 +57,7 @@ Arcadia_BigInteger_toDecimalString
         Arcadia_Natural8Value digitValue = Arcadia_BigInteger_toNatural8(thread, remainder) + '0';
         if (i == n) {
           Arcadia_SizeValue a, b;
-          if (Arcadia_safeMultiplySizeValue(thread, n, 2, &a, &b)) {
+          if (!Arcadia_safeMultiplySizeValue(thread, n, 2, &a, &b)) {
             Arcadia_Thread_setStatus(thread, Arcadia_Status_AllocationFailed);
             Arcadia_Thread_jump(thread);
           }

@@ -25,6 +25,7 @@ if (NOT MyProjectIsDefined)
   set(MyProjectIsDefined)
 endif()
 
+
 add_subdirectory(Machine)
 add_subdirectory(Mil.Frontend)
 add_subdirectory(DataDefinitionLanguage)
@@ -38,8 +39,10 @@ add_subdirectory(Tools.CompareFiles)
 add_subdirectory(Tools.TemplateEngine)
 add_subdirectory(Tools.Compiler)
 
+add_subdirectory(Math)
 add_subdirectory(Visuals)
 add_subdirectory(Audials)
+
 add_subdirectory(Tools.IconGenerator)
 add_subdirectory(Tools.BannerGenerator)
 add_subdirectory(Tools.BitmapFontGenerator)
