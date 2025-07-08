@@ -15,23 +15,16 @@
 
 cmake_minimum_required(VERSION 3.20)
 
-add_subdirectory(Machine)
-add_subdirectory(Mil.Frontend)
+if (NOT MyProjectIsDefined)
+  if (NOT DEFINED MyProjectName)
+    set(MyProjectName "Arcadia")
+  endif()
+  project(${MyProjectName})
+  set(REPOSITORY_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
+  include(${REPOSITORY_SOURCE_DIR}/cmake/all.cmake)
+  set(MyProjectIsDefined)
+endif()
 
-add_subdirectory(Integrations)
-
-add_subdirectory(Engine.Demo)
-
-add_subdirectory(Tools.ConcatenateFiles)
-add_subdirectory(Tools.CompareFiles)
-add_subdirectory(Tools.TemplateEngine)
-add_subdirectory(Tools.Compiler)
-
-add_subdirectory(Math)
-add_subdirectory(Visuals)
-add_subdirectory(Audials)
-
-add_subdirectory(Tools.IconGenerator)
-add_subdirectory(Tools.BannerGenerator)
-add_subdirectory(Tools.BitmapFontGenerator)
-add_subdirectory(Tools.RyuLookupTablesGenerator)
+add_subdirectory(Library)
+add_subdirectory(Tests)
+add_subdirectory(Documentation)

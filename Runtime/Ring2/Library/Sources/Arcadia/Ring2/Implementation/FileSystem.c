@@ -283,8 +283,10 @@ Arcadia_FileSystem_createDirectory
   Arcadia_String* nativePath = Arcadia_FilePath_toNative(thread, path);
 #if Arcadia_Configuration_OperatingSystem == Arcadia_Configuration_OperatingSystem_Windows
   if (FALSE == CreateDirectory(Arcadia_String_getBytes(thread, nativePath), NULL)) {
-    Arcadia_Thread_setStatus(thread, Arcadia_Status_FileSystemOperationFailed);
-    Arcadia_Thread_jump(thread);
+    if (ERROR_ALREADY_EXISTS != GetLastError()) {
+      Arcadia_Thread_setStatus(thread, Arcadia_Status_FileSystemOperationFailed);
+      Arcadia_Thread_jump(thread);
+    }
   }
 #elif Arcadia_Configuration_OperatingSystem == Arcadia_Configuration_OperatingSystem_Linux
   if (-1 == mkdir(Arcadia_String_getBytes(thread, nativePath), 0777)) {
@@ -411,18 +413,43 @@ Arcadia_FileSystem_getLocal
     Arcadia_Thread_setStatus(thread, Arcadia_Status_AllocationFailed);
     Arcadia_Thread_jump(thread);
   }
+  int iResult;
+  iResult = WideCharToMultiByte(CP_UTF8, 0, p, -1, NULL, 0, NULL, NULL);
+  if (!iResult) {
+    CoTaskMemFree(p);
+    p = NULL;
+    Arcadia_Thread_setStatus(thread, Arcadia_Status_AllocationFailed);
+    Arcadia_Thread_jump(thread);
+  }
+  char *q = malloc(sizeof(char) * iResult);
+  if (!q) {
+    CoTaskMemFree(p);
+    p = NULL;
+    Arcadia_Thread_setStatus(thread, Arcadia_Status_AllocationFailed);
+    Arcadia_Thread_jump(thread);
+  }
+  iResult = WideCharToMultiByte(CP_UTF8, 0, p, -1, q, iResult, NULL, NULL);
+  CoTaskMemFree(p);
+  p = NULL;
+  if (!iResult) {
+    free(q);
+    q = NULL;
+    Arcadia_Thread_setStatus(thread, Arcadia_Status_AllocationFailed);
+    Arcadia_Thread_jump(thread);
+  }
+
   Arcadia_FilePath* filePath = NULL;
   Arcadia_JumpTarget jumpTarget;
   Arcadia_Thread_pushJumpTarget(thread, &jumpTarget);
   if (Arcadia_JumpTarget_save(&jumpTarget)) {
-    filePath = Arcadia_FilePath_parseWindows(thread, p, wcslen(p));
+    filePath = Arcadia_FilePath_parseWindows(thread, q, iResult - 1);
     Arcadia_Thread_popJumpTarget(thread);
-    CoTaskMemFree(p);
-    p = NULL;
+    free(q);
+    q = NULL;
   } else {
     Arcadia_Thread_popJumpTarget(thread);
-    CoTaskMemFree(p);
-    p = NULL;
+    free(q);
+    q = NULL;
     Arcadia_Thread_jump(thread);
   }
   return filePath;

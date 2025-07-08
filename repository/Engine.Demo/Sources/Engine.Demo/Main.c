@@ -46,6 +46,10 @@ main1
   #endif
     Arcadia_Object_lock(thread, (Arcadia_Object*)application);
 
+    Arcadia_FileSystem* fileSystem = Arcadia_FileSystem_create(thread);
+    Arcadia_FilePath* configurationFolder = Arcadia_FileSystem_getConfigurationFolder(thread, fileSystem);
+    Arcadia_FileSystem_createDirectory(thread, fileSystem, configurationFolder);
+
     // (1) Initialize Audials.
     Audials_startup(thread);
     audialsInitialized = Arcadia_BooleanValue_True;
