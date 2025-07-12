@@ -460,10 +460,6 @@ Arcadia_FileSystem_getRoaming
 
 #endif
 
-// Get the folder in which configuration files are stored.
-// The following table lists the values for a given operating system
-// - Windows: `C:\Users\<Username>\AppData\Local\<Organization Name>\<Game Name>`
-// - Linux: `<Home>\<Organization Name>\<Game Name>`
 Arcadia_FilePath*
 Arcadia_FileSystem_getConfigurationFolder
   (
@@ -484,10 +480,6 @@ Arcadia_FileSystem_getConfigurationFolder
 #endif
 }
 
-// Get the folder in which save files are stored.
-// The following table lists the values for a given operating system
-// - Windows: `C:\Users\<Username>\AppData\Roaming\<Organization Name>\<Game Name>`
-// - Linux: `<Home>\<Organization Name>\<Game Name>`
 Arcadia_FilePath*
 Arcadia_FileSystem_getSaveFolder
   (
@@ -503,6 +495,94 @@ Arcadia_FileSystem_getSaveFolder
   Arcadia_FilePath* filePath  = Arcadia_FileSystem_getHomeFolder(thread, self);
   Arcadia_FilePath_append(thread, filePath, Arcadia_FilePath_parseGeneric(thread, u8"Michael Heilmann's Arcadia", sizeof(u8"Michael Heilmann's Arcadia") - 1));
   return filePath;
+#else
+  #error("environment not (yet) supported")
+#endif
+}
+
+#if Arcadia_Configuration_OperatingSystem == Arcadia_Configuration_OperatingSystem_Windows
+  // SYSTEM_INFO, GetSystemInfo, MAX_PATH
+  #define WIN32_LEAN_AND_MEAN
+  #include <windows.h>
+#elif Arcadia_Configuration_OperatingSystem_Linux == Arcadia_Configuration_OperatingSystem
+  // PATH_MAX
+  #include <limits.h>
+  // sysconf
+  #include <unistd.h>
+#else
+  #error("environment not (yet) supported")
+#endif
+
+Arcadia_FilePath*
+Arcadia_FileSystem_getExecutablePath
+  (
+    Arcadia_Thread* thread,
+    Arcadia_FileSystem* self
+  )
+{
+#if Arcadia_Configuration_OperatingSystem == Arcadia_Configuration_OperatingSystem_Windows
+  HMODULE module = GetModuleHandleA(NULL);
+  if (!module) {
+    Arcadia_Thread_setStatus(thread, Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread_jump(thread);
+  }
+  Arcadia_SizeValue n = MAX_PATH;
+  void* p = Arcadia_Memory_allocateUnmanaged(thread, n);
+  Arcadia_JumpTarget jumpTarget;
+  Arcadia_Thread_pushJumpTarget(thread, &jumpTarget);
+  if (Arcadia_JumpTarget_save(&jumpTarget)) {
+    do {
+      DWORD m = GetModuleFileNameA(module, p, n);
+      // There are three cases:
+      // m = 0: The function failed.
+      // m = n: The buffer is too small.
+      //        As MAX_PATH is most likely to small for modern file systems,
+      //        we resort to dynamic memory allocation.
+      // m < n: m denotes the number of characters copied without the zero terminator.
+      if (m == 0) {
+        Arcadia_Thread_setStatus(thread, Arcadia_Status_EnvironmentFailed);
+        Arcadia_Thread_jump(thread);
+      } else if (m == n) {
+        Arcadia_SizeValue hi, lo;
+        Arcadia_safeAddSizeValue(thread, 64, MAX_PATH, &hi, &lo);
+        if (hi) {
+          lo = Arcadia_SizeValue_Maximum;
+        }
+        if (lo == n) {
+          Arcadia_Thread_setStatus(thread, Arcadia_Status_EnvironmentFailed);
+          Arcadia_Thread_jump(thread);
+        }
+        n = lo;
+        Arcadia_Memory_reallocateUnmanaged(thread, &p, n);
+      } else {
+        Arcadia_FilePath* path = Arcadia_FilePath_parseWindows(thread, p, n);
+        Arcadia_Memory_deallocateUnmanaged(thread, p);
+        p = NULL;
+        Arcadia_Thread_popJumpTarget(thread);
+        return path;
+      }
+    } while (true);
+  } else {
+    Arcadia_Thread_popJumpTarget(thread);
+    if (p) {
+      Arcadia_Memory_deallocateUnmanaged(thread, p);
+      p = NULL;
+    }
+    Arcadia_Thread_jump(thread);
+  }
+#elif Arcadia_Configuration_OperatingSystem_Linux == Arcadia_Configuration_OperatingSystem
+  // space for `PATH_MAX` plus 1 character
+  char p[PATH_MAX + 1];
+  // `readlink` will write up to `PATH_MAX` plus 1 chars and will not append a zero terminator.
+  // The path will not be truncated it must be smaller than or equal to `PATH_MAX`.
+  ssize_t n = readlink("/proc/self/exe", p, PATH_MAX);
+  if (-1 == n) {
+    Arcadia_Thread_setStatus(thread, Arcadia_Status_EnvironmentFailed);
+    Arcadia_Thread_jump(thread);
+  }
+  // `readlink` returns a string in some encoding.
+  // We assume that this encoding is UTF-8 at the moment.
+  return Arcadia_FilePath_parseUnix(thread, p, n);
 #else
   #error("environment not (yet) supported")
 #endif

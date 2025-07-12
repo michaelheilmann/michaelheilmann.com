@@ -70,7 +70,17 @@ ensureFreeCapacityBytes
     Arcadia_SizeValue requiredFreeCapacity
   );
 
-// Warning: This function does not validate parameters.
+// Warning: This function does not check if the Bytes are UTF-8 Bytes.
+static void
+prependBytesInternal
+  (
+    Arcadia_Thread* thread,
+    Arcadia_StringBuffer* self,
+    void const* bytes,
+    Arcadia_SizeValue numberOfBytes
+  );
+
+// Warning: This function does not check if the Bytes are UTF-8 Bytes.
 static void
 appendBytesInternal
   (
@@ -222,6 +232,21 @@ ensureFreeCapacityBytes
     Arcadia_Memory_reallocateUnmanaged(thread, &self->elements, newCapacity);
     self->capacity = newCapacity;
   }
+}
+
+static void
+prependBytesInternal
+  (
+    Arcadia_Thread* thread,
+    Arcadia_StringBuffer* self,
+    void const* bytes,
+    Arcadia_SizeValue numberOfBytes
+  )
+{
+  ensureFreeCapacityBytes(thread, self, numberOfBytes);
+  Arcadia_Memory_copy(thread, self->elements + numberOfBytes, self->elements, self->size);
+  Arcadia_Memory_copy(thread, self->elements, bytes, numberOfBytes);
+  self->size += numberOfBytes;
 }
 
 static void

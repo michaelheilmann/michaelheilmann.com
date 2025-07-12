@@ -13,15 +13,7 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-#if !defined(ARCAIDA_DATADEFINITIONLANGUAGE_INCLUDE_H_INCLUDED)
-#define ARCAIDA_DATADEFINITIONLANGUAGE_INCLUDE_H_INCLUDED
+#if !defined(ARCADIA_DATADEFINITIONLANGUAGE_TESTS_SYNTACTICALANALYSIS_CONFIGURE_H_INCLUDED)
+#define ARCADIA_DATADEFINITIONLANGUAGE_TESTS_SYNTACTICALANALYSIS_CONFIGURE_H_INCLUDED
 
-#include "Arcadia/DataDefinitionLanguage/Reader/Keywords.h"
-#include "Arcadia/DataDefinitionLanguage/Reader/Parser.h"
-#include "Arcadia/DataDefinitionLanguage/Reader/Scanner.h"
-#include "Arcadia/DataDefinitionLanguage/Reader/StringTable.h"
-#include "Arcadia/DataDefinitionLanguage/Reader/WordType.h"
-#include "Arcadia/DataDefinitionLanguage/SemanticalAnalysis.h"
-#include "Arcadia/DataDefinitionLanguage/Writer/Unparser.h"
-
-#endif // ARCAIDA_DATADEFINITIONLANGUAGE_INCLUDE_H_INCLUDED
+#endif // ARCADIA_DATADEFINITIONLANGUAGE_TESTS_SYNTACTICALANALYSIS_CONFIGURE_H_INCLUDED

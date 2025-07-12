@@ -13,11 +13,11 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-#include "Arcadia/DataDefinitionLanguage/Writer.h"
+#include "Arcadia/DataDefinitionLanguage/Writer/Unparser.h"
 
 #include "Arcadia/DataDefinitionLanguage/Include.h"
 
-struct Arcadia_DataDefinitionLanguage_Writer {
+struct Arcadia_DataDefinitionLanguage_Unparser {
   Arcadia_Object _parent;
 };
 
@@ -34,77 +34,77 @@ whitespace(Arcadia_Thread* thread, Arcadia_StringBuffer* stringBuffer, Arcadia_S
 }
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_writeBooleanValue
+Arcadia_DataDefinitionLanguage_Unparser_writeBooleanValue
   (
     Arcadia_Thread* thread,
-    Arcadia_DataDefinitionLanguage_Writer* self,
+    Arcadia_DataDefinitionLanguage_Unparser* self,
     Arcadia_DataDefinitionLanguage_Tree_BooleanNode* node,
     Arcadia_SizeValue indent,
     Arcadia_StringBuffer* stringBuffer
   );
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_writeListValue
+Arcadia_DataDefinitionLanguage_Unparser_writeListValue
   (
     Arcadia_Thread* thread,
-    Arcadia_DataDefinitionLanguage_Writer* self,
+    Arcadia_DataDefinitionLanguage_Unparser* self,
     Arcadia_DataDefinitionLanguage_Tree_ListNode* node,
     Arcadia_SizeValue indent,
     Arcadia_StringBuffer* stringBuffer
   );
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_writeMapValue
+Arcadia_DataDefinitionLanguage_Unparser_writeMapValue
   (
     Arcadia_Thread* thread,
-    Arcadia_DataDefinitionLanguage_Writer* self,
+    Arcadia_DataDefinitionLanguage_Unparser* self,
     Arcadia_DataDefinitionLanguage_Tree_MapNode* node,
     Arcadia_SizeValue indent,
     Arcadia_StringBuffer* stringBuffer
   );
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_writeNumberValue
+Arcadia_DataDefinitionLanguage_Unparser_writeNumberValue
   (
     Arcadia_Thread* thread,
-    Arcadia_DataDefinitionLanguage_Writer* self,
+    Arcadia_DataDefinitionLanguage_Unparser* self,
     Arcadia_DataDefinitionLanguage_Tree_NumberNode* node,
     Arcadia_SizeValue indent,
     Arcadia_StringBuffer* stringBuffer
   );
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_writeStringValue
+Arcadia_DataDefinitionLanguage_Unparser_writeStringValue
   (
     Arcadia_Thread* thread,
-    Arcadia_DataDefinitionLanguage_Writer* self,
+    Arcadia_DataDefinitionLanguage_Unparser* self,
     Arcadia_DataDefinitionLanguage_Tree_StringNode* node,
     Arcadia_SizeValue indent,
     Arcadia_StringBuffer* stringBuffer
   );
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_writeValue
+Arcadia_DataDefinitionLanguage_Unparser_writeValue
   (
     Arcadia_Thread* thread,
-    Arcadia_DataDefinitionLanguage_Writer* self,
+    Arcadia_DataDefinitionLanguage_Unparser* self,
     Arcadia_DataDefinitionLanguage_Tree_Node* node,
     Arcadia_SizeValue indent,
     Arcadia_StringBuffer* stringBuffer
   );
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_writeVoidValue
+Arcadia_DataDefinitionLanguage_Unparser_writeVoidValue
   (
     Arcadia_Thread* thread,
-    Arcadia_DataDefinitionLanguage_Writer* self,
+    Arcadia_DataDefinitionLanguage_Unparser* self,
     Arcadia_DataDefinitionLanguage_Tree_VoidNode* node,
     Arcadia_SizeValue indent,
     Arcadia_StringBuffer* stringBuffer
   );
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_constructImpl
+Arcadia_DataDefinitionLanguage_Unparser_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Value* self,
@@ -113,16 +113,16 @@ Arcadia_DataDefinitionLanguage_Writer_constructImpl
   );
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_visit
+Arcadia_DataDefinitionLanguage_Unparser_visit
   (
     Arcadia_Thread* thread,
-    Arcadia_DataDefinitionLanguage_Writer* self
+    Arcadia_DataDefinitionLanguage_Unparser* self
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
-  .construct = &Arcadia_DataDefinitionLanguage_Writer_constructImpl,
+  .construct = &Arcadia_DataDefinitionLanguage_Unparser_constructImpl,
   .destruct = NULL,
-  .visit = &Arcadia_DataDefinitionLanguage_Writer_visit,
+  .visit = &Arcadia_DataDefinitionLanguage_Unparser_visit,
 };
 
 static const Arcadia_Type_Operations _typeOperations = {
@@ -145,15 +145,15 @@ static const Arcadia_Type_Operations _typeOperations = {
   .subtract = NULL,
 };
 
-Arcadia_defineObjectType(u8"Arcadia.DataDefinitionLanguage.Writer", Arcadia_DataDefinitionLanguage_Writer,
+Arcadia_defineObjectType(u8"Arcadia.DataDefinitionLanguage.Unparser", Arcadia_DataDefinitionLanguage_Unparser,
                          u8"Arcadia.Object", Arcadia_Object,
                          &_typeOperations);
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_writeBooleanValue
+Arcadia_DataDefinitionLanguage_Unparser_writeBooleanValue
   (
     Arcadia_Thread* thread,
-    Arcadia_DataDefinitionLanguage_Writer* self,
+    Arcadia_DataDefinitionLanguage_Unparser* self,
     Arcadia_DataDefinitionLanguage_Tree_BooleanNode* node,
     Arcadia_SizeValue indent,
     Arcadia_StringBuffer* stringBuffer
@@ -164,10 +164,10 @@ Arcadia_DataDefinitionLanguage_Writer_writeBooleanValue
 }
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_writeListValue
+Arcadia_DataDefinitionLanguage_Unparser_writeListValue
   (
     Arcadia_Thread* thread,
-    Arcadia_DataDefinitionLanguage_Writer* self,
+    Arcadia_DataDefinitionLanguage_Unparser* self,
     Arcadia_DataDefinitionLanguage_Tree_ListNode* node,
     Arcadia_SizeValue indent,
     Arcadia_StringBuffer* stringBuffer
@@ -178,7 +178,7 @@ Arcadia_DataDefinitionLanguage_Writer_writeListValue
   for (Arcadia_SizeValue i = 0, n = Arcadia_List_getSize(thread, node->elements); i < n; ++i) {
     Arcadia_DataDefinitionLanguage_Tree_Node* elementNode = (Arcadia_DataDefinitionLanguage_Tree_Node*)Arcadia_List_getObjectReferenceValueAt(thread, node->elements, i);
     whitespace(thread, stringBuffer, indent);
-    Arcadia_DataDefinitionLanguage_Writer_writeValue(thread, self, elementNode, indent, stringBuffer);
+    Arcadia_DataDefinitionLanguage_Unparser_writeValue(thread, self, elementNode, indent, stringBuffer);
   }
   indent -= 2;
   whitespace(thread, stringBuffer, indent);
@@ -186,10 +186,10 @@ Arcadia_DataDefinitionLanguage_Writer_writeListValue
 }
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_writeMapValue
+Arcadia_DataDefinitionLanguage_Unparser_writeMapValue
   (
     Arcadia_Thread* thread,
-    Arcadia_DataDefinitionLanguage_Writer* self,
+    Arcadia_DataDefinitionLanguage_Unparser* self,
     Arcadia_DataDefinitionLanguage_Tree_MapNode* node,
     Arcadia_SizeValue indent,
     Arcadia_StringBuffer* stringBuffer
@@ -205,7 +205,8 @@ Arcadia_DataDefinitionLanguage_Writer_writeMapValue
     writeImmutableUtf8String(thread, stringBuffer, keyNode->value);
     Arcadia_StringBuffer_append_pn(thread, stringBuffer, u8" : ", sizeof(u8" : ") - 1);
     Arcadia_DataDefinitionLanguage_Tree_Node* valueNode = entryNode->value;
-    Arcadia_DataDefinitionLanguage_Writer_writeValue(thread, self, valueNode, indent, stringBuffer);
+    Arcadia_DataDefinitionLanguage_Unparser_writeValue(thread, self, valueNode, indent, stringBuffer);
+    Arcadia_StringBuffer_append_pn(thread, stringBuffer, u8",\n", sizeof(u8",\n") - 1);
   }
   indent -= 2;
   whitespace(thread, stringBuffer, indent);
@@ -213,10 +214,10 @@ Arcadia_DataDefinitionLanguage_Writer_writeMapValue
 }
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_writeNumberValue
+Arcadia_DataDefinitionLanguage_Unparser_writeNumberValue
   (
     Arcadia_Thread* thread,
-    Arcadia_DataDefinitionLanguage_Writer* self,
+    Arcadia_DataDefinitionLanguage_Unparser* self,
     Arcadia_DataDefinitionLanguage_Tree_NumberNode* node,
     Arcadia_SizeValue indent,
     Arcadia_StringBuffer* stringBuffer
@@ -227,16 +228,17 @@ Arcadia_DataDefinitionLanguage_Writer_writeNumberValue
 }
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_writeStringValue
+Arcadia_DataDefinitionLanguage_Unparser_writeStringValue
   (
     Arcadia_Thread* thread,
-    Arcadia_DataDefinitionLanguage_Writer* self,
+    Arcadia_DataDefinitionLanguage_Unparser* self,
     Arcadia_DataDefinitionLanguage_Tree_StringNode* node,
     Arcadia_SizeValue indent,
     Arcadia_StringBuffer* stringBuffer
   )
 { 
   Arcadia_String* string = Arcadia_String_create(thread, Arcadia_Value_makeImmutableUtf8StringValue(node->value));
+  Arcadia_StringBuffer_append_pn(thread, stringBuffer, u8"\"", sizeof(u8"\"") - 1);
   Arcadia_Utf8Reader* reader = (Arcadia_Utf8Reader*)Arcadia_Utf8StringReader_create(thread, string);
   while (Arcadia_Utf8Reader_hasCodePoint(thread, reader)) {
     Arcadia_Natural32Value codePoint = Arcadia_Utf8Reader_getCodePoint(thread, reader);
@@ -285,24 +287,50 @@ Arcadia_DataDefinitionLanguage_Writer_writeStringValue
     }
     Arcadia_Utf8Reader_next(thread, reader);
   }
+  Arcadia_StringBuffer_append_pn(thread, stringBuffer, u8"\"", sizeof(u8"\"") - 1);
 }
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_writeValue
+Arcadia_DataDefinitionLanguage_Unparser_writeValue
   (
     Arcadia_Thread* thread,
-    Arcadia_DataDefinitionLanguage_Writer* self,
+    Arcadia_DataDefinitionLanguage_Unparser* self,
     Arcadia_DataDefinitionLanguage_Tree_Node* node,
     Arcadia_SizeValue indent,
     Arcadia_StringBuffer* stringBuffer
   )
-{ }
+{
+  switch (node->type) {
+    case Arcadia_DataDefinitionLanguage_Tree_NodeType_Boolean: {
+      Arcadia_DataDefinitionLanguage_Unparser_writeBooleanValue(thread, self, (Arcadia_DataDefinitionLanguage_Tree_BooleanNode*)node, indent, stringBuffer);
+    } break;
+    case Arcadia_DataDefinitionLanguage_Tree_NodeType_List: {
+      Arcadia_DataDefinitionLanguage_Unparser_writeListValue(thread, self, (Arcadia_DataDefinitionLanguage_Tree_ListNode*)node, indent, stringBuffer);
+    } break;
+    case Arcadia_DataDefinitionLanguage_Tree_NodeType_Map: {
+      Arcadia_DataDefinitionLanguage_Unparser_writeMapValue(thread, self, (Arcadia_DataDefinitionLanguage_Tree_MapNode*)node, indent, stringBuffer);
+    } break;
+    case Arcadia_DataDefinitionLanguage_Tree_NodeType_Number: {
+      Arcadia_DataDefinitionLanguage_Unparser_writeNumberValue(thread, self, (Arcadia_DataDefinitionLanguage_Tree_NumberNode*)node, indent, stringBuffer);
+    } break;
+    case Arcadia_DataDefinitionLanguage_Tree_NodeType_String: {
+      Arcadia_DataDefinitionLanguage_Unparser_writeStringValue(thread, self, (Arcadia_DataDefinitionLanguage_Tree_StringNode*)node, indent, stringBuffer);
+    } break;
+    case Arcadia_DataDefinitionLanguage_Tree_NodeType_Void: {
+      Arcadia_DataDefinitionLanguage_Unparser_writeVoidValue(thread, self, (Arcadia_DataDefinitionLanguage_Tree_VoidNode*)node, indent, stringBuffer);
+    } break;
+    default: {
+      Arcadia_Thread_setStatus(thread, Arcadia_Status_ArgumentValueInvalid);
+      Arcadia_Thread_jump(thread);
+    } break;
+  }
+}
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_writeVoidValue
+Arcadia_DataDefinitionLanguage_Unparser_writeVoidValue
   (
     Arcadia_Thread* thread,
-    Arcadia_DataDefinitionLanguage_Writer* self,
+    Arcadia_DataDefinitionLanguage_Unparser* self,
     Arcadia_DataDefinitionLanguage_Tree_VoidNode* node,
     Arcadia_SizeValue indent,
     Arcadia_StringBuffer* stringBuffer
@@ -313,7 +341,7 @@ Arcadia_DataDefinitionLanguage_Writer_writeVoidValue
 }
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_constructImpl
+Arcadia_DataDefinitionLanguage_Unparser_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Value* self,
@@ -321,8 +349,8 @@ Arcadia_DataDefinitionLanguage_Writer_constructImpl
     Arcadia_Value* argumentValues
   )
 {
-  Arcadia_DataDefinitionLanguage_Writer* _self = Arcadia_Value_getObjectReferenceValue(self);
-  Arcadia_TypeValue _type = _Arcadia_DataDefinitionLanguage_Writer_getType(thread);
+  Arcadia_DataDefinitionLanguage_Unparser* _self = Arcadia_Value_getObjectReferenceValue(self);
+  Arcadia_TypeValue _type = _Arcadia_DataDefinitionLanguage_Unparser_getType(thread);
   //
   {
     Arcadia_Value argumentValues[] = {
@@ -336,15 +364,15 @@ Arcadia_DataDefinitionLanguage_Writer_constructImpl
 }
 
 static void
-Arcadia_DataDefinitionLanguage_Writer_visit
+Arcadia_DataDefinitionLanguage_Unparser_visit
   (
     Arcadia_Thread* thread,
-    Arcadia_DataDefinitionLanguage_Writer* self
+    Arcadia_DataDefinitionLanguage_Unparser* self
   )
 {/*Intentionally empty.*/}
 
-Arcadia_DataDefinitionLanguage_Writer*
-Arcadia_DataDefinitionLanguage_Writer_create
+Arcadia_DataDefinitionLanguage_Unparser*
+Arcadia_DataDefinitionLanguage_Unparser_create
   (
     Arcadia_Thread* thread
   )
@@ -352,18 +380,18 @@ Arcadia_DataDefinitionLanguage_Writer_create
   Arcadia_Value argumentValues[] = {
     Arcadia_Value_makeVoidValue(Arcadia_VoidValue_Void),
   };
-  Arcadia_DataDefinitionLanguage_Writer* self = Arcadia_allocateObject(thread, _Arcadia_DataDefinitionLanguage_Writer_getType(thread), 0, &argumentValues[0]);
+  Arcadia_DataDefinitionLanguage_Unparser* self = Arcadia_allocateObject(thread, _Arcadia_DataDefinitionLanguage_Unparser_getType(thread), 0, &argumentValues[0]);
   return self;
 }
 
 void
-Arcadia_DataDefinitionLanguage_Writer_write
+Arcadia_DataDefinitionLanguage_Unparser_run
   (
     Arcadia_Thread* thread,
-    Arcadia_DataDefinitionLanguage_Writer* self,
+    Arcadia_DataDefinitionLanguage_Unparser* self,
     Arcadia_DataDefinitionLanguage_Tree_Node* node,
     Arcadia_StringBuffer* stringBuffer
   )
 {
-  Arcadia_DataDefinitionLanguage_Writer_writeValue(thread, self, node, Arcadia_SizeValue_Literal(0), stringBuffer);
+  Arcadia_DataDefinitionLanguage_Unparser_writeValue(thread, self, node, Arcadia_SizeValue_Literal(0), stringBuffer);
 }
