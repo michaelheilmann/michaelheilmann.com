@@ -361,8 +361,8 @@ Arcadia_Visuals_Linux_Application_create
 static void
 destroyCallback
   (
-    void* argument1,
-    void* argument2
+    void* observer,
+    void* observed
   )
 {
   g_instance = NULL;
@@ -376,7 +376,7 @@ Arcadia_Visuals_Linux_Application_getOrCreate
 { 
   if (!g_instance) {
     Arcadia_Visuals_Linux_Application* instance = Arcadia_Visuals_Linux_Application_create(thread);
-    Arcadia_Object_addNotifyDestroyCallback(thread, (Arcadia_Object*)instance, NULL, &destroyCallback);
+    Arms_addNotifyDestroy(instance, NULL, &destroyCallback);
     g_instance = instance;
   }
   return g_instance;

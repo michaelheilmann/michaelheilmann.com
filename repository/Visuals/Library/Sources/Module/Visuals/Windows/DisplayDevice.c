@@ -55,6 +55,17 @@ Arcadia_Visuals_Windows_DisplayDevice_getNameImpl
     Arcadia_Visuals_Windows_DisplayDevice* self
   );
 
+static void
+Arcadia_Visuals_Windows_DisplayDevice_getBoundsImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Windows_DisplayDevice* self,
+    Arcadia_Integer32Value* left,
+    Arcadia_Integer32Value* top,
+    Arcadia_Integer32Value* right,
+    Arcadia_Integer32Value* bottom
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   .construct = &Arcadia_Visuals_Windows_DisplayDevice_constructImpl,
   .destruct = NULL,
@@ -95,6 +106,7 @@ Arcadia_Visuals_Windows_DisplayDevice_constructImpl
   ((Arcadia_Visuals_DisplayDevice*)_self)->getDisplayModes = (Arcadia_List* (*)(Arcadia_Thread*, Arcadia_Visuals_DisplayDevice*)) & Arcadia_Visuals_Windows_DisplayDevice_getDisplayModesImpl;
   ((Arcadia_Visuals_DisplayDevice*)_self)->getId = (Arcadia_String * (*)(Arcadia_Thread*, Arcadia_Visuals_DisplayDevice*)) & Arcadia_Visuals_Windows_DisplayDevice_getIdImpl;
   ((Arcadia_Visuals_DisplayDevice*)_self)->getName = (Arcadia_String * (*)(Arcadia_Thread*, Arcadia_Visuals_DisplayDevice*)) & Arcadia_Visuals_Windows_DisplayDevice_getNameImpl;
+  ((Arcadia_Visuals_DisplayDevice*)_self)->getBounds = (void (*)(Arcadia_Thread*, Arcadia_Visuals_DisplayDevice*, Arcadia_Integer32Value*, Arcadia_Integer32Value*, Arcadia_Integer32Value*, Arcadia_Integer32Value*)) & Arcadia_Visuals_Windows_DisplayDevice_getBoundsImpl;
   Arcadia_Object_setType(thread, (Arcadia_Object*)_self, _type);
 }
 
@@ -183,6 +195,23 @@ Arcadia_Visuals_Windows_DisplayDevice_getNameImpl
   Arcadia_StringBuffer_append_pn(thread, stringBuffer, u8"/", sizeof(u8"/"));
   Arcadia_StringBuffer_insertBack(thread, stringBuffer, Arcadia_Value_makeObjectReferenceValue(self->monitor));
   return Arcadia_String_create(thread, Arcadia_Value_makeObjectReferenceValue(stringBuffer));
+}
+
+static void
+Arcadia_Visuals_Windows_DisplayDevice_getBoundsImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Windows_DisplayDevice* self,
+    Arcadia_Integer32Value* left,
+    Arcadia_Integer32Value* top,
+    Arcadia_Integer32Value* right,
+    Arcadia_Integer32Value* bottom
+  )
+{
+  *left = self->left;
+  *top = self->top;
+  *right = self->right;
+  *bottom = self->bottom;
 }
 
 Arcadia_Visuals_Windows_DisplayDevice*

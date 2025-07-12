@@ -31,6 +31,7 @@ Arcadia_declareObjectType(u8"Arcadia.Visuals.DisplayDevice", Arcadia_Visuals_Dis
 struct Arcadia_Visuals_DisplayDevice {
   Arcadia_Object _parent;
   Arcadia_List* (*getDisplayModes)(Arcadia_Thread* thread, Arcadia_Visuals_DisplayDevice* self);
+  void (*getBounds)(Arcadia_Thread*, Arcadia_Visuals_DisplayDevice*, Arcadia_Integer32Value*, Arcadia_Integer32Value*, Arcadia_Integer32Value*, Arcadia_Integer32Value*);
   Arcadia_String* (*getName)(Arcadia_Thread* thread, Arcadia_Visuals_DisplayDevice* self);
   Arcadia_String* (*getId)(Arcadia_Thread* thread, Arcadia_Visuals_DisplayDevice* self);
 };
@@ -40,6 +41,21 @@ Arcadia_Visuals_DisplayDevice_getDisplayModes
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_DisplayDevice* self
+  );
+
+/// @brief Get the bounds of this display.
+/// @param thread A pointer to this thread.
+/// @param self A pointer to this display device.
+/// @param left, top, width, bottom Pointers to Arcadia_Integer32Value variable receiving the left, top, right, bottom coordinates of the display.
+void
+Arcadia_Visuals_DisplayDevice_getBounds
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_DisplayDevice* self,
+    Arcadia_Integer32Value *left,
+    Arcadia_Integer32Value *top,
+    Arcadia_Integer32Value *right,
+    Arcadia_Integer32Value *bottom
   );
 
 // @brief The a human-readable/display name of the device.

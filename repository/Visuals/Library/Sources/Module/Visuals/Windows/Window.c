@@ -191,6 +191,42 @@ endRenderImpl
     Arcadia_Visuals_Windows_Window* self
   );
 
+static void
+getPositionImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Windows_Window* self,
+    Arcadia_Integer32Value* left,
+    Arcadia_Integer32Value* top
+  );
+
+static void
+setPositionImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Windows_Window* self,
+    Arcadia_Integer32Value left,
+    Arcadia_Integer32Value top
+  );
+
+static void
+getSizeImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Windows_Window* self,
+    Arcadia_Integer32Value* width,
+    Arcadia_Integer32Value* height
+  );
+
+static void
+setSizeImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Windows_Window* self,
+    Arcadia_Integer32Value width,
+    Arcadia_Integer32Value height
+  );
+
 static const char g_className[] = "Aracadia.Visuals.Windows.Window Window Class";
 
 static Arcadia_BooleanValue g_quitRequested = Arcadia_BooleanValue_False;
@@ -845,6 +881,60 @@ endRenderImpl
       Arcadia_Thread_jump(thread);
     }
   }
+}
+
+static void
+getPositionImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Windows_Window* self,
+    Arcadia_Integer32Value* left,
+    Arcadia_Integer32Value* top
+  )
+{
+  RECT rect;
+  GetWindowRect(self->windowHandle, &rect);
+  *left = rect.left;
+  *top = rect.top;
+}
+
+static void
+setPositionImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Windows_Window* self,
+    Arcadia_Integer32Value left,
+    Arcadia_Integer32Value top
+  )
+{ 
+  SetWindowPos(self->windowHandle, HWND_TOP, left, top, 0, 0, SWP_NOZORDER|SWP_NOSIZE);
+}
+
+static void
+getSizeImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Windows_Window* self,
+    Arcadia_Integer32Value* width,
+    Arcadia_Integer32Value* height
+  )
+{
+  RECT rect;
+  GetWindowRect(self->windowHandle, &rect);
+  *width = rect.right - rect.left;
+  *height = rect.bottom - rect.top;
+}
+
+static void
+setSizeImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Windows_Window* self,
+    Arcadia_Integer32Value width,
+    Arcadia_Integer32Value height
+  )
+{
+  SetWindowPos(self->windowHandle, HWND_TOP, 0, 0, width, height, SWP_NOZORDER | SWP_NOMOVE);
 }
 
 Arcadia_Visuals_Windows_Window*

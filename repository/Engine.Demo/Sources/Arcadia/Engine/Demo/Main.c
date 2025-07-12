@@ -620,6 +620,9 @@ main1
 
     // (4) Ensure the window is opened.
     Arcadia_Visuals_Window_open(thread, window);
+    //Arcadia_Integer32Value left, top, right, bottom;
+    //Arcadia_Visuals_DisplayDevice_getBounds(thread, displayDevice, &left, &top, &right, &bottom);
+    //Arcadia_Visuals_Window_setBounds(thread, window,);
     
     Arcadia_Integer32Value width, height;
     Arcadia_Visuals_Icon* icon;

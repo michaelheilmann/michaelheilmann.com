@@ -64,6 +64,20 @@ Arcadia_Visuals_DisplayDevice_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)_self, _type);
 }
 
+void
+Arcadia_Visuals_DisplayDevice_getBounds
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_DisplayDevice* self,
+    Arcadia_Integer32Value* left,
+    Arcadia_Integer32Value* top,
+    Arcadia_Integer32Value* right,
+    Arcadia_Integer32Value* bottom
+  )
+{
+  self->getBounds(thread, self, left, top, right, bottom);
+}
+
 Arcadia_List*
 Arcadia_Visuals_DisplayDevice_getDisplayModes
   (
