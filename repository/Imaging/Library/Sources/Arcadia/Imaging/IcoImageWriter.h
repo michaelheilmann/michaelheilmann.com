@@ -24,16 +24,16 @@
 // See https://learn.microsoft.com/en-us/windows/win32/wic/ico-format-overview?redirectedfrom=MSDN for more information.
 //
 // This is hand-coded "ico" file format writer which utilizes any available "png" file format writer.
-// 
+//
 // The "ico" file format is described on Wikipedia (https://en.wikipedia.org/wiki/ICO_(file_format)).
 //
 // From the description of the file format:
 // - The width and height of any image in an "ico" files may not exceed 256.
 // - all source pixel buffers must be of format PixelBuffer_An8Rn8Gn8Bn8.
-Arcadia_declareObjectType(u8"Arcadia.Imaging.IcoImageWriter", IcoImageWriter, u8"ImageWriter");
+Arcadia_declareObjectType(u8"Arcadia.Imaging.IcoImageWriter", IcoImageWriter, u8"Arcadia.Imaging.ImageWriter");
 
 struct IcoImageWriter {
-  ImageWriter _parent;
+  Arcadia_Imaging_ImageWriter _parent;
   Arcadia_ImmutableList* supportedTypes;
 };
 

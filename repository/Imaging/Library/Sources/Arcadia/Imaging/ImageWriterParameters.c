@@ -15,15 +15,16 @@
 
 #include "Arcadia/Imaging/ImageWriterParameters.h"
 
-struct ImageWriterParameters {
+struct Arcadia_Imaging_ImageWriterParameters {
   Arcadia_Object _parent;
-  ImageWriterFormat format;
-  // "object" either refers to a "R.ByteBuffer" object (if target is ImageWriter_Target_Memory) or a "Arcadia.String" object (if target is ImageWriter_Target_File).
+  // The format string.
+  Arcadia_String* format;
+  // "object" either refers to a "Arcadia.ByteBuffer" object or a "Arcadia.Path" object.
   Arcadia_ObjectReferenceValue object;
 };
 
 static void
-ImageWriterParameters_constructImpl
+Arcadia_Imaging_ImageWriterParameters_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Value* self,
@@ -32,23 +33,23 @@ ImageWriterParameters_constructImpl
   );
 
 static void
-ImageWriterParameters_visit
+Arcadia_Imaging_ImageWriterParameters_visit
   (
     Arcadia_Thread* thread,
-    ImageWriterParameters* self
+    Arcadia_Imaging_ImageWriterParameters* self
   );
 
 static void
-ImageWriterParameters_destruct
+Arcadia_Imaging_ImageWriterParameters_destruct
   (
     Arcadia_Thread* thread,
-    ImageWriterParameters* self
+    Arcadia_Imaging_ImageWriterParameters* self
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
-  .construct = &ImageWriterParameters_constructImpl,
-  .destruct = &ImageWriterParameters_destruct,
-  .visit = &ImageWriterParameters_visit,
+  .construct = &Arcadia_Imaging_ImageWriterParameters_constructImpl,
+  .destruct = &Arcadia_Imaging_ImageWriterParameters_destruct,
+  .visit = &Arcadia_Imaging_ImageWriterParameters_visit,
 };
 
 static const Arcadia_Type_Operations _typeOperations = {
@@ -56,10 +57,11 @@ static const Arcadia_Type_Operations _typeOperations = {
   .objectTypeOperations = &_objectTypeOperations,
 };
 
-Arcadia_defineObjectType(u8"ImageWriterParameters", ImageWriterParameters, u8"Arcadia.Object", Arcadia_Object, &_typeOperations);
+Arcadia_defineObjectType(u8"Arcadia.Imaging.ImageWriterParameters", Arcadia_Imaging_ImageWriterParameters,
+                         u8"Arcadia.Object", Arcadia_Object, &_typeOperations);
 
 static void
-ImageWriterParameters_constructImpl
+Arcadia_Imaging_ImageWriterParameters_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Value* self,
@@ -67,8 +69,8 @@ ImageWriterParameters_constructImpl
     Arcadia_Value* argumentValues
   )
 {
-  ImageWriterParameters* _self = Arcadia_Value_getObjectReferenceValue(self);
-  Arcadia_TypeValue _type = _ImageWriterParameters_getType(thread);
+  Arcadia_Imaging_ImageWriterParameters* _self = Arcadia_Value_getObjectReferenceValue(self);
+  Arcadia_TypeValue _type = _Arcadia_Imaging_ImageWriterParameters_getType(thread);
   if (2 != numberOfArgumentValues) {
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
@@ -81,70 +83,76 @@ ImageWriterParameters_constructImpl
   }
   if (Arcadia_Type_isSubType(thread, Arcadia_Value_getType(thread, &argumentValues[0]), _Arcadia_String_getType(thread))) {
     _self->object = (Arcadia_ObjectReferenceValue)Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
-    _self->format = Arcadia_Value_getInteger32Value(&argumentValues[1]);
   } else if (Arcadia_Type_isSubType(thread, Arcadia_Value_getType(thread, &argumentValues[0]), _Arcadia_ByteBuffer_getType(thread))) {
     _self->object = (Arcadia_ObjectReferenceValue)Arcadia_Value_getObjectReferenceValue(&argumentValues[0]);
-    _self->format = Arcadia_Value_getInteger32Value(&argumentValues[1]);
   } else {
     Arcadia_Thread_setStatus(thread, Arcadia_Status_ArgumentTypeInvalid);
     Arcadia_Thread_jump(thread);
   }
+  _self->format = Arcadia_ArgumentsValidation_getObjectReferenceValue(thread, &argumentValues[1], _Arcadia_String_getType(thread));
   Arcadia_Object_setType(thread, (Arcadia_Object*)_self, _type);
 }
 
 static void
-ImageWriterParameters_visit
+Arcadia_Imaging_ImageWriterParameters_visit
   (
     Arcadia_Thread* thread,
-    ImageWriterParameters* self
+    Arcadia_Imaging_ImageWriterParameters* self
   )
-{ Arcadia_Object_visit(thread, self->object); }
+{
+  if (self->format) {
+    Arcadia_Object_visit(thread, (Arcadia_Object*)self->format);
+  }
+  if (self->object) {
+    Arcadia_Object_visit(thread, self->object);
+  }
+}
 
 static void
-ImageWriterParameters_destruct
+Arcadia_Imaging_ImageWriterParameters_destruct
   (
     Arcadia_Thread* thread,
-    ImageWriterParameters* self
+    Arcadia_Imaging_ImageWriterParameters* self
   )
 {/*Intentionally empty.*/}
 
-ImageWriterParameters*
-ImageWriterParameters_createFile
+Arcadia_Imaging_ImageWriterParameters*
+Arcadia_Imaging_ImageWriterParameters_createFile
   (
     Arcadia_Thread* thread,
     Arcadia_String* path,
-    ImageWriterFormat format
+    Arcadia_String* format
   )
 {
   Arcadia_Value argumentValues[] = {
     Arcadia_Value_makeObjectReferenceValue(path),
-    Arcadia_Value_makeInteger32Value(format),
+    Arcadia_Value_makeObjectReferenceValue(format),
   };
-  ImageWriterParameters* self = Arcadia_allocateObject(thread, _ImageWriterParameters_getType(thread), 2, &argumentValues[0]);
+  Arcadia_Imaging_ImageWriterParameters* self = Arcadia_allocateObject(thread, _Arcadia_Imaging_ImageWriterParameters_getType(thread), 2, &argumentValues[0]);
   return self;
 }
 
-ImageWriterParameters*
-ImageWriterParameters_createByteBuffer
+Arcadia_Imaging_ImageWriterParameters*
+Arcadia_Imaging_ImageWriterParameters_createByteBuffer
   (
     Arcadia_Thread* thread,
     Arcadia_ByteBuffer* byteBuffer,
-    ImageWriterFormat format
+    Arcadia_String* format
   )
 {
   Arcadia_Value argumentValues[] = {
     Arcadia_Value_makeObjectReferenceValue(byteBuffer),
-    Arcadia_Value_makeInteger32Value(format),
+    Arcadia_Value_makeObjectReferenceValue(format),
   };
-  ImageWriterParameters* self = Arcadia_allocateObject(thread, _ImageWriterParameters_getType(thread), 2, &argumentValues[0]);
+  Arcadia_Imaging_ImageWriterParameters* self = Arcadia_allocateObject(thread, _Arcadia_Imaging_ImageWriterParameters_getType(thread), 2, &argumentValues[0]);
   return self;
 }
 
 Arcadia_BooleanValue
-ImageWriterParameters_hasPath
+Arcadia_Imaging_ImageWriterParameters_hasPath
   (
     Arcadia_Thread* thread,
-    ImageWriterParameters* self
+    Arcadia_Imaging_ImageWriterParameters* self
   )
 {
   Arcadia_TypeValue type = Arcadia_Object_getType(thread, self->object);
@@ -152,13 +160,13 @@ ImageWriterParameters_hasPath
 }
 
 Arcadia_String*
-ImageWriterParameters_getPath
+Arcadia_Imaging_ImageWriterParameters_getPath
   (
     Arcadia_Thread* thread,
-    ImageWriterParameters* self
+    Arcadia_Imaging_ImageWriterParameters* self
   )
 {
-  if (!ImageWriterParameters_hasPath(thread, self)) {
+  if (!Arcadia_Imaging_ImageWriterParameters_hasPath(thread, self)) {
     Arcadia_Thread_setStatus(thread, Arcadia_Status_OperationInvalid);
     Arcadia_Thread_jump(thread);
   }
@@ -166,10 +174,10 @@ ImageWriterParameters_getPath
 }
 
 Arcadia_BooleanValue
-ImageWriterParameters_hasByteBuffer
+Arcadia_Imaging_ImageWriterParameters_hasByteBuffer
   (
     Arcadia_Thread* thread,
-    ImageWriterParameters* self
+    Arcadia_Imaging_ImageWriterParameters* self
   )
 {
   Arcadia_TypeValue type = Arcadia_Object_getType(thread, self->object);
@@ -177,24 +185,24 @@ ImageWriterParameters_hasByteBuffer
 }
 
 Arcadia_ByteBuffer*
-ImageWriterParameters_getByteBuffer
+Arcadia_Imaging_ImageWriterParameters_getByteBuffer
   (
     Arcadia_Thread* thread,
-    ImageWriterParameters* self
+    Arcadia_Imaging_ImageWriterParameters* self
   )
 {
-  if (!ImageWriterParameters_hasByteBuffer(thread, self)) {
+  if (!Arcadia_Imaging_ImageWriterParameters_hasByteBuffer(thread, self)) {
     Arcadia_Thread_setStatus(thread, Arcadia_Status_OperationInvalid);
     Arcadia_Thread_jump(thread);
   }
   return (Arcadia_ByteBuffer*)self->object;
 }
 
-ImageWriterFormat
-ImageWriterParameters_getFormat
+Arcadia_String*
+Arcadia_Imaging_ImageWriterParameters_getFormat
   (
     Arcadia_Thread* thread,
-    ImageWriterParameters* self
+    Arcadia_Imaging_ImageWriterParameters* self
   )
 {
   return self->format;

@@ -99,14 +99,14 @@ BmpImageWriter_writeToByteBufferImpl
     Arcadia_List* sourcePixelBuffers,
     Arcadia_ByteBuffer* targetByteBuffer
   );
-
+  
 static void
-BmpImageWriter_writeBmpToPathImpl
+BmpImageWriter_writeImpl
   (
     Arcadia_Thread* thread,
     BmpImageWriter* self,
-    Arcadia_Visuals_PixelBuffer* sourcePixelBuffer,
-    Arcadia_String* targetPath
+    Arcadia_List* source,
+    Arcadia_Imaging_ImageWriterParameters* target
   );
 
 static void
@@ -136,25 +136,10 @@ BmpImageWriter_writeToPathImpl
     Arcadia_String* targetPath
   )
 { 
-  Arcadia_Value a = Arcadia_Value_makeObjectReferenceValue(extension);
-  Arcadia_Value b[] = {
-    Arcadia_Value_makeObjectReferenceValue(Arcadia_String_create(thread, Arcadia_Value_makeImmutableUtf8StringValue(Arcadia_ImmutableUtf8String_create(thread, u8"bmp", sizeof(u8"bmp") - 1)))),
-  };
-  if (Arcadia_Value_isEqualTo(thread, &a, &b[0])) {
-    if (1 != Arcadia_Collection_getSize(thread, (Arcadia_Collection*)sourcePixelBuffers)) {
-      Arcadia_Thread_setStatus(thread, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Thread_jump(thread);
-    }
-    Arcadia_ObjectReferenceValue sourceObject = Arcadia_List_getObjectReferenceValueAt(thread, sourcePixelBuffers, 0);
-    if (Arcadia_Type_isSubType(thread, Arcadia_Object_getType(thread, sourceObject), _Arcadia_Visuals_PixelBuffer_getType(thread))) {
-      Arcadia_Thread_setStatus(thread, Arcadia_Status_ArgumentValueInvalid);
-      Arcadia_Thread_jump(thread);
-    }
-    BmpImageWriter_writeBmpToPathImpl(thread, self, (Arcadia_Visuals_PixelBuffer*)sourceObject, targetPath);
-  } else {
-    Arcadia_Thread_setStatus(thread, Arcadia_Status_ArgumentValueInvalid);
-    Arcadia_Thread_jump(thread);
-  }
+  Arcadia_ByteBuffer* targetByteBuffer = Arcadia_ByteBuffer_create(thread);
+  BmpImageWriter_writeToByteBufferImpl(thread, self, extension, sourcePixelBuffers, targetByteBuffer);
+  Arcadia_FileSystem_setFileContents(thread, Arcadia_FileSystem_create(thread),
+                                     Arcadia_FilePath_parseUnix(thread, Arcadia_String_getBytes(thread, targetPath), Arcadia_String_getNumberOfBytes(thread, targetPath)), targetByteBuffer);
 }
 
 static void
@@ -170,7 +155,6 @@ BmpImageWriter_writeToByteBufferImpl
   Arcadia_Value a = Arcadia_Value_makeObjectReferenceValue(extension);
   Arcadia_Value b[] = {
     Arcadia_Value_makeObjectReferenceValue(Arcadia_String_create(thread, Arcadia_Value_makeImmutableUtf8StringValue(Arcadia_ImmutableUtf8String_create(thread, u8"bmp", sizeof(u8"bmp") - 1)))),
-    Arcadia_Value_makeObjectReferenceValue(Arcadia_String_create(thread, Arcadia_Value_makeImmutableUtf8StringValue(Arcadia_ImmutableUtf8String_create(thread, u8"png", sizeof(u8"png") - 1)))),
   };
   if (Arcadia_Value_isEqualTo(thread, &a, &b[0])) {
     if (1 != Arcadia_Collection_getSize(thread, (Arcadia_Collection*)sourcePixelBuffers)) {
@@ -190,18 +174,27 @@ BmpImageWriter_writeToByteBufferImpl
 }
 
 static void
-BmpImageWriter_writeBmpToPathImpl
+BmpImageWriter_writeImpl
   (
     Arcadia_Thread* thread,
     BmpImageWriter* self,
-    Arcadia_Visuals_PixelBuffer* sourcePixelBuffer,
-    Arcadia_String* targetPath
+    Arcadia_List* source,
+    Arcadia_Imaging_ImageWriterParameters* target
   )
 {
-  Arcadia_ByteBuffer* targetByteBuffer = Arcadia_ByteBuffer_create(thread);
-  BmpImageWriter_writeBmpToByteBufferImpl(thread, (ImageWriter*)self, sourcePixelBuffer, targetByteBuffer);
-  Arcadia_FileSystem_setFileContents(thread, Arcadia_FileSystem_create(thread),
-                                     Arcadia_FilePath_parseUnix(thread, Arcadia_String_getBytes(thread, targetPath), Arcadia_String_getNumberOfBytes(thread, targetPath)), targetByteBuffer);
+  Arcadia_Value requestedExtension = Arcadia_Value_makeObjectReferenceValue(Arcadia_Imaging_ImageWriterParameters_getFormat(thread, target));
+  if (!Arcadia_List_contains(thread, (Arcadia_List*)self->supportedTypes, requestedExtension)) {
+    Arcadia_Thread_setStatus(thread, Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread_jump(thread);
+  }
+  if (Arcadia_Imaging_ImageWriterParameters_hasByteBuffer(thread, target)) {
+    PngImageWriter_writeBmpToByteBufferImpl(thread, self, source, Arcadia_Imaging_ImageWriterParameters_getByteBuffer(thread, target));
+  } else if (Arcadia_Imaging_ImageWriterParameters_hasPath(thread, target)) {
+    PngImageWriter_writeBmpToPathImpl(thread, self, source, Arcadia_Imaging_ImageWriterParameters_getPath(thread, target));
+  } else {
+    Arcadia_Thread_setStatus(thread, Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread_jump(thread);
+  }
 }
 
 static void
@@ -261,7 +254,9 @@ static const Arcadia_Type_Operations _typeOperations = {
   .objectTypeOperations = &_objectTypeOperations,
 };
 
-Arcadia_defineObjectType(u8"BmpImageWriter", BmpImageWriter, u8"ImageWriter", ImageWriter, &_typeOperations);
+Arcadia_defineObjectType(u8"BmpImageWriter", BmpImageWriter,
+                         u8"Arcadia.Imaging.ImageWriter", Arcadia_Imaging_ImageWriter,
+                         &_typeOperations);
 
 static void
 BmpImageWriter_constructImpl
@@ -284,9 +279,8 @@ BmpImageWriter_constructImpl
   Arcadia_List* supportedTypes = (Arcadia_List*)Arcadia_ArrayList_create(thread);
   Arcadia_List_insertBackObjectReferenceValue(thread, supportedTypes, Arcadia_String_create(thread, Arcadia_Value_makeImmutableUtf8StringValue(Arcadia_ImmutableUtf8String_create(thread, u8"bmp", sizeof(u8"bmp") - 1))));
   _self->supportedTypes = Arcadia_ImmutableList_create(thread, Arcadia_Value_makeObjectReferenceValue(supportedTypes));
-  ((ImageWriter*)_self)->getSupportedTypes = (Arcadia_ImmutableList*(*)(Arcadia_Thread*,ImageWriter*))&BmpImageWriter_getSupportedTypesImpl;
-  ((ImageWriter*)_self)->writeToPath = (void (*)(Arcadia_Thread*,ImageWriter*,Arcadia_String*,Arcadia_List*,Arcadia_String*))&BmpImageWriter_writeToPathImpl;
-  ((ImageWriter*)_self)->writeToByteBuffer = (void (*)(Arcadia_Thread*, ImageWriter*, Arcadia_String*, Arcadia_List*, Arcadia_ByteBuffer*)) & BmpImageWriter_writeToByteBufferImpl;
+  ((Arcadia_Imaging_ImageWriter*)_self)->getSupportedTypes = (Arcadia_ImmutableList*(*)(Arcadia_Thread*,Arcadia_Imaging_ImageWriter*))&BmpImageWriter_getSupportedTypesImpl;
+  ((Arcadia_Imaging_ImageWriter*)_self)->write = (void (*)(Arcadia_Thread*, Arcadia_Imaging_ImageWriter*, Arcadia_List*, Arcadia_Imaging_ImageWriterParameters*)) & BmpImageWriter_writeImpl;
   Arcadia_Object_setType(thread, (Arcadia_Object*)_self, _type);
 }
 

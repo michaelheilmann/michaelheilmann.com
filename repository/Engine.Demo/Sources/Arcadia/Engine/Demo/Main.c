@@ -646,7 +646,7 @@ main1
     audialsInitialized = Arcadia_BooleanValue_True;
 
     // (2) Play sine wave.
-    Audials_playSine(thread);
+    //Audials_playSine(thread);
 
     // (3) Create a window.
     window = Arcadia_Visuals_Application_createWindow(thread, application);

@@ -18,70 +18,65 @@
 
 #include "Arcadia/Ring2/Include.h"
 
-typedef enum ImageWriterFormat {
-  ImageWriterFormat_Undefined = 0,
-  ImageWriterFormat_Tiff,
-  ImageWriterFormat_Png,
-  ImageWriterFormat_Bmp,
-} ImageWriterFormat;
-
 /// @code
 /// class ImageWriterParameters {
-///   construct(path:String,format:ImageWriterFormat)
-///   construct(byteBuffer:ByteBuffer,format:ImageWriterFormat)
+///   construct(path:String,format:String)
+///   construct(byteBuffer:ByteBuffer,format:String)
 /// }
 /// @endcode
-Arcadia_declareObjectType(u8"ImageWriterParameters", ImageWriterParameters, u8"Arcadia.Object");
+/// where @ format is one of "bmp", "ico", "png", "tiff".
+Arcadia_declareObjectType(u8"Arcadia.Imagging.ImageWriterParameters", Arcadia_Imaging_ImageWriterParameters,
+                          u8"Arcadia.Object");
 
-ImageWriterParameters*
-ImageWriterParameters_createFile
+Arcadia_Imaging_ImageWriterParameters*
+Arcadia_Imaging_ImageWriterParameters_createFile
   (
     Arcadia_Thread* thread,
     Arcadia_String* path,
-    ImageWriterFormat format
+    Arcadia_String* format
   );
 
-ImageWriterParameters*
-ImageWriterParameters_createByteBuffer
+Arcadia_Imaging_ImageWriterParameters*
+Arcadia_Imaging_ImageWriterParameters_createByteBuffer
   (
     Arcadia_Thread* thread,
     Arcadia_ByteBuffer* byteBuffer,
-    ImageWriterFormat format
+    Arcadia_String* format
   );
 
 Arcadia_BooleanValue
-ImageWriterParameters_hasPath
+Arcadia_Imaging_ImageWriterParameters_hasPath
   (
     Arcadia_Thread* thread,
-    ImageWriterParameters* self
+    Arcadia_Imaging_ImageWriterParameters* self
   );
 
 Arcadia_String*
-ImageWriterParameters_getPath
+Arcadia_Imaging_ImageWriterParameters_getPath
   (
     Arcadia_Thread* thread,
-    ImageWriterParameters* self
+    Arcadia_Imaging_ImageWriterParameters* self
   );
 
 Arcadia_BooleanValue
-ImageWriterParameters_hasByteBuffer
+Arcadia_Imaging_ImageWriterParameters_hasByteBuffer
   (
     Arcadia_Thread* thread,
-    ImageWriterParameters* self
+    Arcadia_Imaging_ImageWriterParameters* self
   );
 
 Arcadia_ByteBuffer*
-ImageWriterParameters_getByteBuffer
+Arcadia_Imaging_ImageWriterParameters_getByteBuffer
   (
     Arcadia_Thread* thread,
-    ImageWriterParameters* self
+    Arcadia_Imaging_ImageWriterParameters* self
   );
 
-ImageWriterFormat
-ImageWriterParameters_getFormat
+Arcadia_String*
+Arcadia_Imaging_ImageWriterParameters_getFormat
   (
     Arcadia_Thread* thread,
-    ImageWriterParameters* self
+    Arcadia_Imaging_ImageWriterParameters* self
   );
 
 #endif // ARCADIA_IMAGING_IMAGEWRITERPARAMETERS_H_INCLUDED

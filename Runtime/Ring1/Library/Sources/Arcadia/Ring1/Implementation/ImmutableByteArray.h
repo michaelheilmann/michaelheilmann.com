@@ -23,8 +23,8 @@
 #include "Arcadia/Ring1/Implementation/Natural8.h"
 #include "Arcadia/Ring1/Implementation/Size.h"
 
-/// @brief The immutable byte array representation native to Arcadia Ring 1.
-/// @warning Arcadia_ImmutableByteArray's precondition is an initialized type system.
+/// The foreign Byte array provides the address and the length of an immutable, static array of Bytes.
+/// It is used to transfer Bytes from the C domain to the runtime domain.
 typedef struct Arcadia_ImmutableByteArray Arcadia_ImmutableByteArray;
 
 struct Arcadia_ImmutableByteArray {

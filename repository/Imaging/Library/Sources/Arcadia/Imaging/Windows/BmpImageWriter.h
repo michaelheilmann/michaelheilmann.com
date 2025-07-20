@@ -13,37 +13,23 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-#if !defined(ARCADIA_VISUALS_NATIVEWINDOWSIMAGEWRITER_H_INCLUDED)
-#define ARCADIA_VISUALS_NATIVEWINDOWSIMAGEWRITER_H_INCLUDED
+#if !defined(ARCADIA_VISUALS_WINDOWS_BMPIMAGEWRITER_H_INCLUDED)
+#define ARCADIA_VISUALS_WINDOWS_BMPIMAGEWRITER_H_INCLUDED
 
-#include "Arcadia/Ring2/Include.h"
-#include "Arcadia/Imaging/ImageWriter.h"
-#include "Arcadia/Imaging/PixelBuffer.h"
+#include "Arcadia/Imaging/Windows/WicImageWriterBase.h"
 
-// WIC header
-#define COBJMACROS (1)
-#include <wincodec.h>
+Arcadia_declareObjectType(u8"Arcadia.Imaging.Windows.BmpImageWriter", Arcadia_Imaging_Windows_BmpImageWriter,
+                          u8"Arcadia.Imaging.Windows.WicImageWriterBase");
 
-Arcadia_declareObjectType(u8"NativeWindowsImageWriter", NativeWindowsImageWriter, u8"ImageWriter");
-
-struct NativeWindowsImageWriter {
-  ImageWriter _parent;
+struct Arcadia_Imaging_Windows_BmpImageWriter {
+  Arcadia_Imaging_Windows_WicImageWriterBase _parent;
   Arcadia_ImmutableList* supportedTypes;
-
-  IWICImagingFactory* piFactory;
-  HGLOBAL hMemory;
-  IStream* piMemoryStream; // NULL if there is no memory stream
-  IWICStream* piStream;
-  IWICBitmapEncoder* piEncoder;
-
-  IWICBitmapFrameEncode* piBitmapFrame;
-  IPropertyBag2* pPropertyBag;
 };
 
-NativeWindowsImageWriter*
-NativeWindowsImageWriter_create
+Arcadia_Imaging_Windows_BmpImageWriter*
+Arcadia_Imaging_Windows_BmpImageWriter_create
   (
     Arcadia_Thread* thread
   );
 
-#endif // ARCADIA_VISUALS_NATIVEWINDOWSIMAGEWRITER_H_INCLUDED
+#endif // ARCADIA_VISUALS_WINDOWS_BMPIMAGEWRITER_H_INCLUDED

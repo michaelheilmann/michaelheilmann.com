@@ -91,6 +91,23 @@ Arcadia_List_filter
     Arcadia_BooleanValue(*predicate)(Arcadia_Thread* thread, Arcadia_Value context, Arcadia_Value value)
   );
 
+static inline Arcadia_BooleanValue
+Arcadia_List_contains
+  (
+    Arcadia_Thread* thread,
+    Arcadia_List* self,
+    Arcadia_Value value
+  )
+{
+  for (Arcadia_SizeValue i = 0, n = Arcadia_Collection_getSize(thread, (Arcadia_Collection*)self); i < n; ++i) {
+    Arcadia_Value e = Arcadia_List_getAt(thread, self, i);
+    if (Arcadia_Value_isEqualTo(thread, &value, &e)) {
+      return Arcadia_BooleanValue_True;
+    }
+  }
+  return Arcadia_BooleanValue_False;
+}
+
 #define Define(Type, Suffix, Variable) \
   void \
   Arcadia_List_insertBack##Suffix##Value \

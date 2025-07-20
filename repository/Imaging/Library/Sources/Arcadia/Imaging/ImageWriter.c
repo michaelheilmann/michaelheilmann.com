@@ -16,37 +16,25 @@
 #include "Arcadia/Imaging/ImageWriter.h"
 
 Arcadia_ImmutableList*
-ImageWriter_getSupportedTypes
+Arcadia_Imaging_ImageWriter_getSupportedTypes
   (
     Arcadia_Thread* thread,
-    ImageWriter* self
+    Arcadia_Imaging_ImageWriter* self
   )
 { return self->getSupportedTypes(thread, self); }
 
 void
-ImageWriter_writeToPath
+Arcadia_Imaging_ImageWriter_write
   (
     Arcadia_Thread* thread,
-    ImageWriter* self,
-    Arcadia_String* extension,
-    Arcadia_List *sourcePixelBuffers,
-    Arcadia_String* targetPath
+    Arcadia_Imaging_ImageWriter* self,
+    Arcadia_List* source,
+    Arcadia_Imaging_ImageWriterParameters* target
   )
-{ self->writeToPath(thread, self, extension, sourcePixelBuffers, targetPath); }
-
-void
-ImageWriter_writeToByteBuffer
-  (
-    Arcadia_Thread* thread,
-    ImageWriter* self,
-    Arcadia_String* extension,
-    Arcadia_List* sourcePixelBuffers,
-    Arcadia_ByteBuffer* targetByteBuffer
-  )
-{ self->writeToByteBuffer(thread, self, extension, sourcePixelBuffers, targetByteBuffer); }
+{ self->write(thread, self, source, target); }
 
 static void
-ImageWriter_constructImpl
+Arcadia_Imaging_ImageWriter_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Value* self,
@@ -55,7 +43,7 @@ ImageWriter_constructImpl
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
-  .construct = &ImageWriter_constructImpl,
+  .construct = &Arcadia_Imaging_ImageWriter_constructImpl,
   .destruct = NULL,
   .visit = NULL,
 };
@@ -65,10 +53,12 @@ static const Arcadia_Type_Operations _typeOperations = {
   .objectTypeOperations = &_objectTypeOperations,
 };
 
-Arcadia_defineObjectType(u8"ImageWriter", ImageWriter, u8"Arcadia.Object", Arcadia_Object, &_typeOperations);
+Arcadia_defineObjectType(u8"Arcadia.Imaging.ImageWriter", Arcadia_Imaging_ImageWriter,
+                         u8"Arcadia.Object", Arcadia_Object,
+                         &_typeOperations);
 
 static void
-ImageWriter_constructImpl
+Arcadia_Imaging_ImageWriter_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Value* self,
@@ -76,8 +66,8 @@ ImageWriter_constructImpl
     Arcadia_Value* argumentValues
   )
 {
-  ImageWriter* _self = Arcadia_Value_getObjectReferenceValue(self);
-  Arcadia_TypeValue _type = _ImageWriter_getType(thread);
+  Arcadia_Imaging_ImageWriter* _self = Arcadia_Value_getObjectReferenceValue(self);
+  Arcadia_TypeValue _type = _Arcadia_Imaging_ImageWriter_getType(thread);
   {
     Arcadia_Value argumentValues[] = {
       Arcadia_Value_makeVoidValue(Arcadia_VoidValue_Void),
@@ -86,8 +76,7 @@ ImageWriter_constructImpl
   }
   
   _self->getSupportedTypes = NULL;
-  _self->writeToPath = NULL;
-  _self->writeToByteBuffer = NULL;
+  _self->write = NULL;
 
   Arcadia_Object_setType(thread, (Arcadia_Object*)_self, _type);
 }

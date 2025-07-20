@@ -27,6 +27,7 @@ add_subdirectory(Tools.CompareFiles)
 add_subdirectory(Tools.TemplateEngine)
 add_subdirectory(Tools.Compiler)
 
+add_subdirectory(Math)
 add_subdirectory(Imaging)
 add_subdirectory(Visuals)
 add_subdirectory(Audials)

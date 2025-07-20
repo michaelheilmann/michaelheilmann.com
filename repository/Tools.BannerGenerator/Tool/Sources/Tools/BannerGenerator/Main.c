@@ -101,15 +101,16 @@ main1
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NotExists);
     Arcadia_Thread_popJumpTarget(thread);
   }
-  ImageWriter* writer = (ImageWriter*)Arcadia_List_getObjectReferenceValueAt(thread, writers, 0);
+  Arcadia_Imaging_ImageWriter* writer = (Arcadia_Imaging_ImageWriter*)Arcadia_List_getObjectReferenceValueAt(thread, writers, 0);
   Arcadia_Visuals_PixelBuffer* pixelBuffer = Arcadia_Visuals_PixelBuffer_create(thread, 0, Arcadia_Value_getInteger32Value(&width), Arcadia_Value_getInteger32Value(&height), Arcadia_Visuals_PixelFormat_An8Rn8Gn8Bn8);
   Arcadia_List* pixelBufferList = (Arcadia_List*)Arcadia_ArrayList_create(thread);
   Arcadia_List_insertBackObjectReferenceValue(thread, pixelBufferList, pixelBuffer);
-  ImageWriter_writeToPath(thread,
-                          writer,
-                          extension,
-                          pixelBufferList,
-                          Arcadia_Value_getObjectReferenceValue(&target));
+
+  Arcadia_Imaging_ImageWriterParameters* parameters = Arcadia_Imaging_ImageWriterParameters_createFile(thread, (Arcadia_String*)Arcadia_Value_getObjectReferenceValue(&target), extension);
+  Arcadia_Imaging_ImageWriter_write(thread,
+                                    writer,
+                                    pixelBufferList,
+                                    parameters);
 }
 
 int

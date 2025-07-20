@@ -18,16 +18,15 @@
 
 #include "Arcadia/Ring2/Include.h"
 #include "Arcadia/Imaging/PixelBuffer.h"
+#include "Arcadia/Imaging/ImageWriterParameters.h"
 
-Arcadia_declareObjectType(u8"ImageWriter", ImageWriter, u8"Arcadia.Object");
+Arcadia_declareObjectType(u8"Arcadia.Imaging.ImageWriter", Arcadia_Imaging_ImageWriter, u8"Arcadia.Object");
 
-struct ImageWriter {
+struct Arcadia_Imaging_ImageWriter {
   Arcadia_Object _parent;
   
-  Arcadia_ImmutableList* (*getSupportedTypes)(Arcadia_Thread* thread, ImageWriter* self);
-
-  void (*writeToPath)(Arcadia_Thread* thread, ImageWriter* self, Arcadia_String* extension, Arcadia_List *sourcePixelBuffers, Arcadia_String* targetPath);
-  void (*writeToByteBuffer)(Arcadia_Thread* thread, ImageWriter* self, Arcadia_String* extension, Arcadia_List* sourcePixelBuffers, Arcadia_ByteBuffer* targetByteBuffer);
+  Arcadia_ImmutableList* (*getSupportedTypes)(Arcadia_Thread* thread, Arcadia_Imaging_ImageWriter* self);
+  void (*write)(Arcadia_Thread* thread, Arcadia_Imaging_ImageWriter* self, Arcadia_List* source, Arcadia_Imaging_ImageWriterParameters* target);
 };
 
 /// @brief A set of strings denoting the extensions supported by this image writer.
@@ -36,30 +35,19 @@ struct ImageWriter {
 /// @return A set of strings denoting the extensions supported by this image writer.
 /// @remarks Canonical strings are "bmp", "ico", and "png".
 Arcadia_ImmutableList*
-ImageWriter_getSupportedTypes
+Arcadia_Imaging_ImageWriter_getSupportedTypes
   (
     Arcadia_Thread* thread,
-    ImageWriter* self
+    Arcadia_Imaging_ImageWriter* self
   );
 
 void
-ImageWriter_writeToPath
+Arcadia_Imaging_ImageWriter_write
   (
     Arcadia_Thread* thread,
-    ImageWriter* self,
-    Arcadia_String* extension,
-    Arcadia_List *sourcePixelBuffers,
-    Arcadia_String* targetPath
-  );
-
-void
-ImageWriter_writeToByteBuffer
-  (
-    Arcadia_Thread* thread,
-    ImageWriter* self,
-    Arcadia_String* extension,
-    Arcadia_List* sourcePixelBuffers,
-    Arcadia_ByteBuffer* targetByteBuffer
+    Arcadia_Imaging_ImageWriter* self,
+    Arcadia_List* source,
+    Arcadia_Imaging_ImageWriterParameters* target
   );
 
 #endif // ARCADIA_IMAGING_IMAGEWRITER_H_INCLUDED
