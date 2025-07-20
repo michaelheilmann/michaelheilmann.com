@@ -59,7 +59,7 @@ Windows_NativeBitmap_fill
     Arcadia_Natural8Value b
   );
 
-Arcadia_Visuals_PixelBuffer*
+Arcadia_Imaging_PixelBuffer*
 Windows_NativeBitmap_toPixelBuffer
   (
     Arcadia_Thread* thread,

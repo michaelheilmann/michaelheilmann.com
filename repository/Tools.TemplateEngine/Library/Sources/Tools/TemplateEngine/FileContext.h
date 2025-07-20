@@ -13,13 +13,15 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-#if !defined(TOOLS_TEMPLATEENGINE_FILECONTEXT_H_INCLUDED)
-#define TOOLS_TEMPLATEENGINE_FILECONTEXT_H_INCLUDED
+#if !defined(ARCADIA_TEMPLATEENGINE_FILECONTEXT_H_INCLUDED)
+#define ARCADIA_TEMPLATEENGINE_FILECONTEXT_H_INCLUDED
 
-#include "Arcadia/Include.h"
+#include "Arcadia/Ring2/Include.h"
 #include "Tools/TemplateEngine/Context.h"
+#include "Tools/TemplateEngine/Environment.h"
 
-Arcadia_declareObjectType(u8"Tools.TemplateEngine.FileContext", FileContext, u8"Arcadia.Object");
+Arcadia_declareObjectType(u8"Arcadia.TemplateEngine.FileContext", FileContext,
+                          u8"Arcadia.Object");
 
 struct FileContext {
   Arcadia_Object _parent;
@@ -30,7 +32,9 @@ struct FileContext {
   /// UTF8 reader for the source file.
   Arcadia_Utf8Reader* source;
   /// Map from strings to strings.
-  Arcadia_Map* environment;
+  //Arcadia_Map* environment;
+  Environment* environment;
+
 };
 
 FileContext*
@@ -38,6 +42,7 @@ FileContext_create
   (
     Arcadia_Thread* thread,
     Context* context,
+    Environment* environment,
     Arcadia_FilePath* sourceFilePath
   );
 
@@ -48,4 +53,4 @@ FileContext_execute
     FileContext* context
   );
 
-#endif // TOOLS_TEMPLATEENGINE_FILECONTEXT_H_INCLUDED
+#endif // ARCADIA_TEMPLATEENGINE_FILECONTEXT_H_INCLUDED

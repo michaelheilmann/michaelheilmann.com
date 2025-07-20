@@ -13,12 +13,13 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-#if !defined(TOOLS_TEMPLATEENGINE_CONTEXT_H_INCLUDED)
-#define TOOLS_TEMPLATEENGINE_CONTEXT_H_INCLUDED
+#if !defined(ARCADIA_TEMPLATEENGINE_CONTEXT_H_INCLUDED)
+#define ARCADIA_TEMPLATEENGINE_CONTEXT_H_INCLUDED
 
-#include "Arcadia/Include.h"
+#include "Arcadia/Ring2/Include.h"
 
-Arcadia_declareObjectType(u8"Tools.TemplateEngine.Context", Context, u8"Arcadia.Object");
+Arcadia_declareObjectType(u8"Arcadia.TemplateEngine.Context", Context,
+                          u8"Arcadia.Object");
 
 struct Context {
   Arcadia_Object _parent;
@@ -45,4 +46,4 @@ Context_onRun
     Context* context
   );
 
-#endif // TOOLS_TEMPLATEENGINE_CONTEXT_H_INCLUDED
+#endif // ARCADIA_TEMPLATEENGINE_CONTEXT_H_INCLUDED

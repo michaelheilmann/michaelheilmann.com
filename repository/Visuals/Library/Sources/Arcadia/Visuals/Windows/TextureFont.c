@@ -160,7 +160,7 @@ TextureFontWindows_setCodePoint
   }
 }
 
-Arcadia_Visuals_PixelBuffer*
+Arcadia_Imaging_PixelBuffer*
 TextureFontWindows_getPixelBuffer
   (
     Arcadia_Thread* thread,

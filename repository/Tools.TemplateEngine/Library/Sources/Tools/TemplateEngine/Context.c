@@ -51,7 +51,9 @@ static const Arcadia_Type_Operations _typeOperations = {
   .objectTypeOperations = &_objectTypeOperations,
 };
 
-Arcadia_defineObjectType(u8"Tools.TemplateEngine.Context", Context, u8"Arcadia.Object", Arcadia_Object, &_typeOperations);
+Arcadia_defineObjectType(u8"Arcadia.TemplateEngine.Context", Context,
+                         u8"Arcadia.Object", Arcadia_Object,
+                         &_typeOperations);
 
 void
 Context_constructImpl
@@ -150,12 +152,21 @@ Context_onRun
     Context* context
   )
 {
+  static const uint8_t sourceBytes[] =
+    u8"{\n"
+    u8"  siteAddress   : \"https://michaelheilmann.com\",\n"
+    u8"  generatorName : \"Michael Heilmann's Arcadia Template Engine\",\n"
+    u8"  generatorHome : \"https://michaelheilmann.com\",\n"
+    u8"}\n"
+    ;
+  Arcadia_String* sourceString = Arcadia_String_create(thread, Arcadia_Value_makeImmutableUtf8StringValue(Arcadia_ImmutableUtf8String_create(thread, sourceBytes, sizeof(sourceBytes) - 1)));
+  Environment* environment = Environment_loadString(thread, sourceString);
   Arcadia_FileSystem* fileSystem = Arcadia_FileSystem_create(thread);
   while (!Arcadia_Collection_isEmpty(thread, (Arcadia_Collection*)context->stack)) {
     Arcadia_Value elementValue = Arcadia_Stack_peek(thread, context->stack);
     Arcadia_Stack_pop(thread, context->stack);
     Arcadia_FilePath* filePath = (Arcadia_FilePath*)Arcadia_Value_getObjectReferenceValue(&elementValue);
-    FileContext* fileContext = FileContext_create(thread, context, filePath);
+    FileContext* fileContext = FileContext_create(thread, context, environment, filePath);
     Arcadia_ByteBuffer* sourceByteBuffer = NULL;
     Arcadia_JumpTarget jumpTarget;
     Arcadia_Thread_pushJumpTarget(thread, &jumpTarget);
