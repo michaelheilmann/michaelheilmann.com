@@ -15,23 +15,14 @@
 
 cmake_minimum_required(VERSION 3.20)
 
-add_subdirectory(Machine)
-add_subdirectory(Mil.Frontend)
+set(MyTestName ${MyProjectName}.Math.Tests.VectorTests)
 
-add_subdirectory(Integrations)
+# Create test executable.
+BeginProduct(${MyTestName} test)
 
-add_subdirectory(Engine.Demo)
+list(APPEND ${MyTestName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia.Math.Tests.VectorTests/Main.c)
 
-add_subdirectory(Tools.ConcatenateFiles)
-add_subdirectory(Tools.CompareFiles)
-add_subdirectory(Tools.TemplateEngine)
-add_subdirectory(Tools.Compiler)
+list(APPEND ${MyTestName}.PrivateLibraries ${MyProjectName}.Math)
 
-add_subdirectory(Math)
-add_subdirectory(Visuals)
-add_subdirectory(Audials)
-
-add_subdirectory(Tools.IconGenerator)
-add_subdirectory(Tools.BannerGenerator)
-add_subdirectory(Tools.BitmapFontGenerator)
-add_subdirectory(Tools.RyuLookupTablesGenerator)
+EndProduct(${MyTestName})
+set_target_properties(${MyTestName} PROPERTIES FOLDER "Math")
