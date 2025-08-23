@@ -16,28 +16,28 @@
 #if !defined(ARCADIA_VISUALS_IMPLEMENTATION_INCLUDE_H_INCLUDED)
 #define ARCADIA_VISUALS_IMPLEMENTATION_INCLUDE_H_INCLUDED
 
-#pragma push_macro("ARCADIA_VISUALS_PRIVATE")
-#undef ARCADIA_VISUALS_PRIVATE
-#define ARCADIA_VISUALS_PRIVATE (1)
-
 #include "Arcadia/Visuals/Include.h"
+#include "Arcadia/Visuals/Implementation/Configure.h"
 
-#include "Arcadia/Visuals/Implementation/Diagnostics.h"
+#if Arcadia_Visuals_Implementation_Configuration_Direct3D12_Backend_Enabled
+  #include "Arcadia/Visuals/Implementation/Direct3D12/Backend.h"
+#endif
 
-#include "Arcadia/Visuals/Implementation/Events/ApplicationQuitRequestedEvent.h"
+#if Arcadia_Visuals_Implementation_Configuration_OpenGL4_Backend_Enabled
+  #include "Arcadia/Visuals/Implementation/OpenGL4/Backend.h"
+#endif
 
-#include "Arcadia/Imaging/Include.h"
+#if Arcadia_Visuals_Implementation_Configuration_Vulkan_Backend_Enabled
+  #include "Arcadia/Visuals/Implementation/Vulkan/Backend.h"
+#endif
 
 #if Arcadia_Configuration_OperatingSystem_Windows == Arcadia_Configuration_OperatingSystem
-  #include "Arcadia/Visuals/Implementation/Windows/Application.h"
+  #include "Arcadia/Visuals/Implementation/Windows/System.h"
   #include "Arcadia/Visuals/Implementation/Windows/TextureFont.h"
 #elif Arcadia_Configuration_OperatingSystem_Linux == Arcadia_Configuration_OperatingSystem
-  #include "Arcadia/Visuals/Implementation/Linux/Application.h"
+  #include "Arcadia/Visuals/Implementation/Linux/System.h"
 #else
   #error("environment not (yet) supported")
 #endif
-
-#undef ARCADIA_VISUALS_PRIVATE
-#pragma pop_macro("ARCADIA_VISUALS_PRIVATE")
 
 #endif // ARCADIA_VISUALS_IMPLEMENTATION_INCLUDE_H_INCLUDED

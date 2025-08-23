@@ -76,6 +76,13 @@ InvokeTemplateEngine("${CMAKE_CURRENT_SOURCE_DIR}/Specifications/CommonLexicalSp
 add_custom_target(Website.Specifications.CommonLexicalSpecification ALL DEPENDS "${REPOSITORY_SOURCE_DIR}/../.build/specifications/common-lexical-specification/index.html")
 set_target_properties(Website.Specifications.CommonLexicalSpecification PROPERTIES FOLDER "Website")
 
+# Build "specifications/security-and-compliance-frequently-asked-questions/index.html".
+InvokeTemplateEngine("${CMAKE_CURRENT_SOURCE_DIR}/Specifications/Security and Compliance - Frequently Asked Questions/index.tl"
+                     "${REPOSITORY_SOURCE_DIR}/../.build/specifications/security-and-compliance-frequently-asked-questions/index.html"
+                     "${CMAKE_CURRENT_SOURCE_DIR}/website.env")
+add_custom_target(Website.Specifications.SecurityAndComplianceFrequentlyAskedQuestions ALL DEPENDS "${REPOSITORY_SOURCE_DIR}/../.build/specifications/security-and-compliance-frequently-asked-questions/index.html")
+set_target_properties(Website.Specifications.SecurityAndComplianceFrequentlyAskedQuestions PROPERTIES FOLDER "Website")
+
 # Build "Specifications/Mil/index.html".
 # @todo Rename "index.i" to "index.html.t".
 InvokeTemplateEngine("${CMAKE_CURRENT_SOURCE_DIR}/Specifications/Mil/index.i"

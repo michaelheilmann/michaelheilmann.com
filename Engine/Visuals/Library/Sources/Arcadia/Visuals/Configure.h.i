@@ -13,6 +13,10 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
+<<<<<<<< HEAD:Engine/Visuals/Library/Sources/Arcadia/Visuals/Include.c
+#define ARCADIA_VISUALS_PRIVATE (1)
+#include "Arcadia/Visuals/Include.h"
+========
 #if !defined(ARCADIA_VISUALS_CONFIGURE_H_INCLUDED)
 #define ARCADIA_VISUALS_CONFIGURE_H_INCLUDED
 
@@ -21,3 +25,4 @@
 #endif
 
 #endif // ARCADIA_VISUALS_CONFIGURE_H_INCLUDED
+>>>>>>>> 5dd2e4f2 (Update Week 1 August 2025):Engine/Visuals/Library/Sources/Arcadia/Visuals/Configure.h.i

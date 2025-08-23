@@ -20,8 +20,8 @@
   #error("do not include directly, include `Arcadia/Visuals/Include.h` instead")
 #endif
 #include "Arcadia/Engine/Include.h"
-#include "Arcadia/Imaging/Include.h"
 #include "Arcadia/Visuals/Icon.h"
+#include "Arcadia/Imaging/Include.h"
 
 // An instance of "Arcadia.Visuals.Window" is in "closed" state when it is created.
 // A successful call to "Arcadia.Visuals.Window.open" puts the window in "opened" state.
