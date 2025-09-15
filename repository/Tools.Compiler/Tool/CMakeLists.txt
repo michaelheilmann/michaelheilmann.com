@@ -15,7 +15,7 @@
 
 cmake_minimum_required(VERSION 3.20)
 
-set(MyTool Tools.Compiler)
+set(MyTool ${MyProjectName}.Tools.Compiler)
 
 if (NOT TARGET ${MyTool})
 
@@ -31,6 +31,6 @@ if (NOT TARGET ${MyTool})
 
   EndProduct(${MyTool})
 
-  set_target_properties(${MyTool} PROPERTIES FOLDER "Tools")
+  set_target_properties(${MyTool} PROPERTIES FOLDER "Tools/Compiler")
 
 endif()

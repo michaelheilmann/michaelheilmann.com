@@ -393,8 +393,14 @@ Arcadia_Engine_Demo_startupVisuals
 {
   // (1) Register visuals backends.
   {
+#if Arcadia_Visuals_Implementation_Configuration_Direct3D12_Backend_Enabled
+  Arcadia_Set_add(thread, engine->visualBackendTypes, Arcadia_Value_makeTypeValue(_Arcadia_Visuals_Direct3D12_Backend_getType(thread)), NULL);
+#endif
 #if Arcadia_Visuals_Implementation_Configuration_OpenGL4_Backend_Enabled
   Arcadia_Set_add(thread, engine->visualBackendTypes, Arcadia_Value_makeTypeValue(_Arcadia_Visuals_OpenGL4_Backend_getType(thread)), NULL);
+#endif
+#if Arcadia_Visuals_Implementation_Configuration_Vulkan_Backend_Enabled
+  Arcadia_Set_add(thread, engine->visualBackendTypes, Arcadia_Value_makeTypeValue(_Arcadia_Visuals_Vulkan_Backend_getType(thread)), NULL);
 #endif
   }
   // (2) Select visuals system.

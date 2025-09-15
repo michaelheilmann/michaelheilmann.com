@@ -98,6 +98,35 @@ struct Arcadia_Visuals_Window {
 
 };
 
+#if 0
+/// @private
+/// @brief Handle a "position changed" message from the backend.
+/// @param thread A pointer to this thread.
+/// @param self A pointer to this window.
+_Arcadia_Visuals_Window_onBackendPositionChanged
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Window* self,
+    Arcadia_Integer32Value width,
+    Arcadia_Integer32Value height
+  );
+#endif
+
+#if 0
+/// @private
+/// @brief Handle a "size changed" message from the backend.
+/// @param thread A pointer to this thread.
+/// @param self A pointer to this window.
+void
+_Arcadia_Visuals_Window_onBackendSizeChanged
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Window* self,
+    Arcadia_Integer32Value width,
+    Arcadia_Integer32Value height
+  );
+#endif
+
 /// @brief Ensure this window is opened.
 /// @param self A pointer to this window.
 void
@@ -116,6 +145,7 @@ Arcadia_Visuals_Window_close
     Arcadia_Visuals_Window* self
   );
 
+#if 0
 /// @brief Update this window.
 /// @param thread A pointer to this thread.
 /// @param self A pointer to this window.
@@ -125,6 +155,7 @@ Arcadia_Visuals_Window_update
     Arcadia_Thread* thread,
     Arcadia_Visuals_Window* self
   );
+#endif
 
 /// @brief Get the size (width and height), in pixels, of a big window icon.
 /// @param width A pointer to a <code>Arcadia_Integer32Value</code> variable.

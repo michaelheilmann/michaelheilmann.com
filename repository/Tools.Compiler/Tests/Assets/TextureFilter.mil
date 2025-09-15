@@ -13,11 +13,23 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-#if !defined(ARCADIA_VISUALS_IMPLEMENTATION_CONFIGURE_H_INCLUDED)
-#define ARCADIA_VISUALS_IMPLEMENTATION_CONFIGURE_H_INCLUDED
+#if !defined(ARCADIA_VISUALS_TEXTUREFILTER_H_INCLUDED)
+#define ARCADIA_VISUALS_TEXTUREFILTER_H_INCLUDED
 
-#define Arcadia_Visuals_Implementation_Configuration_Direct3D12_Backend_Enabled (@Arcadia.Visuals.Implementation.Configuration.Direct3D12.Enabled@)
-#define Arcadia_Visuals_Implementation_Configuration_OpenGL4_Backend_Enabled (@Arcadia.Visuals.Implementation.Configuration.OpenGL4.Enabled@)
-#define Arcadia_Visuals_Implementation_Configuration_Vulkan_Backend_Enabled (@Arcadia.Visuals.Implementation.Configuration.Vulkan.Enabled@)
+#if !defined(ARCADIA_VISUALS_PRIVATE) || 1 != ARCADIA_VISUALS_PRIVATE
+  #error("do not include directly, include `Arcadia/Visuals/Include.h` instead")
+#endif
+#include "Arcadia/Ring2/Include.h"
 
-#endif // ARCADIA_VISUALS_IMPLEMENTATION_CONFIGURE_H_INCLUDED
+// https://michaelheilmann.com/Arcadia/Visuals/#Arcadia_Visuals_TextureFilter
+Arcadia_declareEnumerationType(u8"Arcadia.Visuals.TextureFilter", Arcadia_Visuals_TextureFilter);
+
+enum Arcadia_Visuals_TextureFilter {
+
+  Arcadia_Visuals_TextureFilter_Nearest,
+
+  Arcadia_Visuals_TextureFilter_Linear,
+
+};
+
+#endif // ARCADIA_VISUALS_TEXTUREFILTER_H_INCLUDED

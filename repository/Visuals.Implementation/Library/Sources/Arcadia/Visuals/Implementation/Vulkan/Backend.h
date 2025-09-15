@@ -13,11 +13,22 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-#if !defined(ARCADIA_VISUALS_IMPLEMENTATION_CONFIGURE_H_INCLUDED)
-#define ARCADIA_VISUALS_IMPLEMENTATION_CONFIGURE_H_INCLUDED
+#if !defined(ARCADIA_VISUALS_IMPLEMENTATION_VULKAN_BACKEND_H_INCLUDED)
+#define ARCADIA_VISUALS_IMPLEMENTATION_VULKAN_BACKEND_H_INCLUDED
 
-#define Arcadia_Visuals_Implementation_Configuration_Direct3D12_Backend_Enabled (@Arcadia.Visuals.Implementation.Configuration.Direct3D12.Enabled@)
-#define Arcadia_Visuals_Implementation_Configuration_OpenGL4_Backend_Enabled (@Arcadia.Visuals.Implementation.Configuration.OpenGL4.Enabled@)
-#define Arcadia_Visuals_Implementation_Configuration_Vulkan_Backend_Enabled (@Arcadia.Visuals.Implementation.Configuration.Vulkan.Enabled@)
+#include "Arcadia/Visuals/Include.h"
 
-#endif // ARCADIA_VISUALS_IMPLEMENTATION_CONFIGURE_H_INCLUDED
+Arcadia_declareObjectType(u8"Arcadia.Visuals.Vulkan.Backend", Arcadia_Visuals_Vulkan_Backend,
+                          Arcadia_Visuals_Backend);
+
+struct Arcadia_Visuals_Vulkan_Backend {
+  Arcadia_Visuals_Backend parent;
+};
+
+Arcadia_Visuals_Vulkan_Backend*
+Arcadia_Visuals_Vulkan_Backend_create
+  (
+    Arcadia_Thread* thread
+  );
+
+#endif // ARCADIA_VISUALS_IMPLEMENTATION_VULKAN_BACKEND_H_INCLUDED

@@ -13,11 +13,32 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-#if !defined(ARCADIA_VISUALS_IMPLEMENTATION_CONFIGURE_H_INCLUDED)
-#define ARCADIA_VISUALS_IMPLEMENTATION_CONFIGURE_H_INCLUDED
+#if !defined(ARCADIA_TOOLS_COMPILER_LIBRARY_CONTEXT_H_INCLUDED)
+#define ARCADIA_TOOLS_COMPILER_LIBRARY_CONTEXT_H_INCLUDED
 
-#define Arcadia_Visuals_Implementation_Configuration_Direct3D12_Backend_Enabled (@Arcadia.Visuals.Implementation.Configuration.Direct3D12.Enabled@)
-#define Arcadia_Visuals_Implementation_Configuration_OpenGL4_Backend_Enabled (@Arcadia.Visuals.Implementation.Configuration.OpenGL4.Enabled@)
-#define Arcadia_Visuals_Implementation_Configuration_Vulkan_Backend_Enabled (@Arcadia.Visuals.Implementation.Configuration.Vulkan.Enabled@)
+#include "Arcadia/Ring2/Include.h"
+typedef struct Environment Environment;
 
-#endif // ARCADIA_VISUALS_IMPLEMENTATION_CONFIGURE_H_INCLUDED
+Arcadia_declareObjectType(u8"Arcadia.Tools.Compiler.Context", Context,
+                          u8"Arcadia.Object");
+
+struct Context {
+  Arcadia_Object _parent;
+  Arcadia_List* files;
+  Arcadia_Log* log;
+};
+
+Context*
+Context_create
+  (
+    Arcadia_Thread* thread
+  );
+
+void
+Context_onRun
+  (
+    Arcadia_Thread* thread,
+    Context* self
+  );
+
+#endif // ARCADIA_TOOLS_COMPILER_LIBRARY_CONTEXT_H_INCLUDED

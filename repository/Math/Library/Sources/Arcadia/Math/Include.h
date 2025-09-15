@@ -13,11 +13,17 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-#if !defined(ARCADIA_VISUALS_IMPLEMENTATION_CONFIGURE_H_INCLUDED)
-#define ARCADIA_VISUALS_IMPLEMENTATION_CONFIGURE_H_INCLUDED
+#if !defined(ARCADIA_MATH_INCLUDE_H_INCLUDED)
+#define ARCADIA_MATH_INCLUDE_H_INCLUDED
 
-#define Arcadia_Visuals_Implementation_Configuration_Direct3D12_Backend_Enabled (@Arcadia.Visuals.Implementation.Configuration.Direct3D12.Enabled@)
-#define Arcadia_Visuals_Implementation_Configuration_OpenGL4_Backend_Enabled (@Arcadia.Visuals.Implementation.Configuration.OpenGL4.Enabled@)
-#define Arcadia_Visuals_Implementation_Configuration_Vulkan_Backend_Enabled (@Arcadia.Visuals.Implementation.Configuration.Vulkan.Enabled@)
+#pragma push_macro("ARCADIA_MATH_PRIVATE")
+#undef ARCADIA_MATH_PRIVATE
+#define ARCADIA_MATH_PRIVATE (1)
 
-#endif // ARCADIA_VISUALS_IMPLEMENTATION_CONFIGURE_H_INCLUDED
+#include "Arcadia/Math/Implementation/Configure.h"
+#include "Arcadia/Ring2/Include.h"
+
+#undef ARCADIA_MATH_PRIVATE
+#pragma pop_macro("ARCADIA_MATH_PRIVATE")
+
+#endif // ARCADIA_MATH_INCLUDE_H_INCLUDED
