@@ -19,8 +19,16 @@
 #include "Arcadia/Visuals/Include.h"
 #include "Arcadia/Visuals/Implementation/Configure.h"
 
+#if Arcadia_Visuals_Implementation_Configuration_Direct3D12_Backend_Enabled
+  #include "Arcadia/Visuals/Implementation/Direct3D12/Backend.h"
+#endif
+
 #if Arcadia_Visuals_Implementation_Configuration_OpenGL4_Backend_Enabled
   #include "Arcadia/Visuals/Implementation/OpenGL4/Backend.h"
+#endif
+
+#if Arcadia_Visuals_Implementation_Configuration_Vulkan_Backend_Enabled
+  #include "Arcadia/Visuals/Implementation/Vulkan/Backend.h"
 #endif
 
 #if Arcadia_Configuration_OperatingSystem_Windows == Arcadia_Configuration_OperatingSystem

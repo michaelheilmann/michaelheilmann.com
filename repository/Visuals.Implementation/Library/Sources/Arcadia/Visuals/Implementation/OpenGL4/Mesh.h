@@ -17,6 +17,7 @@
 #define ARCADIA_VISUALS_IMPLEMENTATION_OPENGL4_CAMERA_H_INCLUDED
 
 #include "Arcadia/Visuals/Include.h"
+#include "Arcadia/Math/Include.h"
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.OpenGL4.Mesh", Arcadia_Visuals_Implementation_OpenGL4_Mesh,
                           u8"Arcadia.Object")
