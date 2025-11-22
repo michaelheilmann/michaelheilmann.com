@@ -81,6 +81,24 @@ Arcadia_ValueStack_popValues
     Arcadia_SizeValue count
   );
 
+/// @brief Raise a value.
+/// @param thread A pointer to the thread.
+/// @param value The value to raise.
+/// @remarks
+/// The runtime can raise any value.
+/// Certain languages may impose additional restrictions.
+/// @remarks
+/// Raising a value consists of the following steps:
+/// - assign thread->raisedValue = raisedValue
+/// - Arcadia_Thread_setStatus(thread, Arcadia_Status_ValueRaised) is invoked.
+/// - Arcadia_Thread_jump(thread) is invoked.
+void
+Arcadia_Thread_raise
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Value raisedValue
+  );
+
 /// @brief Push a jump target on the top of the jump target stack of this thread
 /// @param thread A pointer to this Arcadia_Thread object
 /// @undefined @a process does not refer to a Arcadia_Thread object
@@ -115,22 +133,22 @@ Arcadia_Thread_jump
     Arcadia_Thread* thread
   );
 
-/// @brief Get the status variable value of this thread
-/// @param thread A pointer to this Arcadia_Thread object
-/// @return the status value
-/// @undefined @a thread does not refer to a Arcadia_Thread object
-/// @undefined Invoked without having the exclusive lock to the thread
+/// @brief Get the status variable value of this thread.
+/// @param thread A pointer to this Arcadia_Thread object.
+/// @return the status value.
+/// @undefined @a thread does not refer to a Arcadia_Thread object.
+/// @undefined Invoked without having the exclusive lock to the thread.
 Arcadia_Status
 Arcadia_Thread_getStatus
   (
     Arcadia_Thread* thread
   );
 
-/// @brief Set the status variable value of this thread
-/// @param thread A pointer to this Arcadia_Thread object
-/// @param status the status value
-/// @undefined @a thread does not refer to a Arcadia_Thread object
-/// @undefined Invoked without having the exclusive lock to the thread
+/// @brief Set the status variable value of this thread.
+/// @param thread A pointer to this Arcadia_Thread object.
+/// @param status the status value.
+/// @undefined @a thread does not refer to a Arcadia_Thread object.
+/// @undefined Invoked without having the exclusive lock to the thread.
 void
 Arcadia_Thread_setStatus
   (
@@ -138,11 +156,11 @@ Arcadia_Thread_setStatus
     Arcadia_Status status
   );
 
-/// @brief Get the process of this thread
-/// @param thread A pointer to this Arcadia_Thread object
-/// @retur A pointer to the process of this thread
-/// @undefined @a thread does not refer to a Arcadia_Thread object
-/// @undefined Invoked without having the exclusive lock to the thread
+/// @brief Get the process of this thread.
+/// @param thread A pointer to this Arcadia_Thread object.
+/// @retur A pointer to the process of this thread.
+/// @undefined @a thread does not refer to a Arcadia_Thread object.
+/// @undefined Invoked without having the exclusive lock to the thread.
 Arcadia_Process*
 Arcadia_Thread_getProcess
   (

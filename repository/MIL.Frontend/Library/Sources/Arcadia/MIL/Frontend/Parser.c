@@ -117,7 +117,7 @@ getType
     Arcadia_Thread* thread,
     Arcadia_MIL_Parser* self
   )
-{ return Arcadia_MIL_Scanner_getTokenKind(thread, self->scanner); }
+{ return Arcadia_Languages_Scanner_getWordType(thread, (Arcadia_Languages_Scanner*)self->scanner); }
 
 static Arcadia_String*
 getText
@@ -125,7 +125,7 @@ getText
     Arcadia_Thread* thread,
     Arcadia_MIL_Parser* self
   )
-{ return Arcadia_MIL_Scanner_getTokenText(thread, self->scanner); }
+{ return Arcadia_Languages_Scanner_getWordText(thread, (Arcadia_Languages_Scanner*)self->scanner); }
 
 static Arcadia_BooleanValue
 is
@@ -143,9 +143,9 @@ next
     Arcadia_MIL_Parser* self
   )
 {
-  Arcadia_MIL_Scanner_step(thread, self->scanner);
+  Arcadia_Languages_Scanner_step(thread, (Arcadia_Languages_Scanner*)self->scanner);
   while (Arcadia_MIL_TokenKind_WhiteSpaces == getType(thread, self) || Arcadia_MIL_TokenKind_SingleLineComment == getType(thread, self) || Arcadia_MIL_TokenKind_MultiLineComment == getType(thread, self)) {
-    Arcadia_MIL_Scanner_step(thread, self->scanner);
+    Arcadia_Languages_Scanner_step(thread, (Arcadia_Languages_Scanner*)self->scanner);
   }
 }
 
@@ -1279,8 +1279,8 @@ Arcadia_MIL_Parser_setInput
   (
     Arcadia_Thread* thread,
     Arcadia_MIL_Parser* self,
-    Arcadia_UTF8Reader* input
+    Arcadia_String* input
   )
 {
-  Arcadia_MIL_Scanner_setInput(thread, self->scanner, input);
+  Arcadia_Languages_Scanner_setInput(thread, (Arcadia_Languages_Scanner*)self->scanner, input);
 }

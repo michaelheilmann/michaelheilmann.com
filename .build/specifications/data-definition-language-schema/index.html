@@ -1,0 +1,116 @@
+  <!DOCTYPE html>
+<html class='my-theme-1' lang='en'>
+<head>
+
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+  <link rel='icon' type='image/x-icon' href='https://michaelheilmann.com/assets/favicon/512x512.svg'>
+
+  <!-- Crap specific to Safari. SVG must be single color with transparent background. -->
+  <link rel='mask-icon' href='https://michaelheilmann.com/assets/favicon/safari-mask-icon-512x512.svg' color = '#000000'>
+
+  <!-- Crap specific to iOS. PNG must be 180 x 180 pixels. color attribute is obsolete. -->
+  <link rel='apple-touch-icon' href='https://michaelheilmann.com/assets/favicon/apple-touch-icon-180x180.png'>
+
+  <link rel='stylesheet' href='https://michaelheilmann.com/assets/reset.css?v=3'>
+  <link rel='stylesheet' href='https://michaelheilmann.com/assets/index.css?v=3'>
+  <link rel='canonical' href='https://michaelheilmann.com/specifications/data-definition-language/index.html'>
+  <title>Data Definition Language</title>
+  <style>
+  /* the left-hand side of a grammar rule */
+my-lhs {
+  display: block;
+}
+
+/* the right-hand side of a grammar rule */
+my-rhs {
+  display: block;
+  margin-left: 1rem;
+}
+
+/* A box used to surround out of text contents e.g., theorems, lemmas, examples, etc. */
+div.box {
+  padding-bottom: 8px;
+  padding-top: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
+
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  background-color: rgb(215, 210, 203);
+}
+
+div.box > div.header
+{/*Intentionally empty.*/}
+
+div.box > div.body
+{/*Intentionally empty.*/}
+
+div.box code {
+  background-color: rgb(215, 210, 203);
+}
+
+  my-sem, my-syn, my-lex {
+    font-family: my-code-font, monospace;
+  }
+  my-syn::after {
+    content: "<sub>syn/sub>"
+  }
+  my-sem {
+    font-style: italic;
+    font-family: my-default-font;
+  }
+  my-sem::after {
+    content: "<sub>sem</sub>"
+  }
+  </style>
+</head>
+<body class="my-content-page-1">
+  <header>
+  <div>
+  <a href="https://michaelheilmann.com/">Home</a>
+  </div>
+  </header>
+  <main>
+    <div class="left-column"></div>
+    <div class="center-column">
+    <h1>Data Definition Language Schema</h1>
+
+    <h2 id="introduction">1 Introduction</h2>
+
+<p>
+This document is the specification of the <em>Data Definition Language Schema</em>, or <em>DDLS</em> for short.
+DDLS is a declarative language for defining the structure and constraints for data described by a <a href="https://michaelheilmann.com/specifications/data-definition-language">DDL</a>  programs.
+</p>
+
+<p>
+<em>DDLS</em> programs and <em>DDL</em> programs are inputs to <em>DDLS validators</em>.
+<em>DDLS validators</em> are tools which validate an input DDL program against an input DDLS Schema program.
+These tools can be standalone or integrated into libraries and executables.
+</p>
+
+
+  </div>
+  <div class="right-column">
+   <nav>
+      <ul style="list-style: none">
+        <li><a href="#introduction">1 Introduction</a></li>
+        %<li><a href="#lexical-specification">2 Lexical Specification</a></li>
+        %<li><a href="#syntactical-specification">3 Syntactical Specification</a></li>
+        <li><a href="#semantical-specification">4 Semantical Specification</a></li>
+      </ul>
+    </nav>
+  </div>
+  </main>
+  <footer>
+    <div class="left-column"></div>
+    <div class="center-column"></div>
+    <div class="right-column">
+      <div>Website maintained by Michael Heilmann.</div>
+      <div>Last modified on 30 November 2025.</div>
+    </div>
+  </footer>
+</body>
+</html>

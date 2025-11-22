@@ -201,7 +201,7 @@ evalInvoke
     Arcadia_StringBuffer_insertBackCxxString(thread, sb, u8"variable `");
     Arcadia_StringBuffer_insertBack(thread, sb, k);
     Arcadia_StringBuffer_insertBackCxxString(thread, sb, u8"` not defined\n");
-    
+
     Arcadia_Log_error(thread, context->context->consoleLog, Arcadia_String_create(thread, Arcadia_Value_makeObjectReferenceValue(sb)));
 
     Arcadia_Thread_setStatus(thread, Arcadia_Status_ArgumentTypeInvalid);
