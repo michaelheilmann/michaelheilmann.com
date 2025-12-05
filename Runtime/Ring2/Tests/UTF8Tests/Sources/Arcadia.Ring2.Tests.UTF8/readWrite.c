@@ -13,7 +13,7 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-#include "Arcadia.Ring2.Tests.Utf8/readWrite.h"
+#include "Arcadia.Ring2.Tests.UTF8/readWrite.h"
 
 #include "Arcadia/Ring2/Include.h"
 
@@ -50,7 +50,7 @@ onReadWriteTestFixture
 }
 
 void
-Arcadia_Tests_Utf8_readWrite1
+Arcadia_Tests_UTF8_readWrite1
   (
     Arcadia_Thread* thread
   )

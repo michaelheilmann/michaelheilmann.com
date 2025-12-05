@@ -21,6 +21,7 @@
 #define ARCADIA_RING2_PRIVATE (1)
 
 #include "Arcadia/Ring2/Collections/Include.h"
+#include "Arcadia/Ring2/Exceptions/Include.h"
 
 #include "Arcadia/Ring2/Implementation/ArgumentsValidation.h"
 #include "Arcadia/Ring2/Implementation/ByteBuffer.h"
@@ -31,6 +32,8 @@
 #include "Arcadia/Ring2/Logging/Include.h"
 
 #include "Arcadia/Ring2/Print/print.h"
+
+#include "Arcadia/Ring2/Signals/Include.h"
 
 #include "Arcadia/Ring2/Time/Include.h"
 

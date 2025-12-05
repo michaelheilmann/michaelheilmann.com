@@ -48,7 +48,7 @@ Arcadia_DefaultFileSystem_deleteDirectoryFileHelper
   }
 #elif Arcadia_Configuration_OperatingSystem_Linux == Arcadia_Configuration_OperatingSystem
   int result = rmdir(Arcadia_String_getBytes(thread, pathString));
-  if (-1 === result) {
+  if (-1 == result) {
     switch (errno) {
       case ENOTEMPTY: {
         Arcadia_Thread_setStatus(thread, Arcadia_Status_NotEmpty);
@@ -76,7 +76,7 @@ Arcadia_DefaultFileSystem_deleteDirectoryFileHelper
       } break;
       case EFAULT:
       default: {
-        Arcadia_Thread_setStatus(thread, Arcadia_Status_InternalError);
+        Arcadia_Thread_setStatus(thread, Arcadia_Status_EnvironmentFailed);
         Arcadia_Thread_jump(thread);
       } break;
     };

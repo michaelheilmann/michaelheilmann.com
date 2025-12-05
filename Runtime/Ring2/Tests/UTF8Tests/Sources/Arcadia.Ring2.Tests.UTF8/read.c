@@ -13,12 +13,12 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-#include "Arcadia.Ring2.Tests.Utf8/read.h"
+#include "Arcadia.Ring2.Tests.UTF8/read.h"
 
 #include "Arcadia/Ring2/Include.h"
 
 void
-Arcadia_Tests_Utf8_read2
+Arcadia_Tests_UTF8_read2
   (
     Arcadia_Thread* thread
   )
@@ -53,7 +53,7 @@ Arcadia_Tests_Utf8_read2
 
 
 void
-Arcadia_Tests_Utf8_read1
+Arcadia_Tests_UTF8_read1
   (
     Arcadia_Thread* thread
   )

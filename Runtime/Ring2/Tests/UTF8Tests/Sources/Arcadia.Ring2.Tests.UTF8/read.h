@@ -19,7 +19,7 @@
 #include "Arcadia/Ring2/Include.h"
 
 void
-Arcadia_Tests_Utf8_read2
+Arcadia_Tests_UTF8_read2
   (
     Arcadia_Thread* thread
   );
@@ -34,7 +34,7 @@ Arcadia_Tests_Utf8_read2
 /// - success if they are equal
 /// - failure otherwise
 void
-Arcadia_Tests_Utf8_read1
+Arcadia_Tests_UTF8_read1
   (
     Arcadia_Thread* threadprocess
   );

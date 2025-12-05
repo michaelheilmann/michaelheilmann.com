@@ -45,7 +45,7 @@ Arcadia_DefaultFileSystem_deleteRegularFileHelper
   }
 #elif Arcadia_Configuration_OperatingSystem_Linux == Arcadia_Configuration_OperatingSystem
   int result = unlink(Arcadia_String_getBytes(thread, pathString));
-  if (-1 === result) {
+  if (-1 == result) {
     switch (errno) {
       case EACCES:
       case EBUSY:
@@ -69,7 +69,7 @@ Arcadia_DefaultFileSystem_deleteRegularFileHelper
       } break;
       case EFAULT:
       default: {
-        Arcadia_Thread_setStatus(thread, Arcadia_Status_InternalError);
+        Arcadia_Thread_setStatus(thread, Arcadia_Status_EnvironmentFailed);
         Arcadia_Thread_jump(thread);
       } break;
     };

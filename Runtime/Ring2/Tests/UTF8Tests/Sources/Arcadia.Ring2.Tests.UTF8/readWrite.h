@@ -29,7 +29,7 @@
 /// - success if their contents are equal
 /// - failure otherwise
 void
-Arcadia_Tests_Utf8_readWrite1
+Arcadia_Tests_UTF8_readWrite1
   (
     Arcadia_Thread* thread
   );

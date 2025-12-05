@@ -16,8 +16,8 @@
 #include <stdlib.h>
 
 #include "Arcadia/Ring2/Include.h"
-#include "Arcadia.Ring2.Tests.Utf8/read.h"
-#include "Arcadia.Ring2.Tests.Utf8/readWrite.h"
+#include "Arcadia.Ring2.Tests.UTF8/read.h"
+#include "Arcadia.Ring2.Tests.UTF8/readWrite.h"
 
 int
 main
@@ -26,13 +26,13 @@ main
     char **argv
   )
 {
-  if (!Arcadia_Tests_safeExecute(&Arcadia_Tests_Utf8_read1)) {
+  if (!Arcadia_Tests_safeExecute(&Arcadia_Tests_UTF8_read1)) {
     return EXIT_FAILURE;
   }
-  if (!Arcadia_Tests_safeExecute(&Arcadia_Tests_Utf8_read2)) {
+  if (!Arcadia_Tests_safeExecute(&Arcadia_Tests_UTF8_read2)) {
     return EXIT_FAILURE;
   }
-  if (!Arcadia_Tests_safeExecute(&Arcadia_Tests_Utf8_readWrite1)) {
+  if (!Arcadia_Tests_safeExecute(&Arcadia_Tests_UTF8_readWrite1)) {
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;
