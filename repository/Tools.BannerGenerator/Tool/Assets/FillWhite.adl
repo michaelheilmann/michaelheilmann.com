@@ -1,0 +1,5 @@
+{
+  type  : "PixelBufferOperations.FillOperation",
+  name  : "PixelBufferOperations.FillWhite",
+  color : "Colors.White",
+}

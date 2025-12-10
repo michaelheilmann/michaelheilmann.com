@@ -26,7 +26,18 @@
   #error("environment not (yet) supported")
 #endif
 
-void Arcadia_Visuals_Implementation_registerSceneNodeFactories(Arcadia_Thread* thread, Arcadia_Set* types);
-void Arcadia_Visuals_Implementation_registerBackends(Arcadia_Thread* thread, Arcadia_Set* types);
+void
+Arcadia_Visuals_Implementation_registerSceneNodeFactories
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Set* types
+  );
+
+void
+Arcadia_Visuals_Implementation_registerBackends
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Set* types
+  );
 
 #endif // ARCADIA_VISUALS_IMPLEMENTATION_INCLUDE_H_INCLUDED

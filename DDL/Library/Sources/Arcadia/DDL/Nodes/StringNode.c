@@ -31,8 +31,8 @@ Arcadia_DDL_StringNode_visitImpl
   );
 
 static const Arcadia_ObjectType_Operations _Arcadia_DDL_StringNode_objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_DDL_StringNode_constructImpl,
-  .destruct = NULL,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_DDL_StringNode_visitImpl,
 };
 

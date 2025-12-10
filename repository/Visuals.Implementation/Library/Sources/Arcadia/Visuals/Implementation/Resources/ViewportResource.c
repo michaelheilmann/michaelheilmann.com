@@ -40,6 +40,7 @@ Arcadia_Visuals_Implementation_ViewportResource_visitImpl
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_Visuals_Implementation_ViewportResource_constructImpl,
   .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_Visuals_Implementation_ViewportResource_destructImpl,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_Visuals_Implementation_ViewportResource_visitImpl,
@@ -76,6 +77,7 @@ Arcadia_Visuals_Implementation_ViewportResource_constructImpl
   }
   self->setCanvasSize = NULL;
   self->setClearColor = NULL;
+  self->setClearDepth = NULL;
   self->setRelativeViewportRectangle = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
@@ -108,6 +110,15 @@ Arcadia_Visuals_Implementation_ViewportResource_setClearColor
     Arcadia_Real32Value alpha
   )
 { self->setClearColor(thread, self, red, green, blue, alpha); }
+
+void
+Arcadia_Visuals_Implementation_ViewportResource_setClearDepth
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_ViewportResource* self,
+    Arcadia_Real32Value depth
+  )
+{ self->setClearDepth(thread, self, depth); }
 
 void
 Arcadia_Visuals_Implementation_ViewportResource_setRelativeViewportRectangle

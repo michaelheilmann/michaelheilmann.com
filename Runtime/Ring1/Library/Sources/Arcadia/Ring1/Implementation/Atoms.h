@@ -52,7 +52,7 @@ typedef Arcadia_Atom* Arcadia_AtomValue;
 /// @brief
 /// Get or create an atom.
 /// @param flags
-/// The flags. Must be R_AtomKind_Name.
+/// The flags. Must be Arcadia_AtomKind_Name.
 /// @param bytes
 /// A pointer to an array of @a numberOfBytes Bytes.
 /// @param numberOfBytes

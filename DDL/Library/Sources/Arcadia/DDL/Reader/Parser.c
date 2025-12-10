@@ -104,8 +104,8 @@ Arcadia_DDL_Parser_visit
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_DDL_Parser_constructImpl,
-  .destruct = NULL,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_DDL_Parser_visit,
 };
 
@@ -190,7 +190,9 @@ Arcadia_DDL_Parser_next
 {
   do {
     Arcadia_Languages_Scanner_step(thread, (Arcadia_Languages_Scanner*)self->scanner);
-  } while (Arcadia_DDL_WordType_WhiteSpace == Arcadia_DDL_Parser_getWordType(thread, self) ||
+  } while (Arcadia_DDL_WordType_MultiLineComment == Arcadia_DDL_Parser_getWordType(thread, self) ||
+           Arcadia_DDL_WordType_SingleLineComment == Arcadia_DDL_Parser_getWordType(thread, self) ||
+           Arcadia_DDL_WordType_WhiteSpace == Arcadia_DDL_Parser_getWordType(thread, self) ||
            Arcadia_DDL_WordType_LineTerminator == Arcadia_DDL_Parser_getWordType(thread, self));
 }
 

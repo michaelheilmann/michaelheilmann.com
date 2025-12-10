@@ -92,7 +92,7 @@ _toNatural64Internal
       Arcadia_Thread_setStatus(thread, Arcadia_Status_ConversionFailed);
       Arcadia_Thread_jump(thread);
     }
-    Arcadia_safeAddNatural64Value(thread, v, w, &hi, &v);
+    Arcadia_safeAddFullNatural64Value(thread, v, w, &hi, &v);
     if (hi) {
       Arcadia_Thread_setStatus(thread, Arcadia_Status_ConversionFailed);
       Arcadia_Thread_jump(thread);

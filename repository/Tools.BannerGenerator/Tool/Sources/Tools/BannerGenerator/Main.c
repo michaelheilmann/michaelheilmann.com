@@ -17,6 +17,27 @@
 #include "Arcadia/DDL/Include.h"
 #include "Arcadia/Ring2/Include.h"
 #include "Arcadia/Imaging/Include.h"
+#include "Arcadia/ADL/Include.h"
+
+static Arcadia_ADL_Definition*
+loadADL
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_Definitions* definitions,
+    Arcadia_String *pathString
+  )
+{
+  // (1)
+  Arcadia_FileSystem* fileSystem = Arcadia_FileSystem_getOrCreate(thread);
+  Arcadia_FilePath* path = Arcadia_FileSystem_getWorkingDirectory(thread, fileSystem);
+  Arcadia_FilePath* temporary = Arcadia_FilePath_parseGeneric(thread, Arcadia_String_getBytes(thread, pathString), Arcadia_String_getNumberOfBytes(thread, pathString));
+  Arcadia_FilePath_append(thread, path, temporary);
+  // (2)
+  Arcadia_ADL_Context* context = Arcadia_ADL_Context_getOrCreate(thread);
+  Arcadia_ByteBuffer* contents = Arcadia_FileSystem_getFileContents(thread, fileSystem, path);
+  // (3)
+  return Arcadia_ADL_Context_readFromString(thread, context, definitions, Arcadia_String_create(thread, Arcadia_Value_makeObjectReferenceValue(contents)));
+}
 
 static void
 main1
@@ -26,6 +47,8 @@ main1
     char** argv
   )
 {
+  Arcadia_ADL_Definitions* definitions = Arcadia_ADL_Definitions_create(thread);
+  Arcadia_ADL_Definition* definition = NULL;
   Arcadia_Value target, width, height;
   Arcadia_Value_setVoidValue(&target,Arcadia_VoidValue_Void);
   Arcadia_Value_setVoidValue(&width, Arcadia_VoidValue_Void);
@@ -44,7 +67,13 @@ main1
       Arcadia_Thread_setStatus(thread, Arcadia_Status_ArgumentValueInvalid);
       Arcadia_Thread_jump(thread);
     }
-    if (Arcadia_String_isEqualTo_pn(thread, key, u8"target", sizeof(u8"target") - 1)) {
+    if (Arcadia_String_isEqualTo_pn(thread, key, u8"definition", sizeof(u8"definition") - 1)) {
+      if (!value) {
+        Arcadia_CommandLine_raiseNoValueError(thread, key);
+      }
+      definition = loadADL(thread, definitions, value);
+    }
+    else if (Arcadia_String_isEqualTo_pn(thread, key, u8"target", sizeof(u8"target") - 1)) {
       if (!value) {
         Arcadia_CommandLine_raiseNoValueError(thread, key);
       }
@@ -102,6 +131,21 @@ main1
   if (Arcadia_Value_isVoidValue(&height)) {
     Arcadia_CommandLine_raiseRequiredArgumentMissingError(thread, Arcadia_String_create_pn(thread, Arcadia_ImmutableByteArray_create(thread, u8"height", sizeof(u8"height") - 1)));
   }
+
+  Arcadia_Imaging_Operation* operation = NULL;
+  Arcadia_ADL_Definitions_link(thread, definitions);
+  if (Arcadia_Object_isInstanceOf(thread, (Arcadia_Object*)definition, _Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinition_getType(thread))) {
+    operation = (Arcadia_Imaging_Operation*)Arcadia_Imaging_Operations_CheckerboardFill_create(thread, (Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinition*)definition);
+  } else if (Arcadia_Object_isInstanceOf(thread, (Arcadia_Object*)definition, _Arcadia_ADL_PixelBufferOperations_FillOperationDefinition_getType(thread))) {
+    operation = (Arcadia_Imaging_Operation*)Arcadia_Imaging_Operations_Fill_create(thread, (Arcadia_ADL_PixelBufferOperations_FillOperationDefinition*)definition);
+  } else {
+    Arcadia_logf(Arcadia_LogFlags_Error, u8"%s\n", "unknown/unsupported ADL definition");
+    Arcadia_Thread_setStatus(thread, Arcadia_Status_ArgumentValueInvalid);
+    Arcadia_Thread_jump(thread);
+  }
+  Arcadia_Imaging_PixelBuffer* pixelBuffer = Arcadia_Imaging_PixelBuffer_create(thread, 0, Arcadia_Value_getInteger32Value(&width), Arcadia_Value_getInteger32Value(&height), Arcadia_Imaging_PixelFormat_An8Rn8Gn8Bn8);
+  Arcadia_Imaging_Operation_apply(thread, operation, pixelBuffer);
+
   Arcadia_Imaging_ImageManager* imageManager = Arcadia_Imaging_ImageManager_getOrCreate(thread);
   Arcadia_String* extension = Arcadia_String_create(thread, Arcadia_Value_makeImmutableUtf8StringValue(Arcadia_ImmutableUtf8String_create(thread, u8"png", sizeof(u8"png") - 1)));
   Arcadia_List* writers = Arcadia_Imaging_ImageManager_getWriters(thread, imageManager, extension);
@@ -110,7 +154,6 @@ main1
     Arcadia_Thread_popJumpTarget(thread);
   }
   Arcadia_Imaging_ImageWriter* writer = (Arcadia_Imaging_ImageWriter*)Arcadia_List_getObjectReferenceValueAt(thread, writers, 0);
-  Arcadia_Imaging_PixelBuffer* pixelBuffer = Arcadia_Imaging_PixelBuffer_create(thread, 0, Arcadia_Value_getInteger32Value(&width), Arcadia_Value_getInteger32Value(&height), Arcadia_Imaging_PixelFormat_An8Rn8Gn8Bn8);
   Arcadia_List* pixelBufferList = (Arcadia_List*)Arcadia_ArrayList_create(thread);
   Arcadia_List_insertBackObjectReferenceValue(thread, pixelBufferList, pixelBuffer);
 

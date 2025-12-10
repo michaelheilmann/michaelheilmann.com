@@ -19,8 +19,8 @@
 #if !defined(ARCADIA_ADL_PRIVATE)
   #error("do not include directly, include `Arcadia/ADL/Include.h` instead")
 #endif
-#include "Arcadia/Ring2/Include.h"
 #include "Arcadia/ADL/Definition.h"
+#include "Arcadia/DDL/Include.h"
 
 // The definition of a color.
 //
@@ -66,14 +66,6 @@ Arcadia_ADL_ColorDefinition_create
     Arcadia_Natural8Value red,
     Arcadia_Natural8Value green,
     Arcadia_Natural8Value blue
-  );
-
-Arcadia_ADL_ColorDefinition*
-Arcadia_ADL_ColorDefinition_parse
-  (
-    Arcadia_Thread* thread,
-    Arcadia_ADL_Definitions* definitions,
-    Arcadia_String* input
   );
 
 #endif  // ARCADIA_ADL_COLORS_COLORDEFINITION_H_INCLUDED

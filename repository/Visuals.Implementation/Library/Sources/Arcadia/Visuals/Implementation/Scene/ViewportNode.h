@@ -26,6 +26,8 @@ Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.Scene.ViewportNode",
 struct Arcadia_Visuals_Implementation_Scene_ViewportNode {
   Arcadia_Visuals_Scene_ViewportNode _parent;
 
+  Arcadia_Natural8Value dirtyBits;
+
   Arcadia_Visuals_Implementation_BackendContext* backendContext;
   Arcadia_Visuals_Implementation_ViewportResource* viewportResource;
 

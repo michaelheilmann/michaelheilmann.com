@@ -34,6 +34,13 @@ struct Arcadia_Visuals_Implementation_ViewportResource {
       Arcadia_Real32Value alpha
     );
 
+  void (*setClearDepth)
+    (
+      Arcadia_Thread* thread,
+      Arcadia_Visuals_Implementation_ViewportResource* self,
+      Arcadia_Real32Value depth
+    );
+
   void
   (*setRelativeViewportRectangle)
     (
@@ -67,6 +74,16 @@ Arcadia_Visuals_Implementation_ViewportResource_setClearColor
     Arcadia_Real32Value green,
     Arcadia_Real32Value blue,
     Arcadia_Real32Value alpha
+  );
+
+/// Set the clear depth.
+/// Default values are 
+void
+Arcadia_Visuals_Implementation_ViewportResource_setClearDepth
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_ViewportResource* self,
+    Arcadia_Real32Value depth
   );
 
 /// Set the viewport relative rectangle.

@@ -58,8 +58,8 @@ writeBytes
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_ConsoleLog_constructImpl,
-  .destruct = NULL,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_ConsoleLog_visit,
 };
 

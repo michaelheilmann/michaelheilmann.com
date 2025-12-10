@@ -98,9 +98,7 @@ subtract
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
-  .construct = NULL,
-  .destruct = NULL,
-  .visit = NULL,
+  Arcadia_ObjectType_Operations_Initializer,
 };
 
 static const Arcadia_Type_Operations _typeOperations = {

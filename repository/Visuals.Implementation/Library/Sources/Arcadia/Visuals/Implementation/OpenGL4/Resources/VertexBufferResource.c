@@ -65,7 +65,7 @@ Arcadia_Visuals_Implementation_OpenGL4_VertexBufferResource_renderImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_OpenGL4_VertexBufferResource* self,
-    Arcadia_Visuals_Implementation_MeshContextResource* meshContextResource
+    Arcadia_Visuals_Implementation_RenderingContextResource* renderingContextNode
   );
 
 static Arcadia_SizeValue
@@ -86,6 +86,7 @@ Arcadia_Visuals_Implementation_OpenGL4_VertexBufferResource_setDataImpl
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_Visuals_Implementation_OpenGL4_VertexBufferResource_constructImpl,
   .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_Visuals_Implementation_OpenGL4_VertexBufferResource_destructImpl,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_Visuals_Implementation_OpenGL4_VertexBufferResource_visitImpl,
@@ -137,7 +138,7 @@ Arcadia_Visuals_Implementation_OpenGL4_VertexBufferResource_constructImpl
   ((Arcadia_Visuals_Implementation_Resource*)self)->load = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_VertexBufferResource_loadImpl;
   ((Arcadia_Visuals_Implementation_Resource*)self)->unload = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_VertexBufferResource_unloadImpl;
   ((Arcadia_Visuals_Implementation_Resource*)self)->unlink = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_VertexBufferResource_unlinkImpl;
-  ((Arcadia_Visuals_Implementation_Resource*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*, Arcadia_Visuals_Implementation_MeshContextResource*)) & Arcadia_Visuals_Implementation_OpenGL4_VertexBufferResource_renderImpl;
+  ((Arcadia_Visuals_Implementation_Resource*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*, Arcadia_Visuals_Implementation_RenderingContextResource*)) & Arcadia_Visuals_Implementation_OpenGL4_VertexBufferResource_renderImpl;
   ((Arcadia_Visuals_Implementation_VertexBufferResource*)self)->getNumberOVertices = (Arcadia_SizeValue (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_VertexBufferResource*)) & Arcadia_Visuals_Implementation_OpenGL4_VertexBufferResource_getNumberOfVerticesImpl;
   ((Arcadia_Visuals_Implementation_VertexBufferResource*)self)->setData = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_VertexBufferResource*, Arcadia_SizeValue, const void*, Arcadia_SizeValue)) & Arcadia_Visuals_Implementation_OpenGL4_VertexBufferResource_setDataImpl;
 
@@ -267,7 +268,7 @@ Arcadia_Visuals_Implementation_OpenGL4_VertexBufferResource_renderImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_OpenGL4_VertexBufferResource* self,
-    Arcadia_Visuals_Implementation_MeshContextResource* meshContextResource
+    Arcadia_Visuals_Implementation_RenderingContextResource* renderingContextNode
   )
 {
   Arcadia_Visuals_Implementation_OpenGL4_BackendContext* context = (Arcadia_Visuals_Implementation_OpenGL4_BackendContext*)((Arcadia_Visuals_Implementation_Resource*)self)->context;

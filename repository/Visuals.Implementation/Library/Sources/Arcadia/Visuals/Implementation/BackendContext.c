@@ -37,6 +37,7 @@ Arcadia_Visuals_Implementation_BackendContext_visitImpl
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_Visuals_Implementation_BackendContext_constructImpl,
   .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_Visuals_Implementation_BackendContext_destructImpl,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_Visuals_Implementation_BackendContext_visitImpl,
@@ -75,8 +76,10 @@ Arcadia_Visuals_Implementation_BackendContext_constructImpl
 
   self->createConstantBufferResource = NULL;
   self->createFragmentProgramResource = NULL;
+  self->createFrameBufferResource = NULL;
   self->createMeshResource = NULL;
   self->createProgramResource = NULL;
+  self->createTextureResource = NULL;
   self->createVertexBufferResource = NULL;
   self->createVertexProgramResource = NULL;
   self->createViewportResource = NULL;
@@ -117,13 +120,21 @@ Arcadia_Visuals_Implementation_BackendContext_createFragmentProgramResource
   )
 { return self->createFragmentProgramResource(thread, self); }
 
-Arcadia_Visuals_Implementation_MeshContextResource*
-Arcadia_Visuals_Implementation_BackendContext_createMeshContextResource
+Arcadia_Visuals_Implementation_FrameBufferResource*
+Arcadia_Visuals_Implementation_BackendContext_createFrameBufferResource
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_BackendContext* self
   )
-{ return self->createMeshContextResource(thread, self); }
+{ return self->createFrameBufferResource(thread, self); }
+
+Arcadia_Visuals_Implementation_RenderingContextResource*
+Arcadia_Visuals_Implementation_BackendContext_createRenderingContextResource
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_BackendContext* self
+  )
+{ return self->createRenderingContextResource(thread, self); }
 
 Arcadia_Visuals_Implementation_MeshResource*
 Arcadia_Visuals_Implementation_BackendContext_createMeshResource
@@ -144,6 +155,14 @@ Arcadia_Visuals_Implementation_BackendContext_createProgramResource
     Arcadia_Visuals_Implementation_FragmentProgramResource* fragmentProgram
   )
 { return self->createProgramResource(thread, self, vertexProgram, fragmentProgram); }
+
+Arcadia_Visuals_Implementation_TextureResource*
+Arcadia_Visuals_Implementation_BackendContext_createTextureResource
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_BackendContext* self
+  )
+{ return self->createTextureResource(thread, self); }
 
 Arcadia_Visuals_Implementation_VertexBufferResource*
 Arcadia_Visuals_Implementation_BackendContext_createVertexBufferResource

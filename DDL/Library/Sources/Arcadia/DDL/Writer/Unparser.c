@@ -120,8 +120,8 @@ Arcadia_DataDefinitionLanguage_Unparser_visit
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_DataDefinitionLanguage_Unparser_constructImpl,
-  .destruct = NULL,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_DataDefinitionLanguage_Unparser_visit,
 };
 

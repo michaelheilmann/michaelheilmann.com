@@ -26,9 +26,9 @@ Arcadia_declareEnumerationType(u8"Arcadia.Visuals.TextureFilter", Arcadia_Visual
 
 enum Arcadia_Visuals_TextureFilter {
 
-  Arcadia_Visuals_TextureFilter_Nearest,
-
   Arcadia_Visuals_TextureFilter_Linear,
+
+  Arcadia_Visuals_TextureFilter_Nearest,
 
 };
 

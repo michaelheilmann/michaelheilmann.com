@@ -76,8 +76,8 @@ Arcadia_UTF8FileHandleWriter_writeStringImpl
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_UTF8FileHandleWriter_constructImpl,
-  .destruct = NULL,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_UTF8FileHandleWriter_visit,
 };
 

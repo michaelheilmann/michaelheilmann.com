@@ -16,12 +16,25 @@
 #if !defined(ARCADIA_AUDIALS_IMPLEMENTATION_INCLUDE_H_INCLUDED)
 #define ARCADIA_AUDIALS_IMPLEMENTATION_INCLUDE_H_INCLUDED
 
+#include "Arcadia/Audials/Include.h"
 #include "Arcadia/Audials/Implementation/Configure.h"
 
 #if Arcadia_Audials_Implementation_Configuration_OpenAL_Backend_Enabled
   #include "Arcadia/Audials/Implementation/OpenAL/Backend.h"
 #endif
 
-#include "Arcadia/Ring2/Include.h"
+void
+Arcadia_Audials_Implementation_registerSceneNodeFactories
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Set* types
+  );
+
+void
+Arcadia_Audials_Implementation_registerBackends
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Set* types
+  );
 
 #endif // ARCADIA_AUDIALS_IMPLEMENTATION_INCLUDE_H_INCLUDED

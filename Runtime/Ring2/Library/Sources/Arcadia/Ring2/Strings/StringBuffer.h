@@ -156,12 +156,28 @@ Arcadia_StringBuffer_removeCodePointsBack
   );
 
 void
+Arcadia_StringBuffer_insertCodePointBack
+  (
+    Arcadia_Thread* thread,
+    Arcadia_StringBuffer* self,
+    Arcadia_Natural32Value codePoint
+  );
+
+void
 Arcadia_StringBuffer_insertCodePointsBack
   (
     Arcadia_Thread* thread,
     Arcadia_StringBuffer* self,
     Arcadia_Natural32Value const* codePoints,
     Arcadia_SizeValue numberOfCodePoints
+  );
+
+void
+Arcadia_StringBuffer_insertCodePointFront
+  (
+    Arcadia_Thread* thread,
+    Arcadia_StringBuffer* self,
+    Arcadia_Natural32Value codePoint
   );
 
 void

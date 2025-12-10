@@ -101,7 +101,7 @@ if (NOT TARGET ${MyLibraryName})
   OnSourceFile(${MyLibraryName} ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia/MIL/AST/DefinitionStatements/LabelDefinitionStatementNode.c)
   OnHeaderFile(${MyLibraryName} ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia/MIL/AST/DefinitionStatements/LabelDefinitionStatementNode.h)
 
-  list(APPEND ${MyLibraryName}.Libraries ${MyProjectName}.Ring2 ${MyProjectName}.Ring1 ${MyProjectName}.ARMS)
+  list(APPEND ${MyLibraryName}.Libraries ${MyProjectName}.Ring2)
 
   if (${${MyLibraryName}.OperatingSystem} STREQUAL ${${MyLibraryName}.OperatingSystem.Linux})
     list(APPEND ${MyLibraryName}.Libraries m)

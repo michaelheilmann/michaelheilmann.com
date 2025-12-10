@@ -27,12 +27,16 @@ if (NOT TARGET ${MyTool})
 
   list(APPEND ${MyTool}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Tools/BannerGenerator/Main.c)
 
-  list(APPEND ${MyTool}.PrivateLibraries ${MyProjectName}.Imaging ${MyProjectName}.DDL ${MyProjectName}.ARMS)
+  list(APPEND ${MyTool}.PrivateLibraries ${MyProjectName}.ADL ${MyProjectName}.Imaging ${MyProjectName}.DDL)
 
   EndProduct(${MyTool})
 
-  set_target_properties(${MyTool} PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS "--target=\"\"helloworld.png\"\" --width=320 --height=240")
+  # Copy assets.
+  add_custom_command(TARGET ${MyTool} POST_BUILD
+                     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/Assets ${${MyTool}.WorkingDirectory})
 
-  set_target_properties(${MyTool} PROPERTIES FOLDER "Tools")
+  set_target_properties(${MyTool} PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS "--target=\\\"helloworld.png\\\" --definition=\\\"Black.adl\\\" --definition=\\\"White.adl\\\" --definition=\\\"FillCheckerboardBlackWhite.adl\\\" --width=320 --height=240")
+
+  set_target_properties(${MyTool} PROPERTIES FOLDER "Tools/BannerGenerator")
 
 endif()

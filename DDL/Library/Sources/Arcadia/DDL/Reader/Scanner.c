@@ -252,7 +252,7 @@ Arcadia_DDL_Scanner_constructImpl
   self->keywords = Arcadia_DataDefinitionLanguage_Keywords_create(thread);
   self->inputString = Arcadia_String_createFromCxxString(thread, u8"");
   self->input = (Arcadia_UTF8Reader*)Arcadia_UTF8StringReader_create(thread, self->inputString);
-  self->stringTable = Arcadia_Languages_StringTable_create(thread);
+  self->stringTable = Arcadia_Languages_StringTable_getOrCreate(thread);
   //
   self->word.type = Arcadia_DDL_WordType_StartOfInput;
   self->word.text = Arcadia_StringBuffer_create(thread);
@@ -750,11 +750,11 @@ Arcadia_DDL_Scanner_stepImpl
           Arcadia_Thread_setStatus(thread, Arcadia_Status_LexicalError);
           Arcadia_Thread_jump(thread);
         } else if ('\n' == self->symbol) {
-          next(thread, self);
+          saveAndNext(thread, self);
         } else if ('\r' == self->symbol) {
-          next(thread, self);
+          saveAndNext(thread, self);
           if ('\n' == self->symbol) {
-            next(thread, self);
+            saveAndNext(thread, self);
           }
         } else if ('*' == self->symbol) {
           next(thread, self);
@@ -764,6 +764,8 @@ Arcadia_DDL_Scanner_stepImpl
           } else {
             write(thread, self, '*');
           }
+        } else {
+          saveAndNext(thread, self);
         }
       }
       onEndWord(thread, self, Arcadia_DDL_WordType_MultiLineComment);

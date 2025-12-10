@@ -32,8 +32,8 @@ R_Interpreter_Constructor_visit
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&R_Interpreter_Constructor_constructImpl,
-  .destruct = NULL,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&R_Interpreter_Constructor_visit,
 };
 

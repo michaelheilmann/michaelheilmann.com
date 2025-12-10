@@ -58,9 +58,8 @@ isNotEqualTo
   );
 
 static const Arcadia_ObjectType_Operations _Arcadia_Object_objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = &Arcadia_Object_constructImpl,
-  .destruct = NULL,
-  .visit = NULL,
 };
 
 static const Arcadia_Type_Operations _Arcadia_Object_typeOperations = {

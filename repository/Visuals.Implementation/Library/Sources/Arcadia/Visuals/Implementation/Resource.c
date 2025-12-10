@@ -39,6 +39,7 @@ Arcadia_Visuals_Implementation_Resource_visitImpl
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_Visuals_Implementation_Resource_constructImpl,
   .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_Visuals_Implementation_Resource_destructImpl,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_Visuals_Implementation_Resource_visitImpl,
@@ -128,9 +129,9 @@ Arcadia_Visuals_Implementation_Resource_render
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_Resource* self,
-    Arcadia_Visuals_Implementation_MeshContextResource* meshContextResource
+    Arcadia_Visuals_Implementation_RenderingContextResource* renderingContextResource
   )
-{ self->render(thread, self, meshContextResource); }
+{ self->render(thread, self, renderingContextResource); }
 
 void
 Arcadia_Visuals_Implementation_Resource_ref

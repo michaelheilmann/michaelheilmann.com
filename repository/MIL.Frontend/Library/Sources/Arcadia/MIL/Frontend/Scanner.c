@@ -199,6 +199,7 @@ isDigit
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*) & Arcadia_MIL_Scanner_constructImpl,
   .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_MIL_Scanner_destructImpl,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_MIL_Scanner_visitImpl,
@@ -247,7 +248,7 @@ Arcadia_MIL_Scanner_constructImpl
   self->word.type = Arcadia_MIL_WordType_StartOfInput;
   self->word.start = 0;
   self->word.length = 0;
-  self->stringTable = Arcadia_Languages_StringTable_create(thread);
+  self->stringTable = Arcadia_Languages_StringTable_getOrCreate(thread);
   self->inputString = Arcadia_String_createFromCxxString(thread, u8"");
   self->input = (Arcadia_UTF8Reader*)Arcadia_UTF8StringReader_create(thread, self->inputString);
   self->word.text = Arcadia_StringBuffer_create(thread);

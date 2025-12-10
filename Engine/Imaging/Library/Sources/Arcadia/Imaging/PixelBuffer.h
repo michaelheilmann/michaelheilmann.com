@@ -170,6 +170,43 @@ Arcadia_Imaging_PixelBuffer_setPixelRgba
 
 /// @brief Set component values of the pixels in this pixel buffer.
 /// @param self A pointer to this pixel buffer.
+/// @param left The left side of the pixel rectangle to fill.
+/// @param top The top side of the pixel rectangle to fill.
+/// @param width The width of the pixel rectangle to fill.
+/// @param height The height of the pixel rectagnel to fill.
+/// @param r The red component value.
+/// @param g The green component value.
+/// @param b The blue component value.
+/// @param a The alpha component value.
+/// @error Arcadia_Status_ArgumentValueInvalid @a width and/or @a height is negative.
+/// @error Arcadia_Status_ArgumentValueInvalid <code>left + width</code> and/or <code>top + height</code> would overflow.
+/// @error Arcadia_Status_OperationInvalid The pixel buffer is not of the format ABGR, ARGB, BGR, BGRA, RGB, or RGBA.
+/// @remarks
+/// 
+/// @post
+/// On success:
+/// <code>r</code> is assigned to the red component of the pixel.
+/// <code>g</code> is assigned to the green component of the pixel.
+/// <code>a</code> is assigned to the blue component of the pixel.
+/// <code>a</code> is assigned to the alpha component of the pixel
+/// if the pixel has an alpha component.
+void
+Arcadia_Imaging_PixelBuffer_fillRectangle
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Imaging_PixelBuffer* self,
+    Arcadia_Integer32Value left,
+    Arcadia_Integer32Value top,
+    Arcadia_Integer32Value width,
+    Arcadia_Integer32Value height,
+    Arcadia_Natural8Value r,
+    Arcadia_Natural8Value g,
+    Arcadia_Natural8Value b,
+    Arcadia_Natural8Value a
+  );
+
+/// @brief Set component values of the pixels in this pixel buffer.
+/// @param self A pointer to this pixel buffer.
 /// @param r The red component value.
 /// @param g The green component value.
 /// @param b The blue component value.

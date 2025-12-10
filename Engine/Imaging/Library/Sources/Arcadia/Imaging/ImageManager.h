@@ -18,7 +18,8 @@
 
 #include "Arcadia/Imaging/PixelBuffer.h"
 
-Arcadia_declareObjectType(u8"Arcadia.Imaging.ImageManager", Arcadia_Imaging_ImageManager, u8"Arcadia.Object");
+Arcadia_declareObjectType(u8"Arcadia.Imaging.ImageManager", Arcadia_Imaging_ImageManager,
+                          u8"Arcadia.Object");
 
 struct Arcadia_Imaging_ImageManager {
   Arcadia_Object _parent;

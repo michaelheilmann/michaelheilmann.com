@@ -23,6 +23,7 @@
 #include "Arcadia/Ring1/Implementation/Real32.h"
 #include "Arcadia/Ring1/Implementation/Natural32.h"
 
+// https://michaelheilmann.com/Arcadia/Ring2/#Arcadia_RealValue_getBits
 Arcadia_Natural32Value
 Arcadia_Real32Value_getBits
   (

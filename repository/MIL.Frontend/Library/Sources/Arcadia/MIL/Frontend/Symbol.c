@@ -37,6 +37,7 @@ Arcadia_MIL_Symbol_visitImpl
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_MIL_Symbol_constructImpl,
   .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_MIL_Symbol_destructImpl,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_MIL_Symbol_visitImpl,

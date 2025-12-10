@@ -26,13 +26,13 @@ Arcadia_declareEnumerationType(u8"Arcadia.Visuals.TextureAddressMode", Arcadia_V
 
 enum Arcadia_Visuals_TextureAddressMode {
 
-  Arcadia_Visuals_TextureAddressMode_ClampToEdge,
-
   Arcadia_Visuals_TextureAddressMode_ClampToBorder,
 
-  Arcadia_Visuals_TextureAddressMode_Repeat,
+  Arcadia_Visuals_TextureAddressMode_ClampToEdge,
 
   Arcadia_Visuals_TextureAddressMode_MirroredRepeat,
+
+  Arcadia_Visuals_TextureAddressMode_Repeat,
 
 };
 

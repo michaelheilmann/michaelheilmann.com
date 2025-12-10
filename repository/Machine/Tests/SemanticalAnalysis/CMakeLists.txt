@@ -33,7 +33,7 @@ if (NOT TARGET ${MyTestName})
   list(APPEND ${MyTestName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia/MIL/Frontend/Tests/SemanticalAnalysis/Pass.c)
   list(APPEND ${MyTestName}.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia/MIL/Frontend/Tests/SemanticalAnalysis/Pass.h)
 
-  list(APPEND ${MyTestName}.PrivateLibraries ${MyProjectName}.Machine ${MyProjectName}.ARMS)
+  list(APPEND ${MyTestName}.PrivateLibraries ${MyProjectName}.Machine)
 
   EndProduct(${MyTestName})
   target_include_directories(${MyTestName} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})

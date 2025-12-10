@@ -23,9 +23,8 @@ Arcadia_Audials_Backend_constructImpl
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_Audials_Backend_constructImpl,
-  .destruct = NULL,
-  .visit = NULL,
 };
 
 static const Arcadia_Type_Operations _typeOperations = {

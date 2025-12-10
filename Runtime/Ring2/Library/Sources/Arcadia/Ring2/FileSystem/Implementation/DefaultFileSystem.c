@@ -524,7 +524,7 @@ Arcadia_DefaultFileSystem_getExecutableImpl
         Arcadia_Thread_jump(thread);
       } else if (m == n) {
         Arcadia_SizeValue hi, lo;
-        Arcadia_safeAddSizeValue(thread, 64, MAX_PATH, &hi, &lo);
+        Arcadia_safeAddFullSizeValue(thread, 64, MAX_PATH, &hi, &lo);
         if (hi) {
           lo = Arcadia_SizeValue_Maximum;
         }

@@ -30,9 +30,9 @@ Arcadia_Visuals_Scene_MeshNode_destructImpl
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_Visuals_Scene_MeshNode_constructImpl,
   .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_Visuals_Scene_MeshNode_destructImpl,
-  .visit = NULL,
 };
 
 static const Arcadia_Type_Operations _typeOperations = {

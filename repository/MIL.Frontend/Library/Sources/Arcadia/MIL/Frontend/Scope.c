@@ -39,6 +39,7 @@ Arcadia_MIL_Scope_Entry_visitImpl
   );
 
 static const Arcadia_ObjectType_Operations _Arcadia_MIL_Scope_Entry_objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_MIL_Scope_Entry_constructImpl,
   .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_MIL_Scope_Entry_destructImpl,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_MIL_Scope_Entry_visitImpl,
@@ -141,6 +142,7 @@ Arcadia_MIL_Scope_visitImpl
   );
 
 static const Arcadia_ObjectType_Operations _Arcadia_MIL_Scope_objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_MIL_Scope_constructImpl,
   .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_MIL_Scope_destructImpl,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_MIL_Scope_visitImpl,

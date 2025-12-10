@@ -30,8 +30,8 @@ Arcadia_Audials_BackendContext_visitImpl
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_Audials_BackendContext_constructImpl,
-  .destruct = NULL,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_Audials_BackendContext_visitImpl,
 };
 
@@ -61,7 +61,6 @@ Arcadia_Audials_BackendContext_constructImpl
     Arcadia_Thread_jump(thread);
   }
   self->update = NULL;
-  self->playSine = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
@@ -81,11 +80,3 @@ Arcadia_Audials_BackendContext_update
     Arcadia_Audials_BackendContext* self
   )
 { self->update(thread, self); }
-
-void
-Arcadia_Audials_BackendContext_playSine
-  (
-    Arcadia_Thread* thread,
-    Arcadia_Audials_BackendContext* self
-  )
-{ self->playSine(thread, self); }

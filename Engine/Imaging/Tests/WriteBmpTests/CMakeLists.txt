@@ -22,7 +22,7 @@ BeginProduct(${MyTestName} test)
 
 list(APPEND ${MyTestName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia.Imaging.Tests.WriteBmpTests/Main.c)
 
-list(APPEND ${MyTestName}.PrivateLibraries ${MyProjectName}.Imaging ${MyProjectName}.Ring2)
+list(APPEND ${MyTestName}.PrivateLibraries ${MyProjectName}.Imaging)
 
 EndProduct(${MyTestName})
 

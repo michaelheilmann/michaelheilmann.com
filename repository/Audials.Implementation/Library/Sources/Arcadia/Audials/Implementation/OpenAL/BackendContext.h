@@ -16,7 +16,7 @@
 #if !defined(ARCADIA_AUDIALS_IMPLEMENTATION_OPENAL_BACKENDCONTEXT_H_INCLUDED)
 #define ARCADIA_AUDIALS_IMPLEMENTATION_OPENAL_BACKENDCONTEXT_H_INCLUDED
 
-#include "Arcadia/Audials/Include.h"
+#include "Arcadia/Audials/Implementation/BackendContext.h"
 
 #define AL_LIBTYPE_STATIC
 #include <AL/al.h>
@@ -29,14 +29,16 @@
 /// }
 /// @endcode
 Arcadia_declareObjectType(u8"Arcadia.Audials.Implementation.OpenAL.BackendContext", Arcadia_Audials_Implementation_OpenAL_BackendContext,
-                          u8"Arcadia.Audials.BackendContext")
+                          u8"Arcadia.Audials.Implementation.BackendContext")
 
 struct Arcadia_Audials_Implementation_OpenAL_BackendContext {
-  Arcadia_Audials_BackendContext _parent;
+  Arcadia_Audials_Implementation_BackendContext _parent;
+
+  // The list of resources.
+  Arcadia_List* resources;
+
   ALCdevice* alcDevice;
   ALCcontext* alcContext;
-  ALuint alBufferId;
-  ALuint alSourceId;
 };
 
 // @todo Make private.

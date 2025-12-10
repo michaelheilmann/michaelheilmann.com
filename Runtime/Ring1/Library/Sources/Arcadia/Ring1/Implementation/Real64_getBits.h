@@ -23,6 +23,7 @@
 #include "Arcadia/Ring1/Implementation/Real64.h"
 #include "Arcadia/Ring1/Implementation/Natural64.h"
 
+// https://michaelheilmann.com/Arcadia/Ring2/#Arcadia_Real%2AValue_getBits
 Arcadia_Natural64Value
 Arcadia_Real64Value_getBits
   (

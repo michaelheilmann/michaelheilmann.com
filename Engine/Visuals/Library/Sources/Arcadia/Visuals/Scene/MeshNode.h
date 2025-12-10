@@ -17,8 +17,6 @@
 #define ARCADIA_VISUALS_SCENE_MESHNODE_H_INCLUDED
 
 #include "Arcadia/Visuals/Scene/Node.h"
-typedef struct Arcadia_Visuals_BackendContext Arcadia_Visuals_BackendContext;
-typedef struct Arcadia_Visuals_Implementation_MeshResource Arcadia_Visuals_Implementation_MeshResource;
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Scene.MeshNode", Arcadia_Visuals_Scene_MeshNode,
                           u8"Arcadia.Visuals.Scene.Node")

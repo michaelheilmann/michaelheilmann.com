@@ -330,7 +330,7 @@ Arcadia_DDLS_DefaultReader_runImpl
     Arcadia_String* input
   )
 {
-  Arcadia_Languages_StringTable* stringTable = Arcadia_Languages_StringTable_create(thread);
+  Arcadia_Languages_StringTable* stringTable = Arcadia_Languages_StringTable_getOrCreate(thread);
   Arcadia_DDL_Parser_setInput(thread, self->parser, input);
   Arcadia_DDL_Node* node = Arcadia_DDL_Parser_run(thread, self->parser);
   Arcadia_DDLS_SymbolReader* symbolReader = Arcadia_DDLS_SymbolReader_create(thread, stringTable);

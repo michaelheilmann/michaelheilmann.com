@@ -71,6 +71,10 @@
 
 #include "Arcadia/Ring1/Implementation/Real32.h"
 #include "Arcadia/Ring1/Implementation/Real64.h"
+#include "Arcadia/Ring1/Implementation/Real32_getBits.h"
+#include "Arcadia/Ring1/Implementation/Real64_getBits.h"
+#include "Arcadia/Ring1/Implementation/Real32_isFinite.h"
+#include "Arcadia/Ring1/Implementation/Real64_isFinite.h"
 
 #include "Arcadia/Ring1/Implementation/safeAdd.h"
 #include "Arcadia/Ring1/Implementation/safeMultiply.h"

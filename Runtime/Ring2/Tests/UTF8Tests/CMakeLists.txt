@@ -26,7 +26,7 @@ list(APPEND ${MyTestName}.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadi
 list(APPEND ${MyTestName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia.Ring2.Tests.UTF8/read.c)
 list(APPEND ${MyTestName}.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia.Ring2.Tests.UTF8/read.h)
 
-list(APPEND ${MyTestName}.Libraries ${MyProjectName}.Ring2 ${MyProjectName}.ARMS)
+list(APPEND ${MyTestName}.Libraries ${MyProjectName}.Ring2)
 
 EndProduct(${MyTestName})
 

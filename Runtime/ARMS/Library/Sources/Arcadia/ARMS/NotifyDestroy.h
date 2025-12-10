@@ -16,23 +16,43 @@
 #if !defined(ARCADIA_ARMS_NOTIFYDESTROY_H_INCLUDED)
 #define ARCADIA_ARMS_NOTIFYDESTROY_H_INCLUDED
 
-#include "Arcadia/ARMS/Include.h"
-#include <stdbool.h>
+#include "Arcadia/ARMS/Configure.h"
+#include "Arcadia/ARMS/StatusType.h"
 
-/* private */ Arcadia_ARMS_Status
-Arcadia_ARMS_NotifyDestroyModule_startup
+#if defined(Arcadia_ARMS_Configuration_WithNotifyDestroy) && 1 ==  Arcadia_ARMS_Configuration_WithNotifyDestroy
+
+typedef void (Arcadia_ARMS_NotifyDestroyCallback)(void* argument1, void* argument2);
+
+Arcadia_ARMS_Status
+Arcadia_ARMS_removeNotifyDestroyAll
   (
+    void* observed
   );
 
-/* private */ Arcadia_ARMS_Status
-Arcadia_ARMS_NotifyDestroyModule_shutdown
+Arcadia_ARMS_Status
+Arcadia_ARMS_addNotifyDestroy
   (
+    void* observed,
+    void* argument1,
+    void* argument2,
+    Arcadia_ARMS_NotifyDestroyCallback* callback
   );
 
-/* private */ void
-Arcadia_ARMS_NotifyDestroyModule_notifyDestroy
+Arcadia_ARMS_Status
+Arcadia_ARMS_removeNotifyDestroy
   (
-    void* object
+    void* observed,
+    void* argument1,
+    void* argument2,
+    Arcadia_ARMS_NotifyDestroyCallback* callback
   );
+
+Arcadia_ARMS_Status
+Arcadia_ARMS_removeNotifyDestroyAll
+  (
+    void* observed
+  );
+
+#endif // Arcadia_ARMS_Configuration_WithNotifyDestroy
 
 #endif // ARCADIA_ARMS_NOTIFYDESTROY_H_INCLUDED

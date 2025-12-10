@@ -20,6 +20,7 @@
   #error("do not include directly, include `Arcadia/ADL/Include.h` instead")
 #endif
 #include "Arcadia/ADL/Definition.h"
+#include "Arcadia/DDL/Include.h"
 typedef struct Arcadia_ADL_ColorDefinition Arcadia_ADL_ColorDefinition;
 
 // A definition of a fill operation on a pixel buffer.
@@ -60,14 +61,6 @@ Arcadia_ADL_PixelBufferOperations_FillOperationDefinition_create
     Arcadia_ADL_Definitions* definitions,
     Arcadia_String* qualifiedName,
     Arcadia_String* colorName
-  );
-
-Arcadia_ADL_PixelBufferOperations_FillOperationDefinition*
-Arcadia_ADL_PixelBufferOperations_FillOperationDefinition_parse
-  (
-    Arcadia_Thread* thread,
-    Arcadia_ADL_Definitions* definitions,
-    Arcadia_String* input
   );
 
 #endif  // ARCADIA_ASSETDEFINITIONLANGUAGE_PIXELBUFFEROPERATIONS_FILLOPERATIONDEFINITION_H_INCLUDED

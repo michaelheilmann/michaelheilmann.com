@@ -89,9 +89,9 @@ appendBytesInternal
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*) & Arcadia_StringBuffer_constructImpl,
   .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_StringBuffer_destruct,
-  .visit = NULL,
 };
 
 static const Arcadia_Type_Operations _typeOperations = {
@@ -455,6 +455,15 @@ Arcadia_StringBuffer_insertFront
 }
 
 void
+Arcadia_StringBuffer_insertCodePointBack
+  (
+    Arcadia_Thread* thread,
+    Arcadia_StringBuffer* self,
+    Arcadia_Natural32Value codePoint
+  )
+{ Arcadia_StringBuffer_insertCodePointsBack(thread, self, &codePoint, 1); }
+
+void
 Arcadia_StringBuffer_insertCodePointsBack
   (
     Arcadia_Thread* thread,
@@ -465,6 +474,15 @@ Arcadia_StringBuffer_insertCodePointsBack
 {
   Arcadia_Unicode_encodeCodePointsUtf8(thread, codePoints, numberOfCodePoints, self, (Arcadia_Unicode_EncodeCodePointCallbackFunction*)&appendBytesInternal);
 }
+
+void
+Arcadia_StringBuffer_insertCodePointFront
+  (
+    Arcadia_Thread* thread,
+    Arcadia_StringBuffer* self,
+    Arcadia_Natural32Value codePoint
+  )
+{ Arcadia_StringBuffer_insertCodePointsFront(thread, self, &codePoint, 1); }
 
 void
 Arcadia_StringBuffer_insertCodePointsFront

@@ -19,12 +19,14 @@
 #pragma push_macro("ARCADIA_ADL_PRIVATE")
 #define ARCADIA_ADL_PRIVATE (1)
 
-#include "Arcadia/ADL/Definitions.h"
-
+#include "Arcadia/ADL/Context.h"
 #include "Arcadia/ADL/Definition.h"
+#include "Arcadia/ADL/Definitions.h"
+#include "Arcadia/ADL/Reader.h"
 
 #include "Arcadia/ADL/Colors/ColorDefinition.h"
 #include "Arcadia/ADL/PixelBufferOperations/FillOperationDefinition.h"
+#include "Arcadia/ADL/PixelBufferOperations/CheckerboardFillOperationDefinition.h"
 
 #undef ARCADIA_ADL_PRIVATE
 #pragma pop_macro("ARCADIA_ADL_PRIVATE")

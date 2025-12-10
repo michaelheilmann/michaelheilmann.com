@@ -116,9 +116,9 @@ R_Interpreter_Code_destruct
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*) & R_Interpreter_Code_constructImpl,
   .destruct = (Arcadia_Object_DestructorCallbackFunction*)&R_Interpreter_Code_destruct,
-  .visit = NULL,
 };
 
 static const Arcadia_Type_Operations _typeOperations = {

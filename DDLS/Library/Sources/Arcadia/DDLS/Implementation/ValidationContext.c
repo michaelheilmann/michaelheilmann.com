@@ -74,7 +74,7 @@ Arcadia_DDLS_ValidationContext_constructImpl
   }
   //
   self->temporary1 = Arcadia_StringBuffer_create(thread);
-  self->stringTable = Arcadia_Languages_StringTable_create(thread);
+  self->stringTable = Arcadia_Languages_StringTable_getOrCreate(thread);
   self->diagnostics = Arcadia_DDLS_Diagnostics_create(thread, self->stringTable);
   self->schemata = (Arcadia_Map*)Arcadia_HashMap_create(thread, Arcadia_Value_makeVoidValue(Arcadia_VoidValue_Void));
   //
