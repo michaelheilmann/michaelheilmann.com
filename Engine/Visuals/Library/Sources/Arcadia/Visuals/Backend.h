@@ -26,6 +26,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Backend", Arcadia_Visuals_Backend,
                           u8"Arcadia.Engine.Backend");
 
+struct Arcadia_Visuals_BackendDispatch {
+  Arcadia_Engine_BackendDispatch _parent;
+};
+
 struct Arcadia_Visuals_Backend {
   Arcadia_Engine_Backend _parent;
 };

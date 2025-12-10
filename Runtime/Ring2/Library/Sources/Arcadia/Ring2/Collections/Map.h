@@ -27,14 +27,18 @@ typedef struct Arcadia_List Arcadia_List;
 Arcadia_declareObjectType(u8"Arcadia.Map", Arcadia_Map,
                           u8"Arcadia.Collection");
 
-struct Arcadia_Map {
-  Arcadia_Collection parent;
+struct Arcadia_MapDispatch {
+  Arcadia_CollectionDispatch _parent;
 
   Arcadia_Value(*get)(Arcadia_Thread* thread, Arcadia_Map* self, Arcadia_Value key);
   void (*set)(Arcadia_Thread* thread, Arcadia_Map* self, Arcadia_Value key, Arcadia_Value value, Arcadia_Value* oldKey, Arcadia_Value* oldValue);
   void (*remove)(Arcadia_Thread* thread, Arcadia_Map* self, Arcadia_Value key, Arcadia_Value* oldKey, Arcadia_Value* oldValue);
   Arcadia_List* (*getKeys)(Arcadia_Thread* thread, Arcadia_Map* self);
-  Arcadia_List* (*getValues)(Arcadia_Thread* thread,Arcadia_Map* self);
+  Arcadia_List* (*getValues)(Arcadia_Thread* thread, Arcadia_Map* self);
+};
+
+struct Arcadia_Map {
+  Arcadia_Collection parent;
 };
 
 // https://michaelheilmann.com/Arcadia/Ring2/#Arcadia_Map_get

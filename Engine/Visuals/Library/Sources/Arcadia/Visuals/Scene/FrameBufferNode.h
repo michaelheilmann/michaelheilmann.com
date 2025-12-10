@@ -16,6 +16,9 @@
 #if !defined(ARCADIA_VISUALS_SCENE_FRAMEBUFFERNODE_H_INCLUDED)
 #define ARCADIA_VISUALS_SCENE_FRAMEBUFFERNODE_H_INCLUDED
 
+#if !defined(ARCADIA_VISUALS_PRIVATE) || 1 != ARCADIA_VISUALS_PRIVATE
+  #error("do not include directly, include `Arcadia/Visuals/Include.h` instead")
+#endif
 #include "Arcadia/Visuals/Scene/Node.h"
 typedef struct Arcadia_Visuals_Scene_ViewportNode Arcadia_Visuals_Scene_ViewportNode;
 
@@ -25,10 +28,14 @@ typedef struct Arcadia_Visuals_Scene_ViewportNode Arcadia_Visuals_Scene_Viewport
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Scene.FrameBufferNode", Arcadia_Visuals_Scene_FrameBufferNode,
                           u8"Arcadia.Visuals.Scene.Node")
 
-struct Arcadia_Visuals_Scene_FrameBufferNode {
-  Arcadia_Visuals_Scene_Node _parent;
+struct Arcadia_Visuals_Scene_FrameBufferNodeDispatch {
+  Arcadia_Visuals_Scene_NodeDispatch parent;
   void (*setSize)(Arcadia_Thread* thread, Arcadia_Visuals_Scene_FrameBufferNode*, Arcadia_Integer32Value, Arcadia_Integer32Value);
   void (*getSize)(Arcadia_Thread* thread, Arcadia_Visuals_Scene_FrameBufferNode*, Arcadia_Integer32Value*, Arcadia_Integer32Value*);
+};
+
+struct Arcadia_Visuals_Scene_FrameBufferNode {
+  Arcadia_Visuals_Scene_Node _parent;
 };
 
 void

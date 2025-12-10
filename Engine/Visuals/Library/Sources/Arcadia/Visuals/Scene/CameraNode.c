@@ -13,6 +13,7 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
+#define ARCADIA_VISUALS_PRIVATE (1)
 #include "Arcadia/Visuals/Scene/CameraNode.h"
 
 static void
@@ -20,6 +21,13 @@ Arcadia_Visuals_Scene_CameraNode_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_Scene_CameraNode* self
+  );
+
+static void
+Arcadia_Visuals_Scene_CameraNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Scene_CameraNodeDispatch* self
   );
 
 static void
@@ -62,11 +70,17 @@ Arcadia_Visuals_Scene_CameraNode_constructImpl
     Arcadia_superTypeConstructor(thread, _type, self);
   }
   self->viewport = NULL;
-  self->setViewToProjectionMatrix = NULL;
-  self->setWorldToViewMatrix = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+Arcadia_Visuals_Scene_CameraNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Scene_CameraNodeDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Scene_CameraNode_destructImpl
@@ -92,7 +106,7 @@ Arcadia_Visuals_Scene_CameraNode_setViewToProjectionMatrix
     Arcadia_Visuals_Scene_CameraNode* self,
     Arcadia_Math_Matrix4Real32* viewToProjectionMatrix
   )
-{ self->setViewToProjectionMatrix(thread, self, viewToProjectionMatrix); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Scene_CameraNode, setViewToProjectionMatrix, self, viewToProjectionMatrix); }
 
 void
 Arcadia_Visuals_Scene_CameraNode_setWorldToViewMatrix
@@ -101,4 +115,4 @@ Arcadia_Visuals_Scene_CameraNode_setWorldToViewMatrix
     Arcadia_Visuals_Scene_CameraNode* self,
     Arcadia_Math_Matrix4Real32* worldToViewMatrix
   )
-{ self->setWorldToViewMatrix(thread, self, worldToViewMatrix); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Scene_CameraNode, setWorldToViewMatrix, self, worldToViewMatrix); }

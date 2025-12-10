@@ -249,6 +249,13 @@ Arcadia_Imaging_PixelBuffer_constructImpl
   );
 
 static void
+Arcadia_Imaging_PixelBuffer_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Imaging_PixelBufferDispatch* self
+  );
+
+static void
 Arcadia_Imaging_PixelBuffer_destruct
   (
     Arcadia_Thread* thread,
@@ -403,6 +410,14 @@ Arcadia_Imaging_PixelBuffer_constructImpl
     Arcadia_Thread_jump(thread);
   }
 }
+
+static void
+Arcadia_Imaging_PixelBuffer_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Imaging_PixelBufferDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Imaging_PixelBuffer_destruct
@@ -651,7 +666,7 @@ Arcadia_Imaging_PixelBuffer_fillRectangle
     Arcadia_Natural8Value b,
     Arcadia_Natural8Value a
   )
-{ 
+{
   if (width < 0 || height < 0) {
     Arcadia_Thread_setStatus(thread, Arcadia_Status_ArgumentValueInvalid);
     Arcadia_Thread_jump(thread);

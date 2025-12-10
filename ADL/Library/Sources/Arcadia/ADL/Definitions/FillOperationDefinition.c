@@ -41,6 +41,13 @@ Arcadia_ADL_PixelBufferOperations_FillOperationDefinition_constructImpl
     Arcadia_ADL_PixelBufferOperations_FillOperationDefinition* self
   );
 
+static void
+Arcadia_ADL_PixelBufferOperations_FillOperationDefinition_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_PixelBufferOperations_FillOperationDefinitionDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*) & Arcadia_ADL_PixelBufferOperations_FillOperationDefinition_constructImpl,
@@ -103,13 +110,22 @@ Arcadia_ADL_PixelBufferOperations_FillOperationDefinition_constructImpl
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
   }
-  
+
   self->color = Arcadia_ADL_Reference_create(thread, ((Arcadia_ADL_Definition*)self)->definitions,
                                              (Arcadia_String*)Arcadia_ValueStack_getObjectReferenceValueChecked(thread, 1, _Arcadia_String_getType(thread)));
 
-  ((Arcadia_ADL_Definition*)self)->link = (void (*)(Arcadia_Thread*, Arcadia_ADL_Definition*)) & Arcadia_ADL_PixelBufferOperations_FillOperationDefinition_linkImpl;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 3 + 1);
+}
+
+static void
+Arcadia_ADL_PixelBufferOperations_FillOperationDefinition_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_PixelBufferOperations_FillOperationDefinitionDispatch* self
+  )
+{
+  ((Arcadia_ADL_DefinitionDispatch*)self)->link = (void (*)(Arcadia_Thread*, Arcadia_ADL_Definition*)) & Arcadia_ADL_PixelBufferOperations_FillOperationDefinition_linkImpl;
 }
 
 Arcadia_ADL_PixelBufferOperations_FillOperationDefinition*

@@ -22,6 +22,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Command", Arcadia_Visuals_Command,
                           u8"Arcadia.Object");
 
+struct Arcadia_Visuals_CommandDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_Visuals_Command {
   Arcadia_Object _parent;
   Arcadia_Natural64Value timestamp;

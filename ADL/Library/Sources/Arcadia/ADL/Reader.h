@@ -27,10 +27,14 @@ typedef struct Arcadia_ADL_Context Arcadia_ADL_Context;
 Arcadia_declareObjectType(u8"Arcadia.ADL.Reader", Arcadia_ADL_Reader,
                           u8"Arcadia.Object");
 
-struct Arcadia_ADL_Reader {
-  Arcadia_Object _parent;
+struct Arcadia_ADL_ReaderDispatch {
+  Arcadia_ObjectDispatch _parent;
   Arcadia_String* (*getTypeName)(Arcadia_Thread*, Arcadia_ADL_Reader*);
   Arcadia_ADL_Definition* (*read)(Arcadia_Thread*, Arcadia_ADL_Reader*, Arcadia_ADL_Context*, Arcadia_ADL_Definitions*, Arcadia_DDL_Node*);
+};
+
+struct Arcadia_ADL_Reader {
+  Arcadia_Object _parent;
 };
 
 /* Get teh type name supported by this reader. */

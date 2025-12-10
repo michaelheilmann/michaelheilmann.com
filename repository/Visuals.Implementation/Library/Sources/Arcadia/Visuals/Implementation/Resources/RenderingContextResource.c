@@ -26,6 +26,13 @@ Arcadia_Visuals_Implementation_RenderingContextResource_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_RenderingContextResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_RenderingContextResourceDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_RenderingContextResource_destructImpl
   (
     Arcadia_Thread* thread,
@@ -108,12 +115,20 @@ Arcadia_Visuals_Implementation_RenderingContextResource_constructImpl
   self->viewerConstantBuffer = (Arcadia_Visuals_Implementation_ConstantBufferResource*)Arcadia_Visuals_Implementation_BackendContext_createConstantBufferResource(thread, (Arcadia_Visuals_Implementation_BackendContext*)backendContext);
 
   Arcadia_Visuals_Implementation_Resource_ref(thread, (Arcadia_Visuals_Implementation_Resource*)self->viewerConstantBuffer);
-  self->setViewToProjectionMatrix = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_RenderingContextResource*, Arcadia_Math_Matrix4Real32*)) & Arcadia_Visuals_Implementation_RenderingContextResource_setViewToProjectionMatrixImpl;
-  self->setWorldToViewMatrix = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_RenderingContextResource*, Arcadia_Math_Matrix4Real32*)) & Arcadia_Visuals_Implementation_RenderingContextResource_setWorldToViewMatrixImpl;
-  self->setTargetFrameBuffer = NULL;
-  
+
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
+}
+
+static void
+Arcadia_Visuals_Implementation_RenderingContextResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_RenderingContextResourceDispatch* self
+  )
+{ 
+  self->setViewToProjectionMatrix = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_RenderingContextResource*, Arcadia_Math_Matrix4Real32*)) & Arcadia_Visuals_Implementation_RenderingContextResource_setViewToProjectionMatrixImpl;
+  self->setWorldToViewMatrix = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_RenderingContextResource*, Arcadia_Math_Matrix4Real32*)) & Arcadia_Visuals_Implementation_RenderingContextResource_setWorldToViewMatrixImpl;
 }
 
 static void
@@ -172,7 +187,7 @@ Arcadia_Visuals_Implementation_RenderingContextResource_setTargetFrameBuffer
     Arcadia_Visuals_Implementation_RenderingContextResource* self,
     Arcadia_Visuals_Implementation_FrameBufferResource* frameBuffer
   )
-{ self->setTargetFrameBuffer(thread, self, frameBuffer); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_RenderingContextResource, setTargetFrameBuffer, self, frameBuffer); }
 
 void
 Arcadia_Visuals_Implementation_RenderingContextResource_setViewToProjectionMatrix
@@ -181,7 +196,7 @@ Arcadia_Visuals_Implementation_RenderingContextResource_setViewToProjectionMatri
     Arcadia_Visuals_Implementation_RenderingContextResource* self,
     Arcadia_Math_Matrix4Real32* viewToProjectionMatrix
   )
-{ self->setViewToProjectionMatrix(thread, self, viewToProjectionMatrix); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_RenderingContextResource, setViewToProjectionMatrix, self, viewToProjectionMatrix); }
 
 void
 Arcadia_Visuals_Implementation_RenderingContextResource_setWorldToViewMatrix
@@ -190,4 +205,4 @@ Arcadia_Visuals_Implementation_RenderingContextResource_setWorldToViewMatrix
     Arcadia_Visuals_Implementation_RenderingContextResource* self,
     Arcadia_Math_Matrix4Real32* worldToViewMatrix
   )
-{ self->setWorldToViewMatrix(thread, self, worldToViewMatrix); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_RenderingContextResource, setWorldToViewMatrix, self, worldToViewMatrix); }

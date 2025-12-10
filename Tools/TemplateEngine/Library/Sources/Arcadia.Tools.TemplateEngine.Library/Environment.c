@@ -32,6 +32,13 @@ Environment_constructImpl
     Environment* self
   );
 
+static void
+Environment_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    EnvironmentDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*) & Environment_constructImpl,
@@ -96,6 +103,14 @@ Environment_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues1 + 1);
 }
+
+static void
+Environment_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    EnvironmentDispatch* self
+  )
+{ }
 
 Environment*
 Environment_create

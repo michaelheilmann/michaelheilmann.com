@@ -101,6 +101,13 @@ Arcadia_DDLS_DefaultReader_constructImpl
   );
 
 static void
+Arcadia_DDLS_DefaultReader_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDLS_DefaultReaderDispatch* self
+  );
+
+static void
 Arcadia_DDLS_DefaultReader_visitImpl
   (
     Arcadia_Thread* thread,
@@ -314,8 +321,6 @@ Arcadia_DDLS_DefaultReader_constructImpl
   //
   self->parser = Arcadia_DDL_Parser_create(thread);
   //
-  self->run = &Arcadia_DDLS_DefaultReader_runImpl;
-  //
   Arcadia_StringBuffer* stringBuffer = Arcadia_StringBuffer_create(thread);
   Arcadia_Languages_StringTable* stringTable = Arcadia_DDL_Parser_getStringTable(thread, self->parser);
 #define Define(Variable, Text) \
@@ -332,6 +337,16 @@ Arcadia_DDLS_DefaultReader_constructImpl
   //
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
+}
+
+static void
+Arcadia_DDLS_DefaultReader_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDLS_DefaultReaderDispatch* self
+  )
+{
+  self->run = &Arcadia_DDLS_DefaultReader_runImpl;
 }
 
 static void
@@ -393,4 +408,4 @@ Arcadia_DDLS_DefaultReader_run
     Arcadia_DDLS_DefaultReader* self,
     Arcadia_String* input
   )
-{ return self->run(thread, self, input); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_DDLS_DefaultReader, run, self, input); }

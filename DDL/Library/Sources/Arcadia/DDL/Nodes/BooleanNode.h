@@ -24,8 +24,12 @@
 Arcadia_declareObjectType(u8"Arcadia.DDL.BooleanNode", Arcadia_DDL_BooleanNode,
                           u8"Arcadia.DDL.Node");
 
+struct Arcadia_DDL_BooleanNodeDispatch {
+  Arcadia_DDL_NodeDispatch _parent;
+};
+
 struct Arcadia_DDL_BooleanNode {
-  Arcadia_DDL_Node parent;
+  Arcadia_DDL_Node _parent;
   Arcadia_String* value;
 };
 

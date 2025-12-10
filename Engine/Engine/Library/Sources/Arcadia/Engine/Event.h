@@ -25,6 +25,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Engine.Event", Arcadia_Engine_Event,
                           u8"Arcadia.Object");
 
+struct Arcadia_Engine_EventDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_Engine_Event {
   Arcadia_Object _parent;
   Arcadia_Natural64Value timestamp;

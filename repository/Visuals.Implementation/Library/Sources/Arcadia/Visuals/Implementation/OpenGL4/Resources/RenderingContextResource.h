@@ -21,7 +21,11 @@ typedef struct Arcadia_Visuals_Implementation_OpenGL4_BackendContext Arcadia_Vis
 typedef struct Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource;
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.OpenGL4.RenderingContextResource", Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource,
-                          u8"Arcadia.Visuals.Implementation.RenderingContextResource")
+                          u8"Arcadia.Visuals.Implementation.RenderingContextResource");
+
+struct Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResourceDispatch {
+  Arcadia_Visuals_Implementation_RenderingContextResourceDispatch _parent;
+};
 
 struct Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource {
   Arcadia_Visuals_Implementation_RenderingContextResource _parent;

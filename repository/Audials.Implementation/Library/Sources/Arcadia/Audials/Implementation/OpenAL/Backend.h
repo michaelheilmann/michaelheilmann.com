@@ -21,6 +21,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Audials.Implementation.OpenAL.Backend", Arcadia_Audials_Implementation_OpenAL_Backend,
                           Arcadia_Audials_Backend);
 
+struct Arcadia_Audials_Implementation_OpenAL_BackendDispatch {
+  Arcadia_Audials_BackendDispatch parent;
+};
+
 struct Arcadia_Audials_Implementation_OpenAL_Backend {
   Arcadia_Audials_Backend parent;
 };

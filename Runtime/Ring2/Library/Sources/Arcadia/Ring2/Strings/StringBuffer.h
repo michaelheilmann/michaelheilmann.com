@@ -30,6 +30,10 @@
 Arcadia_declareObjectType(u8"Arcadia.StringBuffer", Arcadia_StringBuffer,
                           u8"Arcadia.Object");
 
+struct Arcadia_StringBufferDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_StringBuffer {
   Arcadia_Object _parent;
   Arcadia_Natural8Value* elements;

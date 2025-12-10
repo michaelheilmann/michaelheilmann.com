@@ -30,6 +30,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.OpenGL4.GLX.BackendContext", Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContext,
                           u8"Arcadia.Visuals.Implementation.OpenGL4.BackendContext")
 
+struct Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContextDispatch {
+  Arcadia_Visuals_Implementation_OpenGL4_BackendContextDispatch _parent;
+};
+
 struct Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContext {
   Arcadia_Visuals_Implementation_OpenGL4_BackendContext _parent;
 

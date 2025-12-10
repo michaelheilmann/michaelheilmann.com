@@ -36,6 +36,13 @@ Arcadia_Visuals_Implementation_Texture_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_Texture_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_TextureDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_Texture_destructImpl
   (
     Arcadia_Thread* thread,
@@ -93,6 +100,14 @@ Arcadia_Visuals_Implementation_Texture_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+Arcadia_Visuals_Implementation_Texture_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_TextureDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Implementation_Texture_destructImpl

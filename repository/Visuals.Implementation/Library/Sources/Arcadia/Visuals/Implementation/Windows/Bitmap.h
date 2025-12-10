@@ -30,6 +30,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Windows.Bitmap", Arcadia_Visuals_Windows_Bitmap,
                           u8"Arcadia.Object");
 
+struct Arcadia_Visuals_Windows_BitmapDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_Visuals_Windows_Bitmap {
   Arcadia_Object _parent;
   HDC hDeviceContext;

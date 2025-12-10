@@ -45,6 +45,10 @@
 #define CodePoint_End (Arcadia_Unicode_CodePoint_Last + 2)
 #define CodePoint_Error (Arcadia_Unicode_CodePoint_Last + 3)
 
+struct Arcadia_MIL_ScannerDispatch {
+  Arcadia_Languages_ScannerDispatch _parent;
+};
+
 struct Arcadia_MIL_Scanner {
   Arcadia_Languages_Scanner _parent;
   // The current symbol "s".
@@ -74,6 +78,13 @@ Arcadia_MIL_Scanner_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_MIL_Scanner* self
+  );
+
+static void
+Arcadia_MIL_Scanner_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_ScannerDispatch* self
   );
 
 static void
@@ -310,17 +321,25 @@ Arcadia_MIL_Scanner_constructImpl
   On(u8"false", BooleanLiteral);
 #undef On
   //
-  ((Arcadia_Languages_Scanner*)self)->getInput = (Arcadia_String * (*)(Arcadia_Thread*, Arcadia_Languages_Scanner*)) & Arcadia_MIL_Scanner_getInputImpl;
-  ((Arcadia_Languages_Scanner*)self)->getStringTable = (Arcadia_Languages_StringTable * (*)(Arcadia_Thread*, Arcadia_Languages_Scanner*)) & Arcadia_MIL_Scanner_getStringTableImpl;
-  ((Arcadia_Languages_Scanner*)self)->getWordLength = (Arcadia_Natural32Value(*)(Arcadia_Thread*, Arcadia_Languages_Scanner*)) & Arcadia_MIL_Scanner_getWordLengthImpl;
-  ((Arcadia_Languages_Scanner*)self)->getWordStart = (Arcadia_Natural32Value(*)(Arcadia_Thread*, Arcadia_Languages_Scanner*)) & Arcadia_MIL_Scanner_getWordStartImpl;
-  ((Arcadia_Languages_Scanner*)self)->getWordText = (Arcadia_String * (*)(Arcadia_Thread*, Arcadia_Languages_Scanner*)) & Arcadia_MIL_Scanner_getWordTextImpl;
-  ((Arcadia_Languages_Scanner*)self)->getWordType = (Arcadia_Natural32Value(*)(Arcadia_Thread*, Arcadia_Languages_Scanner*)) & Arcadia_MIL_Scanner_getWordTypeImpl;
-  ((Arcadia_Languages_Scanner*)self)->setInput = (void (*)(Arcadia_Thread*, Arcadia_Languages_Scanner*, Arcadia_String*)) & Arcadia_MIL_Scanner_setInputImpl;
-  ((Arcadia_Languages_Scanner*)self)->step = (void (*)(Arcadia_Thread*, Arcadia_Languages_Scanner*)) & Arcadia_MIL_Scanner_stepImpl;
-  //
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
+}
+
+static void
+Arcadia_MIL_Scanner_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_ScannerDispatch* self
+  )
+{
+  ((Arcadia_Languages_ScannerDispatch*)self)->getInput = (Arcadia_String * (*)(Arcadia_Thread*, Arcadia_Languages_Scanner*)) & Arcadia_MIL_Scanner_getInputImpl;
+  ((Arcadia_Languages_ScannerDispatch*)self)->getStringTable = (Arcadia_Languages_StringTable * (*)(Arcadia_Thread*, Arcadia_Languages_Scanner*)) & Arcadia_MIL_Scanner_getStringTableImpl;
+  ((Arcadia_Languages_ScannerDispatch*)self)->getWordLength = (Arcadia_Natural32Value(*)(Arcadia_Thread*, Arcadia_Languages_Scanner*)) & Arcadia_MIL_Scanner_getWordLengthImpl;
+  ((Arcadia_Languages_ScannerDispatch*)self)->getWordStart = (Arcadia_Natural32Value(*)(Arcadia_Thread*, Arcadia_Languages_Scanner*)) & Arcadia_MIL_Scanner_getWordStartImpl;
+  ((Arcadia_Languages_ScannerDispatch*)self)->getWordText = (Arcadia_String * (*)(Arcadia_Thread*, Arcadia_Languages_Scanner*)) & Arcadia_MIL_Scanner_getWordTextImpl;
+  ((Arcadia_Languages_ScannerDispatch*)self)->getWordType = (Arcadia_Natural32Value(*)(Arcadia_Thread*, Arcadia_Languages_Scanner*)) & Arcadia_MIL_Scanner_getWordTypeImpl;
+  ((Arcadia_Languages_ScannerDispatch*)self)->setInput = (void (*)(Arcadia_Thread*, Arcadia_Languages_Scanner*, Arcadia_String*)) & Arcadia_MIL_Scanner_setInputImpl;
+  ((Arcadia_Languages_ScannerDispatch*)self)->step = (void (*)(Arcadia_Thread*, Arcadia_Languages_Scanner*)) & Arcadia_MIL_Scanner_stepImpl;
 }
 
 static void

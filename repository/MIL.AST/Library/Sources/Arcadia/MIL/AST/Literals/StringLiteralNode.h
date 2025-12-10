@@ -28,6 +28,10 @@
 Arcadia_declareObjectType(u8"Arcadia.MIL.AST.StringLiteralNode", Arcadia_MIL_AST_StringLiteralNode,
                           u8"Arcadia.MIL.AST.Node");
 
+struct Arcadia_MIL_AST_StringLiteralNodeDispatch {
+  Arcadia_MIL_AST_NodeDispatch parent;
+};
+
 struct Arcadia_MIL_AST_StringLiteralNode {
   Arcadia_MIL_AST_Node parent;
   Arcadia_String* value;

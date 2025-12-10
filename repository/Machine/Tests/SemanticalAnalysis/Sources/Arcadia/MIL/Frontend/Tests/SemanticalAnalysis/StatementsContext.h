@@ -23,6 +23,10 @@ typedef struct Arcadia_MIL_VariableDefinitionStatementNode Arcadia_MIL_VariableD
 /// @brief Context for compiling a sequence of statements.
 Arcadia_declareObjectType("Arcadia.MIL.CallableContext", Arcadia_MIL_CallableContext, "Arcadia.Object");
 
+struct Arcadia_MIL_CallableContextDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_MIL_CallableContext {
   Arcadia_Object _parent;
   /// The zero-based index of the statement to be emitted.

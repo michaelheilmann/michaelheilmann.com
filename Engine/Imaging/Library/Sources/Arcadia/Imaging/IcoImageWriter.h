@@ -32,6 +32,10 @@
 // - all source pixel buffers must be of format PixelBuffer_An8Rn8Gn8Bn8.
 Arcadia_declareObjectType(u8"Arcadia.Imaging.IcoImageWriter", IcoImageWriter, u8"Arcadia.Imaging.ImageWriter");
 
+struct IcoImageWriterDispatch {
+  Arcadia_Imaging_ImageWriterDispatch parent;
+};
+
 struct IcoImageWriter {
   Arcadia_Imaging_ImageWriter _parent;
   Arcadia_ImmutableList* supportedTypes;

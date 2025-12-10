@@ -24,6 +24,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Engine.Demo.ArcadiaLogoScene", Arcadia_Engine_Demo_ArcadiaLogoScene,
                           u8"Arcadia.Engine.Demo.Scene");
 
+struct Arcadia_Engine_Demo_ArcadiaLogoSceneDispatch {
+  Arcadia_Engine_Demo_SceneDispatch parent;
+};
+
 struct Arcadia_Engine_Demo_ArcadiaLogoScene {
   Arcadia_Engine_Demo_Scene parent;
   // The definitions.
@@ -39,7 +43,7 @@ struct Arcadia_Engine_Demo_ArcadiaLogoScene {
 
   /// The duration the scene is displayed so far.
   Arcadia_Real64Value duration;
-  
+
   // The mesh (the scene).
   Arcadia_Visuals_Scene_MeshNode* meshNode;
 

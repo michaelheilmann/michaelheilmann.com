@@ -23,6 +23,13 @@ Arcadia_Visuals_Implementation_Windows_Icon_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_Windows_Icon_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_Windows_IconDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_Windows_Icon_destruct
   (
     Arcadia_Thread* thread,
@@ -193,6 +200,14 @@ Arcadia_Visuals_Implementation_Windows_Icon_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues1 + 1);
 }
+
+static void
+Arcadia_Visuals_Implementation_Windows_Icon_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_Windows_IconDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Implementation_Windows_Icon_destruct

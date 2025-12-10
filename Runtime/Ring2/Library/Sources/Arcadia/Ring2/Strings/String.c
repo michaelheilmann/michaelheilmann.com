@@ -27,6 +27,13 @@ Arcadia_String_constructImpl
     Arcadia_String* self
   );
 
+static void
+Arcadia_String_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_StringDispatch* self
+  );
+
 static Arcadia_SizeValue
 hash
   (
@@ -237,6 +244,14 @@ Arcadia_String_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 2);
 }
+
+static void
+Arcadia_String_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_StringDispatch* self
+  )
+{ }
 
 static Arcadia_SizeValue
 hash

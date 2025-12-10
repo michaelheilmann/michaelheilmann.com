@@ -32,6 +32,10 @@ typedef struct Arcadia_ADL_Definitions Arcadia_ADL_Definitions;
 Arcadia_declareObjectType(u8"Arcadia.ADL.Context", Arcadia_ADL_Context,
                           u8"Arcadia.Object");
 
+struct Arcadia_ADL_ContextDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_ADL_Context {
   Arcadia_Object _parent;
   /** @brief Map of ADL types to readers. */

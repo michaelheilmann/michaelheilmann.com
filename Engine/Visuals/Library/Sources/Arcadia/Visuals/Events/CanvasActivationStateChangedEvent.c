@@ -23,6 +23,13 @@ Arcadia_Visuals_CanvasActivationStateChangedEvent_constructImpl
     Arcadia_Visuals_CanvasActivationStateChangedEvent* self
   );
 
+static void
+Arcadia_Visuals_CanvasActivationStateChangedEvent_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_CanvasActivationStateChangedEventDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*) & Arcadia_Visuals_CanvasActivationStateChangedEvent_constructImpl,
@@ -62,6 +69,14 @@ Arcadia_Visuals_CanvasActivationStateChangedEvent_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues1);
 }
+
+static void
+Arcadia_Visuals_CanvasActivationStateChangedEvent_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_CanvasActivationStateChangedEventDispatch* self
+  )
+{ }
 
 Arcadia_Visuals_CanvasActivationStateChangedEvent*
 Arcadia_Visuals_CanvasActivationStateChangedEvent_create

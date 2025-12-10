@@ -16,13 +16,24 @@
 #if !defined(ARCADIA_VISUALS_SCENE_MESHNODE_H_INCLUDED)
 #define ARCADIA_VISUALS_SCENE_MESHNODE_H_INCLUDED
 
+#if !defined(ARCADIA_VISUALS_PRIVATE) || 1 != ARCADIA_VISUALS_PRIVATE
+  #error("do not include directly, include `Arcadia/Visuals/Include.h` instead")
+#endif
 #include "Arcadia/Visuals/Scene/Node.h"
+#include "Arcadia/Visuals/VertexDescriptor.h"
+#include "Arcadia/Visuals/Texture.h"
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Scene.MeshNode", Arcadia_Visuals_Scene_MeshNode,
                           u8"Arcadia.Visuals.Scene.Node")
 
+struct Arcadia_Visuals_Scene_MeshNodeDispatch {
+  Arcadia_Visuals_Scene_NodeDispatch parent;
+};
+
 struct Arcadia_Visuals_Scene_MeshNode {
   Arcadia_Visuals_Scene_Node _parent;
+  /// A pointer to the vertex descriptor.
+  Arcadia_Visuals_VertexDescriptor* vertexDescriptor;
   // The base color of this mesh.
   // The default value is (1, 1, 1, 1).
   struct {
@@ -31,12 +42,42 @@ struct Arcadia_Visuals_Scene_MeshNode {
   // The number of vertices of this mesh.
   // The default is 3.
   Arcadia_SizeValue numberOfVertices;
-  // The xy or xyz postions of the vertices of this mesh.
+  // Pointers to the positions of the vertices of this mesh.
   // The default value is [(-0.5, -0.5, 0.0), (0.5, -0.5, 0.0), (0.0, 0.5, 0.0)].
   void* vertexPositions;
-  // The rgb or rgba color of the vertices of this mesh.
+  // Pointers to the ambient colors of the vertices of this mesh.
   // The default value is [(1, 1, 1, 1), (1, 1, 1, 1), (1, 1, 1, 1)].
   void* vertexColors;
 };
+
+void
+Arcadia_Visuals_Scene_MeshNode_getNumberOfVertices
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Scene_MeshNode* self,
+    Arcadia_SizeValue* numberOfVertices
+  );
+
+void
+Arcadia_Visuals_Scene_MeshNode_setBaseColor
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Scene_MeshNode* self,
+    Arcadia_Real32Value red,
+    Arcadia_Real32Value green,
+    Arcadia_Real32Value blue,
+    Arcadia_Real32Value alpha
+  );
+
+void
+Arcadia_Visuals_Scene_MeshNode_getBaseColor
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Scene_MeshNode* self,
+    Arcadia_Real32Value* red,
+    Arcadia_Real32Value* green,
+    Arcadia_Real32Value* blue,
+    Arcadia_Real32Value* alpha
+  );
 
 #endif // ARCADIA_VISUALS_SCENE_MESHNODE_H_INCLUDED

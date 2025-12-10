@@ -16,6 +16,9 @@
 #if !defined(ARCADIA_VISUALS_SCENE_NODE_H_INCLUDED)
 #define ARCADIA_VISUALS_SCENE_NODE_H_INCLUDED
 
+#if !defined(ARCADIA_VISUALS_PRIVATE) || 1 != ARCADIA_VISUALS_PRIVATE
+  #error("do not include directly, include `Arcadia/Visuals/Include.h` instead")
+#endif
 #include "Arcadia/Math/Include.h"
 typedef struct Arcadia_Visuals_Scene_RenderingContextNode Arcadia_Visuals_Scene_RenderingContextNode;
 typedef struct Arcadia_Visuals_BackendContext Arcadia_Visuals_BackendContext;
@@ -27,11 +30,14 @@ typedef struct Arcadia_Visuals_BackendContext Arcadia_Visuals_BackendContext;
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Scene.Node", Arcadia_Visuals_Scene_Node,
                           u8"Arcadia.Object")
 
-struct Arcadia_Visuals_Scene_Node {
-  Arcadia_Object _parent;
-
+struct Arcadia_Visuals_Scene_NodeDispatch {
+  Arcadia_ObjectDispatch parent;
   void (*setBackendContext)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_BackendContext*);
   void (*render)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_Scene_RenderingContextNode*);
+};
+
+struct Arcadia_Visuals_Scene_Node {
+  Arcadia_Object _parent;
 };
 
 // Change the backend context of this node.

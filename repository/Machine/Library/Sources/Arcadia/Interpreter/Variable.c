@@ -25,6 +25,13 @@ R_Interpreter_Variable_constructImpl
   );
 
 static void
+R_Interpreter_Variable_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    R_Interpreter_VariableDispatch* self
+  );
+
+static void
 R_Interpreter_Variable_visit
   (
     Arcadia_Thread* thread,
@@ -69,6 +76,14 @@ R_Interpreter_Variable_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 2 + 1);
 }
+
+static void
+R_Interpreter_Variable_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    R_Interpreter_VariableDispatch* self
+  )
+{ }
 
 static void
 R_Interpreter_Variable_visit

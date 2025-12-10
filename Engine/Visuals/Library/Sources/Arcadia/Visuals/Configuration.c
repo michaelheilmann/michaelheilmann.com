@@ -30,6 +30,13 @@ Arcadia_Visuals_Configuration_constructImpl
     Arcadia_Visuals_Configuration* self
   );
 
+static void
+Arcadia_Visuals_Configuration_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_ConfigurationDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*) & Arcadia_Visuals_Configuration_constructImpl,
@@ -93,6 +100,14 @@ Arcadia_Visuals_Configuration_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1);
 }
+
+static void
+Arcadia_Visuals_Configuration_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_ConfigurationDispatch* self
+  )
+{ }
 
 Arcadia_Visuals_Configuration*
 Arcadia_Visuals_Configuration_create

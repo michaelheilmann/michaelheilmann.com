@@ -43,6 +43,13 @@ Arcadia_Visuals_Implementation_OpenGL4_WGL_SystemWindow_constructImpl
     Arcadia_Visuals_Implementation_OpenGL4_WGL_SystemWindow* self
   );
 
+static void
+Arcadia_Visuals_Implementation_OpenGL4_WGL_SystemWindow_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_OpenGL4_WGL_SystemWindowDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_Visuals_Implementation_OpenGL4_WGL_SystemWindow_constructImpl,
@@ -113,6 +120,14 @@ Arcadia_Visuals_Implementation_OpenGL4_WGL_SystemWindow_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues1 + 1);
 }
+
+static void
+Arcadia_Visuals_Implementation_OpenGL4_WGL_SystemWindow_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_OpenGL4_WGL_SystemWindowDispatch* self
+  )
+{ }
 
 Arcadia_Visuals_Implementation_OpenGL4_WGL_SystemWindow*
 Arcadia_Visuals_Implementation_OpenGL4_WGL_SystemWindow_create

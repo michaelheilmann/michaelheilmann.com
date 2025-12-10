@@ -27,6 +27,10 @@
 Arcadia_declareObjectType(u8"Arcadia.DirectoryIteratorWindows", Arcadia_DirectoryIteratorWindows,
                           u8"Arcadia.DirectoryITerator");
 
+struct Arcadia_DirectoryIteratorWindowsDispatch {
+  Arcadia_DirectoryIteratorDispatch _parent;
+};
+
 struct Arcadia_DirectoryIteratorWindows {
   Arcadia_DirectoryIterator _parent;
   Arcadia_FilePath* path;

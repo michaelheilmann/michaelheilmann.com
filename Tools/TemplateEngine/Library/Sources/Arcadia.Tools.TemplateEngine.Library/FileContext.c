@@ -15,7 +15,7 @@
 
 #include "Arcadia.Tools.TemplateEngine.Library/FileContext.h"
 
-#include <stdio.h> // @todo Remove references to `stdio.h`.
+#include <stdio.h>
 
 #include "Arcadia.Tools.TemplateEngine.Library/Ast.h"
 #include "Arcadia.Tools.TemplateEngine.Library/Context.h"
@@ -450,6 +450,13 @@ FileContext_constructImpl
     FileContext* self
   );
 
+static void
+FileContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    FileContextDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*)&FileContext_constructImpl,
@@ -531,6 +538,14 @@ FileContext_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+FileContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    FileContextDispatch* self
+  )
+{ }
 
 FileContext*
 FileContext_create

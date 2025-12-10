@@ -21,6 +21,10 @@
 Arcadia_declareObjectType(u8"Arcadia.TemplateEngine.FileContext", Environment,
                           u8"Arcadia.Object");
 
+struct EnvironmentDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Environment {
   Arcadia_Object _parent;
   /// The enclosing environment or null.

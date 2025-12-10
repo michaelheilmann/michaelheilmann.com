@@ -25,17 +25,21 @@ typedef struct Arcadia_Audials_Implementation_SoundSourceResource Arcadia_Audial
 /// }
 /// @endcode
 Arcadia_declareObjectType(u8"Arcadia.Audials.Implementation.BackendContext", Arcadia_Audials_Implementation_BackendContext,
-                          u8"Arcadia.Audials.BackendContext")
+                          u8"Arcadia.Audials.BackendContext");
 
-struct Arcadia_Audials_Implementation_BackendContext {
-  Arcadia_Audials_BackendContext _parent;
-
+struct Arcadia_Audials_Implementation_BackendContextDispatch {
+  Arcadia_Audials_BackendContextDispatch _parent;
+  
   Arcadia_Audials_Implementation_SoundSourceResource*
   (*createSoundSourceResource)
     (
       Arcadia_Thread* thread,
       Arcadia_Audials_Implementation_BackendContext* self
     );
+};
+
+struct Arcadia_Audials_Implementation_BackendContext {
+  Arcadia_Audials_BackendContext _parent;
 };
 
 Arcadia_Audials_Implementation_SoundSourceResource*

@@ -29,6 +29,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.OpenGL4.WGL.FactoryWindow", Arcadia_Visuals_Implementation_OpenGL4_WGL_FactoryWindow,
                           u8"Arcadia.Object");
 
+struct Arcadia_Visuals_Implementation_OpenGL4_WGL_FactoryWindowDispatch {
+  Arcadia_ObjectDispatch parent;
+};
+
 struct Arcadia_Visuals_Implementation_OpenGL4_WGL_FactoryWindow {
   Arcadia_Object parent;
   HINSTANCE instanceHandle;

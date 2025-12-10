@@ -19,13 +19,18 @@
 #include "Arcadia/Visuals/Implementation/Resource.h"
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.ConstantBufferResource", Arcadia_Visuals_Implementation_ConstantBufferResource,
-                          u8"Arcadia.Visuals.Implementation.Resource")
+                          u8"Arcadia.Visuals.Implementation.Resource");
 
-struct Arcadia_Visuals_Implementation_ConstantBufferResource {
-  Arcadia_Visuals_Implementation_Resource _parent;
+struct Arcadia_Visuals_Implementation_ConstantBufferResourceDispatch {
+  Arcadia_Visuals_Implementation_ResourceDispatch _parent;
+
   void (*setData)(Arcadia_Thread*, Arcadia_Visuals_Implementation_ConstantBufferResource*, const void*, Arcadia_SizeValue);
   void (*clear)(Arcadia_Thread*, Arcadia_Visuals_Implementation_ConstantBufferResource*);
   void (*writeMatrix4x4Real32)(Arcadia_Thread*, Arcadia_Visuals_Implementation_ConstantBufferResource*, Arcadia_BooleanValue transpose, Arcadia_Math_Matrix4Real32 const* source);
+};
+
+struct Arcadia_Visuals_Implementation_ConstantBufferResource {
+  Arcadia_Visuals_Implementation_Resource _parent;
 };
 
 void

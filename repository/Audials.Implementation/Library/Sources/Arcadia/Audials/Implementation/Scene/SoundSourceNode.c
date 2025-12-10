@@ -29,6 +29,13 @@ Arcadia_Audials_Implementation_Scene_SoundSourceNode_constructImpl
   );
 
 static void
+Arcadia_Audials_Implementation_Scene_SoundSourceNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Audials_Implementation_Scene_SoundSourceNodeDispatch* self
+  );
+
+static void
 Arcadia_Audials_Implementation_Scene_SoundSourceNode_destructImpl
   (
     Arcadia_Thread* thread,
@@ -141,17 +148,25 @@ Arcadia_Audials_Implementation_Scene_SoundSourceNode_constructImpl
   //
   self->volume = 1.f;
   //
-  ((Arcadia_Audials_Scene_Node*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Audials_Scene_Node*)) & Arcadia_Audials_Implementation_Scene_SoundSourceNode_renderImpl;
-  ((Arcadia_Audials_Scene_Node*)self)->setBackendContext = (void (*)(Arcadia_Thread*, Arcadia_Audials_Scene_Node*, Arcadia_Audials_BackendContext*)) & Arcadia_Audials_Implementation_Scene_SoundSourceNode_setBackendContextImpl;
-  //
-  ((Arcadia_Audials_Scene_SoundSourceNode*)self)->isPlaying = (Arcadia_BooleanValue(*)(Arcadia_Thread*,Arcadia_Audials_Scene_SoundSourceNode*)) & Arcadia_Audials_Implementation_Scene_SoundSourceNode_isPlayingImpl;
-  ((Arcadia_Audials_Scene_SoundSourceNode*)self)->play = (Arcadia_BooleanValue(*)(Arcadia_Thread*, Arcadia_Audials_Scene_SoundSourceNode*)) & Arcadia_Audials_Implementation_Scene_SoundSourceNode_playImpl;
-  ((Arcadia_Audials_Scene_SoundSourceNode*)self)->stop = (Arcadia_BooleanValue(*)(Arcadia_Thread*, Arcadia_Audials_Scene_SoundSourceNode*)) & Arcadia_Audials_Implementation_Scene_SoundSourceNode_stopImpl;
-  ((Arcadia_Audials_Scene_SoundSourceNode*)self)->setVolume = (void(*)(Arcadia_Thread*, Arcadia_Audials_Scene_SoundSourceNode*,Arcadia_Real32Value)) & Arcadia_Audials_Implementation_Scene_SoundSourceNode_setVolumeImpl;
-  ((Arcadia_Audials_Scene_SoundSourceNode*)self)->getVolume = (Arcadia_Real32Value(*)(Arcadia_Thread*, Arcadia_Audials_Scene_SoundSourceNode*)) & Arcadia_Audials_Implementation_Scene_SoundSourceNode_getVolumeImpl;
-  //
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
+}
+
+static void
+Arcadia_Audials_Implementation_Scene_SoundSourceNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Audials_Implementation_Scene_SoundSourceNodeDispatch* self
+  )
+{
+  ((Arcadia_Audials_Scene_NodeDispatch*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Audials_Scene_Node*)) & Arcadia_Audials_Implementation_Scene_SoundSourceNode_renderImpl;
+  ((Arcadia_Audials_Scene_NodeDispatch*)self)->setBackendContext = (void (*)(Arcadia_Thread*, Arcadia_Audials_Scene_Node*, Arcadia_Audials_BackendContext*)) & Arcadia_Audials_Implementation_Scene_SoundSourceNode_setBackendContextImpl;
+  //
+  ((Arcadia_Audials_Scene_SoundSourceNodeDispatch*)self)->isPlaying = (Arcadia_BooleanValue(*)(Arcadia_Thread*, Arcadia_Audials_Scene_SoundSourceNode*)) & Arcadia_Audials_Implementation_Scene_SoundSourceNode_isPlayingImpl;
+  ((Arcadia_Audials_Scene_SoundSourceNodeDispatch*)self)->play = (Arcadia_BooleanValue(*)(Arcadia_Thread*, Arcadia_Audials_Scene_SoundSourceNode*)) & Arcadia_Audials_Implementation_Scene_SoundSourceNode_playImpl;
+  ((Arcadia_Audials_Scene_SoundSourceNodeDispatch*)self)->stop = (Arcadia_BooleanValue(*)(Arcadia_Thread*, Arcadia_Audials_Scene_SoundSourceNode*)) & Arcadia_Audials_Implementation_Scene_SoundSourceNode_stopImpl;
+  ((Arcadia_Audials_Scene_SoundSourceNodeDispatch*)self)->setVolume = (void(*)(Arcadia_Thread*, Arcadia_Audials_Scene_SoundSourceNode*, Arcadia_Real32Value)) & Arcadia_Audials_Implementation_Scene_SoundSourceNode_setVolumeImpl;
+  ((Arcadia_Audials_Scene_SoundSourceNodeDispatch*)self)->getVolume = (Arcadia_Real32Value(*)(Arcadia_Thread*, Arcadia_Audials_Scene_SoundSourceNode*)) & Arcadia_Audials_Implementation_Scene_SoundSourceNode_getVolumeImpl;
 }
 
 static void

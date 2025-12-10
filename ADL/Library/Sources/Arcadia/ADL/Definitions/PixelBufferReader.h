@@ -25,6 +25,10 @@
 Arcadia_declareObjectType(u8"Arcadia.ADL.PixelBufferReaderr", Arcadia_ADL_PixelBufferReader,
                           u8"Arcadia.ADL.Reader");
 
+struct Arcadia_ADL_PixelBufferReaderDispatch {
+  Arcadia_ADL_ReaderDispatch _parent;
+};
+
 struct Arcadia_ADL_PixelBufferReader {
   Arcadia_ADL_Reader _parent;
 

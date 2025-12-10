@@ -25,6 +25,13 @@ Arcadia_MIL_AST_ClassDefinitionNode_constructImpl
   );
 
 static void
+Arcadia_MIL_AST_ClassDefinitionNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_AST_ClassDefinitionNodeDispatch* self
+  );
+
+static void
 Arcadia_MIL_AST_ClassDefinitionNode_visit
   (
     Arcadia_Thread* thread,
@@ -77,6 +84,14 @@ Arcadia_MIL_AST_ClassDefinitionNode_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 3 + 1);
 }
+
+static void
+Arcadia_MIL_AST_ClassDefinitionNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_AST_ClassDefinitionNodeDispatch* self
+  )
+{ }
 
 static void
 Arcadia_MIL_AST_ClassDefinitionNode_visit

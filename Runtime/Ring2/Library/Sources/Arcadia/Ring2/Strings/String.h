@@ -25,6 +25,10 @@
 Arcadia_declareObjectType("Arcadia.String", Arcadia_String,
                           "Arcadia.Object");
 
+struct Arcadia_StringDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_String {
   Arcadia_Object _parent;
   Arcadia_ImmutableUtf8String* immutableUtf8String;

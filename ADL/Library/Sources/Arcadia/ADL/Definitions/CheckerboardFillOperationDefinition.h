@@ -48,7 +48,7 @@ typedef struct Arcadia_ADL_ColorDefinition Arcadia_ADL_ColorDefinition;
 //
 //   constructor(definitions : Arcadia.ADL.Definitions,
 //               qualifiedName : Arcadia.String,
-//               checkerWidth, checkerHeight : Arcadia.Integer32, 
+//               checkerWidth, checkerHeight : Arcadia.Integer32,
 //               firstCheckerColorName, secondCheckerColorName : Arcadia.String)
 //
 //   method getColor() : Arcadia.String
@@ -58,13 +58,17 @@ typedef struct Arcadia_ADL_ColorDefinition Arcadia_ADL_ColorDefinition;
 Arcadia_declareObjectType(u8"Arcadia.ADL.PixelBufferOperations.CheckerboardFillOperationDefinition", Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinition,
                           u8"Arcadia.ADL.Definition");
 
+struct Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinitionDispatch {
+  Arcadia_ADL_DefinitionDispatch _parent;
+};
+
 struct Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinition {
   Arcadia_ADL_Definition _parent;
-  
+
   Arcadia_Integer32Value checkerWidth;
   Arcadia_Integer32Value checkerHeight;
-  
-  Arcadia_ADL_Reference* firstCheckerColor;  
+
+  Arcadia_ADL_Reference* firstCheckerColor;
   Arcadia_ADL_Reference* secondCheckerColor;
 };
 

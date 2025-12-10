@@ -23,6 +23,13 @@ Arcadia_Visuals_DisplayMode_constructImpl
     Arcadia_Visuals_DisplayMode* self
   );
 
+static void
+Arcadia_Visuals_DisplayMode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_DisplayModeDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*) & Arcadia_Visuals_DisplayMode_constructImpl,
@@ -57,13 +64,21 @@ Arcadia_Visuals_DisplayMode_constructImpl
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
 
+static void
+Arcadia_Visuals_DisplayMode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_DisplayModeDispatch* self
+  )
+{ }
+
 Arcadia_Integer32Value
 Arcadia_Visuals_DisplayMode_getHorizontalResolution
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_DisplayMode* self
   )
-{ return self->getHorizontalResolution(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_DisplayMode, getHorizontalResolution, self); }
 
 Arcadia_Integer32Value
 Arcadia_Visuals_DisplayMode_getVerticalResolution
@@ -71,7 +86,7 @@ Arcadia_Visuals_DisplayMode_getVerticalResolution
     Arcadia_Thread* thread,
     Arcadia_Visuals_DisplayMode* self
   )
-{ return self->getVerticalResolution(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_DisplayMode, getVerticalResolution, self); }
 
 Arcadia_Integer32Value
 Arcadia_Visuals_DisplayMode_getColorDepth
@@ -79,7 +94,7 @@ Arcadia_Visuals_DisplayMode_getColorDepth
     Arcadia_Thread* thread,
     Arcadia_Visuals_DisplayMode* self
   )
-{ return self->getColorDepth(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_DisplayMode, getColorDepth, self); }
 
 Arcadia_Integer32Value
 Arcadia_Visuals_DisplayMode_getFrequency
@@ -87,7 +102,7 @@ Arcadia_Visuals_DisplayMode_getFrequency
     Arcadia_Thread* thread,
     Arcadia_Visuals_DisplayMode* self
   )
-{ return self->getFrequency(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_DisplayMode, getFrequency, self); }
 
 void
 Arcadia_Visuals_DisplayMode_apply
@@ -95,4 +110,4 @@ Arcadia_Visuals_DisplayMode_apply
     Arcadia_Thread* thread,
     Arcadia_Visuals_DisplayMode* self
   )
-{ self->apply(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_DisplayMode, apply, self); }

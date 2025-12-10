@@ -20,14 +20,21 @@
 #include "Arcadia/ADL/Definitions.h"
 
 static void
-Arcadia_ADL_Reference_visitImpl
+Arcadia_ADL_Reference_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_ADL_Reference* self
   );
 
 static void
-Arcadia_ADL_Reference_constructImpl
+Arcadia_ADL_Reference_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_ReferenceDispatch* self
+  );
+
+static void
+Arcadia_ADL_Reference_visitImpl
   (
     Arcadia_Thread* thread,
     Arcadia_ADL_Reference* self
@@ -91,6 +98,14 @@ Arcadia_ADL_Reference_constructImpl
   Arcadia_ValueStack_popValues(thread, 2 + 1);
 }
 
+static void
+Arcadia_ADL_Reference_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_ReferenceDispatch* self
+  )
+{ }
+
 Arcadia_ADL_Reference*
 Arcadia_ADL_Reference_create
   (
@@ -139,13 +154,13 @@ Arcadia_ADL_Reference_resolve
 {
   if (!self->definition) {
     self->definition = Arcadia_ADL_Definitions_getDefinitionOrNull(thread, self->definitions, self->definitionName);
-    if (!self->definition) { 
+    if (!self->definition) {
       Arcadia_StringBuffer* message = Arcadia_StringBuffer_create(thread);
       Arcadia_StringBuffer_insertBackCxxString(thread, message, u8"unable to resolve reference `");
       Arcadia_StringBuffer_insertBackString(thread, message, self->definitionName);
       Arcadia_StringBuffer_insertBackCxxString(thread, message, u8"`");
       Arcadia_Languages_Diagnostics_emit(thread, message);
-      
+
       Arcadia_Thread_setStatus(thread, Arcadia_Status_NotFound);
       Arcadia_Thread_jump(thread);
     }

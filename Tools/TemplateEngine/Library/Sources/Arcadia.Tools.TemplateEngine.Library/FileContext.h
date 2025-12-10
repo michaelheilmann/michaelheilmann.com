@@ -23,6 +23,10 @@ typedef struct Environment Environment;
 Arcadia_declareObjectType(u8"Arcadia.TemplateEngine.FileContext", FileContext,
                           u8"Arcadia.Object");
 
+struct FileContextDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct FileContext {
   Arcadia_Object _parent;
   /// The underlaying context.

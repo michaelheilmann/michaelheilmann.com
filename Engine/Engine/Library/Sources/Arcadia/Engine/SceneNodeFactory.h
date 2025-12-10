@@ -26,8 +26,12 @@
 Arcadia_declareObjectType(u8"Arcadia.Engine.SceneNodeFactory", Arcadia_Engine_SceneNodeFactory,
                           Arcadia_Object);
 
+struct Arcadia_Engine_SceneNodeFactoryDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_Engine_SceneNodeFactory {
-  Arcadia_Object parent;
+  Arcadia_Object _parent;
 };
 
 #endif // ARCADIA_ENGINE_SCENENODEFACTORY_H_INCLUDED

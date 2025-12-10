@@ -28,6 +28,10 @@
 Arcadia_declareObjectType(u8"Arcadia.MIL.VariableDefinitionStatementNode", Arcadia_MIL_VariableDefinitionStatementNode,
                           u8"Arcadia.MIL.AST.DefinitionStatementNode");
 
+struct Arcadia_MIL_VariableDefinitionStatementNodeDispatch {
+  Arcadia_MIL_AST_DefinitionStatementNodeDispatch parent;
+};
+
 struct Arcadia_MIL_VariableDefinitionStatementNode {
   Arcadia_MIL_AST_DefinitionStatementNode parent;
   Arcadia_String* variableName;

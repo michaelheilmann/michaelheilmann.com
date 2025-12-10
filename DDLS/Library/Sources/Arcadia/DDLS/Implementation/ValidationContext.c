@@ -15,6 +15,7 @@
 
 #include "Arcadia/DDLS/Implementation/ValidationContext.h"
 
+#include "Arcadia/DDLS/Implementation/ValidationException.h"
 #include "Arcadia/DDLS/Extensions.h"
 
 static void
@@ -22,6 +23,13 @@ Arcadia_DDLS_ValidationContext_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_DDLS_ValidationContext* self
+  );
+
+static void
+Arcadia_DDLS_ValidationContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDLS_ValidationContextDispatch* self
   );
 
 static void
@@ -78,10 +86,18 @@ Arcadia_DDLS_ValidationContext_constructImpl
   self->diagnostics = Arcadia_DDLS_Diagnostics_create(thread, self->stringTable);
   self->schemata = (Arcadia_Map*)Arcadia_HashMap_create(thread, Arcadia_Value_makeVoidValue(Arcadia_VoidValue_Void));
   //
-  self->run = &Arcadia_DDLS_ValidationContext_runImpl;
-  //
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
+}
+
+static void
+Arcadia_DDLS_ValidationContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDLS_ValidationContextDispatch* self
+  )
+{
+  self->run = &Arcadia_DDLS_ValidationContext_runImpl;
 }
 
 static void
@@ -360,6 +376,4 @@ Arcadia_DDLS_ValidationContext_run
     Arcadia_String* name,
     Arcadia_DDL_Node* node
   )
-{
-  self->run(thread, self, name, node);
-}
+{ Arcadia_VirtualCall(Arcadia_DDLS_ValidationContext, run, self, name, node); }

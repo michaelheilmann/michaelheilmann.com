@@ -48,6 +48,10 @@ typedef struct Arcadia_FileSystem Arcadia_FileSystem;
 Arcadia_declareObjectType(u8"Arcadia.DefaultFileHandle", Arcadia_DefaultFileHandle,
                           u8"Arcadia.FileHandle");
 
+struct Arcadia_DefaultFileHandleDispatch {
+  Arcadia_FileHandleDispatch _parent;
+};
+
 struct Arcadia_DefaultFileHandle {
   Arcadia_FileHandle _parent;
   Arcadia_FileSystem* fileSystem;

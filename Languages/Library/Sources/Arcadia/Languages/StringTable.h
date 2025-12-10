@@ -28,6 +28,10 @@ typedef struct Arcadia_Languages_StringTable_Node Arcadia_Languages_StringTable_
 Arcadia_declareObjectType(u8"Arcadia.Languages.StringTable", Arcadia_Languages_StringTable,
                           u8"Arcadia.Object");
 
+struct Arcadia_Languages_StringTableDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_Languages_StringTable {
   Arcadia_Object _parent;
   Arcadia_Languages_StringTable_Node** buckets;

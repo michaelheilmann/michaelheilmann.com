@@ -23,6 +23,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Imaging.Operations.CheckerboardFill", Arcadia_Imaging_Operations_CheckerboardFill,
                           u8"Arcadia.Imaging.Operation");
 
+struct Arcadia_Imaging_Operations_CheckerboardFillDispatch {
+  Arcadia_Imaging_OperationDispatch parent;
+};
+
 struct Arcadia_Imaging_Operations_CheckerboardFill {
   Arcadia_Imaging_Operation parent;
   Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinition* definition;

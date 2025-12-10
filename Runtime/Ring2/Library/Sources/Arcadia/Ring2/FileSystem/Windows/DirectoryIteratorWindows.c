@@ -29,6 +29,13 @@ Arcadia_DirectoryIteratorWindows_constructImpl
   );
 
 static void
+Arcadia_DirectoryIteratorWindows_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DirectoryIteratorWindowsDispatch* self
+  );
+
+static void
 Arcadia_DirectoryIteratorWindows_destructImpl
   (
     Arcadia_Thread* thread,
@@ -114,11 +121,20 @@ Arcadia_DirectoryIteratorWindows_constructImpl
       Arcadia_Thread_jump(thread);
     }
   }
-  ((Arcadia_DirectoryIterator*)self)->getValue = (Arcadia_FilePath* (*)(Arcadia_Thread*, Arcadia_DirectoryIterator*)) & Arcadia_DirectoryIteratorWindows_getValue;
-  ((Arcadia_DirectoryIterator*)self)->hasValue = (Arcadia_BooleanValue (*)(Arcadia_Thread*, Arcadia_DirectoryIterator*)) &Arcadia_DirectoryIteratorWindows_hasValue;
-  ((Arcadia_DirectoryIterator*)self)->nextValue = (void (*)(Arcadia_Thread*, Arcadia_DirectoryIterator*)) &Arcadia_DirectoryIteratorWindows_nextValue;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 2);
+}
+
+static void
+Arcadia_DirectoryIteratorWindows_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DirectoryIteratorWindowsDispatch* self
+  )
+{
+  ((Arcadia_DirectoryIteratorDispatch*)self)->getValue = (Arcadia_FilePath * (*)(Arcadia_Thread*, Arcadia_DirectoryIterator*)) & Arcadia_DirectoryIteratorWindows_getValue;
+  ((Arcadia_DirectoryIteratorDispatch*)self)->hasValue = (Arcadia_BooleanValue(*)(Arcadia_Thread*, Arcadia_DirectoryIterator*)) & Arcadia_DirectoryIteratorWindows_hasValue;
+  ((Arcadia_DirectoryIteratorDispatch*)self)->nextValue = (void (*)(Arcadia_Thread*, Arcadia_DirectoryIterator*)) & Arcadia_DirectoryIteratorWindows_nextValue;
 }
 
 static void

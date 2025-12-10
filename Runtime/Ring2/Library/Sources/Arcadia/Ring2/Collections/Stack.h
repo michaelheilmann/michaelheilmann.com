@@ -26,13 +26,17 @@
 Arcadia_declareObjectType(u8"Arcadia.Stack", Arcadia_Stack,
                           u8"Arcadia.Collection");
 
-struct Arcadia_Stack {
-  Arcadia_Collection parent;
+struct Arcadia_StackDispatch {
+  Arcadia_CollectionDispatch _parent;
 
   Arcadia_Value(*peek)(Arcadia_Thread*, Arcadia_Stack*);
   Arcadia_Value(*peekAt)(Arcadia_Thread*, Arcadia_Stack*, Arcadia_SizeValue);
   void (*pop)(Arcadia_Thread*, Arcadia_Stack*);
   void (*push)(Arcadia_Thread*, Arcadia_Stack*, Arcadia_Value);
+};
+
+struct Arcadia_Stack {
+  Arcadia_Collection parent;
 };
 
 // https://michaelheilmann.com/Arcadia/Ring2/#Arcadia_Stack_push

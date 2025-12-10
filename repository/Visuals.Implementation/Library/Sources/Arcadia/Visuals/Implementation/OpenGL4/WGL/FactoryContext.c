@@ -45,6 +45,13 @@ Arcadia_Visuals_Implementation_OpenGL4_WGL_FactoryContext_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_OpenGL4_WGL_FactoryContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_OpenGL4_WGL_FactoryContextDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_OpenGL4_WGL_FactoryContext_destruct
   (
     Arcadia_Thread* thread,
@@ -145,6 +152,14 @@ Arcadia_Visuals_Implementation_OpenGL4_WGL_FactoryContext_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues1 + 1);
 }
+
+static void
+Arcadia_Visuals_Implementation_OpenGL4_WGL_FactoryContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_OpenGL4_WGL_FactoryContextDispatch* self
+  )
+{ }
 
 Arcadia_Visuals_Implementation_OpenGL4_WGL_FactoryContext*
 Arcadia_Visuals_Implementation_OpenGL4_WGL_FactoryContext_create

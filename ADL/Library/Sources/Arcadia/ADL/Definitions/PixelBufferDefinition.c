@@ -39,6 +39,13 @@ Arcadia_ADL_PixelBufferDefinition_constructImpl
     Arcadia_ADL_PixelBufferDefinition* self
   );
 
+static void
+Arcadia_ADL_PixelBufferDefinition_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_PixelBufferDefinitionDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*) &Arcadia_ADL_PixelBufferDefinition_constructImpl,
@@ -99,9 +106,18 @@ Arcadia_ADL_PixelBufferDefinition_constructImpl
   self->operations = (Arcadia_List*)Arcadia_ArrayList_create(thread);
   self->width = Arcadia_ValueStack_getNatural32Value(thread, 2);
   self->height = Arcadia_ValueStack_getNatural32Value(thread, 1);
-  ((Arcadia_ADL_Definition*)self)->link = (void (*)(Arcadia_Thread*, Arcadia_ADL_Definition*)) & Arcadia_ADL_PixelBufferDefinition_linkImpl;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 4 + 1);
+}
+
+static void
+Arcadia_ADL_PixelBufferDefinition_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_PixelBufferDefinitionDispatch* self
+  )
+{
+  ((Arcadia_ADL_DefinitionDispatch*)self)->link = (void (*)(Arcadia_Thread*, Arcadia_ADL_Definition*)) & Arcadia_ADL_PixelBufferDefinition_linkImpl;
 }
 
 Arcadia_ADL_PixelBufferDefinition*

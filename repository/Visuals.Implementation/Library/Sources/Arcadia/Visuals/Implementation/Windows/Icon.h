@@ -34,7 +34,11 @@
 /// }
 /// @endcode
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.Windows.Icon", Arcadia_Visuals_Implementation_Windows_Icon,
-                          u8"Arcadia.Visuals.Icon")
+                          u8"Arcadia.Visuals.Icon");
+
+struct Arcadia_Visuals_Implementation_Windows_IconDispatch {
+  Arcadia_Visuals_IconDispatch _parent;
+};
 
 struct Arcadia_Visuals_Implementation_Windows_Icon {
   Arcadia_Visuals_Icon _parent;

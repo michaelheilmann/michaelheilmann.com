@@ -28,6 +28,10 @@ typedef struct Arcadia_MIL_DefinitionAst Arcadia_MIL_DefinitionAst;
 Arcadia_declareObjectType(u8"Arcadia.MIL.AST.DefinitionNode", Arcadia_MIL_AST_DefinitionNode,
                           u8"Arcadia.MIL.AST.Node");
 
+struct Arcadia_MIL_AST_DefinitionNodeDispatch {
+  Arcadia_MIL_AST_NodeDispatch _parent;
+};
+
 struct Arcadia_MIL_AST_DefinitionNode {
   Arcadia_MIL_AST_Node _parent;
 };

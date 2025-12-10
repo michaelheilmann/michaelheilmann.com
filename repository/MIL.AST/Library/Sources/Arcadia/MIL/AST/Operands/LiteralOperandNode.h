@@ -31,6 +31,10 @@
 Arcadia_declareObjectType(u8"Arcadia.MIL.AST.LiteralOperandNode", Arcadia_MIL_AST_LiteralOperandNode,
                           u8"Arcadia.MIL.OperandAst");
 
+struct Arcadia_MIL_AST_LiteralOperandNodeDispatch {
+  Arcadia_MIL_AST_OperandNodeDispatch parent;
+};
+
 struct Arcadia_MIL_AST_LiteralOperandNode {
   Arcadia_MIL_AST_OperandNode parent;
   Arcadia_MIL_AST_Node* literal;

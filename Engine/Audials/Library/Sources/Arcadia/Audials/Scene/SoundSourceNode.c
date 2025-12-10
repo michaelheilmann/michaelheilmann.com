@@ -23,6 +23,13 @@ Arcadia_Audials_Scene_SoundSourceNode_constructImpl
   );
 
 static void
+Arcadia_Audials_Scene_SoundSourceNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Audials_Scene_SoundSourceNodeDispatch* self
+  );
+
+static void
 Arcadia_Audials_Scene_SoundSourceNode_destructImpl
   (
     Arcadia_Thread* thread,
@@ -62,15 +69,17 @@ Arcadia_Audials_Scene_SoundSourceNode_constructImpl
     Arcadia_superTypeConstructor(thread, _type, self);
   }
   //
-  self->isPlaying = NULL;
-  self->play = NULL;
-  self->stop = NULL;
-  self->setVolume = NULL;
-  self->getVolume = NULL;
-  //
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+Arcadia_Audials_Scene_SoundSourceNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Audials_Scene_SoundSourceNodeDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Audials_Scene_SoundSourceNode_destructImpl
@@ -86,7 +95,7 @@ Arcadia_Audials_Scene_SoundSourceNode_isPlaying
     Arcadia_Thread* thread,
     Arcadia_Audials_Scene_SoundSourceNode* self
   )
-{ return self->isPlaying(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Audials_Scene_SoundSourceNode, isPlaying, self); }
 
 void
 Arcadia_Audials_Scene_SoundSourceNode_pause
@@ -94,7 +103,7 @@ Arcadia_Audials_Scene_SoundSourceNode_pause
     Arcadia_Thread* thread,
     Arcadia_Audials_Scene_SoundSourceNode* self
   )
-{ self->pause(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_Audials_Scene_SoundSourceNode, pause, self); }
 
 void
 Arcadia_Audials_Scene_SoundSourceNode_play
@@ -102,7 +111,7 @@ Arcadia_Audials_Scene_SoundSourceNode_play
     Arcadia_Thread* thread,
     Arcadia_Audials_Scene_SoundSourceNode* self
   )
-{ self->play(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_Audials_Scene_SoundSourceNode, play, self); }
 
 void
 Arcadia_Audials_Scene_SoundSourceNode_stop
@@ -110,7 +119,7 @@ Arcadia_Audials_Scene_SoundSourceNode_stop
     Arcadia_Thread* thread,
     Arcadia_Audials_Scene_SoundSourceNode* self
   )
-{ self->stop(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_Audials_Scene_SoundSourceNode, stop, self); }
 
 void
 Arcadia_Audials_Scene_SoundSourceNode_setVolume
@@ -119,7 +128,7 @@ Arcadia_Audials_Scene_SoundSourceNode_setVolume
     Arcadia_Audials_Scene_SoundSourceNode* self,
     Arcadia_Real32Value volume
   )
-{ self->setVolume(thread, self, volume); }
+{ Arcadia_VirtualCall(Arcadia_Audials_Scene_SoundSourceNode, setVolume, self, volume); }
 
 Arcadia_Real32Value
 Arcadia_Audials_Scene_SoundSourceNode_getVolume
@@ -127,4 +136,4 @@ Arcadia_Audials_Scene_SoundSourceNode_getVolume
     Arcadia_Thread* thread,
     Arcadia_Audials_Scene_SoundSourceNode* self
   )
-{ return self->getVolume(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Audials_Scene_SoundSourceNode, getVolume, self); }

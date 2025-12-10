@@ -26,6 +26,13 @@ Arcadia_Visuals_Implementation_ViewportResource_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_ViewportResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_ViewportResourceDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_ViewportResource_destructImpl
   (
     Arcadia_Thread* thread,
@@ -75,13 +82,17 @@ Arcadia_Visuals_Implementation_ViewportResource_constructImpl
     Arcadia_ValueStack_pushNatural8Value(thread, 1);
     Arcadia_superTypeConstructor(thread, _type, self);
   }
-  self->setCanvasSize = NULL;
-  self->setClearColor = NULL;
-  self->setClearDepth = NULL;
-  self->setRelativeViewportRectangle = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+Arcadia_Visuals_Implementation_ViewportResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_ViewportResourceDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Implementation_ViewportResource_destructImpl
@@ -109,7 +120,7 @@ Arcadia_Visuals_Implementation_ViewportResource_setClearColor
     Arcadia_Real32Value blue,
     Arcadia_Real32Value alpha
   )
-{ self->setClearColor(thread, self, red, green, blue, alpha); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_ViewportResource, setClearColor, self, red, green, blue, alpha); }
 
 void
 Arcadia_Visuals_Implementation_ViewportResource_setClearDepth
@@ -118,7 +129,7 @@ Arcadia_Visuals_Implementation_ViewportResource_setClearDepth
     Arcadia_Visuals_Implementation_ViewportResource* self,
     Arcadia_Real32Value depth
   )
-{ self->setClearDepth(thread, self, depth); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_ViewportResource, setClearDepth, self, depth); }
 
 void
 Arcadia_Visuals_Implementation_ViewportResource_setRelativeViewportRectangle
@@ -130,7 +141,7 @@ Arcadia_Visuals_Implementation_ViewportResource_setRelativeViewportRectangle
     Arcadia_Real32Value right,
     Arcadia_Real32Value top
   )
-{ self->setRelativeViewportRectangle(thread, self, left, bottom, right, top); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_ViewportResource, setRelativeViewportRectangle, self, left, bottom, right, top); }
 
 void
 Arcadia_Visuals_Implementation_ViewportResource_setCanvasSize
@@ -140,4 +151,4 @@ Arcadia_Visuals_Implementation_ViewportResource_setCanvasSize
     Arcadia_Real32Value width,
     Arcadia_Real32Value height
   )
-{ self->setCanvasSize(thread, self, width, height); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_ViewportResource, setCanvasSize, self, width, height); }

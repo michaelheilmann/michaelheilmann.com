@@ -25,6 +25,10 @@
 Arcadia_declareObjectType(u8"Arcadia.DDL.DefaultReader", Arcadia_DDL_DefaultReader,
                           u8"Arcadia.Object");
 
+struct Arcadia_DDL_DefaultReaderDispatch {
+  Arcadia_ObjectDispatch parent;
+};
+
 struct Arcadia_DDL_DefaultReader {
   Arcadia_Object parent;
   Arcadia_DDL_Parser* parser;

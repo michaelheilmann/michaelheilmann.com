@@ -23,6 +23,10 @@ typedef struct Arcadia_Visuals_Window Arcadia_Visuals_Window;
 Arcadia_declareObjectType(u8"Arcadia.Visuals.CanvasDpiChangedEvent", Arcadia_Visuals_CanvasDpiChangedEvent,
                           u8"Arcadia.Visuals.CanvasEvent");
 
+struct Arcadia_Visuals_CanvasDpiChangedEventDispatch {
+  Arcadia_Visuals_CanvasEventDispatch parent;
+};
+
 struct Arcadia_Visuals_CanvasDpiChangedEvent {
   Arcadia_Visuals_CanvasEvent _parent;
   Arcadia_Integer32Value horizontalDpi;

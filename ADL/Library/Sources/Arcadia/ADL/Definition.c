@@ -32,6 +32,13 @@ Arcadia_ADL_Definition_constructImpl
     Arcadia_ADL_Definition* self
   );
 
+static void
+Arcadia_ADL_Definition_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_DefinitionDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*) & Arcadia_ADL_Definition_constructImpl,
@@ -78,11 +85,20 @@ Arcadia_ADL_Definition_constructImpl
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
   }
-  self->link = NULL;
   self->definitions = Arcadia_ValueStack_getObjectReferenceValueChecked(thread, 1, _Arcadia_ADL_Definitions_getType(thread));
   self->name = Arcadia_ValueStack_getObjectReferenceValueChecked(thread, 2, _Arcadia_String_getType(thread));
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 2 + 1);
+}
+
+static void
+Arcadia_ADL_Definition_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_DefinitionDispatch* self
+  )
+{
+  self->link = NULL;
 }
 
 Arcadia_ADL_Definitions*
@@ -107,4 +123,4 @@ Arcadia_ADL_Definition_link
     Arcadia_Thread* thread,
     Arcadia_ADL_Definition* self
   )
-{ self->link(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_ADL_Definition, link, self); }

@@ -24,6 +24,13 @@ Arcadia_MIL_AST_StatementNode_constructImpl
     Arcadia_MIL_AST_StatementNode* self
   );
 
+static void
+Arcadia_MIL_AST_StatementNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_AST_StatementNodeDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _Arcadia_MIL_AST_StatementNode_objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_MIL_AST_StatementNode_constructImpl,
@@ -53,3 +60,11 @@ Arcadia_MIL_AST_StatementNode_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_MIL_AST_StatementNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_AST_StatementNodeDispatch* self
+  )
+{ }

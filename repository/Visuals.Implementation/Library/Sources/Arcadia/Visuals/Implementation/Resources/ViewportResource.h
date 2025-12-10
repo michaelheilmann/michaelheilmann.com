@@ -19,10 +19,10 @@
 #include "Arcadia/Visuals/Implementation/Resource.h"
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.ViewportResource", Arcadia_Visuals_Implementation_ViewportResource,
-                          u8"Arcadia.Visuals.Implementation.Resource")
+                          u8"Arcadia.Visuals.Implementation.Resource");
 
-struct Arcadia_Visuals_Implementation_ViewportResource {
-  Arcadia_Visuals_Implementation_Resource _parent;
+struct Arcadia_Visuals_Implementation_ViewportResourceDispatch {
+  Arcadia_Visuals_Implementation_ResourceDispatch _parent;
 
   void (*setClearColor)
     (
@@ -60,7 +60,10 @@ struct Arcadia_Visuals_Implementation_ViewportResource {
       Arcadia_Real32Value width,
       Arcadia_Real32Value height
     );
+};
 
+struct Arcadia_Visuals_Implementation_ViewportResource {
+  Arcadia_Visuals_Implementation_Resource _parent;
 };
 
 /// Set the clear color.
@@ -77,7 +80,7 @@ Arcadia_Visuals_Implementation_ViewportResource_setClearColor
   );
 
 /// Set the clear depth.
-/// Default values are 
+/// Default values are
 void
 Arcadia_Visuals_Implementation_ViewportResource_setClearDepth
   (

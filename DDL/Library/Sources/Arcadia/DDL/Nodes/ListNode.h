@@ -24,8 +24,12 @@
 Arcadia_declareObjectType(u8"Arcadia.DDL.ListNode", Arcadia_DDL_ListNode,
                           u8"Arcadia.DDL.Node");
 
+struct Arcadia_DDL_ListNodeDispatch {
+  Arcadia_DDL_NodeDispatch _parent;
+};
+
 struct Arcadia_DDL_ListNode {
-  Arcadia_DDL_Node parent;
+  Arcadia_DDL_Node _parent;
   Arcadia_List* elements;
 };
 

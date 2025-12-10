@@ -22,6 +22,10 @@ typedef struct Arcadia_Visuals_Windows_DisplayDevice Arcadia_Visuals_Windows_Dis
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Windows.DisplayMode", Arcadia_Visuals_Windows_DisplayMode,
                           u8"Arcadia.Visuals.DisplayMode");
 
+struct Arcadia_Visuals_Windows_DisplayModeDispatch {
+  Arcadia_Visuals_DisplayModeDispatch _parent;
+};
+
 struct Arcadia_Visuals_Windows_DisplayMode {
   Arcadia_Visuals_DisplayMode _parent;
   Arcadia_Visuals_Windows_DisplayDevice* device;

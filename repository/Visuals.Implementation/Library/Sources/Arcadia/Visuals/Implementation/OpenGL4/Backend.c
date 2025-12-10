@@ -52,10 +52,17 @@ Arcadia_Visuals_Implementation_OpenGL4_Backend_createBackendContextImpl
   );
 
 static void
-Arcadia_Visuals_Implementation_OpenGL4_Backend_construct
+Arcadia_Visuals_Implementation_OpenGL4_Backend_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_OpenGL4_Backend* self
+  );
+
+static void
+Arcadia_Visuals_Implementation_OpenGL4_Backend_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_OpenGL4_BackendDispatch* self
   );
 
 static void
@@ -74,7 +81,7 @@ Arcadia_Visuals_Implementation_OpenGL4_Backend_visit
 
 static const Arcadia_ObjectType_Operations _Arcadia_Visuals_Implementation_OpenGL4_Backend_objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
-  .construct = (Arcadia_Object_ConstructCallbackFunction*) &Arcadia_Visuals_Implementation_OpenGL4_Backend_construct,
+  .construct = (Arcadia_Object_ConstructCallbackFunction*) &Arcadia_Visuals_Implementation_OpenGL4_Backend_constructImpl,
   .destruct = (Arcadia_Object_DestructCallbackFunction*)&Arcadia_Visuals_Implementation_OpenGL4_Backend_destruct,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_Visuals_Implementation_OpenGL4_Backend_visit,
 };
@@ -113,7 +120,7 @@ Arcadia_Visuals_Implementation_OpenGL4_Backend_createBackendContextImpl
 }
 
 static void
-Arcadia_Visuals_Implementation_OpenGL4_Backend_construct
+Arcadia_Visuals_Implementation_OpenGL4_Backend_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_OpenGL4_Backend* self
@@ -129,12 +136,19 @@ Arcadia_Visuals_Implementation_OpenGL4_Backend_construct
     Arcadia_Thread_jump(thread);
   }
   Arcadia_SizeValue numberOfArgumentValues1 = Arcadia_ValueStack_getNatural8Value(thread, 0);
-
-  ((Arcadia_Engine_Backend*)self)->createBackendContext = (Arcadia_Engine_BackendContext* (*)(Arcadia_Thread*, Arcadia_Engine_Backend*))& Arcadia_Visuals_Implementation_OpenGL4_Backend_createBackendContextImpl;
-  ((Arcadia_Engine_Backend*)self)->getName = (Arcadia_String *(*)(Arcadia_Thread*, Arcadia_Engine_Backend*))&Arcadia_Visuals_Implementation_OpenGL4_Backend_getNameImpl;
-
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues1 + 1);
+}
+
+static void
+Arcadia_Visuals_Implementation_OpenGL4_Backend_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_OpenGL4_BackendDispatch* self
+  )
+{
+  ((Arcadia_Engine_BackendDispatch*)self)->createBackendContext = (Arcadia_Engine_BackendContext * (*)(Arcadia_Thread*, Arcadia_Engine_Backend*)) & Arcadia_Visuals_Implementation_OpenGL4_Backend_createBackendContextImpl;
+  ((Arcadia_Engine_BackendDispatch*)self)->getName = (Arcadia_String * (*)(Arcadia_Thread*, Arcadia_Engine_Backend*)) & Arcadia_Visuals_Implementation_OpenGL4_Backend_getNameImpl;
 }
 
 static void

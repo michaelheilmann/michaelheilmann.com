@@ -22,6 +22,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Visuals.ApplicationQuitRequestedEvent", Arcadia_Visuals_ApplicationQuitRequestedEvent,
                           u8"Arcadia.Visuals.ApplicationEvent");
 
+struct Arcadia_Visuals_ApplicationQuitRequestedEventDispatch {
+  Arcadia_Visuals_ApplicationEventDispatch parent;
+};
+
 struct Arcadia_Visuals_ApplicationQuitRequestedEvent {
   Arcadia_Visuals_ApplicationEvent _parent;
 };

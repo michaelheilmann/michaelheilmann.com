@@ -422,6 +422,13 @@ Arcadia_FilePath_constructImpl
   );
 
 static void
+Arcadia_FilePath_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_FilePathDispatch* self
+  );
+
+static void
 Arcadia_FilePath_destruct
   (
     Arcadia_Thread* thread,
@@ -474,6 +481,14 @@ Arcadia_FilePath_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1);
 }
+
+static void
+Arcadia_FilePath_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_FilePathDispatch* self
+  )
+{ }
 
 static void
 Arcadia_FilePath_destruct

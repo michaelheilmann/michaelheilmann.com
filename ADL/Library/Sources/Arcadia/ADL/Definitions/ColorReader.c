@@ -72,7 +72,7 @@ Arcadia_ADL_ColorReader_getTypeName
     Arcadia_Thread* thread,
     Arcadia_ADL_ColorReader* self
   );
- 
+
 static Arcadia_ADL_ColorDefinition*
 Arcadia_ADL_ColorReader_read
   (
@@ -104,6 +104,13 @@ Arcadia_ADL_ColorReader_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_ADL_ColorReader* self
+  );
+
+static void
+Arcadia_ADL_ColorReader_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_ColorReaderDispatch* self
   );
 
 static void
@@ -270,11 +277,19 @@ Arcadia_ADL_ColorReader_constructImpl
   self->GREEN = Arcadia_Languages_StringTable_getOrCreateStringFromCxxString(thread, Arcadia_Languages_StringTable_getOrCreate(thread), u8"green");
   self->BLUE = Arcadia_Languages_StringTable_getOrCreateStringFromCxxString(thread, Arcadia_Languages_StringTable_getOrCreate(thread), u8"blue");
   //
-  ((Arcadia_ADL_Reader*)self)->getTypeName = (Arcadia_String* (*)(Arcadia_Thread*, Arcadia_ADL_Reader*)) & Arcadia_ADL_ColorReader_getTypeName;
-  ((Arcadia_ADL_Reader*)self)->read = (Arcadia_ADL_Definition* (*)(Arcadia_Thread*, Arcadia_ADL_Reader*, Arcadia_ADL_Context*, Arcadia_ADL_Definitions*, Arcadia_DDL_Node*)) & Arcadia_ADL_ColorReader_read;
-  //
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
+}
+
+static void
+Arcadia_ADL_ColorReader_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_ColorReaderDispatch* self
+  )
+{
+  ((Arcadia_ADL_ReaderDispatch*)self)->getTypeName = (Arcadia_String * (*)(Arcadia_Thread*, Arcadia_ADL_Reader*)) & Arcadia_ADL_ColorReader_getTypeName;
+  ((Arcadia_ADL_ReaderDispatch*)self)->read = (Arcadia_ADL_Definition * (*)(Arcadia_Thread*, Arcadia_ADL_Reader*, Arcadia_ADL_Context*, Arcadia_ADL_Definitions*, Arcadia_DDL_Node*)) & Arcadia_ADL_ColorReader_read;
 }
 
 static void
@@ -289,7 +304,7 @@ Arcadia_ADL_ColorReader_visitImpl
     Arcadia_Object_visit(thread, (Arcadia_Object*)self->validationContext);
   }
   //
-  if (self->TYPE) { 
+  if (self->TYPE) {
     Arcadia_Object_visit(thread, (Arcadia_Object*)self->TYPE);
   }
   if (self->NAME) {

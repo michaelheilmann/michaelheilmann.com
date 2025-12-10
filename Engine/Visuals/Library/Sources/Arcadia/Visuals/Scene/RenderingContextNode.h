@@ -16,16 +16,23 @@
 #if !defined(ARCADIA_VISUALS_SCENE_RENDERINGCONTEXTNODE_H_INCLUDED)
 #define ARCADIA_VISUALS_SCENE_RENDERINGCONTEXTNODE_H_INCLUDED
 
+#if !defined(ARCADIA_VISUALS_PRIVATE) || 1 != ARCADIA_VISUALS_PRIVATE
+  #error("do not include directly, include `Arcadia/Visuals/Include.h` instead")
+#endif
 #include "Arcadia/Visuals/Scene/Node.h"
 typedef struct Arcadia_Visuals_Scene_CameraNode Arcadia_Visuals_Scene_CameraNode;
 typedef struct Arcadia_Visuals_Scene_FrameBufferNode Arcadia_Visuals_Scene_FrameBufferNode;
 
 // This represents state common to a rendering of meshes.
-// 
+//
 // The rendering context node must be provided with a rendering context node -> camera node -> viewport node path.
 // The rendering context node may be provided with a rendering context node -> frame buffer node path.
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Scene.RenderingContextNode", Arcadia_Visuals_Scene_RenderingContextNode,
                           u8"Arcadia.Visuals.Scene.Node");
+
+struct Arcadia_Visuals_Scene_RenderingContextNodeDispatch {
+  Arcadia_Visuals_Scene_NodeDispatch parent;
+};
 
 struct Arcadia_Visuals_Scene_RenderingContextNode {
   Arcadia_Visuals_Scene_Node parent;

@@ -19,7 +19,11 @@
 #include "Arcadia/Visuals/Implementation/Resource.h"
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.VertexProgramResource", Arcadia_Visuals_Implementation_VertexProgramResource,
-                          u8"Arcadia.Visuals.Implementation.Resource")
+                          u8"Arcadia.Visuals.Implementation.Resource");
+
+struct Arcadia_Visuals_Implementation_VertexProgramResourceDispatch {
+  Arcadia_Visuals_Implementation_ResourceDispatch _parent;
+};
 
 struct Arcadia_Visuals_Implementation_VertexProgramResource {
   Arcadia_Visuals_Implementation_Resource _parent;

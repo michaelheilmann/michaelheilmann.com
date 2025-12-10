@@ -27,15 +27,15 @@
 Arcadia_declareObjectType(u8"Arcadia.Languages.Scanner", Arcadia_Languages_Scanner,
                           u8"Arcadia.Object");
 
-struct Arcadia_Languages_Scanner {
-  Arcadia_Object _parent;
+struct Arcadia_Languages_ScannerDispatch {
+  Arcadia_ObjectDispatch _parent;
 
   Arcadia_String* (*getWordText)(Arcadia_Thread* thread, Arcadia_Languages_Scanner* self);
 
-  Arcadia_Natural32Value (*getWordType)(Arcadia_Thread* thread, Arcadia_Languages_Scanner* self);
+  Arcadia_Natural32Value(*getWordType)(Arcadia_Thread* thread, Arcadia_Languages_Scanner* self);
 
-  Arcadia_Natural32Value (*getWordStart)(Arcadia_Thread* thread, Arcadia_Languages_Scanner* self);
-  Arcadia_Natural32Value (*getWordLength)(Arcadia_Thread* thread, Arcadia_Languages_Scanner* self);
+  Arcadia_Natural32Value(*getWordStart)(Arcadia_Thread* thread, Arcadia_Languages_Scanner* self);
+  Arcadia_Natural32Value(*getWordLength)(Arcadia_Thread* thread, Arcadia_Languages_Scanner* self);
 
   void (*step)(Arcadia_Thread* thread, Arcadia_Languages_Scanner* self);
 
@@ -43,7 +43,10 @@ struct Arcadia_Languages_Scanner {
   Arcadia_String* (*getInput)(Arcadia_Thread* thread, Arcadia_Languages_Scanner* self);
 
   Arcadia_Languages_StringTable* (*getStringTable)(Arcadia_Thread* thread, Arcadia_Languages_Scanner* self);
+};
 
+struct Arcadia_Languages_Scanner {
+  Arcadia_Object _parent;
 };
 
 /// @brief Get the text of the word.

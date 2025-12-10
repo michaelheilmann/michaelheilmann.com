@@ -28,6 +28,10 @@ typedef struct _Arcadia_HashSet_Node _Arcadia_HashSet_Node;
 Arcadia_declareObjectType(u8"Arcadia.HashSet", Arcadia_HashSet,
                           u8"Arcadia.Set");
 
+struct Arcadia_HashSetDispatch {
+  Arcadia_SetDispatch _parent;
+};
+
 struct Arcadia_HashSet {
   Arcadia_Set _parent;
   _Arcadia_HashSet_Node** buckets;

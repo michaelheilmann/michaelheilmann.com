@@ -38,6 +38,13 @@ Arcadia_Imaging_ImageManager_constructImpl
     Arcadia_Imaging_ImageManager* self
   );
 
+static void
+Arcadia_Imaging_ImageManager_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Imaging_ImageManagerDispatch* self
+  );
+
 static Arcadia_Imaging_ImageManager*
 Arcadia_Imaging_ImageManager_create
   (
@@ -113,6 +120,14 @@ Arcadia_Imaging_ImageManager_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_Imaging_ImageManager_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Imaging_ImageManagerDispatch* self
+  )
+{ }
 
 static Arcadia_Imaging_ImageManager*
 Arcadia_Imaging_ImageManager_create

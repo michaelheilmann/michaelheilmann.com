@@ -21,6 +21,10 @@
 Arcadia_declareObjectType(u8"Arcadia.DDLS.ListSymbol", Arcadia_DDLS_ListSymbol,
                           u8"Arcadia.DDLS.Symbol");
 
+struct Arcadia_DDLS_ListSymbolDispatch {
+  Arcadia_DDLS_SymbolDispatch parent;
+};
+
 struct Arcadia_DDLS_ListSymbol {
   Arcadia_DDLS_Symbol parent;
   /// @brief The list entry symbol.

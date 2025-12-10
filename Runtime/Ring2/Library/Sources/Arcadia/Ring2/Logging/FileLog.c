@@ -26,6 +26,13 @@ Arcadia_FileLog_constructImpl
   );
 
 static void
+Arcadia_FileLog_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_FileLogDispatch* self
+  );
+
+static void
 Arcadia_FileLog_visit
   (
     Arcadia_Thread* thread,
@@ -79,7 +86,7 @@ Arcadia_FileLog_constructImpl
     Arcadia_FileLog* self
   )
 {
-  Arcadia_TypeValue _type = _Arcadia_Log_getType(thread);
+  Arcadia_TypeValue _type = _Arcadia_FileLog_getType(thread);
   {
     Arcadia_ValueStack_pushNatural8Value(thread, 0);
     Arcadia_superTypeConstructor(thread, _type, self);
@@ -91,10 +98,19 @@ Arcadia_FileLog_constructImpl
   Arcadia_FileSystem* fileSystem = Arcadia_FileSystem_getOrCreate(thread);
   self->fileHandle = Arcadia_FileSystem_createFileHandle(thread, fileSystem);
   Arcadia_FileHandle_openStandardOutput(thread, self->fileHandle);
-  ((Arcadia_Log*)self)->error = (void (*)(Arcadia_Thread*, Arcadia_Log*, Arcadia_String*))&Arcadia_FileLog_errorImpl;
-  ((Arcadia_Log*)self)->info = (void (*)(Arcadia_Thread*, Arcadia_Log*, Arcadia_String*))&Arcadia_FileLog_infoImpl;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1);
+}
+
+static void
+Arcadia_FileLog_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_FileLogDispatch* self
+  )
+{
+  ((Arcadia_LogDispatch*)self)->error = (void (*)(Arcadia_Thread*, Arcadia_Log*, Arcadia_String*)) & Arcadia_FileLog_errorImpl;
+  ((Arcadia_LogDispatch*)self)->info = (void (*)(Arcadia_Thread*, Arcadia_Log*, Arcadia_String*)) & Arcadia_FileLog_infoImpl;
 }
 
 static void

@@ -21,6 +21,10 @@
 Arcadia_declareObjectType(u8"Arcadia.TemplateEngine.DependenciesContext", DependenciesContext,
                           u8"Arcadia.Object");
 
+struct DependenciesContextDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct DependenciesContext {
   Arcadia_Object _parent;
   // The path of the dependencies file.

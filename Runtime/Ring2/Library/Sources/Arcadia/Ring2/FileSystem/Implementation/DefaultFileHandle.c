@@ -16,6 +16,7 @@
 #define ARCADIA_RING2_PRIVATE (1)
 #include "Arcadia/Ring2/FileSystem/Implementation/DefaultFileHandle.h"
 
+#include "Arcadia/Ring2/FileSystem/Implementation/DefaultFileSystem.h"
 #include "Arcadia/Ring2/Include.h"
 
 #define Flags_OpenRead (1)
@@ -27,6 +28,13 @@ Arcadia_DefaultFileHandle_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_DefaultFileHandle* self
+  );
+
+static void
+Arcadia_DefaultFileHandle_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DefaultFileHandleDispatch* self
   );
 
 static void
@@ -190,24 +198,31 @@ Arcadia_DefaultFileHandle_constructImpl
 #endif
   self->flags = 0;
   //
-  ((Arcadia_FileHandle*)self)->close = (void (*)(Arcadia_Thread*, Arcadia_FileHandle*))&Arcadia_DefaultFileHandle_closeImpl;
-  ((Arcadia_FileHandle*)self)->isClosed = (Arcadia_BooleanValue (*)(Arcadia_Thread*, Arcadia_FileHandle const*))&Arcadia_DefaultFileHandle_isClosedImpl;
-  ((Arcadia_FileHandle*)self)->isOpened = (Arcadia_BooleanValue (*)(Arcadia_Thread*, Arcadia_FileHandle const*))&Arcadia_DefaultFileHandle_isOpenedImpl;
-  ((Arcadia_FileHandle*)self)->isOpenedForReading = (Arcadia_BooleanValue (*)(Arcadia_Thread*, Arcadia_FileHandle const*))&Arcadia_DefaultFileHandle_isOpenedForReadingImpl;
-  ((Arcadia_FileHandle*)self)->isOpenedForWriting = (Arcadia_BooleanValue (*)(Arcadia_Thread*, Arcadia_FileHandle const*))&Arcadia_DefaultFileHandle_isOpenedForWritingImpl;
-  ((Arcadia_FileHandle*)self)->openForReading = (void (*)(Arcadia_Thread*, Arcadia_FileHandle*, Arcadia_FilePath*))&Arcadia_DefaultFileHandle_openForReadingImpl;
-  ((Arcadia_FileHandle*)self)->openForWriting = (void (*)(Arcadia_Thread*, Arcadia_FileHandle*, Arcadia_FilePath*))&Arcadia_DefaultFileHandle_openForWritingImpl;
-  ((Arcadia_FileHandle*)self)->openStandardError = (void (*)(Arcadia_Thread*, Arcadia_FileHandle*))&Arcadia_DefaultFileHandle_openStandardErrorImpl;
-  ((Arcadia_FileHandle*)self)->openStandardInput = (void (*)(Arcadia_Thread*, Arcadia_FileHandle*))&Arcadia_DefaultFileHandle_openStandardInputImpl;
-  ((Arcadia_FileHandle*)self)->openStandardOutput = (void (*)(Arcadia_Thread*, Arcadia_FileHandle*))&Arcadia_DefaultFileHandle_openStandardOutputImpl;
-  ((Arcadia_FileHandle*)self)->read = (void (*)(Arcadia_Thread*, Arcadia_FileHandle*, void*, Arcadia_SizeValue,  Arcadia_SizeValue*))&Arcadia_DefaultFileHandle_readImpl;
-  ((Arcadia_FileHandle*)self)->write = (void (*)(Arcadia_Thread*, Arcadia_FileHandle*, void const*, Arcadia_SizeValue, Arcadia_SizeValue*))&Arcadia_DefaultFileHandle_writeImpl;
-  //
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1 + 1);
 }
 
-#include "Arcadia/Ring2/FileSystem/Implementation/DefaultFileSystem.h"
+
+static void
+Arcadia_DefaultFileHandle_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DefaultFileHandleDispatch* self
+  )
+{
+  ((Arcadia_FileHandleDispatch*)self)->close = (void (*)(Arcadia_Thread*, Arcadia_FileHandle*)) & Arcadia_DefaultFileHandle_closeImpl;
+  ((Arcadia_FileHandleDispatch*)self)->isClosed = (Arcadia_BooleanValue(*)(Arcadia_Thread*, Arcadia_FileHandle const*)) & Arcadia_DefaultFileHandle_isClosedImpl;
+  ((Arcadia_FileHandleDispatch*)self)->isOpened = (Arcadia_BooleanValue(*)(Arcadia_Thread*, Arcadia_FileHandle const*)) & Arcadia_DefaultFileHandle_isOpenedImpl;
+  ((Arcadia_FileHandleDispatch*)self)->isOpenedForReading = (Arcadia_BooleanValue(*)(Arcadia_Thread*, Arcadia_FileHandle const*)) & Arcadia_DefaultFileHandle_isOpenedForReadingImpl;
+  ((Arcadia_FileHandleDispatch*)self)->isOpenedForWriting = (Arcadia_BooleanValue(*)(Arcadia_Thread*, Arcadia_FileHandle const*)) & Arcadia_DefaultFileHandle_isOpenedForWritingImpl;
+  ((Arcadia_FileHandleDispatch*)self)->openForReading = (void (*)(Arcadia_Thread*, Arcadia_FileHandle*, Arcadia_FilePath*)) & Arcadia_DefaultFileHandle_openForReadingImpl;
+  ((Arcadia_FileHandleDispatch*)self)->openForWriting = (void (*)(Arcadia_Thread*, Arcadia_FileHandle*, Arcadia_FilePath*)) & Arcadia_DefaultFileHandle_openForWritingImpl;
+  ((Arcadia_FileHandleDispatch*)self)->openStandardError = (void (*)(Arcadia_Thread*, Arcadia_FileHandle*)) & Arcadia_DefaultFileHandle_openStandardErrorImpl;
+  ((Arcadia_FileHandleDispatch*)self)->openStandardInput = (void (*)(Arcadia_Thread*, Arcadia_FileHandle*)) & Arcadia_DefaultFileHandle_openStandardInputImpl;
+  ((Arcadia_FileHandleDispatch*)self)->openStandardOutput = (void (*)(Arcadia_Thread*, Arcadia_FileHandle*)) & Arcadia_DefaultFileHandle_openStandardOutputImpl;
+  ((Arcadia_FileHandleDispatch*)self)->read = (void (*)(Arcadia_Thread*, Arcadia_FileHandle*, void*, Arcadia_SizeValue, Arcadia_SizeValue*)) & Arcadia_DefaultFileHandle_readImpl;
+  ((Arcadia_FileHandleDispatch*)self)->write = (void (*)(Arcadia_Thread*, Arcadia_FileHandle*, void const*, Arcadia_SizeValue, Arcadia_SizeValue*)) & Arcadia_DefaultFileHandle_writeImpl;
+}
 
 static void
 Arcadia_DefaultFileHandle_destruct

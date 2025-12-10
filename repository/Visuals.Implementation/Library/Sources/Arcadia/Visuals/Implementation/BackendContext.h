@@ -31,10 +31,10 @@
 
 /// Base of all OpenGL4 backend contexts.
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.BackendContext", Arcadia_Visuals_Implementation_BackendContext,
-                          u8"Arcadia.Visuals.BackendContext")
+                          u8"Arcadia.Visuals.BackendContext");
 
-struct Arcadia_Visuals_Implementation_BackendContext {
-  Arcadia_Visuals_BackendContext _parent;
+struct Arcadia_Visuals_Implementation_BackendContextDispatch {
+  Arcadia_Visuals_BackendContextDispatch _parent;
 
   Arcadia_Visuals_Implementation_ConstantBufferResource*
   (*createConstantBufferResource)
@@ -109,6 +109,10 @@ struct Arcadia_Visuals_Implementation_BackendContext {
       Arcadia_Thread* thread,
       Arcadia_Visuals_Implementation_BackendContext* self
     );
+};
+
+struct Arcadia_Visuals_Implementation_BackendContext {
+  Arcadia_Visuals_BackendContext _parent;
 };
 
 // Create a constant buffer resource.

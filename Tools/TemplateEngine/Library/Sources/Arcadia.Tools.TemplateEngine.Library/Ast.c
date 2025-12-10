@@ -36,6 +36,13 @@ Ast_constructImpl
     Ast* self
   );
 
+static void
+Ast_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    AstDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*) & Ast_constructImpl,
@@ -97,6 +104,14 @@ Ast_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 3);
 }
+
+static void
+Ast_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    AstDispatch* self
+  )
+{ }
 
 Ast*
 Ast_create

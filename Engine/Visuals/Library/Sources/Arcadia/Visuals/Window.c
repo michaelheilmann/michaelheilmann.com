@@ -24,6 +24,13 @@ Arcadia_Visuals_Window_constructImpl
   );
 
 static void
+Arcadia_Visuals_Window_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_WindowDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Window_destruct
   (
     Arcadia_Thread* thread,
@@ -80,38 +87,17 @@ Arcadia_Visuals_Window_constructImpl
   self->bounds.width = 1;
   self->bounds.height = 1;
 
-  self->open = NULL;
-  self->close = NULL;
-
-  self->getRequiredBigIconSize = NULL;
-  self->getRequiredSmallIconSize = NULL;
-
-  self->getBigIcon = NULL;
-  self->setBigIcon = NULL;
-
-  self->getSmallIcon = NULL;
-  self->setSmallIcon = NULL;
-
-  self->getTitle = NULL;
-  self->setTitle  = NULL;
-
-  self->getCanvasSize = NULL;
-
-  self->beginRender = NULL;
-  self->endRender = NULL;
-
-  self->setPosition = NULL;
-  self->getPosition = NULL;
-
-  self->setSize = NULL;
-  self->getSize = NULL;
-
-  self->getFullscreen = NULL;
-  self->setFullscreen = NULL;
-
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_Visuals_Window_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_WindowDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Window_destruct

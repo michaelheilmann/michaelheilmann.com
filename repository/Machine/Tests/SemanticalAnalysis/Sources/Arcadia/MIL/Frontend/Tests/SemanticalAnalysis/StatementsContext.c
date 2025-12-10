@@ -26,6 +26,13 @@ Arcadia_MIL_CallableContext_constructImpl
   );
 
 static void
+Arcadia_MIL_CallableContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_CallableContextDispatch* self
+  );
+
+static void
 Arcadia_MIL_CallableContext_visit
   (
     Arcadia_Thread* thread,
@@ -68,6 +75,14 @@ Arcadia_MIL_CallableContext_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1);
 }
+
+static void
+Arcadia_MIL_CallableContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_CallableContextDispatch* self
+  )
+{ }
 
 static void
 Arcadia_MIL_CallableContext_visit

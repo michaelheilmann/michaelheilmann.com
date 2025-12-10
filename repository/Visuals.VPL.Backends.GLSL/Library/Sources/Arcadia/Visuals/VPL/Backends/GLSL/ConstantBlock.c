@@ -25,6 +25,13 @@ Arcadia_Visuals_VPL_Backends_GLSL_ConstantBlock_constructImpl
   );
 
 static void
+Arcadia_Visuals_VPL_Backends_GLSL_ConstantBlock_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_VPL_Backends_GLSL_ConstantBlockDispatch* self
+  );
+
+static void
 Arcadia_Visuals_VPL_Backends_GLSL_ConstantBlock_visitImpl
   (
     Arcadia_Thread* thread,
@@ -67,6 +74,14 @@ Arcadia_Visuals_VPL_Backends_GLSL_ConstantBlock_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 2 + 1);
 }
+
+static void
+Arcadia_Visuals_VPL_Backends_GLSL_ConstantBlock_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_VPL_Backends_GLSL_ConstantBlockDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_VPL_Backends_GLSL_ConstantBlock_visitImpl

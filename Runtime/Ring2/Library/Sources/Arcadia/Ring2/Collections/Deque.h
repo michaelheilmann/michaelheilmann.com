@@ -25,18 +25,22 @@
 Arcadia_declareObjectType(u8"Arcadia.Deque", Arcadia_Deque,
                           u8"Arcadia.Collection");
 
-struct Arcadia_Deque {
-  Arcadia_Collection parent;
+struct Arcadia_DequeDispatch {
+  Arcadia_CollectionDispatch _parent;
 
-  Arcadia_Value (*getAt)(Arcadia_Thread*, Arcadia_Deque*, Arcadia_SizeValue);
+  Arcadia_Value(*getAt)(Arcadia_Thread*, Arcadia_Deque*, Arcadia_SizeValue);
   Arcadia_Value(*getBack)(Arcadia_Thread*, Arcadia_Deque*);
-  Arcadia_Value (*getFront)(Arcadia_Thread*, Arcadia_Deque*);
+  Arcadia_Value(*getFront)(Arcadia_Thread*, Arcadia_Deque*);
   void (*insertAt)(Arcadia_Thread*, Arcadia_Deque*, Arcadia_SizeValue, Arcadia_Value);
   void (*insertBack)(Arcadia_Thread*, Arcadia_Deque*, Arcadia_Value);
   void (*insertFront)(Arcadia_Thread*, Arcadia_Deque*, Arcadia_Value);
-  void (*removeBack)(Arcadia_Thread*,Arcadia_Deque*);
+  void (*removeBack)(Arcadia_Thread*, Arcadia_Deque*);
   void (*removeFront)(Arcadia_Thread*, Arcadia_Deque*);
   void (*removeAt)(Arcadia_Thread*, Arcadia_Deque*, Arcadia_SizeValue);
+};
+
+struct Arcadia_Deque {
+  Arcadia_Collection parent;
 };
 
 void

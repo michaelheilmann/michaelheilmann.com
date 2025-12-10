@@ -26,6 +26,13 @@ Arcadia_Visuals_Implementation_FragmentProgramResource_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_FragmentProgramResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_FragmentProgramResourceDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_FragmentProgramResource_destructImpl
   (
     Arcadia_Thread* thread,
@@ -78,6 +85,14 @@ Arcadia_Visuals_Implementation_FragmentProgramResource_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+Arcadia_Visuals_Implementation_FragmentProgramResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_FragmentProgramResourceDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Implementation_FragmentProgramResource_destructImpl

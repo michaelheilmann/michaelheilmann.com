@@ -26,6 +26,13 @@ Arcadia_DDL_MapEntryNode_constructImpl
   );
 
 static void
+Arcadia_DDL_MapEntryNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDL_MapEntryNodeDispatch* self
+  );
+
+static void
 Arcadia_DDL_MapEntryNode_visitImpl
   (
     Arcadia_Thread* thread,
@@ -69,6 +76,14 @@ Arcadia_DDL_MapEntryNode_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 2 + 1);
 }
+
+static void
+Arcadia_DDL_MapEntryNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDL_MapEntryNodeDispatch* self
+  )
+{ }
 
 static void
 Arcadia_DDL_MapEntryNode_visitImpl

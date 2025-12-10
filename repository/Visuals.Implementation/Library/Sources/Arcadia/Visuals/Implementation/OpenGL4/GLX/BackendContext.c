@@ -197,6 +197,13 @@ Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContext_constructImpl
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContext* self
   );
+  
+static void
+Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContextDispatch* self
+  );
 
 static void
 Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContext_destruct
@@ -940,15 +947,22 @@ Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContext_constructImpl
   _openColorMap(thread, self);
   _openContext(thread, self);
 
-  ((Arcadia_Visuals_Implementation_OpenGL4_BackendContext*)self)->getFunctions = (_Arcadia_Visuals_Implementation_OpenGL4_Functions* (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_OpenGL4_BackendContext*))&getFunctionsImpl;
-
-  ((Arcadia_Visuals_BackendContext*)self)->createIcon = (Arcadia_Visuals_Icon* (*)(Arcadia_Thread*, Arcadia_Visuals_BackendContext*, Arcadia_Imaging_PixelBuffer*))&Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContext_createIconImpl;
-  ((Arcadia_Visuals_BackendContext*)self)->createWindow = (Arcadia_Visuals_Window* (*)(Arcadia_Thread*, Arcadia_Visuals_BackendContext*))&Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContext_createWindowImpl;
-  ((Arcadia_Visuals_BackendContext*)self)->getDisplayDevices = (Arcadia_List* (*)(Arcadia_Thread*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContext_getDisplayDevicesImpl;
-  ((Arcadia_Visuals_BackendContext*)self)->update = (void(*)(Arcadia_Thread*, Arcadia_Visuals_BackendContext*)) &Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContext_updateImpl;
-
   Arcadia_Object_setType(thread, self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
+}
+
+static void
+Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContextDispatch* self
+  )
+{
+  ((Arcadia_Visuals_Implementation_OpenGL4_BackendContextDispatch*)self)->getFunctions = (_Arcadia_Visuals_Implementation_OpenGL4_Functions* (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_OpenGL4_BackendContext*))&getFunctionsImpl;
+  ((Arcadia_Visuals_BackendContextDispatch*)self)->createIcon = (Arcadia_Visuals_Icon* (*)(Arcadia_Thread*, Arcadia_Visuals_BackendContext*, Arcadia_Imaging_PixelBuffer*))&Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContext_createIconImpl;
+  ((Arcadia_Visuals_BackendContextDispatch*)self)->createWindow = (Arcadia_Visuals_Window* (*)(Arcadia_Thread*, Arcadia_Visuals_BackendContext*))&Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContext_createWindowImpl;
+  ((Arcadia_Visuals_BackendContextDispatch*)self)->getDisplayDevices = (Arcadia_List* (*)(Arcadia_Thread*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContext_getDisplayDevicesImpl;
+  ((Arcadia_Visuals_BackendContextDispatch*)self)->update = (void(*)(Arcadia_Thread*, Arcadia_Visuals_BackendContext*)) &Arcadia_Visuals_Implementation_OpenGL4_GLX_BackendContext_updateImpl;
 }
 
 static void

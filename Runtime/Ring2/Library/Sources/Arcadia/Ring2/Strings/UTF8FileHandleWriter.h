@@ -28,6 +28,10 @@
 Arcadia_declareObjectType(u8"Arcadia.UTF8FileHandleReader", Arcadia_UTF8FileHandleWriter,
                           u8"Arcadia.UTF8Writer");
 
+struct Arcadia_UTF8FileHandleWriterDispatch {
+  Arcadia_UTF8WriterDispatch parent;
+};
+
 struct Arcadia_UTF8FileHandleWriter {
   Arcadia_UTF8Writer parent;
   Arcadia_FileHandle* target;

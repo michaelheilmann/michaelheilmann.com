@@ -23,6 +23,13 @@ Arcadia_Audials_Implementation_SoundSourceResource_constructImpl
   );
 
 static void
+Arcadia_Audials_Implementation_SoundSourceResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Audials_Implementation_SoundSourceResourceDispatch* self
+  );
+
+static void
 Arcadia_Audials_Implementation_SoundSourceResource_destructImpl
   (
     Arcadia_Thread* thread,
@@ -72,15 +79,17 @@ Arcadia_Audials_Implementation_SoundSourceResource_constructImpl
     Arcadia_ValueStack_pushNatural8Value(thread, 1);
     Arcadia_superTypeConstructor(thread, _type, self);
   }
-  self->isPlaying = NULL;
-  self->pause = NULL;
-  self->play = NULL;
-  self->stop = NULL;
-  self->setVolume = NULL;
-  self->getVolume = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+Arcadia_Audials_Implementation_SoundSourceResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Audials_Implementation_SoundSourceResourceDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Audials_Implementation_SoundSourceResource_destructImpl
@@ -104,7 +113,7 @@ Arcadia_Audials_Implementation_SoundSourceResource_isPlaying
     Arcadia_Thread* thread,
     Arcadia_Audials_Implementation_SoundSourceResource* self
   )
-{ return self->isPlaying(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Audials_Implementation_SoundSourceResource, isPlaying, self); }
 
 void
 Arcadia_Audials_Implementation_SoundSourceResource_pause
@@ -112,7 +121,7 @@ Arcadia_Audials_Implementation_SoundSourceResource_pause
     Arcadia_Thread* thread,
     Arcadia_Audials_Implementation_SoundSourceResource* self
   )
-{ self->pause(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_Audials_Implementation_SoundSourceResource, pause, self); }
 
 void
 Arcadia_Audials_Implementation_SoundSourceResource_play
@@ -120,7 +129,7 @@ Arcadia_Audials_Implementation_SoundSourceResource_play
     Arcadia_Thread* thread,
     Arcadia_Audials_Implementation_SoundSourceResource* self
   )
-{ self->play(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_Audials_Implementation_SoundSourceResource, play, self); }
 
 void
 Arcadia_Audials_Implementation_SoundSourceResource_stop
@@ -128,7 +137,7 @@ Arcadia_Audials_Implementation_SoundSourceResource_stop
     Arcadia_Thread* thread,
     Arcadia_Audials_Implementation_SoundSourceResource* self
   )
-{ self->stop(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_Audials_Implementation_SoundSourceResource, stop, self); }
 
 void
 Arcadia_Audials_Implementation_SoundSourceResource_setVolume
@@ -137,7 +146,7 @@ Arcadia_Audials_Implementation_SoundSourceResource_setVolume
     Arcadia_Audials_Implementation_SoundSourceResource* self,
     Arcadia_Real32Value volume
   )
-{ self->setVolume(thread, self, volume); }
+{ Arcadia_VirtualCall(Arcadia_Audials_Implementation_SoundSourceResource, setVolume, self, volume); }
 
 Arcadia_Real32Value
 Arcadia_Audials_Implementation_SoundSourceResource_getVolume
@@ -145,4 +154,4 @@ Arcadia_Audials_Implementation_SoundSourceResource_getVolume
     Arcadia_Thread* thread,
     Arcadia_Audials_Implementation_SoundSourceResource* self
   )
-{ return self->getVolume(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Audials_Implementation_SoundSourceResource, getVolume, self); }

@@ -31,6 +31,10 @@
 Arcadia_declareObjectType(u8"Arcadia.MIL.AST.EnumerationDefinitionNode", Arcadia_MIL_AST_EnumerationDefinitionNode,
                           u8"Arcadia.MIL.AST.DefinitionNode");
 
+struct Arcadia_MIL_AST_EnumerationDefinitionNodeDispatch {
+  Arcadia_MIL_AST_DefinitionNodeDispatch _parent;
+};
+
 struct Arcadia_MIL_AST_EnumerationDefinitionNode {
   Arcadia_MIL_AST_DefinitionNode _parent;
   Arcadia_String* enumerationName;

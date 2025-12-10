@@ -23,6 +23,13 @@ Arcadia_Visuals_Texture_constructImpl
     Arcadia_Visuals_Texture* self
   );
 
+static void
+Arcadia_Visuals_Texture_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_TextureDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_Visuals_Texture_constructImpl,
@@ -54,16 +61,17 @@ Arcadia_Visuals_Texture_constructImpl
     Arcadia_ValueStack_pushNatural8Value(thread, 0);
     Arcadia_superTypeConstructor(thread, _type, self);
   }
-  self->getAddressModeU = NULL;
-  self->getAddressModeV = NULL;
-  self->getHeight = NULL;
-  self->getMagnificationFilter = NULL;
-  self->getMinificationFilter = NULL;
-  self->getWidth = NULL;
-  self->upload = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+Arcadia_Visuals_Texture_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_TextureDispatch* self
+  )
+{ }
 
 Arcadia_Visuals_TextureAddressMode
 Arcadia_Visuals_Texture_getAddressModeU
@@ -71,7 +79,7 @@ Arcadia_Visuals_Texture_getAddressModeU
     Arcadia_Thread* thread,
     Arcadia_Visuals_Texture* self
   )
-{ return self->getAddressModeU(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Texture, getAddressModeU, self); }
 
 Arcadia_Visuals_TextureAddressMode
 Arcadia_Visuals_Texture_getAddressModeV
@@ -79,7 +87,7 @@ Arcadia_Visuals_Texture_getAddressModeV
     Arcadia_Thread* thread,
     Arcadia_Visuals_Texture* self
   )
-{ return self->getAddressModeV(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Texture, getAddressModeV, self); }
 
 Arcadia_Integer32Value
 Arcadia_Visuals_Texture_getHeight
@@ -87,7 +95,7 @@ Arcadia_Visuals_Texture_getHeight
     Arcadia_Thread* thread,
     Arcadia_Visuals_Texture* self
   )
-{ return self->getHeight(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Texture, getHeight, self); }
 
 Arcadia_Visuals_TextureFilter
 Arcadia_Visuals_Texture_getMagnificationFilter
@@ -95,7 +103,7 @@ Arcadia_Visuals_Texture_getMagnificationFilter
     Arcadia_Thread* thread,
     Arcadia_Visuals_Texture* self
   )
-{ return self->getMagnificationFilter(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Texture, getMagnificationFilter, self); }
 
 Arcadia_Visuals_TextureFilter
 Arcadia_Visuals_Texture_getMinificationFilter
@@ -103,7 +111,7 @@ Arcadia_Visuals_Texture_getMinificationFilter
     Arcadia_Thread* thread,
     Arcadia_Visuals_Texture* self
   )
-{ return self->getMinificationFilter(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Texture, getMinificationFilter, self); }
 
 Arcadia_Integer32Value
 Arcadia_Visuals_Texture_getWidth
@@ -111,7 +119,7 @@ Arcadia_Visuals_Texture_getWidth
     Arcadia_Thread* thread,
     Arcadia_Visuals_Texture* self
   )
-{ return self->getWidth(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Texture, getWidth, self); }
 
 void
 Arcadia_Visuals_Texture_upload
@@ -120,4 +128,4 @@ Arcadia_Visuals_Texture_upload
     Arcadia_Visuals_Texture* self,
     Arcadia_Visuals_BackendContext* backendContext
   )
-{ self->upload(thread, self, backendContext); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Texture, upload, self, backendContext); }

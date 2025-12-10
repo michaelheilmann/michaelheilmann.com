@@ -24,6 +24,10 @@
 Arcadia_declareObjectType(u8"Arcadia.DDL.NameNode", Arcadia_DDL_NameNode,
                           u8"Arcadia.DDL.Node");
 
+struct Arcadia_DDL_NameNodeDispatch {
+  Arcadia_DDL_NodeDispatch _parent;
+};
+
 struct Arcadia_DDL_NameNode {
   Arcadia_DDL_Node parent;
   Arcadia_String* value;

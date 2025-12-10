@@ -26,6 +26,10 @@
 Arcadia_declareObjectType(u8"Arcadia.ImmutableSet", Arcadia_ImmutableSet,
                           u8"Arcadia.Set");
 
+struct Arcadia_ImmutableSetDispatch {
+  Arcadia_SetDispatch _parent;
+};
+
 struct Arcadia_ImmutableSet {
   Arcadia_Set parent;
   Arcadia_Value* elements;

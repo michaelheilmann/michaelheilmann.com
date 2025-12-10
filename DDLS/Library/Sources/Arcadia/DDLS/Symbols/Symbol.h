@@ -46,6 +46,10 @@ typedef struct Arcadia_DDLS_Scope Arcadia_DDLS_Scope;
 Arcadia_declareObjectType(u8"Arcadia.DDLS.Symbol", Arcadia_DDLS_Symbol,
                           u8"Arcadia.Object");
 
+struct Arcadia_DDLS_SymbolDispatch {
+  Arcadia_ObjectDispatch parent;
+};
+
 struct Arcadia_DDLS_Symbol {
   Arcadia_Object parent;
   Arcadia_Natural8Value kind;

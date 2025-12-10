@@ -13,6 +13,7 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
+#define ARCADIA_VISUALS_PRIVATE (1)
 #include "Arcadia/Visuals/Scene/FrameBufferNode.h"
 
 static void
@@ -20,6 +21,13 @@ Arcadia_Visuals_Scene_FrameBufferNode_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_Scene_FrameBufferNode* self
+  );
+
+static void
+Arcadia_Visuals_Scene_FrameBufferNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Scene_FrameBufferNodeDispatch* self
   );
 
 static void
@@ -61,11 +69,17 @@ Arcadia_Visuals_Scene_FrameBufferNode_constructImpl
     Arcadia_ValueStack_pushNatural8Value(thread, 0);
     Arcadia_superTypeConstructor(thread, _type, self);
   }
-  self->getSize = NULL;
-  self->setSize = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+Arcadia_Visuals_Scene_FrameBufferNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Scene_FrameBufferNodeDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Scene_FrameBufferNode_destructImpl
@@ -83,7 +97,7 @@ Arcadia_Visuals_Scene_FrameBufferNode_getSize
     Arcadia_Integer32Value* width,
     Arcadia_Integer32Value* height
   )
-{ self->getSize(thread, self, width, height); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Scene_FrameBufferNode, getSize, self, width, height); }
 
 void
 Arcadia_Visuals_Scene_FrameBufferNode_setSize
@@ -93,4 +107,4 @@ Arcadia_Visuals_Scene_FrameBufferNode_setSize
     Arcadia_Integer32Value width,
     Arcadia_Integer32Value height
   )
-{ self->setSize(thread, self, width, height); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Scene_FrameBufferNode, setSize, self, width, height); }

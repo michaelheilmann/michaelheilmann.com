@@ -27,6 +27,13 @@ Arcadia_Visuals_Implementation_Scene_CameraNode_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_Scene_CameraNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_Scene_CameraNodeDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_Scene_CameraNode_destructImpl
   (
     Arcadia_Thread* thread,
@@ -112,11 +119,19 @@ Arcadia_Visuals_Implementation_Scene_CameraNode_constructImpl
 
   self->constantBufferResource = NULL;
 
-  ((Arcadia_Visuals_Scene_Node*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_Scene_RenderingContextNode*)) & Arcadia_Visuals_Implementation_Scene_CameraNode_renderImpl;
-  ((Arcadia_Visuals_Scene_Node*)self)->setBackendContext = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_Scene_CameraNode_setBackendContextImpl;
-
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
+}
+
+static void
+Arcadia_Visuals_Implementation_Scene_CameraNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_Scene_CameraNodeDispatch* self
+  )
+{
+  ((Arcadia_Visuals_Scene_NodeDispatch*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_Scene_RenderingContextNode*)) & Arcadia_Visuals_Implementation_Scene_CameraNode_renderImpl;
+  ((Arcadia_Visuals_Scene_NodeDispatch*)self)->setBackendContext = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_Scene_CameraNode_setBackendContextImpl;
 }
 
 static void
@@ -143,22 +158,13 @@ Arcadia_Visuals_Implementation_Scene_CameraNode_visitImpl
     Arcadia_Visuals_Implementation_Scene_CameraNode* self
   )
 {
+  /* The backend context and resources are locked. No need to visit them. */
   if (self->worldToViewMatrix) {
     Arcadia_Object_visit(thread, (Arcadia_Object*)self->worldToViewMatrix);
   }
   if (self->viewToProjectionMatrix) {
     Arcadia_Object_visit(thread, (Arcadia_Object*)self->viewToProjectionMatrix);
   }
-#if 0
-  if (self->backendContext) {
-    Arcadia_Object_visit(thread, (Arcadia_Object*)self->backendContext);
-  }
-#endif
-#if 0
-  if (self->constantBufferResource) {
-    Arcadia_Object_visit(thread, (Arcadia_Object*)self->constantBufferResource);
-  }
-#endif
 }
 
 static void

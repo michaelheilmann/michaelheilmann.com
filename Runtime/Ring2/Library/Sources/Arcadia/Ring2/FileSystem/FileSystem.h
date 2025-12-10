@@ -33,8 +33,8 @@
 Arcadia_declareObjectType(u8"Arcadia.FileSystem", Arcadia_FileSystem,
                           u8"Arcadia.Object");
 
-struct Arcadia_FileSystem {
-  Arcadia_Object _parent;
+struct Arcadia_FileSystemDispatch {
+  Arcadia_ObjectDispatch _parent;
 
   void
   (*createDirectoryFile)
@@ -167,6 +167,11 @@ struct Arcadia_FileSystem {
       Arcadia_FilePath* path,
       Arcadia_ByteBuffer * contents
     );
+
+};
+
+struct Arcadia_FileSystem {
+  Arcadia_Object _parent;
 };
 
 // https://michaelheilmann.com/Arcadia/Ring2/#Arcadia_FileSystem_createDirectoryFile

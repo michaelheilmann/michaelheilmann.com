@@ -28,6 +28,13 @@ Arcadia_MIL_AST_InvokeInstructionNode_constructImpl
   );
 
 static void
+Arcadia_MIL_AST_InvokeInstructionNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_AST_InvokeInstructionNodeDispatch* self
+  );
+
+static void
 Arcadia_MIL_AST_InvokeInstructionNode_visit
   (
     Arcadia_Thread* thread,
@@ -70,6 +77,14 @@ Arcadia_MIL_AST_InvokeInstructionNode_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 2 + 1);
 }
+
+static void
+Arcadia_MIL_AST_InvokeInstructionNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_AST_InvokeInstructionNodeDispatch* self
+  )
+{ }
 
 static void
 Arcadia_MIL_AST_InvokeInstructionNode_visit

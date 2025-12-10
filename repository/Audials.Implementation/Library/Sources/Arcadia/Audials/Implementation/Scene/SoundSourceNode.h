@@ -20,7 +20,11 @@
 #include "Arcadia/Audials/Implementation/BackendContext.h"
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.Scene.SoundSourceNode", Arcadia_Audials_Implementation_Scene_SoundSourceNode,
-                          u8"Arcadia.Visuals.Scene.SoundSourceNodeNode")
+                          u8"Arcadia.Visuals.Scene.SoundSourceNodeNode");
+
+struct Arcadia_Audials_Implementation_Scene_SoundSourceNodeDispatch {
+  Arcadia_Audials_Scene_SoundSourceNodeDispatch _parent;
+};
 
 struct Arcadia_Audials_Implementation_Scene_SoundSourceNode {
   Arcadia_Audials_Scene_SoundSourceNode _parent;

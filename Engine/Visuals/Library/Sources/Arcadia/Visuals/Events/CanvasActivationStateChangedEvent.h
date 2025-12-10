@@ -23,6 +23,10 @@ typedef struct Arcadia_Visuals_Window Arcadia_Visuals_Window;
 Arcadia_declareObjectType(u8"Arcadia.Visuals.CanvasActivationStateChangedEvent", Arcadia_Visuals_CanvasActivationStateChangedEvent,
                           u8"Arcadia.Visuals.CanvasEvent");
 
+struct Arcadia_Visuals_CanvasActivationStateChangedEventDispatch {
+  Arcadia_Visuals_CanvasEventDispatch parent;
+};
+
 struct Arcadia_Visuals_CanvasActivationStateChangedEvent {
   Arcadia_Visuals_CanvasEvent _parent;
   Arcadia_BooleanValue active;

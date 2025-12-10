@@ -41,6 +41,13 @@ Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinition_constructI
     Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinition* self
   );
 
+static void
+Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinition_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinitionDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*) & Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinition_constructImpl,
@@ -113,18 +120,27 @@ Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinition_constructI
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
   }
-  
+
   self->checkerWidth = Arcadia_ValueStack_getInteger32Value(thread, 4);
   self->checkerHeight = Arcadia_ValueStack_getInteger32Value(thread, 3);
-  
+
   self->firstCheckerColor = Arcadia_ADL_Reference_create(thread, ((Arcadia_ADL_Definition*)self)->definitions,
                                                         (Arcadia_String*)Arcadia_ValueStack_getObjectReferenceValueChecked(thread, 2, _Arcadia_String_getType(thread)));
   self->secondCheckerColor = Arcadia_ADL_Reference_create(thread, ((Arcadia_ADL_Definition*)self)->definitions,
                                                          (Arcadia_String*)Arcadia_ValueStack_getObjectReferenceValueChecked(thread, 1, _Arcadia_String_getType(thread)));
-  
-  ((Arcadia_ADL_Definition*)self)->link = (void (*)(Arcadia_Thread*, Arcadia_ADL_Definition*)) & Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinition_linkImpl;
+
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 6 + 1);
+}
+
+static void
+Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinition_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinitionDispatch* self
+  )
+{
+  ((Arcadia_ADL_DefinitionDispatch*)self)->link = (void (*)(Arcadia_Thread*, Arcadia_ADL_Definition*)) & Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinition_linkImpl;
 }
 
 Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinition*

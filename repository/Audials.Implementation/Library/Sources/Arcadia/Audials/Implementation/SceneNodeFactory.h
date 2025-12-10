@@ -21,6 +21,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Audials.Implementation.SceneNodeFactory", Arcadia_Audials_Implementation_SceneNodeFactory,
                           Arcadia_Audials_SceneNodeFactory);
 
+struct Arcadia_Audials_Implementation_SceneNodeFactoryDispatch {
+  Arcadia_Audials_SceneNodeFactoryDispatch parent;
+};
+
 struct Arcadia_Audials_Implementation_SceneNodeFactory {
   Arcadia_Audials_SceneNodeFactory parent;
 };

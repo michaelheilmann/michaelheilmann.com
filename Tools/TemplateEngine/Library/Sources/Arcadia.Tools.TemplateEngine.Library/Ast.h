@@ -28,6 +28,10 @@ Arcadia_declareObjectType(u8"Arcadia.TemplateEngine.Ast", Ast,
 /// <name>'(' <arguments> ')'
 #define Arcadia_TemplateEngine_AstKind_Invoke (2)
 
+struct AstDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Ast {
   Arcadia_Object _parent;
   int type;

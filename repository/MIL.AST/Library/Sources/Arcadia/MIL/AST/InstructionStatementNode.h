@@ -30,6 +30,10 @@
 Arcadia_declareObjectType(u8"Arcadia.MIL.AST.InstructionStatementNode", Arcadia_MIL_AST_InstructionStatementNode,
                           u8"Arcadia.MIL.AST.StatementNode");
 
+struct Arcadia_MIL_AST_InstructionStatementNodeDispatch {
+  Arcadia_MIL_AST_StatementNodeDispatch _parent;
+};
+
 struct Arcadia_MIL_AST_InstructionStatementNode {
   Arcadia_MIL_AST_StatementNode _parent;
 };

@@ -25,6 +25,10 @@ typedef struct Arcadia_DDL_NameNode Arcadia_DDL_NameNode;
 Arcadia_declareObjectType(u8"Arcadia.DDL.MapEntryNode", Arcadia_DDL_MapEntryNode,
                           u8"Arcadia.DDL.Node");
 
+struct Arcadia_DDL_MapEntryNodeDispatch {
+  Arcadia_DDL_NodeDispatch _parent;
+};
+
 struct Arcadia_DDL_MapEntryNode {
   Arcadia_DDL_Node parent;
   Arcadia_DDL_NameNode* key;

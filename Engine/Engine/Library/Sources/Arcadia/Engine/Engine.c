@@ -26,6 +26,13 @@ Arcadia_Engine_constructImpl
   );
 
 static void
+Arcadia_Engine_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_EngineDispatch* self
+  );
+
+static void
 Arcadia_Engine_visitImpl
   (
     Arcadia_Thread* thread,
@@ -89,11 +96,17 @@ Arcadia_Engine_constructImpl
 
   self->events = (Arcadia_Deque*)Arcadia_ArrayDeque_create(thread);
 
-  self->update = NULL;
-
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_Engine_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_EngineDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Engine_visitImpl
@@ -187,7 +200,7 @@ Arcadia_Engine_update
     Arcadia_Thread* thread,
     Arcadia_Engine* self
   )
-{ self->update(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_Engine, update, self); }
 
 Arcadia_Engine*
 Arcadia_Engine_getOrCreate

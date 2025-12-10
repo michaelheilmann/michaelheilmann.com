@@ -26,17 +26,17 @@ Arcadia_Audials_Implementation_BackendContext_updateImpl
   );
 
 static void
-Arcadia_Audials_Implementation_BackendContext_playSineImpl
+Arcadia_Audials_Implementation_BackendContext_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Audials_Implementation_BackendContext* self
   );
 
 static void
-Arcadia_Audials_Implementation_BackendContext_constructImpl
+Arcadia_Audials_Implementation_BackendContext_initializeDispatchImpl
   (
     Arcadia_Thread* thread,
-    Arcadia_Audials_Implementation_BackendContext* self
+    Arcadia_Audials_Implementation_BackendContextDispatch* self
   );
 
 static void
@@ -94,11 +94,17 @@ Arcadia_Audials_Implementation_BackendContext_constructImpl
     Arcadia_Thread_jump(thread);
   }
   //
-  self->createSoundSourceResource = NULL;
-  //
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_Audials_Implementation_BackendContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Audials_Implementation_BackendContextDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Audials_Implementation_BackendContext_destructImpl
@@ -122,4 +128,4 @@ Arcadia_Audials_Implementation_BackendContext_createSoundSourceResource
     Arcadia_Thread* thread,
     Arcadia_Audials_Implementation_BackendContext* self
   )
-{ return self->createSoundSourceResource(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Audials_Implementation_BackendContext, createSoundSourceResource, self); }

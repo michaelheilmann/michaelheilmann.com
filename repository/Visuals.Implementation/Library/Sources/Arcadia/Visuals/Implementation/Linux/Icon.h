@@ -26,6 +26,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Linux.Icon", Arcadia_Visuals_Linux_Icon,
                           u8"Arcadia.Visuals.Icon")
 
+struct Arcadia_Visuals_Linux_IconDispatch {
+  Arcadia_Visuals_IconDispatch _parent;
+};
+
 struct Arcadia_Visuals_Linux_Icon {
   Arcadia_Visuals_Icon _parent;
   /// The width, in pixels, of the icon.

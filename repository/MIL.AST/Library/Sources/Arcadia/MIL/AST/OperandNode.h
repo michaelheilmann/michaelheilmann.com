@@ -36,6 +36,10 @@
 Arcadia_declareObjectType(u8"Arcadia.MIL.AST.OperandNode", Arcadia_MIL_AST_OperandNode,
                           u8"Arcadia.MIL.AST.Node");
 
+struct Arcadia_MIL_AST_OperandNodeDispatch {
+  Arcadia_MIL_AST_NodeDispatch _parent;
+};
+
 struct Arcadia_MIL_AST_OperandNode {
   Arcadia_MIL_AST_Node _parent;
 };

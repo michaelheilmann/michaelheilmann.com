@@ -23,6 +23,13 @@ Arcadia_Visuals_MouseButtonEvent_constructImpl
     Arcadia_Visuals_MouseButtonEvent* self
   );
 
+static void
+Arcadia_Visuals_MouseButtonEvent_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_MouseButtonEventDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_Visuals_MouseButtonEvent_constructImpl,
@@ -69,6 +76,14 @@ Arcadia_Visuals_MouseButtonEvent_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues1);
 }
+
+static void
+Arcadia_Visuals_MouseButtonEvent_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_MouseButtonEventDispatch* self
+  )
+{ }
 
 Arcadia_Visuals_MouseButtonEvent*
 Arcadia_Visuals_MouseButtonEvent_create

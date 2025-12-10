@@ -23,6 +23,13 @@ Arcadia_Visuals_Implementation_MeshResource_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_MeshResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_MeshResourceDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_MeshResource_destructImpl
   (
     Arcadia_Thread* thread,
@@ -72,10 +79,17 @@ Arcadia_Visuals_Implementation_MeshResource_constructImpl
     Arcadia_ValueStack_pushNatural8Value(thread, 1);
     Arcadia_superTypeConstructor(thread, _type, self);
   }
-  self->setLocalToWorldMatrix = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+Arcadia_Visuals_Implementation_MeshResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_MeshResourceDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Implementation_MeshResource_destructImpl
@@ -94,10 +108,19 @@ Arcadia_Visuals_Implementation_MeshResource_visitImpl
 {/*Intentionally empty.*/}
 
 void
+Arcadia_Visuals_Implementation_MeshResource_setMeshAmbientColor
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_MeshResource* self,
+    Arcadia_Math_Color4Real32* meshAmbientColor
+  )
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_MeshResource, setMeshAmbientColor, self, meshAmbientColor); }
+
+void
 Arcadia_Visuals_Implemention_MeshResource_setLocalToWorldMatrix
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_MeshResource* self,
     Arcadia_Math_Matrix4Real32* localToWorld
   )
-{ self->setLocalToWorldMatrix(thread, self, localToWorld); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_MeshResource, setLocalToWorldMatrix, self, localToWorld); }

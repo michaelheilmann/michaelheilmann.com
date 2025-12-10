@@ -28,7 +28,11 @@ typedef struct Arcadia_Visuals_Implementation_OpenGL4_BackendContext Arcadia_Vis
 #endif
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.OpenGL4.TextureResource", Arcadia_Visuals_Implementation_OpenGL4_TextureResource,
-                          u8"Arcadia.Visuals.Implementation.TextureResource")
+                          u8"Arcadia.Visuals.Implementation.TextureResource");
+
+struct Arcadia_Visuals_Implementation_OpenGL4_TextureResourceDispatch {
+  Arcadia_Visuals_Implementation_TextureResourceDispatch _parent;
+};
 
 struct Arcadia_Visuals_Implementation_OpenGL4_TextureResource {
   Arcadia_Visuals_Implementation_TextureResource _parent;
@@ -40,7 +44,7 @@ struct Arcadia_Visuals_Implementation_OpenGL4_TextureResource {
   // The address mode of this texture along the v-axis.
   // @default Arcadia_Visuals_TextureAddressMode_Repeat.
   Arcadia_Visuals_TextureAddressMode addressModeV;
-  
+
   // Bitmask indicating what aspects of the texture are dirty.
   Arcadia_Natural8Value dirtyBits;
 

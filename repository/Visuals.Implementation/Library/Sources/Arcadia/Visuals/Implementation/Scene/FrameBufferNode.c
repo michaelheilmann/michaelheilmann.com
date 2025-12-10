@@ -28,6 +28,13 @@ Arcadia_Visuals_Implementation_Scene_FrameBufferNode_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_Scene_FrameBufferNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_Scene_FrameBufferNodeDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_Scene_FrameBufferNode_destructImpl
   (
     Arcadia_Thread* thread,
@@ -117,12 +124,21 @@ Arcadia_Visuals_Implementation_Scene_FrameBufferNode_constructImpl
   self->width = 320;
   self->height = 240;
   self->frameBufferResource = NULL;
-  ((Arcadia_Visuals_Scene_Node*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_Scene_RenderingContextNode*)) & Arcadia_Visuals_Implementation_Scene_FrameBufferNode_renderImpl;
-  ((Arcadia_Visuals_Scene_Node*)self)->setBackendContext = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_Scene_FrameBufferNode_setBackendContextImpl;
-  ((Arcadia_Visuals_Scene_FrameBufferNode*)self)->setSize = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_FrameBufferNode*, Arcadia_Integer32Value, Arcadia_Integer32Value)) & Arcadia_Visuals_Implementation_Scene_FrameBufferNode_setSizeImpl;
-  ((Arcadia_Visuals_Scene_FrameBufferNode*)self)->getSize = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_FrameBufferNode*, Arcadia_Integer32Value*, Arcadia_Integer32Value*)) & Arcadia_Visuals_Implementation_Scene_FrameBufferNode_getSizeImpl;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
+}
+
+static void
+Arcadia_Visuals_Implementation_Scene_FrameBufferNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_Scene_FrameBufferNodeDispatch* self  
+  )
+{
+  ((Arcadia_Visuals_Scene_NodeDispatch*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_Scene_RenderingContextNode*)) & Arcadia_Visuals_Implementation_Scene_FrameBufferNode_renderImpl;
+  ((Arcadia_Visuals_Scene_NodeDispatch*)self)->setBackendContext = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_Scene_FrameBufferNode_setBackendContextImpl;
+  ((Arcadia_Visuals_Scene_FrameBufferNodeDispatch*)self)->setSize = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_FrameBufferNode*, Arcadia_Integer32Value, Arcadia_Integer32Value)) & Arcadia_Visuals_Implementation_Scene_FrameBufferNode_setSizeImpl;
+  ((Arcadia_Visuals_Scene_FrameBufferNodeDispatch*)self)->getSize = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_FrameBufferNode*, Arcadia_Integer32Value*, Arcadia_Integer32Value*)) & Arcadia_Visuals_Implementation_Scene_FrameBufferNode_getSizeImpl;
 }
 
 static void
@@ -148,18 +164,7 @@ Arcadia_Visuals_Implementation_Scene_FrameBufferNode_visitImpl
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_Scene_FrameBufferNode* self
   )
-{
-#if 0
-  if (self->backendContext) {
-    Arcadia_Object_visit(thread, (Arcadia_Object*)self->backendContext);
-  }
-#endif
-#if 0
-  if (self->frameBufferResource) {
-    Arcadia_Object_visit(thread, (Arcadia_Object*)self->frameBufferResource);
-  }
-#endif
-}
+{/* The backend context and resources are locked. No need to visit them. */}
 
 static void
 Arcadia_Visuals_Implementation_Scene_FrameBufferNode_renderImpl

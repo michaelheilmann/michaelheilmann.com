@@ -23,6 +23,13 @@ Arcadia_Visuals_Implementation_BackendContext_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_BackendContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_BackendContextDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_BackendContext_destructImpl
   (
     Arcadia_Thread* thread,
@@ -74,19 +81,17 @@ Arcadia_Visuals_Implementation_BackendContext_constructImpl
     Arcadia_Thread_jump(thread);
   }
 
-  self->createConstantBufferResource = NULL;
-  self->createFragmentProgramResource = NULL;
-  self->createFrameBufferResource = NULL;
-  self->createMeshResource = NULL;
-  self->createProgramResource = NULL;
-  self->createTextureResource = NULL;
-  self->createVertexBufferResource = NULL;
-  self->createVertexProgramResource = NULL;
-  self->createViewportResource = NULL;
-
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues1 + 1);
 }
+
+static void
+Arcadia_Visuals_Implementation_BackendContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_BackendContextDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Implementation_BackendContext_destructImpl
@@ -110,7 +115,7 @@ Arcadia_Visuals_Implementation_BackendContext_createConstantBufferResource
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_BackendContext* self
   )
-{ return self->createConstantBufferResource(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Implementation_BackendContext, createConstantBufferResource, self); }
 
 Arcadia_Visuals_Implementation_FragmentProgramResource*
 Arcadia_Visuals_Implementation_BackendContext_createFragmentProgramResource
@@ -118,7 +123,7 @@ Arcadia_Visuals_Implementation_BackendContext_createFragmentProgramResource
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_BackendContext* self
   )
-{ return self->createFragmentProgramResource(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Implementation_BackendContext, createFragmentProgramResource, self); }
 
 Arcadia_Visuals_Implementation_FrameBufferResource*
 Arcadia_Visuals_Implementation_BackendContext_createFrameBufferResource
@@ -126,7 +131,7 @@ Arcadia_Visuals_Implementation_BackendContext_createFrameBufferResource
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_BackendContext* self
   )
-{ return self->createFrameBufferResource(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Implementation_BackendContext, createFrameBufferResource, self); }
 
 Arcadia_Visuals_Implementation_RenderingContextResource*
 Arcadia_Visuals_Implementation_BackendContext_createRenderingContextResource
@@ -134,7 +139,7 @@ Arcadia_Visuals_Implementation_BackendContext_createRenderingContextResource
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_BackendContext* self
   )
-{ return self->createRenderingContextResource(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Implementation_BackendContext, createRenderingContextResource, self); }
 
 Arcadia_Visuals_Implementation_MeshResource*
 Arcadia_Visuals_Implementation_BackendContext_createMeshResource
@@ -144,7 +149,7 @@ Arcadia_Visuals_Implementation_BackendContext_createMeshResource
     Arcadia_Visuals_Implementation_VertexBufferResource* vertexBuffer,
     Arcadia_Visuals_Implementation_ProgramResource* program
   )
-{ return self->createMeshResource(thread, self, vertexBuffer, program); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Implementation_BackendContext, createMeshResource, self, vertexBuffer, program); }
 
 Arcadia_Visuals_Implementation_ProgramResource*
 Arcadia_Visuals_Implementation_BackendContext_createProgramResource
@@ -154,7 +159,7 @@ Arcadia_Visuals_Implementation_BackendContext_createProgramResource
     Arcadia_Visuals_Implementation_VertexProgramResource* vertexProgram,
     Arcadia_Visuals_Implementation_FragmentProgramResource* fragmentProgram
   )
-{ return self->createProgramResource(thread, self, vertexProgram, fragmentProgram); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Implementation_BackendContext, createProgramResource, self, vertexProgram, fragmentProgram); }
 
 Arcadia_Visuals_Implementation_TextureResource*
 Arcadia_Visuals_Implementation_BackendContext_createTextureResource
@@ -162,15 +167,15 @@ Arcadia_Visuals_Implementation_BackendContext_createTextureResource
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_BackendContext* self
   )
-{ return self->createTextureResource(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Implementation_BackendContext, createTextureResource, self); }
 
 Arcadia_Visuals_Implementation_VertexBufferResource*
 Arcadia_Visuals_Implementation_BackendContext_createVertexBufferResource
-(
-  Arcadia_Thread* thread,
-  Arcadia_Visuals_Implementation_BackendContext* self
-)
-{ return self->createVertexBufferResource(thread, self); }
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_BackendContext* self
+  )
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Implementation_BackendContext, createVertexBufferResource, self); }
 
 Arcadia_Visuals_Implementation_VertexProgramResource*
 Arcadia_Visuals_Implementation_BackendContext_createVertexProgramResource
@@ -178,7 +183,7 @@ Arcadia_Visuals_Implementation_BackendContext_createVertexProgramResource
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_BackendContext* self
   )
-{ return self->createVertexProgramResource(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Implementation_BackendContext, createVertexProgramResource, self); }
 
 Arcadia_Visuals_Implementation_ViewportResource*
 Arcadia_Visuals_Implementation_BackendContext_createViewportResource
@@ -186,4 +191,4 @@ Arcadia_Visuals_Implementation_BackendContext_createViewportResource
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_BackendContext* self
   )
-{ return self->createViewportResource(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Implementation_BackendContext, createViewportResource, self); }

@@ -27,6 +27,13 @@ Arcadia_MIL_AST_InstructionNode_constructImpl
     Arcadia_MIL_AST_InstructionNode* self
   );
 
+static void
+Arcadia_MIL_AST_InstructionNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_AST_InstructionNodeDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_MIL_AST_InstructionNode_constructImpl,
@@ -60,3 +67,11 @@ Arcadia_MIL_AST_InstructionNode_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_MIL_AST_InstructionNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_AST_InstructionNodeDispatch* self
+  )
+{ }

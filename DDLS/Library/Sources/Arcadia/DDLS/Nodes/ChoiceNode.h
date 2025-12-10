@@ -25,6 +25,10 @@
 Arcadia_declareObjectType(u8"Arcadia.DDLS.ChoiceNode", Arcadia_DDLS_ChoiceNode,
                           u8"Arcadia.DDLS.Node");
 
+struct Arcadia_DDLS_ChoiceNodeDispatch {
+  Arcadia_DDLS_NodeDispatch parent;
+};
+
 struct Arcadia_DDLS_ChoiceNode {
   Arcadia_DDLS_Node parent;
   Arcadia_List* choices;

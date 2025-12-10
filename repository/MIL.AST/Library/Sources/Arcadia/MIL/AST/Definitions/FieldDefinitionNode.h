@@ -22,6 +22,10 @@
 Arcadia_declareObjectType(u8"Arcadia.MIL.AST.FieldDefinitionNode", Arcadia_MIL_AST_FieldDefinitionNode,
                           u8"Arcadia.MIL.AST.DefinitionNode");
 
+struct Arcadia_MIL_AST_FieldDefinitionNodeDispatch {
+  Arcadia_MIL_AST_DefinitionNodeDispatch _parent;
+};
+
 struct Arcadia_MIL_AST_FieldDefinitionNode {
   Arcadia_MIL_AST_DefinitionNode _parent;
   Arcadia_String* name;

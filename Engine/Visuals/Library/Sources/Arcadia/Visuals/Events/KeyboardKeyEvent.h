@@ -25,6 +25,10 @@ typedef struct Arcadia_Visuals_Window Arcadia_Visuals_Window;
 Arcadia_declareObjectType(u8"Arcadia.Visuals.KeyboardKeyEvent", Arcadia_Visuals_KeyboardKeyEvent,
                           u8"Arcadia.Engine.Event");
 
+struct Arcadia_Visuals_KeyboardKeyEventDispatch {
+  Arcadia_Engine_EventDispatch _parent;
+};
+
 struct Arcadia_Visuals_KeyboardKeyEvent {
   Arcadia_Engine_Event _parent;
   Arcadia_Visuals_KeyboardKey key;

@@ -25,6 +25,10 @@
 Arcadia_declareObjectType(u8"Arcadia.DDLS.SchemaNode", Arcadia_DDLS_SchemaNode,
                           u8"Arcadia.DDLS.Node");
 
+struct Arcadia_DDLS_SchemaNodeDispatch {
+  Arcadia_DDLS_NodeDispatch parent;
+};
+
 struct Arcadia_DDLS_SchemaNode {
   Arcadia_DDLS_Node _parent;
   /// The name of the schema.

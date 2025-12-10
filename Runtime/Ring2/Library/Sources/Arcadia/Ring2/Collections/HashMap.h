@@ -28,6 +28,10 @@ typedef struct _Arcadia_HashMap_Node _Arcadia_HashMap_Node;
 Arcadia_declareObjectType(u8"Arcadia.HashMap", Arcadia_HashMap,
                           u8"Arcadia.Map");
 
+struct Arcadia_HashMapDispatch {
+  Arcadia_MapDispatch _parent;
+};
+
 struct Arcadia_HashMap {
   Arcadia_Map _parent;
   _Arcadia_HashMap_Node** buckets;

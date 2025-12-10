@@ -26,6 +26,13 @@ Arcadia_Engine_Demo_ArcadiaLogoScene_construct
   );
 
 static void
+Arcadia_Engine_Demo_ArcadiaLogoScene_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Engine_Demo_ArcadiaLogoSceneDispatch* self
+  );
+
+static void
 Arcadia_Engine_Demo_ArcadiaLogoScene_visit
   (
     Arcadia_Thread* thread,
@@ -59,13 +66,6 @@ Arcadia_Engine_Demo_ArcadiaLogoScene_updateVisuals
     Arcadia_Integer32Value width,
     Arcadia_Integer32Value height
   );
-
-static void
-Arcadia_Engine_Demo_ArcadiaLogoScene_findFiles
-  (
-    Arcadia_Thread* thread,
-    Arcadia_Engine_Demo_ArcadiaLogoScene* self
-  ); 
 
 static const Arcadia_ObjectType_Operations _Arcadia_Engine_Demo_ArcadiaLogoScene_objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
@@ -137,12 +137,20 @@ Arcadia_Engine_Demo_ArcadiaLogoScene_construct
     }
   }
   //
-  ((Arcadia_Engine_Demo_Scene*)self)->updateAudials = (void (*)(Arcadia_Thread*, Arcadia_Engine_Demo_Scene*, Arcadia_Real64Value, Arcadia_Integer32Value, Arcadia_Integer32Value)) & Arcadia_Engine_Demo_ArcadiaLogoScene_updateAudials;
-  ((Arcadia_Engine_Demo_Scene*)self)->updateLogics = (void (*)(Arcadia_Thread*, Arcadia_Engine_Demo_Scene*, Arcadia_Real64Value)) & Arcadia_Engine_Demo_ArcadiaLogoScene_updateLogics;
-  ((Arcadia_Engine_Demo_Scene*)self)->updateVisuals = (void (*)(Arcadia_Thread*, Arcadia_Engine_Demo_Scene*, Arcadia_Real64Value, Arcadia_Integer32Value, Arcadia_Integer32Value)) & Arcadia_Engine_Demo_ArcadiaLogoScene_updateVisuals;
-  //
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 2 + 1);
+}
+
+static void
+Arcadia_Engine_Demo_ArcadiaLogoScene_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Engine_Demo_ArcadiaLogoSceneDispatch* self
+  )
+{
+  ((Arcadia_Engine_Demo_SceneDispatch*)self)->updateAudials = (void (*)(Arcadia_Thread*, Arcadia_Engine_Demo_Scene*, Arcadia_Real64Value, Arcadia_Integer32Value, Arcadia_Integer32Value)) & Arcadia_Engine_Demo_ArcadiaLogoScene_updateAudials;
+  ((Arcadia_Engine_Demo_SceneDispatch*)self)->updateLogics = (void (*)(Arcadia_Thread*, Arcadia_Engine_Demo_Scene*, Arcadia_Real64Value)) & Arcadia_Engine_Demo_ArcadiaLogoScene_updateLogics;
+  ((Arcadia_Engine_Demo_SceneDispatch*)self)->updateVisuals = (void (*)(Arcadia_Thread*, Arcadia_Engine_Demo_Scene*, Arcadia_Real64Value, Arcadia_Integer32Value, Arcadia_Integer32Value)) & Arcadia_Engine_Demo_ArcadiaLogoScene_updateVisuals;
 }
 
 static void
@@ -151,7 +159,7 @@ Arcadia_Engine_Demo_ArcadiaLogoScene_visit
     Arcadia_Thread* thread,
     Arcadia_Engine_Demo_ArcadiaLogoScene* self
   )
-{ 
+{
   if (self->definitions) {
     Arcadia_Object_visit(thread, (Arcadia_Object*)self->definitions);
   }

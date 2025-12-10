@@ -24,13 +24,17 @@ typedef struct Arcadia_Audials_BackendContext Arcadia_Audials_BackendContext;
 // That is, the "backend context" holds a STRONG reference to its "resources".
 // In addition, the "backend context" retains a GC lock unless its "resources" such that they are only gc'ed if the "backend context" drops this lock.
 Arcadia_declareObjectType(u8"Arcadia.Audials.Scene.Node", Arcadia_Audials_Scene_Node,
-                          u8"Arcadia.Object")
+                          u8"Arcadia.Object");
 
-struct Arcadia_Audials_Scene_Node {
-  Arcadia_Object _parent;
+struct Arcadia_Audials_Scene_NodeDispatch {
+  Arcadia_ObjectDispatch _parent;
 
   void (*setBackendContext)(Arcadia_Thread*, Arcadia_Audials_Scene_Node*, Arcadia_Audials_BackendContext*);
   void (*render)(Arcadia_Thread*, Arcadia_Audials_Scene_Node*);
+};
+
+struct Arcadia_Audials_Scene_Node {
+  Arcadia_Object _parent;
 };
 
 // Change the backend context of this node.

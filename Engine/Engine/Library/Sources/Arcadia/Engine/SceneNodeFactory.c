@@ -24,6 +24,13 @@ Arcadia_Engine_SceneNodeFactory_construct
   );
 
 static void
+Arcadia_Engine_SceneNodeFactory_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Engine_SceneNodeFactoryDispatch* self
+  );
+
+static void
 Arcadia_Engine_SceneNodeFactory_destruct
   (
     Arcadia_Thread* thread,
@@ -72,6 +79,14 @@ Arcadia_Engine_SceneNodeFactory_construct
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_Engine_SceneNodeFactory_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Engine_SceneNodeFactoryDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Engine_SceneNodeFactory_destruct

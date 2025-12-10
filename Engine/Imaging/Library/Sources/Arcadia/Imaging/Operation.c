@@ -22,6 +22,13 @@ Arcadia_Imaging_Operation_constructImpl
     Arcadia_Imaging_Operation* self
   );
 
+static void
+Arcadia_Imaging_Operation_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Imaging_OperationDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*) & Arcadia_Imaging_Operation_constructImpl,
@@ -52,10 +59,17 @@ Arcadia_Imaging_Operation_constructImpl
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
   }
-  self->apply = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_Imaging_Operation_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Imaging_OperationDispatch* self
+  )
+{ }
 
 void
 Arcadia_Imaging_Operation_apply
@@ -64,4 +78,4 @@ Arcadia_Imaging_Operation_apply
     Arcadia_Imaging_Operation* self,
     Arcadia_Imaging_PixelBuffer* target
   )
-{ self->apply(thread, self, target); }
+{ Arcadia_VirtualCall(Arcadia_Imaging_Operation, apply, self, target); }

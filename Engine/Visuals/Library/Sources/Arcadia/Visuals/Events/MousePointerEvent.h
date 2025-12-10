@@ -24,6 +24,10 @@ typedef struct Arcadia_Visuals_Window Arcadia_Visuals_Window;
 Arcadia_declareObjectType(u8"Arcadia.Visuals.MousePointerEvent", Arcadia_Visuals_MousePointerEvent,
                           u8"Arcadia.Engine.Event");
 
+struct Arcadia_Visuals_MousePointerEventDispatch {
+  Arcadia_Engine_EventDispatch _parent;
+};
+
 struct Arcadia_Visuals_MousePointerEvent {
   Arcadia_Engine_Event _parent;
   Arcadia_Visuals_MousePointerAction action;

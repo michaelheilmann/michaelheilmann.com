@@ -23,6 +23,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Engine.Demo.MainScene", Arcadia_Engine_Demo_MainScene,
                           u8"Arcadia.Engine.Demo.Scene");
 
+struct Arcadia_Engine_Demo_MainSceneDispatch {
+  Arcadia_Engine_Demo_SceneDispatch parent;
+};
+
 struct Arcadia_Engine_Demo_MainScene {
   Arcadia_Engine_Demo_Scene parent;
   // Two viewports, #1 and #2, one for each side of the window.
@@ -31,7 +35,7 @@ struct Arcadia_Engine_Demo_MainScene {
   Arcadia_Visuals_Scene_CameraNode* cameraNode;
   // A single context, update with viewport- and camera-specific information for each render of the scene.
   Arcadia_Visuals_Scene_RenderingContextNode* renderingContextNode;
-  
+
   // The mesh (the scene).
   Arcadia_Visuals_Scene_MeshNode* meshNode;
 

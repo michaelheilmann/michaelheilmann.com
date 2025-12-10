@@ -44,7 +44,11 @@ typedef struct Arcadia_Visuals_Implementation_SceneNodeFactory Arcadia_Visuals_I
 /// }
 /// @endcode
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.OpenGL4.WGL.BackendContext", Arcadia_Visuals_Implementation_OpenGL4_WGL_BackendContext,
-                          u8"Arcadia.Visuals.Implementation.OpenGL4.BackendContext")
+                          u8"Arcadia.Visuals.Implementation.OpenGL4.BackendContext");
+
+struct Arcadia_Visuals_Implementation_OpenGL4_WGL_BackendContextDispatch {
+  Arcadia_Visuals_Implementation_OpenGL4_BackendContextDispatch _parent;
+};
 
 struct Arcadia_Visuals_Implementation_OpenGL4_WGL_BackendContext {
   Arcadia_Visuals_Implementation_OpenGL4_BackendContext _parent;

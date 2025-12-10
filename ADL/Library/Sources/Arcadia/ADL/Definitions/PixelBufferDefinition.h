@@ -43,6 +43,10 @@
 Arcadia_declareObjectType(u8"Arcadia.ADL.PixelBufferDefinition", Arcadia_ADL_PixelBufferDefinition,
                           u8"Arcadia.ADL.Definition");
 
+struct Arcadia_ADL_PixelBufferDefinitionDispatch {
+  Arcadia_ADL_DefinitionDispatch _parent;
+};
+
 struct Arcadia_ADL_PixelBufferDefinition {
   Arcadia_ADL_Definition _parent;
   /// The width, in pixels, of the pixel buffer.

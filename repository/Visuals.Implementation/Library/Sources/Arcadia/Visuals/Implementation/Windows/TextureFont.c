@@ -23,6 +23,13 @@ Arcadia_Visuals_Windows_TextureFont_constructImpl
   );
 
 static void
+Arcadia_Visuals_Windows_TextureFont_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Windows_TextureFontDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Windows_TextureFont_destruct
   (
     Arcadia_Thread* thread,
@@ -93,6 +100,14 @@ Arcadia_Visuals_Windows_TextureFont_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1);
 }
+
+static void
+Arcadia_Visuals_Windows_TextureFont_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Windows_TextureFontDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Windows_TextureFont_destruct

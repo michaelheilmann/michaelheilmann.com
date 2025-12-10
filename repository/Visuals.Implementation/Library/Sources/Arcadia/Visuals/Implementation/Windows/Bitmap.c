@@ -23,6 +23,13 @@ Arcadia_Visuals_Windows_Bitmap_constructImpl
   );
 
 static void
+Arcadia_Visuals_Windows_Bitmap_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Windows_BitmapDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Windows_Bitmap_destruct
   (
     Arcadia_Thread* thread,
@@ -146,6 +153,14 @@ Arcadia_Visuals_Windows_Bitmap_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues1 + 1);
 }
+
+static void
+Arcadia_Visuals_Windows_Bitmap_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Windows_BitmapDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Windows_Bitmap_destruct

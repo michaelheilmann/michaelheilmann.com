@@ -23,6 +23,13 @@ Arcadia_Visuals_CanvasDpiChangedEvent_constructImpl
     Arcadia_Visuals_CanvasDpiChangedEvent* self
   );
 
+static void
+Arcadia_Visuals_CanvasDpiChangedEvent_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_CanvasDpiChangedEventDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_Visuals_CanvasDpiChangedEvent_constructImpl,
@@ -63,6 +70,14 @@ Arcadia_Visuals_CanvasDpiChangedEvent_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 2);
 }
+
+static void
+Arcadia_Visuals_CanvasDpiChangedEvent_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_CanvasDpiChangedEventDispatch* self
+  )
+{ }
 
 Arcadia_Visuals_CanvasDpiChangedEvent*
 Arcadia_Visuals_CanvasDpiChangedEvent_create

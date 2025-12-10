@@ -33,6 +33,13 @@ Arcadia_Visuals_Implementation_Scene_MeshNode_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_Scene_MeshNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_Scene_MeshNodeDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_Scene_MeshNode_destructImpl
   (
     Arcadia_Thread* thread,
@@ -102,10 +109,19 @@ Arcadia_Visuals_Implementation_Scene_MeshNode_constructImpl
     Arcadia_Object_lock(thread, (Arcadia_Object*)self->backendContext);
   }
   self->meshResource = NULL;
-  ((Arcadia_Visuals_Scene_Node*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_Scene_RenderingContextNode*)) & Arcadia_Visuals_Implementation_Scene_MeshNode_renderImpl;
-  ((Arcadia_Visuals_Scene_Node*)self)->setBackendContext = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_BackendContext*)) &Arcadia_Visuals_Implementation_Scene_MeshNode_setBackendContextImpl;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
+}
+
+static void
+Arcadia_Visuals_Implementation_Scene_MeshNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_Scene_MeshNodeDispatch* self
+  )
+{
+  ((Arcadia_Visuals_Scene_NodeDispatch*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_Scene_RenderingContextNode*)) & Arcadia_Visuals_Implementation_Scene_MeshNode_renderImpl;
+  ((Arcadia_Visuals_Scene_NodeDispatch*)self)->setBackendContext = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_Scene_MeshNode_setBackendContextImpl;
 }
 
 static void
@@ -131,18 +147,7 @@ Arcadia_Visuals_Implementation_Scene_MeshNode_visitImpl
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_Scene_MeshNode* self
   )
-{
-#if 0
-  if (self->backendContext) {
-    Arcadia_Object_visit(thread, (Arcadia_Object*)self->backendContext);
-  }
-#endif
-#if 0
-  if (self->meshResource) {
-    Arcadia_Object_visit(thread, (Arcadia_Object*)self->meshResource);
-  }
-#endif
-}
+{/* The backend context and resources are locked. No need to visit them. */}
 
 static void
 Arcadia_Visuals_Implementation_Scene_MeshNode_renderImpl

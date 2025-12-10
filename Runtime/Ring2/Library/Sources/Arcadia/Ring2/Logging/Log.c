@@ -26,6 +26,13 @@ Arcadia_Log_constructImpl
   );
 
 static void
+Arcadia_Log_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_LogDispatch* self
+  );
+
+static void
 Arcadia_Log_visit
   (
     Arcadia_Thread* thread,
@@ -63,11 +70,17 @@ Arcadia_Log_constructImpl
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
   }
-  self->error = NULL;
-  self->info = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1);
 }
+
+static void
+Arcadia_Log_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_LogDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Log_visit
@@ -84,7 +97,7 @@ Arcadia_Log_info
     Arcadia_Log* self,
     Arcadia_String* message
   )
-{ self->info(thread, self, message); }
+{ Arcadia_VirtualCall(Arcadia_Log, info, self, message); }
 
 void
 Arcadia_Log_error
@@ -93,4 +106,4 @@ Arcadia_Log_error
     Arcadia_Log* self,
     Arcadia_String* message
   )
-{ self->error(thread, self, message); }
+{ Arcadia_VirtualCall(Arcadia_Log, error, self, message); }

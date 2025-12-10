@@ -26,6 +26,13 @@ Arcadia_Visuals_WindowPositionChangedEvent_constructImpl
   );
 
 static void
+Arcadia_Visuals_WindowPositionChangedEvent_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_WindowPositionChangedEventDispatch* self
+  );
+
+static void
 Arcadia_Visuals_WindowPositionChangedEvent_visit
   (
     Arcadia_Thread* thread,
@@ -78,6 +85,14 @@ Arcadia_Visuals_WindowPositionChangedEvent_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues1);
 }
+
+static void
+Arcadia_Visuals_WindowPositionChangedEvent_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_WindowPositionChangedEventDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_WindowPositionChangedEvent_visit

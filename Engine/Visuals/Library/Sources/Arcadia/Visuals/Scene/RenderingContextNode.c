@@ -13,6 +13,7 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
+#define ARCADIA_VISUALS_PRIVATE (1)
 #include "Arcadia/Visuals/Scene/RenderingContextNode.h"
 
 static void
@@ -20,6 +21,13 @@ Arcadia_Visuals_Scene_RenderingContextNode_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_Scene_RenderingContextNode* self
+  );
+
+static void
+Arcadia_Visuals_Scene_RenderingContextNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Scene_RenderingContextNodeDispatch* self
   );
 
 static void
@@ -97,6 +105,14 @@ Arcadia_Visuals_Scene_RenderingContextNode_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+Arcadia_Visuals_Scene_RenderingContextNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Scene_RenderingContextNodeDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Scene_RenderingContextNode_destructImpl

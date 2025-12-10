@@ -59,8 +59,10 @@
 #include "Arcadia/Visuals/Texture.h"
 #include "Arcadia/Visuals/TextureAddressMode.h"
 #include "Arcadia/Visuals/TextureFilter.h"
+#include "Arcadia/Visuals/VertexDescriptor.h"
+#include "Arcadia/Visuals/VertexElementDescriptor.h"
 #include "Arcadia/Visuals/VertexElementSemantics.h"
-#include "Arcadia/Visuals/VertexElementSyntax.h"
+#include "Arcadia/Visuals/VertexElementSyntactics.h"
 #include "Arcadia/Visuals/WindingMode.h"
 
 #include "Arcadia/Visuals/Scene/RenderScene.h"

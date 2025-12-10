@@ -31,6 +31,10 @@
 Arcadia_declareObjectType(u8"Arcadia.MIL.AST.LabelDefinitionStatementNode", Arcadia_MIL_AST_LabelDefinitionStatementNode,
                           u8"Arcadia.MIL.AST.DefinitionStatementNode");
 
+struct Arcadia_MIL_AST_LabelDefinitionStatementNodeDispatch {
+  Arcadia_MIL_AST_DefinitionStatementNodeDispatch parent;
+};
+
 struct Arcadia_MIL_AST_LabelDefinitionStatementNode {
   Arcadia_MIL_AST_DefinitionStatementNode parent;
   Arcadia_String* labelName;

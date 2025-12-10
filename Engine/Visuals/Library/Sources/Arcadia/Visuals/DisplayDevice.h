@@ -25,13 +25,18 @@ typedef struct Arcadia_Visuals_DisplayMode Arcadia_Visuals_DisplayMode;
 Arcadia_declareObjectType(u8"Arcadia.Visuals.DisplayDevice", Arcadia_Visuals_DisplayDevice,
                           u8"Arcadia.Object");
 
-struct Arcadia_Visuals_DisplayDevice {
-  Arcadia_Object _parent;
+struct Arcadia_Visuals_DisplayDeviceDispatch {
+  Arcadia_ObjectDispatch _parent;
+
   Arcadia_Visuals_DisplayMode* (*getCurrentDisplayMode)(Arcadia_Thread* thread, Arcadia_Visuals_DisplayDevice* self);
   Arcadia_List* (*getAvailableDisplayModes)(Arcadia_Thread* thread, Arcadia_Visuals_DisplayDevice* self);
   void (*getBounds)(Arcadia_Thread*, Arcadia_Visuals_DisplayDevice*, Arcadia_Integer32Value*, Arcadia_Integer32Value*, Arcadia_Integer32Value*, Arcadia_Integer32Value*);
   Arcadia_String* (*getName)(Arcadia_Thread* thread, Arcadia_Visuals_DisplayDevice* self);
   Arcadia_String* (*getId)(Arcadia_Thread* thread, Arcadia_Visuals_DisplayDevice* self);
+};
+
+struct Arcadia_Visuals_DisplayDevice {
+  Arcadia_Object _parent;
 };
 
 Arcadia_Visuals_DisplayMode*

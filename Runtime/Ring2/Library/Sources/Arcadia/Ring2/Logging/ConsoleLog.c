@@ -26,6 +26,13 @@ Arcadia_ConsoleLog_constructImpl
   );
 
 static void
+Arcadia_ConsoleLog_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ConsoleLogDispatch* self
+  );
+
+static void
 Arcadia_ConsoleLog_visit
   (
     Arcadia_Thread* thread,
@@ -79,7 +86,7 @@ Arcadia_ConsoleLog_constructImpl
     Arcadia_ConsoleLog* self
   )
 {
-  Arcadia_TypeValue _type = _Arcadia_Log_getType(thread);
+  Arcadia_TypeValue _type = _Arcadia_ConsoleLog_getType(thread);
   {
     Arcadia_ValueStack_pushNatural8Value(thread, 0);
     Arcadia_superTypeConstructor(thread, _type, self);
@@ -92,10 +99,19 @@ Arcadia_ConsoleLog_constructImpl
   self->colorEnabled = Arcadia_BooleanValue_True;
   self->fileHandle = Arcadia_FileSystem_createFileHandle(thread, fileSystem);
   Arcadia_FileHandle_openStandardOutput(thread, self->fileHandle);
-  ((Arcadia_Log*)self)->error = (void (*)(Arcadia_Thread*, Arcadia_Log*, Arcadia_String*))&Arcadia_ConsoleLog_errorImpl;
-  ((Arcadia_Log*)self)->info = (void (*)(Arcadia_Thread*, Arcadia_Log*, Arcadia_String*))&Arcadia_ConsoleLog_infoImpl;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1);
+}
+
+static void
+Arcadia_ConsoleLog_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ConsoleLogDispatch* self
+  )
+{
+  ((Arcadia_LogDispatch*)self)->error = (void (*)(Arcadia_Thread*, Arcadia_Log*, Arcadia_String*)) & Arcadia_ConsoleLog_errorImpl;
+  ((Arcadia_LogDispatch*)self)->info = (void (*)(Arcadia_Thread*, Arcadia_Log*, Arcadia_String*)) & Arcadia_ConsoleLog_infoImpl;
 }
 
 static void

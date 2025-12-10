@@ -21,6 +21,11 @@
 Arcadia_declareObjectType(u8"Arcadia.DDLS.AnySymbol", Arcadia_DDLS_AnySymbol,
                           u8"Arcadia.DDLS.Symbol");
 
+
+struct Arcadia_DDLS_AnySymbolDispatch {
+  Arcadia_DDLS_SymbolDispatch parent;
+};
+
 struct Arcadia_DDLS_AnySymbol {
   Arcadia_DDLS_Symbol parent;
 };

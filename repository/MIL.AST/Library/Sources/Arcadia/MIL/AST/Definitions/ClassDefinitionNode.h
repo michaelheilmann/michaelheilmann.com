@@ -27,6 +27,10 @@
 Arcadia_declareObjectType(u8"Arcadia.MIL.AST.ClassDefinitionNode", Arcadia_MIL_AST_ClassDefinitionNode,
                           u8"Arcadia.MIL.AST.DefinitionNode");
 
+struct Arcadia_MIL_AST_ClassDefinitionNodeDispatch {
+  Arcadia_MIL_AST_NodeDispatch _parent;
+};
+
 struct Arcadia_MIL_AST_ClassDefinitionNode {
   Arcadia_MIL_AST_Node _parent;
   Arcadia_String* className;

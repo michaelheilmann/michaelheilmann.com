@@ -24,6 +24,13 @@ Arcadia_Languages_Scanner_constructImpl
   );
 
 static void
+Arcadia_Languages_Scanner_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Languages_ScannerDispatch* self
+  );
+
+static void
 Arcadia_Languages_Scanner_visit
   (
     Arcadia_Thread* thread,
@@ -69,17 +76,17 @@ Arcadia_Languages_Scanner_constructImpl
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
   }
-  self->getInput = NULL;
-  self->getStringTable = NULL;
-  self->getWordLength = NULL;
-  self->getWordStart = NULL;
-  self->getWordText = NULL;
-  self->getWordType = NULL;
-  self->setInput = NULL;
-  self->step = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_Languages_Scanner_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Languages_ScannerDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Languages_Scanner_visit
@@ -103,7 +110,7 @@ Arcadia_Languages_Scanner_getWordText
     Arcadia_Thread* thread,
     Arcadia_Languages_Scanner* self
   )
-{ return self->getWordText(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Languages_Scanner, getWordText, self); }
 
 Arcadia_Natural32Value
 Arcadia_Languages_Scanner_getWordType
@@ -111,7 +118,7 @@ Arcadia_Languages_Scanner_getWordType
     Arcadia_Thread* thread,
     Arcadia_Languages_Scanner* self
   )
-{ return self->getWordType(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Languages_Scanner, getWordType, self); }
 
 Arcadia_Natural32Value
 Arcadia_Languages_Scanner_getWordStart
@@ -119,7 +126,7 @@ Arcadia_Languages_Scanner_getWordStart
     Arcadia_Thread* thread,
     Arcadia_Languages_Scanner* self
   )
-{ return self->getWordStart(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Languages_Scanner, getWordStart, self); }
 
 Arcadia_Natural32Value
 Arcadia_Languages_Scanner_getWordLength
@@ -127,7 +134,7 @@ Arcadia_Languages_Scanner_getWordLength
     Arcadia_Thread* thread,
     Arcadia_Languages_Scanner* self
   )
-{ return self->getWordLength(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Languages_Scanner, getWordLength, self); }
 
 void
 Arcadia_Languages_Scanner_step
@@ -135,7 +142,7 @@ Arcadia_Languages_Scanner_step
     Arcadia_Thread* thread,
     Arcadia_Languages_Scanner* self
   )
-{ self->step(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_Languages_Scanner, step, self); }
 
 void
 Arcadia_Languages_Scanner_setInput
@@ -144,7 +151,7 @@ Arcadia_Languages_Scanner_setInput
     Arcadia_Languages_Scanner* self,
     Arcadia_String* input
   )
-{ self->setInput(thread, self, input); }
+{ Arcadia_VirtualCall(Arcadia_Languages_Scanner, setInput, self, input); }
 
 Arcadia_String*
 Arcadia_Languages_Scanner_getInput
@@ -152,7 +159,7 @@ Arcadia_Languages_Scanner_getInput
     Arcadia_Thread* thread,
     Arcadia_Languages_Scanner* self
   )
-{ return self->getInput(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Languages_Scanner, getInput, self); }
 
 Arcadia_Languages_StringTable*
 Arcadia_Languages_Scanner_getStringTable
@@ -160,4 +167,4 @@ Arcadia_Languages_Scanner_getStringTable
     Arcadia_Thread* thread,
     Arcadia_Languages_Scanner* self
   )
-{ return self->getStringTable(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Languages_Scanner, getStringTable, self); }

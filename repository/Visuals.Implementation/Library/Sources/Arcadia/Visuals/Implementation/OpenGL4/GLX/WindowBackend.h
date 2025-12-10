@@ -26,6 +26,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.OpenGL4.GLX.WindowBackend", Arcadia_Visuals_Implementation_OpenGL4_GLX_WindowBackend,
                           u8"Arcadia.Visuals.WindowBackend");
 
+struct Arcadia_Visuals_Implementation_OpenGL4_GLX_WindowBackendDispatch {
+  Arcadia_Visuals_WindowBackendDispatch _parent;
+};
+
 struct Arcadia_Visuals_Implementation_OpenGL4_GLX_WindowBackend {
   Arcadia_Visuals_WindowBackend _parent;
 

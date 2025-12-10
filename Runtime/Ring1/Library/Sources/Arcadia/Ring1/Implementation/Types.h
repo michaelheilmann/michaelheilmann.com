@@ -31,6 +31,15 @@ typedef void (Arcadia_Object_ConstructCallbackFunction)(Arcadia_Thread* thread, 
 typedef void (Arcadia_Object_DestructCallbackFunction)(Arcadia_Thread* thread, Arcadia_Object* self);
 typedef void (Arcadia_Object_VisitCallbackFunction)(Arcadia_Thread* thread, Arcadia_Object* self);
 
+/// The base of all dispatches.
+typedef struct Arcadia_Dispatch {
+  Arcadia_Type* type;
+} Arcadia_Dispatch;
+
+/// The type of an initializer function for a dispatch.
+typedef void (Arcadia_Dispatch_InitializerCallback)(Arcadia_Thread* thread, Arcadia_Dispatch* dispatch);
+
+
 /// Type operations for object types.
 typedef struct Arcadia_ObjectType_Operations {
   Arcadia_Object_ConstructCallbackFunction* construct;
@@ -300,6 +309,8 @@ Arcadia_registerObjectType
     size_t nameLength,
     size_t valueSize,
     Arcadia_TypeValue parentObjectType,
+    size_t dispatchSize,
+    void (*initializeDispatch)(Arcadia_Thread*, Arcadia_Dispatch*),
     Arcadia_Type_Operations const* typeOperations,
     Arcadia_Type_TypeDestructingCallbackFunction* typeDestructing
   );
@@ -327,6 +338,12 @@ Arcadia_getType
 
 Arcadia_AtomValue
 Arcadia_Type_getName
+  (
+    Arcadia_TypeValue type
+  );
+
+Arcadia_Dispatch*
+Arcadia_Type_getDispatch
   (
     Arcadia_TypeValue type
   );

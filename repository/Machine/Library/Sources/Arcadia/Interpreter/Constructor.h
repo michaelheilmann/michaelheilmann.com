@@ -21,6 +21,10 @@
 
 Arcadia_declareObjectType(u8"R.Interpreter.Constructor", R_Interpreter_Constructor, u8"Arcadia.Object");
 
+struct R_Interpreter_ConstructorDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct R_Interpreter_Constructor {
   Arcadia_Object _parent;
   /// Arcadia_BooleanValue_True indicates that code is invalid and foreignProcedure points to a foreign procedure of this method.

@@ -21,7 +21,11 @@ typedef struct Arcadia_Visuals_Implementation_BackendContext Arcadia_Visuals_Imp
 typedef struct Arcadia_Visuals_Implementation_MeshResource Arcadia_Visuals_Implementation_MeshResource;
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.Scene.MeshNode", Arcadia_Visuals_Implementation_Scene_MeshNode,
-                          u8"Arcadia.Visuals.Scene.MeshNode")
+                          u8"Arcadia.Visuals.Scene.MeshNode");
+
+struct Arcadia_Visuals_Implementation_Scene_MeshNodeDispatch {
+  Arcadia_Visuals_Scene_MeshNodeDispatch _parent;
+};
 
 struct Arcadia_Visuals_Implementation_Scene_MeshNode {
   Arcadia_Visuals_Scene_MeshNode _parent;

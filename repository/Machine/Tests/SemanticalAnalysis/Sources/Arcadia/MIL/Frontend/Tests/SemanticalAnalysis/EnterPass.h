@@ -38,6 +38,10 @@ Arcadia_MIL_SemanticalAnalysis_EnterPass_onModule
 Arcadia_declareObjectType(u8"Arcadia.MIL.SemanticalAnalysis.EnterPass", Arcadia_MIL_SemanticalAnalysis_EnterPass,
                           u8"Arcadia.MIL.Pass");
 
+struct Arcadia_MIL_SemanticalAnalysis_EnterPassDispatch {
+  Arcadia_MIL_PassDispatch _parent;
+};
+
 struct Arcadia_MIL_SemanticalAnalysis_EnterPass {
   Arcadia_MIL_Pass _parent;
 };

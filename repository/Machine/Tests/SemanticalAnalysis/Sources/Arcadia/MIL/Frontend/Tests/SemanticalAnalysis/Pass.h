@@ -21,6 +21,10 @@
 /// Base of all passes of the compiler.
 Arcadia_declareObjectType(u8"Arcadia.MIL.Pass", Arcadia_MIL_Pass, u8"Arcadia.Object");
 
+struct Arcadia_MIL_PassDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_MIL_Pass {
   Arcadia_Object _parent;
 };

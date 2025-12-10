@@ -24,6 +24,13 @@ Arcadia_Engine_BackendContext_constructImpl
   );
 
 static void
+Arcadia_Engine_BackendContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Engine_BackendContextDispatch* self
+  );
+
+static void
 Arcadia_Engine_BackendContext_visitImpl
   (
     Arcadia_Thread* thread,
@@ -61,10 +68,17 @@ Arcadia_Engine_BackendContext_constructImpl
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
   }
-  self->update = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_Engine_BackendContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Engine_BackendContextDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Engine_BackendContext_visitImpl
@@ -80,4 +94,4 @@ Arcadia_Engine_BackendContext_update
     Arcadia_Thread* thread,
     Arcadia_Engine_BackendContext* self
   )
-{ self->update(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_Engine_BackendContext, update, self); }

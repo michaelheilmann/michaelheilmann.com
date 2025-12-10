@@ -21,6 +21,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Visuals.VPL.Backends.GLSL.Program", Arcadia_Visuals_VPL_Backends_GLSL_Program,
                           u8"Arcadia.Object");
 
+struct Arcadia_Visuals_VPL_Backends_GLSL_ProgramDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_Visuals_VPL_Backends_GLSL_Program {
   Arcadia_Object _parent;
 };

@@ -177,7 +177,7 @@ startupEncoder
   HRESULT hr;
   //
   GUID const* pFormat = NULL;
-  self->getFormat(thread, self, sourcePixelBuffer, parameters, &pFormat);
+  Arcadia_Imaging_Windows_WicImageWriterBase_getFormat(thread, self, sourcePixelBuffer, parameters, &pFormat);
   if (NULL == pFormat) {
     Arcadia_Thread_setStatus(thread, Arcadia_Status_ArgumentValueInvalid);
     Arcadia_Thread_jump(thread);
@@ -206,7 +206,7 @@ startupEncoder
     Arcadia_JumpTarget jumpTarget;
     Arcadia_Thread_pushJumpTarget(thread, &jumpTarget);
     if (Arcadia_JumpTarget_save(&jumpTarget)) {
-      self->configure(thread, self, sourcePixelBuffer, parameters);
+      Arcadia_Imaging_Windows_WicImageWriterBase_configure(thread, self, sourcePixelBuffer, parameters);
       Arcadia_Thread_popJumpTarget(thread);
     } else {
       Arcadia_Thread_popJumpTarget(thread);
@@ -373,6 +373,13 @@ Arcadia_Imaging_Windows_WicImageWriterBase_constructImpl
     Arcadia_Imaging_Windows_WicImageWriterBase* self
   );
 
+static void
+Arcadia_Imaging_Windows_WicImageWriterBase_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Imaging_Windows_WicImageWriterBaseDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*) & Arcadia_Imaging_Windows_WicImageWriterBase_constructImpl,
@@ -412,12 +419,17 @@ Arcadia_Imaging_Windows_WicImageWriterBase_constructImpl
   self->piBitmapFrame = NULL;
   self->pPropertyBag = NULL;
 
-  self->configure = NULL;
-  self->getFormat = NULL;
-
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_Imaging_Windows_WicImageWriterBase_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Imaging_Windows_WicImageWriterBaseDispatch* self
+  )
+{ }
 
 void
 Arcadia_Imaging_Windows_WicImageWriterBase_doWrite
@@ -456,3 +468,24 @@ Arcadia_Imaging_Windows_WicImageWriterBase_doWrite
     modules[--currentModule].shutdown(thread, self, sourcePixelBuffer, parameters);
   }
 }
+
+void
+Arcadia_Imaging_Windows_WicImageWriterBase_getFormat
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Imaging_Windows_WicImageWriterBase* self,
+    Arcadia_Imaging_PixelBuffer* sourcePixelBuffer,
+    Arcadia_Imaging_ImageWriterParameters* parameters,
+    GUID const** guid
+  )
+{ Arcadia_VirtualCall(Arcadia_Imaging_Windows_WicImageWriterBase, getFormat, self, sourcePixelBuffer, parameters, guid); }
+
+void
+Arcadia_Imaging_Windows_WicImageWriterBase_configure
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Imaging_Windows_WicImageWriterBase* self,
+    Arcadia_Imaging_PixelBuffer* sourcePixelBuffer,
+    Arcadia_Imaging_ImageWriterParameters* parameters
+  )
+{ Arcadia_VirtualCall(Arcadia_Imaging_Windows_WicImageWriterBase, configure, self, sourcePixelBuffer, parameters); }

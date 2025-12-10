@@ -27,6 +27,13 @@ Arcadia_Audials_Implementation_SceneNodeFactory_construct
   );
 
 static void
+Arcadia_Audials_Implementation_SceneNodeFactory_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Audials_Implementation_SceneNodeFactoryDispatch* self
+  );
+
+static void
 Arcadia_Audials_Implementation_SceneNodeFactory_destruct
   (
     Arcadia_Thread* thread,
@@ -82,9 +89,18 @@ Arcadia_Audials_Implementation_SceneNodeFactory_construct
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
   }
-  ((Arcadia_Audials_SceneNodeFactory*)self)->createSoundSourceNode = (Arcadia_Audials_Scene_SoundSourceNode * (*)(Arcadia_Thread * thread, Arcadia_Audials_SceneNodeFactory*, Arcadia_Audials_BackendContext*)) & Arcadia_Audials_Implementation_SceneNodeFactory_createSoundSourceNodeImpl;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
+}
+
+static void
+Arcadia_Audials_Implementation_SceneNodeFactory_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Audials_Implementation_SceneNodeFactoryDispatch* self
+  )
+{
+  ((Arcadia_Audials_SceneNodeFactoryDispatch*)self)->createSoundSourceNode = (Arcadia_Audials_Scene_SoundSourceNode * (*)(Arcadia_Thread*, Arcadia_Audials_SceneNodeFactory*, Arcadia_Audials_BackendContext*)) & Arcadia_Audials_Implementation_SceneNodeFactory_createSoundSourceNodeImpl;
 }
 
 static void

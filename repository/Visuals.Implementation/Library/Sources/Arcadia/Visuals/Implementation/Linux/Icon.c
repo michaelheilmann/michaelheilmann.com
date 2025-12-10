@@ -23,6 +23,13 @@ Arcadia_Visuals_Linux_Icon_constructImpl
   );
 
 static void
+Arcadia_Visuals_Linux_Icon_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Linux_IconDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Linux_Icon_destruct
   (
     Arcadia_Thread* thread,
@@ -119,6 +126,14 @@ Arcadia_Visuals_Linux_Icon_constructImpl
   Arcadia_Object_setType(thread, self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues1 + 1);
 }
+
+static void
+Arcadia_Visuals_Linux_Icon_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Linux_IconDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Linux_Icon_destruct

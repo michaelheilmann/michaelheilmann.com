@@ -24,6 +24,13 @@ Arcadia_DDL_VoidNode_constructImpl
   );
 
 static void
+Arcadia_DDL_VoidNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDL_VoidNodeDispatch* self
+  );
+
+static void
 Arcadia_DDL_VoidNode_visitImpl
   (
     Arcadia_Thread* thread,
@@ -84,6 +91,14 @@ Arcadia_DDL_VoidNode_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 2);
 }
+
+static void
+Arcadia_DDL_VoidNode_initializeDispatchImpl
+  ( 
+    Arcadia_Thread* thread,
+    Arcadia_DDL_VoidNodeDispatch* self
+  )
+{ }
 
 static void
 Arcadia_DDL_VoidNode_visitImpl

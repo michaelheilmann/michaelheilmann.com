@@ -37,6 +37,13 @@ Arcadia_PointInTime_constructImpl
     Arcadia_PointInTime* self
   );
 
+static void
+Arcadia_PointInTime_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_PointInTimeDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_PointInTime_constructImpl,
@@ -71,6 +78,14 @@ Arcadia_PointInTime_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 2);
 }
+
+static void
+Arcadia_PointInTime_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_PointInTimeDispatch* self
+  )
+{ }
 
 Arcadia_PointInTime*
 Arcadia_PointInTime_create

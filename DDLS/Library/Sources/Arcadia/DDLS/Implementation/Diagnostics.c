@@ -25,6 +25,13 @@ Arcadia_DDLS_Diagnostics_constructImpl
   );
 
 static void
+Arcadia_DDLS_Diagnostics_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDLS_DiagnosticsDispatch* self
+  );
+
+static void
 Arcadia_DDLS_Diagnostics_visitImpl
   (
     Arcadia_Thread* thread,
@@ -103,6 +110,14 @@ Arcadia_DDLS_Diagnostics_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1 + 1);
 }
+
+static void
+Arcadia_DDLS_Diagnostics_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDLS_DiagnosticsDispatch* self
+  )
+{ }
 
 static void
 Arcadia_DDLS_Diagnostics_visitImpl

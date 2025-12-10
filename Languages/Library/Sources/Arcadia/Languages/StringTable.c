@@ -34,6 +34,13 @@ Arcadia_Languages_StringTable_constructImpl
   );
 
 static void
+Arcadia_Languages_StringTable_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Languages_StringTableDispatch* self
+  );
+
+static void
 Arcadia_Languages_StringTable_maybeResize_nojump
   (
     Arcadia_Thread* thread,
@@ -112,6 +119,14 @@ Arcadia_Languages_StringTable_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_Languages_StringTable_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Languages_StringTableDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Languages_StringTable_maybeResize_nojump
@@ -269,7 +284,7 @@ Arcadia_Languages_StringTable_getOrCreateStringFromCxxString
     Arcadia_Thread* thread,
     Arcadia_Languages_StringTable* self,
     const char* string
-  ) 
+  )
 { return Arcadia_Languages_StringTable_getOrCreateStringFromBytes(thread, self, string, strlen(string)); }
 
 static Arcadia_Languages_StringTable* g_instance = NULL;

@@ -22,6 +22,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Visuals.CanvasEvent", Arcadia_Visuals_CanvasEvent,
                           u8"Arcadia.Engine.Event");
 
+struct Arcadia_Visuals_CanvasEventDispatch {
+  Arcadia_Engine_EventDispatch parent;
+};
+
 struct Arcadia_Visuals_CanvasEvent {
   Arcadia_Engine_Event _parent;
 };

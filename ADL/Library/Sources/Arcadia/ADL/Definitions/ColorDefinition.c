@@ -37,6 +37,13 @@ Arcadia_ADL_ColorDefinition_constructImpl
     Arcadia_ADL_ColorDefinition* self
   );
 
+static void
+Arcadia_ADL_ColorDefinition_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_ColorDefinitionDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*) & Arcadia_ADL_ColorDefinition_constructImpl,
@@ -92,9 +99,18 @@ Arcadia_ADL_ColorDefinition_constructImpl
   self->red = Arcadia_ValueStack_getNatural8Value(thread, 3);
   self->green = Arcadia_ValueStack_getNatural8Value(thread, 2);
   self->blue = Arcadia_ValueStack_getNatural8Value(thread, 1);
-  ((Arcadia_ADL_Definition*)self)->link = (void (*)(Arcadia_Thread*, Arcadia_ADL_Definition*))&Arcadia_ADL_ColorDefinition_linkImpl;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 5 + 1);
+}
+
+static void
+Arcadia_ADL_ColorDefinition_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_ColorDefinitionDispatch* self
+  )
+{
+  ((Arcadia_ADL_DefinitionDispatch*)self)->link = (void (*)(Arcadia_Thread*, Arcadia_ADL_Definition*)) & Arcadia_ADL_ColorDefinition_linkImpl;
 }
 
 Arcadia_ADL_ColorDefinition*

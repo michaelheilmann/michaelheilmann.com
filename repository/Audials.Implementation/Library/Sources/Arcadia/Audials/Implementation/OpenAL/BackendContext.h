@@ -29,7 +29,11 @@
 /// }
 /// @endcode
 Arcadia_declareObjectType(u8"Arcadia.Audials.Implementation.OpenAL.BackendContext", Arcadia_Audials_Implementation_OpenAL_BackendContext,
-                          u8"Arcadia.Audials.Implementation.BackendContext")
+                          u8"Arcadia.Audials.Implementation.BackendContext");
+
+struct Arcadia_Audials_Implementation_OpenAL_BackendContextDispatch {
+  Arcadia_Audials_Implementation_BackendContextDispatch _parent;
+};
 
 struct Arcadia_Audials_Implementation_OpenAL_BackendContext {
   Arcadia_Audials_Implementation_BackendContext _parent;

@@ -21,6 +21,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Imaging.Windows.BmpImageWriter", Arcadia_Imaging_Windows_BmpImageWriter,
                           u8"Arcadia.Imaging.Windows.WicImageWriterBase");
 
+struct Arcadia_Imaging_Windows_BmpImageWriterDispatch {
+  Arcadia_Imaging_Windows_WicImageWriterBaseDispatch parent;
+};
+
 struct Arcadia_Imaging_Windows_BmpImageWriter {
   Arcadia_Imaging_Windows_WicImageWriterBase _parent;
   Arcadia_ImmutableList* supportedTypes;

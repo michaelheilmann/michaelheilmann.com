@@ -38,6 +38,10 @@ typedef struct Arcadia_ADL_Definition Arcadia_ADL_Definition;
 Arcadia_declareObjectType(u8"Arcadia.ADL.Definitions", Arcadia_ADL_Definitions,
                           u8"Arcadia.Object");
 
+struct Arcadia_ADL_DefinitionsDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_ADL_Definitions {
   Arcadia_Object _parent;
   Arcadia_Map* definitions;

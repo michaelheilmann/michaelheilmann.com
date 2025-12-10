@@ -24,19 +24,24 @@ typedef struct Arcadia_Audials_BackendContext Arcadia_Audials_BackendContext;
 // Unlike a real boombox, it emanates sound in all directions the same way.
 // It operates like a cassette player: Start, stop, pause, fast forward, and rewind.
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Scene.SoundSourceNode", Arcadia_Audials_Scene_SoundSourceNode,
-                          u8"Arcadia.Visuals.Scene.Node")
+                          u8"Arcadia.Visuals.Scene.Node");
 
-struct Arcadia_Audials_Scene_SoundSourceNode {
-  Arcadia_Audials_Scene_Node _parent;
-  Arcadia_BooleanValue (*isPlaying)(Arcadia_Thread*, Arcadia_Audials_Scene_SoundSourceNode*);
+struct Arcadia_Audials_Scene_SoundSourceNodeDispatch {
+  Arcadia_Audials_Scene_NodeDispatch parent;
+
+  Arcadia_BooleanValue(*isPlaying)(Arcadia_Thread*, Arcadia_Audials_Scene_SoundSourceNode*);
   void (*pause)(Arcadia_Thread*, Arcadia_Audials_Scene_SoundSourceNode*);
   void (*play)(Arcadia_Thread*, Arcadia_Audials_Scene_SoundSourceNode*);
   void (*stop)(Arcadia_Thread*, Arcadia_Audials_Scene_SoundSourceNode*);
   void (*setVolume)(Arcadia_Thread*, Arcadia_Audials_Scene_SoundSourceNode*, Arcadia_Real32Value);
-  Arcadia_Real32Value (*getVolume)(Arcadia_Thread*, Arcadia_Audials_Scene_SoundSourceNode*);
+  Arcadia_Real32Value(*getVolume)(Arcadia_Thread*, Arcadia_Audials_Scene_SoundSourceNode*);
 };
 
-/* Get if playing. 
+struct Arcadia_Audials_Scene_SoundSourceNode {
+  Arcadia_Audials_Scene_Node _parent;
+};
+
+/* Get if playing.
    Raises an error if this is invoked before the resource was rendered. */
 Arcadia_BooleanValue
 Arcadia_Audials_Scene_SoundSourceNode_isPlaying
@@ -45,7 +50,7 @@ Arcadia_Audials_Scene_SoundSourceNode_isPlaying
     Arcadia_Audials_Scene_SoundSourceNode* self
   );
 
-/* Pause: If playing, halt playback. 
+/* Pause: If playing, halt playback.
    Raises an error if this is invoked before the resource was rendered. */
 void
 Arcadia_Audials_Scene_SoundSourceNode_pause
@@ -72,7 +77,7 @@ Arcadia_Audials_Scene_SoundSourceNode_stop
     Arcadia_Audials_Scene_SoundSourceNode* self
   );
 
-/* Sets the volume. The parameter value is clamped to [0,1]. 
+/* Sets the volume. The parameter value is clamped to [0,1].
    Raises an error if this is invoked before the resource was rendered. */
 void
 Arcadia_Audials_Scene_SoundSourceNode_setVolume
@@ -82,7 +87,7 @@ Arcadia_Audials_Scene_SoundSourceNode_setVolume
     Arcadia_Real32Value volume
   );
 
-/* Gets the volume. The return value is within [0,1]. Default is 1. 
+/* Gets the volume. The return value is within [0,1]. Default is 1.
    Raises an error if this is invoked before the resource was rendered. */
 Arcadia_Real32Value
 Arcadia_Audials_Scene_SoundSourceNode_getVolume

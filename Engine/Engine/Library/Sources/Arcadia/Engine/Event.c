@@ -23,6 +23,13 @@ Arcadia_Engine_Event_constructImpl
     Arcadia_Engine_Event* self
   );
 
+static void
+Arcadia_Engine_Event_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Engine_EventDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_Engine_Event_constructImpl,
@@ -61,3 +68,11 @@ Arcadia_Engine_Event_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues1);
 }
+
+static void
+Arcadia_Engine_Event_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Engine_EventDispatch* self
+  )
+{ }

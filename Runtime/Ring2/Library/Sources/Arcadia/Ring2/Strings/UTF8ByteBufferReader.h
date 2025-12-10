@@ -27,6 +27,10 @@ typedef struct Arcadia_ByteBuffer Arcadia_ByteBuffer;
 Arcadia_declareObjectType(u8"Arcadia.UTF8ByteBufferReader", Arcadia_UTF8ByteBufferReader,
                           u8"Arcadia.UTF8Reader");
 
+struct Arcadia_UTF8ByteBufferReaderDispatch {
+  Arcadia_UTF8ReaderDispatch _parent;
+};
+
 struct Arcadia_UTF8ByteBufferReader {
   Arcadia_UTF8Reader parent;
   Arcadia_ByteBuffer* source;

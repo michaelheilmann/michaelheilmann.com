@@ -26,6 +26,10 @@
 Arcadia_declareObjectType(u8"Arcadia.DDLS.MapNode", Arcadia_DDLS_MapNode,
                           u8"Arcadia.DDLS.Node");
 
+struct Arcadia_DDLS_MapNodeDispatch {
+  Arcadia_DDLS_NodeDispatch parent;
+};
+
 struct Arcadia_DDLS_MapNode {
   Arcadia_DDLS_Node parent;
   Arcadia_Map* entries;

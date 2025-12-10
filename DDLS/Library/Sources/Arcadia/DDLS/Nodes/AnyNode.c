@@ -24,6 +24,13 @@ Arcadia_DDLS_AnyNode_constructImpl
   );
 
 static void
+Arcadia_DDLS_AnyNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDLS_AnyNodeDispatch* self
+  );
+
+static void
 Arcadia_DDLS_AnyNode_visitImpl
   (
     Arcadia_Thread* thread,
@@ -66,6 +73,14 @@ Arcadia_DDLS_AnyNode_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_DDLS_AnyNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDLS_AnyNodeDispatch* self
+  )
+{ }
 
 static void
 Arcadia_DDLS_AnyNode_visitImpl

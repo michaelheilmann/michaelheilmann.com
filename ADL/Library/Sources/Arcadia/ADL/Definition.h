@@ -42,11 +42,15 @@ typedef struct Arcadia_ADL_Definitions Arcadia_ADL_Definitions;
 Arcadia_declareObjectType(u8"Arcadia.ADL.Definition", Arcadia_ADL_Definition,
                           u8"Arcadia.Object");
 
+struct Arcadia_ADL_DefinitionDispatch {
+  Arcadia_ObjectDispatch _parent;
+  void (*link)(Arcadia_Thread*, Arcadia_ADL_Definition*);
+};
+
 struct Arcadia_ADL_Definition {
   Arcadia_Object _parent;
   Arcadia_ADL_Definitions* definitions;
   Arcadia_String* name;
-  void (*link)(Arcadia_Thread*, Arcadia_ADL_Definition*);
 };
 
 Arcadia_ADL_Definitions*

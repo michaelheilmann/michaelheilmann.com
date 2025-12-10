@@ -16,10 +16,17 @@
 #include "Arcadia/Engine/Demo/Scenes/MainScene.h"
 
 static void
-Arcadia_Engine_Demo_MainScene_construct
+Arcadia_Engine_Demo_MainScene_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Engine_Demo_MainScene* self
+  );
+
+static void
+Arcadia_Engine_Demo_MainScene_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Engine_Demo_MainSceneDispatch* self
   );
 
 static void
@@ -59,7 +66,7 @@ Arcadia_Engine_Demo_MainScene_updateVisuals
 
 static const Arcadia_ObjectType_Operations _Arcadia_Engine_Demo_MainScene_objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
-  .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_Engine_Demo_MainScene_construct,
+  .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_Engine_Demo_MainScene_constructImpl,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_Engine_Demo_MainScene_visit,
 };
 
@@ -73,7 +80,7 @@ Arcadia_defineObjectType(u8"Arcadia.Engine.Demo.MainScene", Arcadia_Engine_Demo_
                          &_Arcadia_Engine_Demo_MainScene_typeOperations);
 
 static void
-Arcadia_Engine_Demo_MainScene_construct
+Arcadia_Engine_Demo_MainScene_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Engine_Demo_MainScene* self
@@ -101,12 +108,20 @@ Arcadia_Engine_Demo_MainScene_construct
   //
   self->soundSourceNode = NULL;
   //
-  ((Arcadia_Engine_Demo_Scene*)self)->updateAudials = (void (*)(Arcadia_Thread*, Arcadia_Engine_Demo_Scene*, Arcadia_Real64Value, Arcadia_Integer32Value, Arcadia_Integer32Value)) & Arcadia_Engine_Demo_MainScene_updateAudials;
-  ((Arcadia_Engine_Demo_Scene*)self)->updateLogics = (void (*)(Arcadia_Thread*, Arcadia_Engine_Demo_Scene*, Arcadia_Real64Value)) & Arcadia_Engine_Demo_MainScene_updateLogics;
-  ((Arcadia_Engine_Demo_Scene*)self)->updateVisuals = (void (*)(Arcadia_Thread*, Arcadia_Engine_Demo_Scene*, Arcadia_Real64Value, Arcadia_Integer32Value, Arcadia_Integer32Value)) & Arcadia_Engine_Demo_MainScene_updateVisuals;
-  //
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 2 + 1);
+}
+
+static void
+Arcadia_Engine_Demo_MainScene_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Engine_Demo_MainSceneDispatch* self
+  )
+{
+  ((Arcadia_Engine_Demo_SceneDispatch*)self)->updateAudials = (void (*)(Arcadia_Thread*, Arcadia_Engine_Demo_Scene*, Arcadia_Real64Value, Arcadia_Integer32Value, Arcadia_Integer32Value)) & Arcadia_Engine_Demo_MainScene_updateAudials;
+  ((Arcadia_Engine_Demo_SceneDispatch*)self)->updateLogics = (void (*)(Arcadia_Thread*, Arcadia_Engine_Demo_Scene*, Arcadia_Real64Value)) & Arcadia_Engine_Demo_MainScene_updateLogics;
+  ((Arcadia_Engine_Demo_SceneDispatch*)self)->updateVisuals = (void (*)(Arcadia_Thread*, Arcadia_Engine_Demo_Scene*, Arcadia_Real64Value, Arcadia_Integer32Value, Arcadia_Integer32Value)) & Arcadia_Engine_Demo_MainScene_updateVisuals;
 }
 
 static void
@@ -115,7 +130,7 @@ Arcadia_Engine_Demo_MainScene_visit
     Arcadia_Thread* thread,
     Arcadia_Engine_Demo_MainScene* self
   )
-{ 
+{
   if (self->renderingContextNode) {
     Arcadia_Object_visit(thread, (Arcadia_Object*)self->renderingContextNode);
   }

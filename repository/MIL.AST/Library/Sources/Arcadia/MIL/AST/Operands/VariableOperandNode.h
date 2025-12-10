@@ -31,6 +31,10 @@
 Arcadia_declareObjectType(u8"Arcadia.MIL.AST.VariableOperandNode", Arcadia_MIL_AST_VariableOperandNode,
                           u8"Arcadia.MIL.AST.OperandNode");
 
+struct Arcadia_MIL_AST_VariableOperandNodeDispatch {
+  Arcadia_MIL_AST_OperandNodeDispatch parent;
+};
+
 struct Arcadia_MIL_AST_VariableOperandNode {
   Arcadia_MIL_AST_OperandNode parent;
   Arcadia_String* value;

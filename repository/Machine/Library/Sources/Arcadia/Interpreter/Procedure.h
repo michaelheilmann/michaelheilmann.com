@@ -21,6 +21,10 @@
 
 Arcadia_declareObjectType(u8"R.Interpreter.Procedure", R_Interpreter_Procedure, u8"Arcadia.Object");
 
+struct R_Interpreter_ProcedureDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct R_Interpreter_Procedure {
   Arcadia_Object _parent;
   /// The unqualified name of this procedure.

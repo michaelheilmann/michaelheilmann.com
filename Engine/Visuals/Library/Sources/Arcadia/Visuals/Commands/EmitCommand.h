@@ -26,6 +26,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Visuals.EmitCommand", Arcadia_Visuals_EmitCommand,
                           u8"Arcadia.Visuals.Command");
 
+struct Arcadia_Visuals_EmitCommandDispatch {
+  Arcadia_Visuals_CommandDispatch _parent;
+};
+
 struct Arcadia_Visuals_EmitCommand {
   Arcadia_Visuals_Command _parent;
   Arcadia_String* message;

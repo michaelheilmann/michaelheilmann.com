@@ -45,9 +45,13 @@ typedef struct Arcadia_ADL_Definitions Arcadia_ADL_Definitions;
 Arcadia_declareObjectType(u8"Arcadia.ADL.Reference", Arcadia_ADL_Reference,
                           u8"Arcadia.Object");
 
+struct Arcadia_ADL_ReferenceDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_ADL_Reference {
   Arcadia_Object _parent;
-  
+
   Arcadia_ADL_Definition* definition;
   Arcadia_String* definitionName;
   Arcadia_ADL_Definitions* definitions;

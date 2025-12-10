@@ -25,6 +25,13 @@ Arcadia_DDLS_SchemaSymbol_constructImpl
   );
 
 static void
+Arcadia_DDLS_SchemaSymbol_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDLS_SchemaSymbolDispatch* self
+  );
+
+static void
 Arcadia_DDLS_SchemaSymbol_visitImpl
   (
     Arcadia_Thread* thread,
@@ -71,6 +78,14 @@ Arcadia_DDLS_SchemaSymbol_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1 + 1);
 }
+
+static void
+Arcadia_DDLS_SchemaSymbol_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDLS_SchemaSymbolDispatch* self
+  )
+{ }
 
 static void
 Arcadia_DDLS_SchemaSymbol_visitImpl

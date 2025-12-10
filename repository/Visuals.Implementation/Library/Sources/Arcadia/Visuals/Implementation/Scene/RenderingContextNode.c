@@ -25,6 +25,13 @@ Arcadia_Visuals_Implementation_Scene_RenderingContextNode_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_Scene_RenderingContextNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_Scene_RenderingContextNodeDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_Scene_RenderingContextNode_destructImpl
   (
     Arcadia_Thread* thread,
@@ -95,12 +102,19 @@ Arcadia_Visuals_Implementation_Scene_RenderingContextNode_constructImpl
     Arcadia_Object_lock(thread, (Arcadia_Object*)self->backendContext);
   }
   self->renderingContextResource = NULL;
-
-  ((Arcadia_Visuals_Scene_Node*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_Scene_RenderingContextNode*)) & Arcadia_Visuals_Implementation_Scene_RenderingContextNode_renderImpl;
-  ((Arcadia_Visuals_Scene_Node*)self)->setBackendContext = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_Scene_RenderingContextNode_setBackendContextImpl;
-
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
+}
+
+static void
+Arcadia_Visuals_Implementation_Scene_RenderingContextNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_Scene_RenderingContextNodeDispatch* self
+  )
+{
+  ((Arcadia_Visuals_Scene_NodeDispatch*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_Scene_RenderingContextNode*)) & Arcadia_Visuals_Implementation_Scene_RenderingContextNode_renderImpl;
+  ((Arcadia_Visuals_Scene_NodeDispatch*)self)->setBackendContext = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_Scene_RenderingContextNode_setBackendContextImpl;
 }
 
 static void

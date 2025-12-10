@@ -30,7 +30,15 @@ typedef struct Arcadia_Visuals_Implementation_FrameBufferResource Arcadia_Visual
 // For example, "mesh" resources receive information specific to the current rendering via this object.
 // Note: There can be multiple "rendering context" resources used in a single frame for example, when you are rendering "meshes" using different cameras and/or to different viewports.
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.RenderingContextResource", Arcadia_Visuals_Implementation_RenderingContextResource,
-                          u8"Arcadia.Visuals.Implementation.Resource")
+                          u8"Arcadia.Visuals.Implementation.Resource");
+
+struct Arcadia_Visuals_Implementation_RenderingContextResourceDispatch {
+  Arcadia_Visuals_Implementation_ResourceDispatch _parent;
+
+  void (*setTargetFrameBuffer)(Arcadia_Thread*, Arcadia_Visuals_Implementation_RenderingContextResource*, Arcadia_Visuals_Implementation_FrameBufferResource*);
+  void (*setViewToProjectionMatrix)(Arcadia_Thread*, Arcadia_Visuals_Implementation_RenderingContextResource*, Arcadia_Math_Matrix4Real32*);
+  void (*setWorldToViewMatrix)(Arcadia_Thread*, Arcadia_Visuals_Implementation_RenderingContextResource*, Arcadia_Math_Matrix4Real32*);
+};
 
 struct Arcadia_Visuals_Implementation_RenderingContextResource {
   Arcadia_Visuals_Implementation_Resource _parent;
@@ -38,9 +46,6 @@ struct Arcadia_Visuals_Implementation_RenderingContextResource {
   Arcadia_Math_Matrix4Real32* worldToViewMatrix;
   Arcadia_Math_Matrix4Real32* viewToProjectionMatrix;
   Arcadia_Visuals_Implementation_ConstantBufferResource* viewerConstantBuffer;
-  void (*setTargetFrameBuffer)(Arcadia_Thread*, Arcadia_Visuals_Implementation_RenderingContextResource*, Arcadia_Visuals_Implementation_FrameBufferResource*);
-  void (*setViewToProjectionMatrix)(Arcadia_Thread*, Arcadia_Visuals_Implementation_RenderingContextResource*, Arcadia_Math_Matrix4Real32*);
-  void (*setWorldToViewMatrix)(Arcadia_Thread*, Arcadia_Visuals_Implementation_RenderingContextResource*, Arcadia_Math_Matrix4Real32*);
 };
 
 void

@@ -25,6 +25,13 @@ Arcadia_MIL_Scope_Entry_constructImpl
   );
 
 static void
+Arcadia_MIL_Scope_Entry_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_Scope_EntryDispatch* self
+  );
+
+static void
 Arcadia_MIL_Scope_Entry_destructImpl
   (
     Arcadia_Thread* thread,
@@ -82,6 +89,14 @@ Arcadia_MIL_Scope_Entry_constructImpl
 }
 
 static void
+Arcadia_MIL_Scope_Entry_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_Scope_EntryDispatch* self
+  )
+{ }
+
+static void
 Arcadia_MIL_Scope_Entry_destructImpl
   (
     Arcadia_Thread* thread,
@@ -118,13 +133,18 @@ Arcadia_MIL_Scope_Entry_create
   ARCADIA_CREATEOBJECT(Arcadia_MIL_Scope_Entry);
 }
 
-
-
 static void
 Arcadia_MIL_Scope_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_MIL_Scope* self
+  );
+
+static void
+Arcadia_MIL_Scope_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_ScopeDispatch* self
   );
 
 static void
@@ -188,6 +208,14 @@ Arcadia_MIL_Scope_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_MIL_Scope_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_ScopeDispatch* self
+  )
+{ }
 
 static void
 Arcadia_MIL_Scope_destructImpl

@@ -18,6 +18,7 @@ cmake_minimum_required(VERSION 4.1.3)
 add_subdirectory(Machine)
 add_subdirectory(MIL.AST)
 add_subdirectory(MIL.Frontend)
+add_subdirectory(MIL.Backend.MIL)
 
 add_subdirectory(Integrations)
 
@@ -33,6 +34,5 @@ add_subdirectory(Visuals.Implementation)
 add_subdirectory(Audials.Implementation)
 
 add_subdirectory(Tools.IconGenerator)
-add_subdirectory(Tools.BannerGenerator)
 add_subdirectory(Tools.BitmapFontGenerator)
 add_subdirectory(Tools.GenerateRyuLookupTables)

@@ -24,6 +24,10 @@ struct Keyword {
   Arcadia_Natural32Value type;
 };
 
+struct Arcadia_DataDefinitionLanguage_KeywordsDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_DataDefinitionLanguage_Keywords {
   Arcadia_Object _parent;
   Keyword** buckets;
@@ -36,6 +40,13 @@ Arcadia_DataDefinitionLanguage_Keywords_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_DataDefinitionLanguage_Keywords* self
+  );
+
+static void
+Arcadia_DataDefinitionLanguage_Keywords_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DataDefinitionLanguage_KeywordsDispatch* self
   );
 
 static void
@@ -127,6 +138,14 @@ Arcadia_DataDefinitionLanguage_Keywords_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_DataDefinitionLanguage_Keywords_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DataDefinitionLanguage_KeywordsDispatch* self
+  )
+{ }
 
 Arcadia_DataDefinitionLanguage_Keywords*
 Arcadia_DataDefinitionLanguage_Keywords_create

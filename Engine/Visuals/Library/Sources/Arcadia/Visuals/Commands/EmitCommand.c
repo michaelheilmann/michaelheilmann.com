@@ -23,6 +23,13 @@ Arcadia_Visuals_EmitCommand_constructImpl
   );
 
 static void
+Arcadia_Visuals_EmitCommand_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_EmitCommandDispatch* self
+  );
+
+static void
 Arcadia_Visuals_EmitCommand_visitImpl
   (
     Arcadia_Thread* thread,
@@ -65,6 +72,14 @@ Arcadia_Visuals_EmitCommand_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 2 + 1);
 }
+
+static void
+Arcadia_Visuals_EmitCommand_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_EmitCommandDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_EmitCommand_visitImpl

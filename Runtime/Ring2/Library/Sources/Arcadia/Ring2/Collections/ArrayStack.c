@@ -59,6 +59,13 @@ Arcadia_ArrayStack_constructImpl
   );
 
 static void
+Arcadia_ArrayStack_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ArrayStackDispatch* self
+  );
+
+static void
 Arcadia_ArrayStack_clearImpl
   (
     Arcadia_Thread* thread,
@@ -203,15 +210,24 @@ Arcadia_ArrayStack_constructImpl
   for (Arcadia_SizeValue i = 0, n = self->capacity; i < n; ++i) {
     Arcadia_Value_setVoidValue(self->elements + i, Arcadia_VoidValue_Void);
   }
-  ((Arcadia_Collection*)self)->clear = (void (*)(Arcadia_Thread*, Arcadia_Collection*)) & Arcadia_ArrayStack_clearImpl;
-  ((Arcadia_Collection*)self)->getSize = (Arcadia_SizeValue(*)(Arcadia_Thread*, Arcadia_Collection*)) & Arcadia_ArrayStack_getSizeImpl;
-  ((Arcadia_Collection*)self)->isImmutable = (Arcadia_BooleanValue(*)(Arcadia_Thread*, Arcadia_Collection*)) & Arcadia_ArrayStack_isImmutableImpl;
-  ((Arcadia_Stack*)self)->peek = (Arcadia_Value (*)(Arcadia_Thread*, Arcadia_Stack*)) & Arcadia_ArrayStack_peekImpl;
-  ((Arcadia_Stack*)self)->peekAt = (Arcadia_Value(*)(Arcadia_Thread*, Arcadia_Stack*, Arcadia_SizeValue)) & Arcadia_ArrayStack_peekAtImpl;
-  ((Arcadia_Stack*)self)->pop = (void (*)(Arcadia_Thread*, Arcadia_Stack*)) & Arcadia_ArrayStack_popImpl;
-  ((Arcadia_Stack*)self)->push = (void (*)(Arcadia_Thread*, Arcadia_Stack*,Arcadia_Value)) & Arcadia_ArrayStack_pushImpl;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1);
+}
+
+static void
+Arcadia_ArrayStack_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ArrayStackDispatch* self
+  )
+{
+  ((Arcadia_CollectionDispatch*)self)->clear = (void (*)(Arcadia_Thread*, Arcadia_Collection*)) & Arcadia_ArrayStack_clearImpl;
+  ((Arcadia_CollectionDispatch*)self)->getSize = (Arcadia_SizeValue(*)(Arcadia_Thread*, Arcadia_Collection*)) & Arcadia_ArrayStack_getSizeImpl;
+  ((Arcadia_CollectionDispatch*)self)->isImmutable = (Arcadia_BooleanValue(*)(Arcadia_Thread*, Arcadia_Collection*)) & Arcadia_ArrayStack_isImmutableImpl;
+  ((Arcadia_StackDispatch*)self)->peek = (Arcadia_Value(*)(Arcadia_Thread*, Arcadia_Stack*)) & Arcadia_ArrayStack_peekImpl;
+  ((Arcadia_StackDispatch*)self)->peekAt = (Arcadia_Value(*)(Arcadia_Thread*, Arcadia_Stack*, Arcadia_SizeValue)) & Arcadia_ArrayStack_peekAtImpl;
+  ((Arcadia_StackDispatch*)self)->pop = (void (*)(Arcadia_Thread*, Arcadia_Stack*)) & Arcadia_ArrayStack_popImpl;
+  ((Arcadia_StackDispatch*)self)->push = (void (*)(Arcadia_Thread*, Arcadia_Stack*, Arcadia_Value)) & Arcadia_ArrayStack_pushImpl;
 }
 
 static void

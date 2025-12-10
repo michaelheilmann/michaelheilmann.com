@@ -41,6 +41,10 @@
 Arcadia_declareObjectType(u8"Arcadia.FilePath", Arcadia_FilePath,
                           u8"Arcadia.Object");
 
+struct Arcadia_FilePathDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_FilePath {
   Arcadia_Object _parent;
   Arcadia_List* fileNames;

@@ -26,7 +26,11 @@ typedef struct Arcadia_Visuals_Implementation_TextureResource Arcadia_Visuals_Im
 
 // The implementation of a texture.
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.Texture", Arcadia_Visuals_Implementation_Texture,
-                          u8"Arcadia.Visuals.Texture")
+                          u8"Arcadia.Visuals.Texture");
+
+struct Arcadia_Visuals_Implementation_TextureDispatch {
+  Arcadia_Visuals_TextureDispatch parent;
+};
 
 struct Arcadia_Visuals_Implementation_Texture {
   Arcadia_Visuals_Texture parent;

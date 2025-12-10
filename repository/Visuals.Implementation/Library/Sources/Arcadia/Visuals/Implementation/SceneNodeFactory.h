@@ -21,6 +21,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.SceneNodeFactory", Arcadia_Visuals_Implementation_SceneNodeFactory,
                           Arcadia_Visuals_SceneNodeFactory);
 
+struct Arcadia_Visuals_Implementation_SceneNodeFactoryDispatch {
+  Arcadia_Visuals_SceneNodeFactoryDispatch parent;
+};
+
 struct Arcadia_Visuals_Implementation_SceneNodeFactory {
   Arcadia_Visuals_SceneNodeFactory parent;
 };

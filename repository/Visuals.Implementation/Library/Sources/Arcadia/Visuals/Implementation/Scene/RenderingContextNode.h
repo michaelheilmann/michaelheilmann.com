@@ -30,6 +30,10 @@ typedef struct Arcadia_Visuals_Implementation_RenderingContextResource Arcadia_V
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.Scene.RenderingContextNode", Arcadia_Visuals_Implementation_Scene_RenderingContextNode,
                           u8"Arcadia.Visuals.Scene.RenderingContextNode");
 
+struct Arcadia_Visuals_Implementation_Scene_RenderingContextNodeDispatch {
+  Arcadia_Visuals_Scene_RenderingContextNodeDispatch parent;
+};
+
 struct Arcadia_Visuals_Implementation_Scene_RenderingContextNode {
   Arcadia_Visuals_Scene_RenderingContextNode parent;
 

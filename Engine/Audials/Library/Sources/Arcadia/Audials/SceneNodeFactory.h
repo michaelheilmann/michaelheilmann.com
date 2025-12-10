@@ -28,8 +28,8 @@
 Arcadia_declareObjectType(u8"Arcadia.Audials.SceneNodeFactory", Arcadia_Audials_SceneNodeFactory,
                           Arcadia_Engine_SceneNodeFactory);
 
-struct Arcadia_Audials_SceneNodeFactory {
-  Arcadia_Engine_SceneNodeFactory parent;
+struct Arcadia_Audials_SceneNodeFactoryDispatch {
+  Arcadia_Engine_SceneNodeFactoryDispatch parent;
 
   Arcadia_Audials_Scene_SoundSourceNode*
   (*createSoundSourceNode)
@@ -38,7 +38,10 @@ struct Arcadia_Audials_SceneNodeFactory {
       Arcadia_Audials_SceneNodeFactory* self,
       Arcadia_Audials_BackendContext* backendContext
     );
+};
 
+struct Arcadia_Audials_SceneNodeFactory {
+  Arcadia_Engine_SceneNodeFactory parent;
 };
 
 Arcadia_Audials_Scene_SoundSourceNode*

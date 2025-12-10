@@ -31,12 +31,19 @@ Arcadia_ADL_Context_constructImpl
   );
 
 static void
+Arcadia_ADL_Context_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_ContextDispatch* self
+  );
+
+static void
 Arcadia_ADL_Context_visitImpl
   (
     Arcadia_Thread* thread,
     Arcadia_ADL_Context* self
   );
-  
+
 static Arcadia_ADL_Context*
 Arcadia_ADL_Context_create
   (
@@ -124,6 +131,14 @@ Arcadia_ADL_Context_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_ADL_Context_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_ContextDispatch* self
+  )
+{ }
 
 static void
 Arcadia_ADL_Context_visitImpl

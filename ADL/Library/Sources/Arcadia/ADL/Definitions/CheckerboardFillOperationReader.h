@@ -25,6 +25,10 @@
 Arcadia_declareObjectType(u8"Arcadia.ADL.PixelBufferOperations.CheckerboardFillOperationReader", Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationReader,
                           u8"Arcadia.ADL.Reader");
 
+struct Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationReaderDispatch {
+  Arcadia_ADL_ReaderDispatch _parent;
+};
+
 struct Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationReader {
   Arcadia_ADL_Reader _parent;
 

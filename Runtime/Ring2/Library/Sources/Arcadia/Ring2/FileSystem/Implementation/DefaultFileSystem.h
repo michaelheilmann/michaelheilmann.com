@@ -37,6 +37,11 @@
 Arcadia_declareObjectType(u8"Arcadia.DefaultFileSystem", Arcadia_DefaultFileSystem,
                           u8"Arcadia.FileSystem");
 
+
+struct Arcadia_DefaultFileSystemDispatch {
+  Arcadia_FileSystemDispatch _parent;
+};
+
 struct Arcadia_DefaultFileSystem {
   Arcadia_FileSystem _parent;
 

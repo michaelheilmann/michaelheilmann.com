@@ -25,6 +25,13 @@ constructImpl
   );
 
 static void
+R_Interpreter_Code_Constants_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    R_Interpreter_Code_ConstantsDispatch* self
+  );
+
+static void
 destructImpl
   (
     Arcadia_Thread* thread,
@@ -85,6 +92,14 @@ constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+R_Interpreter_Code_Constants_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    R_Interpreter_Code_ConstantsDispatch* self
+  )
+{ }
 
 static void
 destructImpl

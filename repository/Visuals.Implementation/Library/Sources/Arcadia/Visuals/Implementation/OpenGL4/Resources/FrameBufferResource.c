@@ -27,6 +27,13 @@ Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResourceDispatch* self 
+  );
+
+static void
 Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_destructImpl
   (
     Arcadia_Thread* thread,
@@ -144,18 +151,27 @@ Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_constructImpl
   self->height = 240;
   self->frameBufferID = 0;
 
-  ((Arcadia_Visuals_Implementation_Resource*)self)->load = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_loadImpl;
-  ((Arcadia_Visuals_Implementation_Resource*)self)->unload = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_unloadImpl;
-  ((Arcadia_Visuals_Implementation_Resource*)self)->unlink = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_unlinkImpl;
-  ((Arcadia_Visuals_Implementation_Resource*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*, Arcadia_Visuals_Implementation_RenderingContextResource*)) & Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_renderImpl;
-
-  ((Arcadia_Visuals_Implementation_FrameBufferResource*)self)->activate = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_FrameBufferResource*)) & Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_activateImpl;
-  ((Arcadia_Visuals_Implementation_FrameBufferResource*)self)->deactivate = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_FrameBufferResource*)) & Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_deactivateImpl;
-  ((Arcadia_Visuals_Implementation_FrameBufferResource*)self)->setSize = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_FrameBufferResource*,Arcadia_Integer32Value,Arcadia_Integer32Value)) & Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_setSizeImpl;
-  ((Arcadia_Visuals_Implementation_FrameBufferResource*)self)->getSize = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_FrameBufferResource*, Arcadia_Integer32Value*, Arcadia_Integer32Value*))& Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_setSizeImpl;
-
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
+}
+
+static void
+Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResourceDispatch* self
+  )
+{
+  ((Arcadia_Visuals_Implementation_FrameBufferResourceDispatch*)self)->activate = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_FrameBufferResource*)) & Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_activateImpl;
+  ((Arcadia_Visuals_Implementation_FrameBufferResourceDispatch*)self)->deactivate = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_FrameBufferResource*)) & Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_deactivateImpl;
+  ((Arcadia_Visuals_Implementation_FrameBufferResourceDispatch*)self)->setSize = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_FrameBufferResource*, Arcadia_Integer32Value, Arcadia_Integer32Value)) & Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_setSizeImpl;
+  ((Arcadia_Visuals_Implementation_FrameBufferResourceDispatch*)self)->getSize = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_FrameBufferResource*, Arcadia_Integer32Value*, Arcadia_Integer32Value*)) & Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_setSizeImpl;
+
+
+  ((Arcadia_Visuals_Implementation_ResourceDispatch*)self)->load = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_loadImpl;
+  ((Arcadia_Visuals_Implementation_ResourceDispatch*)self)->unload = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_unloadImpl;
+  ((Arcadia_Visuals_Implementation_ResourceDispatch*)self)->unlink = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_unlinkImpl;
+  ((Arcadia_Visuals_Implementation_ResourceDispatch*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*, Arcadia_Visuals_Implementation_RenderingContextResource*)) & Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_renderImpl;
 }
 
 static void
@@ -246,7 +262,7 @@ Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_activateImpl
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource* self
   )
-{ 
+{
   Arcadia_Visuals_Implementation_OpenGL4_BackendContext* context = (Arcadia_Visuals_Implementation_OpenGL4_BackendContext*)((Arcadia_Visuals_Implementation_Resource*)self)->context;
   _Arcadia_Visuals_Implementation_OpenGL4_Functions* gl = Arcadia_Visuals_Implementation_OpenGL4_BackendContext_getFunctions(thread, context);
   Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_loadImpl(thread, self);
@@ -263,7 +279,7 @@ Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_deactivateImpl
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource* self
   )
-{ 
+{
   Arcadia_Visuals_Implementation_OpenGL4_BackendContext* context = (Arcadia_Visuals_Implementation_OpenGL4_BackendContext*)((Arcadia_Visuals_Implementation_Resource*)self)->context;
   _Arcadia_Visuals_Implementation_OpenGL4_Functions* gl = Arcadia_Visuals_Implementation_OpenGL4_BackendContext_getFunctions(thread, context);
   if (self->frameBufferID) {
@@ -310,5 +326,5 @@ Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_create
   Arcadia_SizeValue oldValueStackSize = Arcadia_ValueStack_getSize(thread);
   if (backendContext) Arcadia_ValueStack_pushObjectReferenceValue(thread, backendContext); else Arcadia_ValueStack_pushVoidValue(thread, Arcadia_VoidValue_Void);
   Arcadia_ValueStack_pushNatural8Value(thread, 1);
-  ARCADIA_CREATEOBJECT(Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource);  
+  ARCADIA_CREATEOBJECT(Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource);
 }

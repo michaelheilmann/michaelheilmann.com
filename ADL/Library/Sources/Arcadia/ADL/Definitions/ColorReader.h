@@ -25,6 +25,10 @@
 Arcadia_declareObjectType(u8"Arcadia.ADL.ColorReader", Arcadia_ADL_ColorReader,
                           u8"Arcadia.ADL.Reader");
 
+struct Arcadia_ADL_ColorReaderDispatch {
+  Arcadia_ADL_ReaderDispatch _parent;
+};
+
 struct Arcadia_ADL_ColorReader {
   Arcadia_ADL_Reader _parent;
 

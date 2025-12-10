@@ -28,6 +28,10 @@ typedef struct Arcadia_MIL_DefinitionAst Arcadia_MIL_DefinitionAst;
 Arcadia_declareObjectType(u8"Arcadia.MIL.ModuleAst", Arcadia_MIL_AST_ModuleNode,
                           u8"Arcadia.MIL.AST.Node");
 
+struct Arcadia_MIL_AST_ModuleNodeDispatch {
+  Arcadia_MIL_AST_NodeDispatch _parent;
+};
+
 struct Arcadia_MIL_AST_ModuleNode {
   Arcadia_MIL_AST_Node _parent;
   /// The file path of the module or null.

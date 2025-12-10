@@ -25,6 +25,10 @@
 Arcadia_declareObjectType(u8"Arcadia.DDLS.SchemaReferenceNode", Arcadia_DDLS_SchemaReferenceNode,
                           u8"Arcadia.DDLS.Node");
 
+struct Arcadia_DDLS_SchemaReferenceNodeDispatch {
+  Arcadia_DDLS_NodeDispatch _parent;
+};
+
 struct Arcadia_DDLS_SchemaReferenceNode {
   Arcadia_DDLS_Node _parent;
   Arcadia_String* name;

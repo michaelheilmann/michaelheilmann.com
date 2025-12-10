@@ -23,6 +23,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Imaging.Operations.Fill", Arcadia_Imaging_Operations_Fill,
                           u8"Arcadia.Imaging.Operation");
 
+struct Arcadia_Imaging_Operations_FillDispatch {
+  Arcadia_Imaging_OperationDispatch parent;
+};
+
 struct Arcadia_Imaging_Operations_Fill {
   Arcadia_Imaging_Operation parent;
   Arcadia_ADL_PixelBufferOperations_FillOperationDefinition* definition;

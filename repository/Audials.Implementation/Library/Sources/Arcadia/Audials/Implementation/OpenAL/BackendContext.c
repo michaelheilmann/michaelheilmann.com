@@ -61,6 +61,13 @@ Arcadia_Audials_Implementation_OpenAL_BackendContext_constructImpl
   );
 
 static void
+Arcadia_Audials_Implementation_OpenAL_BackendContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Audials_Implementation_OpenAL_BackendContextDispatch* self
+  );
+
+static void
 Arcadia_Audials_Implementation_OpenAL_BackendContext_destructImpl
   (
     Arcadia_Thread* thread,
@@ -189,12 +196,19 @@ Arcadia_Audials_Implementation_OpenAL_BackendContext_constructImpl
     Arcadia_Thread_jump(thread);
   }
   //
-  ((Arcadia_Audials_BackendContext*)self)->update = (void(*)(Arcadia_Thread*, Arcadia_Audials_BackendContext*)) & Arcadia_Audials_Implementation_OpenAL_BackendContext_updateImpl;
-  //
-  ((Arcadia_Audials_Implementation_BackendContext*)self)->createSoundSourceResource = (Arcadia_Audials_Implementation_SoundSourceResource*(*)(Arcadia_Thread*, Arcadia_Audials_Implementation_BackendContext*)) & Arcadia_Audials_Implementation_OpenAL_BackendContext_createSoundSourceResouceImpl;
-  //
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
+}
+
+void
+Arcadia_Audials_Implementation_OpenAL_BackendContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Audials_Implementation_OpenAL_BackendContextDispatch* self
+  )
+{
+  ((Arcadia_Audials_Implementation_BackendContextDispatch*)self)->createSoundSourceResource = (Arcadia_Audials_Implementation_SoundSourceResource * (*)(Arcadia_Thread*, Arcadia_Audials_Implementation_BackendContext*)) & Arcadia_Audials_Implementation_OpenAL_BackendContext_createSoundSourceResouceImpl;
+  ((Arcadia_Audials_BackendContextDispatch*)self)->update = (void(*)(Arcadia_Thread*, Arcadia_Audials_BackendContext*)) & Arcadia_Audials_Implementation_OpenAL_BackendContext_updateImpl;
 }
 
 static void

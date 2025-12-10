@@ -24,6 +24,10 @@
 Arcadia_declareObjectType(u8"Arcadia.DDL.VoidNode", Arcadia_DDL_VoidNode,
                           u8"Arcadia.DDL.Node");
 
+struct Arcadia_DDL_VoidNodeDispatch {
+  Arcadia_DDL_NodeDispatch _parent;
+};
+
 struct Arcadia_DDL_VoidNode {
   Arcadia_DDL_Node parent;
   Arcadia_String* value;

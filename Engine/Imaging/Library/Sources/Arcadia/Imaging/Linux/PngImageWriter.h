@@ -22,6 +22,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Imaging.Linux.PngImageWriter", Arcadia_Imaging_Linux_PngImageWriter,
                           u8"Arcadia.Imaging.ImageWriter");
 
+struct Arcadia_Imaging_Linux_PngImageWriterDispatch {
+  Arcadia_Imaging_ImageWriterDispatch _parent;
+};
+
 struct Arcadia_Imaging_Linux_PngImageWriter {
   Arcadia_Imaging_ImageWriter _parent;
   Arcadia_ImmutableList* supportedTypes;

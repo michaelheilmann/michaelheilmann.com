@@ -34,6 +34,10 @@ Arcadia_declareObjectType(u8"R.Interpreter.Code.Constants", R_Interpreter_Code_C
 
 typedef struct Constant Constant;
 
+struct R_Interpreter_Code_ConstantsDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct R_Interpreter_Code_Constants {
   Arcadia_Object _parent;
   /** @brief A pointer to an array of cp constants. The first sz Arcadia_Value object contain the values of constants, the remaining cp - sz Arcadia_Value objects contain void values. */

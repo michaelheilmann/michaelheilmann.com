@@ -10,6 +10,13 @@ Arcadia_Engine_Demo_Application_construct
   );
 
 static void
+Arcadia_Engine_Demo_Application_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Engine_Demo_ApplicationDispatch* self
+  );
+
+static void
 Arcadia_Engine_Demo_Application_visit
   (
     Arcadia_Thread* thread,
@@ -58,6 +65,14 @@ Arcadia_Engine_Demo_Application_construct
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_Engine_Demo_Application_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Engine_Demo_ApplicationDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Engine_Demo_Application_visit

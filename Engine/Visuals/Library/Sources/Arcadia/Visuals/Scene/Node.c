@@ -27,6 +27,13 @@ Arcadia_Visuals_Scene_Node_constructImpl
   );
 
 static void
+Arcadia_Visuals_Scene_Node_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Scene_NodeDispatch* self  
+  );
+
+static void
 Arcadia_Visuals_Scene_Node_destructImpl
   (
     Arcadia_Thread* thread,
@@ -77,12 +84,17 @@ Arcadia_Visuals_Scene_Node_constructImpl
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
   }
-
-  self->setBackendContext = NULL;
-  self->render = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+Arcadia_Visuals_Scene_Node_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Scene_NodeDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Scene_Node_destructImpl
@@ -107,7 +119,7 @@ Arcadia_Visuals_Scene_Node_setBackendContext
     Arcadia_Visuals_Scene_Node* self,
     Arcadia_Visuals_BackendContext* backendContext
   )
-{ self->setBackendContext(thread, self, backendContext); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Scene_Node, setBackendContext, self, backendContext); }
 
 void
 Arcadia_Visuals_Scene_Node_render
@@ -116,4 +128,4 @@ Arcadia_Visuals_Scene_Node_render
     Arcadia_Visuals_Scene_Node* self,
     Arcadia_Visuals_Scene_RenderingContextNode* renderingContextNode
   )
-{ self->render(thread, self, renderingContextNode); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Scene_Node, render, self, renderingContextNode); }

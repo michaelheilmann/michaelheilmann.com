@@ -21,6 +21,10 @@
 
 Arcadia_declareObjectType(u8"Arcadia.Imaging.Linux.BmpImageWriter", Arcadia_Imaging_Linux_BmpImageWriter, u8"Arcadia.Imaging.ImageWriter");
 
+struct Arcadia_Imaging_Linux_BmpImageWriterDispatch {
+  Arcadia_Imaging_ImageWriterDispatch _parent;
+};
+
 struct Arcadia_Imaging_Linux_BmpImageWriter {
   Arcadia_Imaging_ImageWriter _parent;
   Arcadia_ImmutableList* supportedTypes;

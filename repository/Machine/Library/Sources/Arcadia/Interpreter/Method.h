@@ -21,6 +21,10 @@
 
 Arcadia_declareObjectType(u8"R.Interpreter.Method", R_Interpreter_Method, u8"Arcadia.Object");
 
+struct R_Interpreter_MethodDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct R_Interpreter_Method {
   Arcadia_Object _parent;
   /// If the method is ready.

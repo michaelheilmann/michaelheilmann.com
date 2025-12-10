@@ -23,6 +23,13 @@ Arcadia_DirectoryIterator_constructImpl
     Arcadia_DirectoryIterator* self
   );
 
+static void
+Arcadia_DirectoryIterator_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DirectoryIteratorDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_DirectoryIterator_constructImpl,
@@ -53,12 +60,17 @@ Arcadia_DirectoryIterator_constructImpl
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
   }
-  self->getValue = NULL;
-  self->hasValue = NULL;
-  self->nextValue = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1);
 }
+
+static void
+Arcadia_DirectoryIterator_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DirectoryIteratorDispatch* self
+  )
+{ }
 
 Arcadia_BooleanValue
 Arcadia_DirectoryIterator_hasValue
@@ -66,7 +78,7 @@ Arcadia_DirectoryIterator_hasValue
     Arcadia_Thread* thread,
     Arcadia_DirectoryIterator* self
   )
-{ return self->hasValue(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_DirectoryIterator, hasValue, self); }
 
 Arcadia_FilePath*
 Arcadia_DirectoryIterator_getValue
@@ -74,7 +86,7 @@ Arcadia_DirectoryIterator_getValue
     Arcadia_Thread* thread,
     Arcadia_DirectoryIterator* self
   )
-{ return self->getValue(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_DirectoryIterator, getValue, self); }
 
 void
 Arcadia_DirectoryIterator_nextValue
@@ -82,4 +94,4 @@ Arcadia_DirectoryIterator_nextValue
     Arcadia_Thread* thread,
     Arcadia_DirectoryIterator* self
   )
-{ self->nextValue(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_DirectoryIterator, nextValue, self); }

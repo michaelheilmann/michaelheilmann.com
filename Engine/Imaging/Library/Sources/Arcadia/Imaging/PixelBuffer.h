@@ -32,6 +32,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Imaging.PixelBuffer", Arcadia_Imaging_PixelBuffer,
                           u8"Arcadia.Object");
 
+struct Arcadia_Imaging_PixelBufferDispatch {
+  Arcadia_ObjectDispatch parent;
+};
+
 struct Arcadia_Imaging_PixelBuffer {
   Arcadia_Object _parent;
   /// A pointer to the Bytes of this pixel buffer.
@@ -182,7 +186,7 @@ Arcadia_Imaging_PixelBuffer_setPixelRgba
 /// @error Arcadia_Status_ArgumentValueInvalid <code>left + width</code> and/or <code>top + height</code> would overflow.
 /// @error Arcadia_Status_OperationInvalid The pixel buffer is not of the format ABGR, ARGB, BGR, BGRA, RGB, or RGBA.
 /// @remarks
-/// 
+///
 /// @post
 /// On success:
 /// <code>r</code> is assigned to the red component of the pixel.

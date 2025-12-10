@@ -74,6 +74,13 @@ Arcadia_DefaultFileSystem_constructImpl
   );
 
 static void
+Arcadia_DefaultFileSystem_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DefaultFileSystemDispatch* self
+  );
+
+static void
 Arcadia_DefaultFileSystem_visit
   (
     Arcadia_Thread* thread,
@@ -284,31 +291,39 @@ Arcadia_DefaultFileSystem_constructImpl
 
 #endif
 
-  ((Arcadia_FileSystem*)self)->createDirectoryFile = (void (*)(Arcadia_Thread*,Arcadia_FileSystem*,Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_createDirectoryFileImpl;
-  ((Arcadia_FileSystem*)self)->createFileHandle = (Arcadia_FileHandle *(*)(Arcadia_Thread*, Arcadia_FileSystem*)) & Arcadia_DefaultFileSystem_createFileHandleImpl;
-  ((Arcadia_FileSystem*)self)->createDirectoryIterator = (Arcadia_DirectoryIterator* (*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_createDirectoryIteratorImpl;
-  ((Arcadia_FileSystem*)self)->createRegularFile = (void (*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_createRegularFileImpl;
-
-  ((Arcadia_FileSystem*)self)->deleteDirectoryFile = (void (*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_deleteDirectoryFileImpl;
-  ((Arcadia_FileSystem*)self)->deleteFile = (void (*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_deleteFileImpl;
-  ((Arcadia_FileSystem*)self)->deleteRegularFile = (void (*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_deleteRegularFileImpl;
-
-  ((Arcadia_FileSystem*)self)->directoryFileExists = (Arcadia_BooleanValue (*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_directoryFileExistsImpl;
-
-  ((Arcadia_FileSystem*)self)->getConfigurationDirectory = (Arcadia_FilePath* (*)(Arcadia_Thread*, Arcadia_FileSystem*)) & Arcadia_DefaultFileSystem_getConfigurationDirectoryImpl;
-  ((Arcadia_FileSystem*)self)->getExecutable = (Arcadia_FilePath * (*)(Arcadia_Thread*, Arcadia_FileSystem*)) & Arcadia_DefaultFileSystem_getExecutableImpl;
-  ((Arcadia_FileSystem*)self)->getFileContents = (Arcadia_ByteBuffer * (*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_getFileContentsImpl;
-  ((Arcadia_FileSystem*)self)->getFileType = (Arcadia_FileType (*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_getFileTypeImpl;
-  ((Arcadia_FileSystem*)self)->getLastWriteTime = (Arcadia_Natural64Value(*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_getLastWriteTimeImpl;
-  ((Arcadia_FileSystem*)self)->getSaveDirectory = (Arcadia_FilePath* (*)(Arcadia_Thread*, Arcadia_FileSystem*)) & Arcadia_DefaultFileSystem_getSaveFolderImpl;
-  ((Arcadia_FileSystem*)self)->getWorkingDirectory = (Arcadia_FilePath * (*)(Arcadia_Thread*, Arcadia_FileSystem*)) & Arcadia_DefaultFileSystem_getWorkingDirectoryImpl;
-
-  ((Arcadia_FileSystem*)self)->regularFileExists = (Arcadia_BooleanValue(*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_regularFileExistsImpl;
-
-  ((Arcadia_FileSystem*)self)->setFileContents = (void (*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*, Arcadia_ByteBuffer*)) & Arcadia_DefaultFileSystem_setFileContentsImpl;
-
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1);
+}
+
+static void
+Arcadia_DefaultFileSystem_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DefaultFileSystemDispatch* self
+  )
+{
+  ((Arcadia_FileSystemDispatch*)self)->createDirectoryFile = (void (*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_createDirectoryFileImpl;
+  ((Arcadia_FileSystemDispatch*)self)->createFileHandle = (Arcadia_FileHandle * (*)(Arcadia_Thread*, Arcadia_FileSystem*)) & Arcadia_DefaultFileSystem_createFileHandleImpl;
+  ((Arcadia_FileSystemDispatch*)self)->createDirectoryIterator = (Arcadia_DirectoryIterator * (*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_createDirectoryIteratorImpl;
+  ((Arcadia_FileSystemDispatch*)self)->createRegularFile = (void (*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_createRegularFileImpl;
+
+  ((Arcadia_FileSystemDispatch*)self)->deleteDirectoryFile = (void (*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_deleteDirectoryFileImpl;
+  ((Arcadia_FileSystemDispatch*)self)->deleteFile = (void (*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_deleteFileImpl;
+  ((Arcadia_FileSystemDispatch*)self)->deleteRegularFile = (void (*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_deleteRegularFileImpl;
+
+  ((Arcadia_FileSystemDispatch*)self)->directoryFileExists = (Arcadia_BooleanValue(*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_directoryFileExistsImpl;
+
+  ((Arcadia_FileSystemDispatch*)self)->getConfigurationDirectory = (Arcadia_FilePath * (*)(Arcadia_Thread*, Arcadia_FileSystem*)) & Arcadia_DefaultFileSystem_getConfigurationDirectoryImpl;
+  ((Arcadia_FileSystemDispatch*)self)->getExecutable = (Arcadia_FilePath * (*)(Arcadia_Thread*, Arcadia_FileSystem*)) & Arcadia_DefaultFileSystem_getExecutableImpl;
+  ((Arcadia_FileSystemDispatch*)self)->getFileContents = (Arcadia_ByteBuffer * (*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_getFileContentsImpl;
+  ((Arcadia_FileSystemDispatch*)self)->getFileType = (Arcadia_FileType(*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_getFileTypeImpl;
+  ((Arcadia_FileSystemDispatch*)self)->getLastWriteTime = (Arcadia_Natural64Value(*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_getLastWriteTimeImpl;
+  ((Arcadia_FileSystemDispatch*)self)->getSaveDirectory = (Arcadia_FilePath * (*)(Arcadia_Thread*, Arcadia_FileSystem*)) & Arcadia_DefaultFileSystem_getSaveFolderImpl;
+  ((Arcadia_FileSystemDispatch*)self)->getWorkingDirectory = (Arcadia_FilePath * (*)(Arcadia_Thread*, Arcadia_FileSystem*)) & Arcadia_DefaultFileSystem_getWorkingDirectoryImpl;
+
+  ((Arcadia_FileSystemDispatch*)self)->regularFileExists = (Arcadia_BooleanValue(*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*)) & Arcadia_DefaultFileSystem_regularFileExistsImpl;
+
+  ((Arcadia_FileSystemDispatch*)self)->setFileContents = (void (*)(Arcadia_Thread*, Arcadia_FileSystem*, Arcadia_FilePath*, Arcadia_ByteBuffer*)) & Arcadia_DefaultFileSystem_setFileContentsImpl;
 }
 
 static void

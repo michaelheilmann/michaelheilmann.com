@@ -23,6 +23,13 @@ Arcadia_Visuals_Implementation_TextureResource_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_TextureResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_TextureResourceDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_TextureResource_destructImpl
   (
     Arcadia_Thread* thread,
@@ -72,30 +79,17 @@ Arcadia_Visuals_Implementation_TextureResource_constructImpl
     Arcadia_ValueStack_pushNatural8Value(thread, 1);
     Arcadia_superTypeConstructor(thread, _type, self);
   }
-
-  self->getAddressModeU = NULL;
-  self->getAddressModeV = NULL;
-
-  self->getHeight = NULL;
-
-  self->getMagnificationFilter = NULL;
-  self->getMinificationFilter = NULL;
-
-  self->getWidth = NULL;
-
-  self->setAddressModeU = NULL;
-  self->setAddressModeV = NULL;
-
-  self->setHeight = NULL;
-  
-  self->setMagnificationFilter = NULL;
-  self->setMinificationFilter = NULL;
-
-  self->setWidth = NULL;  
-
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+Arcadia_Visuals_Implementation_TextureResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_TextureResourceDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Implementation_TextureResource_destructImpl
@@ -119,7 +113,7 @@ Arcadia_Visuals_Implementation_TextureResource_getAddressModeU
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_TextureResource* self
   )
-{ return self->getAddressModeU(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Implementation_TextureResource, getAddressModeU, self); }
 
 Arcadia_Visuals_TextureAddressMode
 Arcadia_Visuals_Implementation_TextureResource_getAddressModeV
@@ -127,7 +121,7 @@ Arcadia_Visuals_Implementation_TextureResource_getAddressModeV
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_TextureResource* self
   )
-{ return self->getAddressModeV(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Implementation_TextureResource, getAddressModeV, self); }
 
 Arcadia_Integer32Value
 Arcadia_Visuals_Implementation_TextureResource_getHeight
@@ -135,7 +129,7 @@ Arcadia_Visuals_Implementation_TextureResource_getHeight
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_TextureResource* self
   )
-{ return self->getHeight(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Implementation_TextureResource, getHeight, self); }
 
 Arcadia_Visuals_TextureFilter
 Arcadia_Visuals_Implementation_TextureResource_getMagnificationFilter
@@ -143,7 +137,7 @@ Arcadia_Visuals_Implementation_TextureResource_getMagnificationFilter
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_TextureResource* self
   )
-{ return self->getMagnificationFilter(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Implementation_TextureResource, getMagnificationFilter, self); }
 
 Arcadia_Visuals_TextureFilter
 Arcadia_Visuals_Implementation_TextureResource_getMinificationFilter
@@ -151,7 +145,7 @@ Arcadia_Visuals_Implementation_TextureResource_getMinificationFilter
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_TextureResource* self
   )
-{ return self->getMinificationFilter(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Implementation_TextureResource, getMinificationFilter, self); }
 
 Arcadia_Integer32Value
 Arcadia_Visuals_Implementation_TextureResource_getWidth
@@ -159,7 +153,7 @@ Arcadia_Visuals_Implementation_TextureResource_getWidth
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_TextureResource* self
   )
-{ return self->getWidth(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Implementation_TextureResource, getWidth, self); }
 
 void
 Arcadia_Visuals_Implementation_TextureResource_setAddressModeU
@@ -168,7 +162,7 @@ Arcadia_Visuals_Implementation_TextureResource_setAddressModeU
     Arcadia_Visuals_Implementation_TextureResource* self,
     Arcadia_Visuals_TextureAddressMode addressMode
   )
-{ self->setAddressModeU(thread, self, addressMode); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_TextureResource, setAddressModeU, self, addressMode); }
 
 void
 Arcadia_Visuals_Implementation_TextureResource_setAddressModeV
@@ -177,7 +171,7 @@ Arcadia_Visuals_Implementation_TextureResource_setAddressModeV
     Arcadia_Visuals_Implementation_TextureResource* self,
     Arcadia_Visuals_TextureAddressMode addressMode
   )
-{ self->setAddressModeU(thread, self, addressMode); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_TextureResource, setAddressModeU, self, addressMode); }
 
 void
 Arcadia_Visuals_Implementation_TextureResource_setHeight
@@ -186,7 +180,7 @@ Arcadia_Visuals_Implementation_TextureResource_setHeight
     Arcadia_Visuals_Implementation_TextureResource* self,
     Arcadia_Integer32Value height
   )
-{ self->setHeight(thread, self, height); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_TextureResource, setHeight, self, height); }
 
 void
 Arcadia_Visuals_Implementation_TextureResource_setMagnificationFilter
@@ -195,7 +189,7 @@ Arcadia_Visuals_Implementation_TextureResource_setMagnificationFilter
     Arcadia_Visuals_Implementation_TextureResource* self,
     Arcadia_Visuals_TextureFilter magnificationFilter
   )
-{ self->setMagnificationFilter(thread, self, magnificationFilter); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_TextureResource, setMagnificationFilter, self, magnificationFilter); }
 
 void
 Arcadia_Visuals_Implementation_TextureResource_setMinificationFilter
@@ -204,7 +198,7 @@ Arcadia_Visuals_Implementation_TextureResource_setMinificationFilter
     Arcadia_Visuals_Implementation_TextureResource* self,
     Arcadia_Visuals_TextureFilter minificationFilter
   )
-{ self->setMinificationFilter(thread, self, minificationFilter); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_TextureResource, setMinificationFilter, self, minificationFilter); }
 
 void
 Arcadia_Visuals_Implementation_TextureResource_setWidth
@@ -213,4 +207,4 @@ Arcadia_Visuals_Implementation_TextureResource_setWidth
     Arcadia_Visuals_Implementation_TextureResource* self,
     Arcadia_Integer32Value width
   )
-{ self->setWidth(thread, self, width); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_TextureResource, setWidth, self, width); }

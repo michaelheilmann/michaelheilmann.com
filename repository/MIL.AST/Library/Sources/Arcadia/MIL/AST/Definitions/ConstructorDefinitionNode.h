@@ -25,6 +25,10 @@
 Arcadia_declareObjectType(u8"Arcadia.MIL.AST.ConstructorDefinitionNode", Arcadia_MIL_AST_ConstructorDefinitionNode,
                           u8"Arcadia.MIL.AST.DefinitionNode");
 
+struct Arcadia_MIL_AST_ConstructorDefinitionNodeDispatch {
+  Arcadia_MIL_AST_DefinitionNodeDispatch _parent;
+};
+
 struct Arcadia_MIL_AST_ConstructorDefinitionNode {
   Arcadia_MIL_AST_DefinitionNode _parent;
   Arcadia_String* nativeName;

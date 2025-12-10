@@ -23,6 +23,13 @@ Arcadia_DDLS_ChoiceSymbol_constructImpl
   );
 
 static void
+Arcadia_DDLS_ChoiceSymbol_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDLS_ChoiceSymbolDispatch* self
+  );
+
+static void
 Arcadia_DDLS_ChoiceSymbol_visitImpl
   (
     Arcadia_Thread* thread,
@@ -68,6 +75,14 @@ Arcadia_DDLS_ChoiceSymbol_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_DDLS_ChoiceSymbol_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDLS_ChoiceSymbolDispatch* self
+  )
+{ }
 
 static void
 Arcadia_DDLS_ChoiceSymbol_visitImpl

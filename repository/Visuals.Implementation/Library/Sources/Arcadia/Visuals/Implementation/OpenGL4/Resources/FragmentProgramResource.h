@@ -28,7 +28,11 @@ typedef struct Arcadia_Visuals_Implementation_OpenGL4_BackendContext Arcadia_Vis
 #endif
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.OpenGL4.FragmentProgramResource", Arcadia_Visuals_Implementation_OpenGL4_FragmentProgramResource,
-                          u8"Arcadia.Visuals.Implementation.FragmentProgramResource")
+                          u8"Arcadia.Visuals.Implementation.FragmentProgramResource");
+
+struct Arcadia_Visuals_Implementation_OpenGL4_FragmentProgramResourceDispatch {
+  Arcadia_Visuals_Implementation_FragmentProgramResourceDispatch _parent;
+};
 
 struct Arcadia_Visuals_Implementation_OpenGL4_FragmentProgramResource {
   Arcadia_Visuals_Implementation_FragmentProgramResource _parent;

@@ -24,6 +24,10 @@
 Arcadia_declareObjectType(u8"Arcadia.DDL.Node", Arcadia_DDL_Node,
                           u8"Arcadia.Object");
 
+struct Arcadia_DDL_NodeDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_DDL_Node {
   Arcadia_Object parent;
   Arcadia_DDL_NodeType type;

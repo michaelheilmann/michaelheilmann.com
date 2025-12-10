@@ -33,10 +33,14 @@
 Arcadia_declareObjectType(u8"Arcadia.Audials.BackendContext", Arcadia_Audials_BackendContext,
                           u8"Arcadia.Engine.BackendContext")
 
-struct Arcadia_Audials_BackendContext {
-  Arcadia_Engine_BackendContext _parent;
+struct Arcadia_Audials_BackendContextDispatch {
+  Arcadia_Engine_BackendContextDispatch parent;
 
   void (*update)(Arcadia_Thread* thread, Arcadia_Audials_BackendContext* self);
+};
+
+struct Arcadia_Audials_BackendContext {
+  Arcadia_Engine_BackendContext _parent;
 };
 
 /// @brief Update this backend context.

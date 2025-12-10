@@ -11,6 +11,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Engine.Demo.Application", Arcadia_Engine_Demo_Application,
                           u8"Arcadia.Object");
 
+struct Arcadia_Engine_Demo_ApplicationDispatch {
+  Arcadia_ObjectDispatch parent;
+};
+
 struct Arcadia_Engine_Demo_Application {
   Arcadia_Object parent;
   /// @a Arcadia_BooleanValue_False if quit was not requested.

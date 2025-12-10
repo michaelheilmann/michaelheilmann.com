@@ -28,6 +28,13 @@ Arcadia_MIL_AST_LabelDefinitionStatementNode_constructImpl
   );
 
 static void
+Arcadia_MIL_AST_LabelDefinitionStatementNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_AST_LabelDefinitionStatementNodeDispatch* self
+  );
+
+static void
 Arcadia_MIL_AST_LabelDefinitionStatementNode_visit
   (
     Arcadia_Thread* thread,
@@ -69,6 +76,14 @@ Arcadia_MIL_AST_LabelDefinitionStatementNode_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1 + 1);
 }
+
+static void
+Arcadia_MIL_AST_LabelDefinitionStatementNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_AST_LabelDefinitionStatementNodeDispatch* self
+  )
+{ }
 
 static void
 Arcadia_MIL_AST_LabelDefinitionStatementNode_visit

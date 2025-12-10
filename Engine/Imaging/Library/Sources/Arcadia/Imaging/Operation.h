@@ -21,9 +21,14 @@
 Arcadia_declareObjectType(u8"Arcadia.Imaging.Operation", Arcadia_Imaging_Operation,
                           u8"Arcadia.Object");
 
+struct Arcadia_Imaging_OperationDispatch {
+  Arcadia_ObjectDispatch parent;
+
+  void (*apply)(Arcadia_Thread*, Arcadia_Imaging_Operation*, Arcadia_Imaging_PixelBuffer*);
+};
+
 struct Arcadia_Imaging_Operation {
   Arcadia_Object parent;
-  void (*apply)(Arcadia_Thread*, Arcadia_Imaging_Operation*, Arcadia_Imaging_PixelBuffer*);
 };
 
 void

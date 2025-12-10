@@ -32,6 +32,10 @@ typedef struct Arcadia_Visuals_Windows_DisplayDevice Arcadia_Visuals_Windows_Dis
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.OpennGL4.WGL.WindowBackend", Arcadia_Visuals_Implementation_OpenGL4_WGL_WindowBackend,
                           u8"Arcadia.Visuals.WindowBackend");
 
+struct Arcadia_Visuals_Implementation_OpenGL4_WGL_WindowBackendDispatch {
+  Arcadia_Visuals_WindowBackendDispatch _parent;
+};
+
 struct Arcadia_Visuals_Implementation_OpenGL4_WGL_WindowBackend {
   Arcadia_Visuals_WindowBackend _parent;
   Arcadia_Visuals_Implementation_OpenGL4_WGL_BackendContext* backendContext;

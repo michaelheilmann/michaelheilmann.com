@@ -30,6 +30,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Configuration", Arcadia_Visuals_Configuration,
                           u8"Arcadia.Object")
 
+struct Arcadia_Visuals_ConfigurationDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_Visuals_Configuration {
   Arcadia_Object _parent;
   struct {

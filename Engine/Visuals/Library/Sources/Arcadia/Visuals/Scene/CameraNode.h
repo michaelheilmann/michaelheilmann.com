@@ -16,17 +16,24 @@
 #if !defined(ARCADIA_VISUALS_SCENE_CAMERANODE_H_INCLUDED)
 #define ARCADIA_VISUALS_SCENE_CAMERANODE_H_INCLUDED
 
+#if !defined(ARCADIA_VISUALS_PRIVATE) || 1 != ARCADIA_VISUALS_PRIVATE
+  #error("do not include directly, include `Arcadia/Visuals/Include.h` instead")
+#endif
 #include "Arcadia/Visuals/Scene/Node.h"
 typedef struct Arcadia_Visuals_Scene_ViewportNode Arcadia_Visuals_Scene_ViewportNode;
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Scene.CameraNode", Arcadia_Visuals_Scene_CameraNode,
                           u8"Arcadia.Visuals.Scene.Node")
 
+struct Arcadia_Visuals_Scene_CameraNodeDispatch {
+  Arcadia_Visuals_Scene_NodeDispatch parent;
+  void (*setViewToProjectionMatrix)(Arcadia_Thread*, Arcadia_Visuals_Scene_CameraNode*, Arcadia_Math_Matrix4Real32*);
+  void (*setWorldToViewMatrix)(Arcadia_Thread*, Arcadia_Visuals_Scene_CameraNode*, Arcadia_Math_Matrix4Real32*);
+};
+
 struct Arcadia_Visuals_Scene_CameraNode {
   Arcadia_Visuals_Scene_Node _parent;
   Arcadia_Visuals_Scene_ViewportNode* viewport;
-  void (*setViewToProjectionMatrix)(Arcadia_Thread*, Arcadia_Visuals_Scene_CameraNode*, Arcadia_Math_Matrix4Real32*);
-  void (*setWorldToViewMatrix)(Arcadia_Thread*, Arcadia_Visuals_Scene_CameraNode*, Arcadia_Math_Matrix4Real32*);
 };
 
 void

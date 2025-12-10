@@ -26,6 +26,10 @@
 Arcadia_declareObjectType(u8"Arcadia.PointInTime", Arcadia_PointInTime,
                           u8"Arcadia.Object");
 
+struct Arcadia_PointInTimeDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_PointInTime {
   Arcadia_Object _parent;
   /// Timestamp since the start of the epoch.
@@ -43,6 +47,23 @@ struct Arcadia_PointInTime {
   // @brief Year since 1900.
   Arcadia_Integer32Value year;
 };
+
+
+// A year is a leap year if divisible by 4.
+// Except if divisible by 100 (e.g., 1900), unless
+// It is also divisible by 400 (e.g., 2000).
+static inline bool isLeapYear(int year) {
+  if (year % 4 != 0) return false;
+  if (year % 100 != 0) return true;
+  return (year % 100 == 0);
+}
+
+// The zero-based month (0,11) and the year.
+static inline int getDaysInMonth(int month, int year) {
+  static const int nonLeapDays[] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+  static const int leapDays[] = { 31,29,31,30,31,30,31,31,30,31,30,31 };
+  return isLeapYear(year) ? leapDays[month] : nonLeapDays[month];
+}
 
 /// @brief Get the timestamp of now.
 /// @param thread A pointer to this thread.

@@ -25,6 +25,10 @@
 Arcadia_declareObjectType(u8"Arcadia.MIL.AST.MethodDefinitionNode", Arcadia_MIL_MethodDefinitionNode,
                           u8"Arcadia.MIL.AST.DefinitionNode");
 
+struct Arcadia_MIL_MethodDefinitionNodeDispatch {
+  Arcadia_MIL_AST_DefinitionNodeDispatch _parent;
+};
+
 struct Arcadia_MIL_MethodDefinitionNode {
   Arcadia_MIL_AST_DefinitionNode _parent;
   Arcadia_String* nativeName;

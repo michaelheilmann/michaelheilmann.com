@@ -25,6 +25,13 @@ Arcadia_MIL_AST_EnumerationDefinitionNode_constructImpl
   );
 
 static void
+Arcadia_MIL_AST_EnumerationDefinitionNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_AST_EnumerationDefinitionNodeDispatch* self
+  );
+
+static void
 Arcadia_MIL_AST_EnumerationDefinitionNode_visit
   (
     Arcadia_Thread* thread,
@@ -67,6 +74,14 @@ Arcadia_MIL_AST_EnumerationDefinitionNode_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 2 + 1);
 }
+
+static void
+Arcadia_MIL_AST_EnumerationDefinitionNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_AST_EnumerationDefinitionNodeDispatch* self
+  )
+{ }
 
 static void
 Arcadia_MIL_AST_EnumerationDefinitionNode_visit

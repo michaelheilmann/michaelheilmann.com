@@ -30,6 +30,13 @@ Arcadia_Visuals_Implementation_SceneNodeFactory_construct
   );
 
 static void
+Arcadia_Visuals_Implementation_SceneNodeFactory_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_SceneNodeFactoryDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_SceneNodeFactory_destruct
   (
     Arcadia_Thread* thread,
@@ -117,13 +124,22 @@ Arcadia_Visuals_Implementation_SceneNodeFactory_construct
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
   }
-  ((Arcadia_Visuals_SceneNodeFactory*)self)->createCameraNode = (Arcadia_Visuals_Scene_CameraNode * (*)(Arcadia_Thread * thread, Arcadia_Visuals_SceneNodeFactory*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_SceneNodeFactory_createCameraNodeImpl;
-  ((Arcadia_Visuals_SceneNodeFactory*)self)->createFrameBufferNode = (Arcadia_Visuals_Scene_FrameBufferNode* (*)(Arcadia_Thread * thread, Arcadia_Visuals_SceneNodeFactory*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_SceneNodeFactory_createFrameBufferNodeImpl;
-  ((Arcadia_Visuals_SceneNodeFactory*)self)->createRenderingContextNode = (Arcadia_Visuals_Scene_RenderingContextNode * (*)(Arcadia_Thread * thread, Arcadia_Visuals_SceneNodeFactory*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_SceneNodeFactory_createRenderingContextNodeImpl;
-  ((Arcadia_Visuals_SceneNodeFactory*)self)->createMeshNode = (Arcadia_Visuals_Scene_MeshNode* (*)(Arcadia_Thread * thread, Arcadia_Visuals_SceneNodeFactory*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_SceneNodeFactory_createMeshNodeImpl;
-  ((Arcadia_Visuals_SceneNodeFactory*)self)->createViewportNode = (Arcadia_Visuals_Scene_ViewportNode* (*)(Arcadia_Thread * thread, Arcadia_Visuals_SceneNodeFactory*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_SceneNodeFactory_createViewportNodeImpl;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
+}
+
+static void
+Arcadia_Visuals_Implementation_SceneNodeFactory_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_SceneNodeFactoryDispatch* self
+  )
+{
+  ((Arcadia_Visuals_SceneNodeFactoryDispatch*)self)->createCameraNode = (Arcadia_Visuals_Scene_CameraNode * (*)(Arcadia_Thread * thread, Arcadia_Visuals_SceneNodeFactory*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_SceneNodeFactory_createCameraNodeImpl;
+  ((Arcadia_Visuals_SceneNodeFactoryDispatch*)self)->createFrameBufferNode = (Arcadia_Visuals_Scene_FrameBufferNode * (*)(Arcadia_Thread * thread, Arcadia_Visuals_SceneNodeFactory*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_SceneNodeFactory_createFrameBufferNodeImpl;
+  ((Arcadia_Visuals_SceneNodeFactoryDispatch*)self)->createRenderingContextNode = (Arcadia_Visuals_Scene_RenderingContextNode * (*)(Arcadia_Thread * thread, Arcadia_Visuals_SceneNodeFactory*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_SceneNodeFactory_createRenderingContextNodeImpl;
+  ((Arcadia_Visuals_SceneNodeFactoryDispatch*)self)->createMeshNode = (Arcadia_Visuals_Scene_MeshNode * (*)(Arcadia_Thread * thread, Arcadia_Visuals_SceneNodeFactory*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_SceneNodeFactory_createMeshNodeImpl;
+  ((Arcadia_Visuals_SceneNodeFactoryDispatch*)self)->createViewportNode = (Arcadia_Visuals_Scene_ViewportNode * (*)(Arcadia_Thread * thread, Arcadia_Visuals_SceneNodeFactory*, Arcadia_Visuals_BackendContext*)) & Arcadia_Visuals_Implementation_SceneNodeFactory_createViewportNodeImpl;
 }
 
 static void

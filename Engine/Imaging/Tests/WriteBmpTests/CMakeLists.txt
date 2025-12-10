@@ -15,7 +15,7 @@
 
 cmake_minimum_required(VERSION 4.1.3)
 
-set(MyTestName ${MyProjectName}.Imaging.Tests.WriteBmpTests)
+set(MyTestName ${MyProjectName}.Imaging.Tests.WriteBMPTests)
 
 # Create test executable.
 BeginProduct(${MyTestName} test)

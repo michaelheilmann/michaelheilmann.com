@@ -29,6 +29,10 @@ typedef struct Arcadia_MIL_AST_OperandNode Arcadia_MIL_AST_OperandNode;
 Arcadia_declareObjectType(u8"Arcadia.MIL.AST.RaiseInstructionNode", Arcadia_MIL_AST_RaiseInstructionNode,
                           u8"Arcadia.MIL.AST.InstructionNode");
 
+struct Arcadia_MIL_AST_RaiseInstructionNodeDispatch {
+  Arcadia_MIL_AST_InstructionNodeDispatch parent;
+};
+
 struct Arcadia_MIL_AST_RaiseInstructionNode {
   Arcadia_MIL_AST_InstructionNode parent;
   Arcadia_MIL_AST_OperandNode* operand;

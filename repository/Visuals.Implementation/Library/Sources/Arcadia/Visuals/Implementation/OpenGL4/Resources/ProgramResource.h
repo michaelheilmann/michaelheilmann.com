@@ -31,7 +31,11 @@ typedef struct Arcadia_Visuals_Implementation_OpenGL4_VertexProgramResource Arca
 typedef struct Arcadia_Visuals_Implementation_OpenGL4_FragmentProgramResource Arcadia_Visuals_Implementation_OpenGL4_FragmentProgramResource;
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.OpenGL4.ProgramResource", Arcadia_Visuals_Implementation_OpenGL4_ProgramResource,
-                          u8"Arcadia.Visuals.Implementation.ProgramResource")
+                          u8"Arcadia.Visuals.Implementation.ProgramResource");
+
+struct Arcadia_Visuals_Implementation_OpenGL4_ProgramResourceDispatch {
+  Arcadia_Visuals_Implementation_ProgramResourceDispatch _parent;
+};
 
 struct Arcadia_Visuals_Implementation_OpenGL4_ProgramResource {
   Arcadia_Visuals_Implementation_ProgramResource _parent;

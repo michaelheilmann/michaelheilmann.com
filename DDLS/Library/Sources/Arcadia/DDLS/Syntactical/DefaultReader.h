@@ -22,6 +22,11 @@
 Arcadia_declareObjectType(u8"Arcadia.DDLS.DefaultReader", Arcadia_DDLS_DefaultReader,
                           u8"Arcadia.Object");
 
+struct Arcadia_DDLS_DefaultReaderDispatch {
+  Arcadia_ObjectDispatch parent;
+  Arcadia_DDLS_Node* (*run)(Arcadia_Thread* thread, Arcadia_DDLS_DefaultReader*, Arcadia_String*);
+};
+
 struct Arcadia_DDLS_DefaultReader {
   Arcadia_Object parent;
   Arcadia_Value BOOLEAN;
@@ -30,7 +35,6 @@ struct Arcadia_DDLS_DefaultReader {
   Arcadia_Value VOID;
 
   Arcadia_DDL_Parser* parser;
-  Arcadia_DDLS_Node* (*run)(Arcadia_Thread* thread, Arcadia_DDLS_DefaultReader*, Arcadia_String*);
 };
 
 Arcadia_DDLS_DefaultReader*

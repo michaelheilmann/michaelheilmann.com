@@ -22,6 +22,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Visuals.VPL.Backends.GLSL.VariableScalar", Arcadia_Visuals_VPL_Backends_GLSL_VariableScalar,
                           u8"Arcadia.Object");
 
+struct Arcadia_Visuals_VPL_Backends_GLSL_VariableScalarDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_Visuals_VPL_Backends_GLSL_VariableScalar {
   Arcadia_Object _parent;
   Arcadia_Integer32Value location;

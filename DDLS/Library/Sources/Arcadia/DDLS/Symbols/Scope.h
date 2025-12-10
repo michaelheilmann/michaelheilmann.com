@@ -23,6 +23,10 @@ typedef struct Arcadia_DDLS_Symbol Arcadia_DDLS_Symbol;
 Arcadia_declareObjectType(u8"Arcadia.DDLS.Scope", Arcadia_DDLS_Scope,
                           u8"Arcadia.Object");
 
+struct Arcadia_DDLS_ScopeDispatch {
+  Arcadia_ObjectDispatch parent;
+};
+
 struct Arcadia_DDLS_Scope {
   Arcadia_Object parent;
   /* The enclosing scope or null. */

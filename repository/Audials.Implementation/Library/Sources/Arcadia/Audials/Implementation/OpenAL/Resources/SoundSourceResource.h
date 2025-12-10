@@ -23,7 +23,11 @@ typedef struct Arcadia_Audials_Implementation_OpenAL_BackendContext Arcadia_Audi
 #include <AL/al.h>
 
 Arcadia_declareObjectType(u8"Arcadia.Audials.Implementation.OpenAL.SoundSourceResource", Arcadia_Audials_Implementation_OpenAL_SoundSourceResource,
-                          u8"Arcadia.Audials.Implementation.SoundSourceResource")
+                          u8"Arcadia.Audials.Implementation.SoundSourceResource");
+
+struct Arcadia_Audials_Implementation_OpenAL_SoundSourceResourceDispatch {
+  Arcadia_Audials_Implementation_SoundSourceResourceDispatch _parent;
+};
 
 struct Arcadia_Audials_Implementation_OpenAL_SoundSourceResource {
   Arcadia_Audials_Implementation_SoundSourceResource _parent;

@@ -26,6 +26,10 @@ typedef struct Arcadia_String Arcadia_String;
 Arcadia_declareObjectType(u8"Arcadia.UTF8StringReader", Arcadia_UTF8StringReader,
                           u8"Arcadia.UTF8Reader");
 
+struct Arcadia_UTF8StringReaderDispatch {
+  Arcadia_UTF8ReaderDispatch _parent;
+};
+
 struct Arcadia_UTF8StringReader {
   Arcadia_UTF8Reader parent;
   Arcadia_String* source;

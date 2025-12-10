@@ -21,6 +21,10 @@
 Arcadia_declareObjectType(u8"Arcadia.DDLS.MapSymbol", Arcadia_DDLS_MapSymbol,
                           u8"Arcadia.DDLS.Symbol");
 
+struct Arcadia_DDLS_MapSymbolDispatch {
+  Arcadia_DDLS_SymbolDispatch parent;
+};
+
 struct Arcadia_DDLS_MapSymbol {
   Arcadia_DDLS_Symbol parent;
   /// @brief The entries.

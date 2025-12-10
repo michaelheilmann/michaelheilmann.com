@@ -16,13 +16,18 @@
 #define ARCADIA_RING2_PRIVATE (1)
 #include "Arcadia/Ring2/Collections/Stack.h"
 
-#include "Arcadia/Ring2/Include.h"
-
 static void
 Arcadia_Stack_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Stack* self
+  );
+
+static void
+Arcadia_Stack_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_StackDispatch* self
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
@@ -55,13 +60,17 @@ Arcadia_Stack_constructImpl
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
   }
-  self->peek = NULL;
-  self->peekAt = NULL;
-  self->pop = NULL;
-  self->push = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1);
 }
+
+static void
+Arcadia_Stack_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_StackDispatch* self
+  )
+{ }
 
 void
 Arcadia_Stack_push
@@ -70,7 +79,7 @@ Arcadia_Stack_push
     Arcadia_Stack* self,
     Arcadia_Value value
   )
-{ self->push(thread, self, value); }
+{ Arcadia_VirtualCall(Arcadia_Stack, push, self, value); }
 
 void
 Arcadia_Stack_pop
@@ -78,7 +87,7 @@ Arcadia_Stack_pop
     Arcadia_Thread* thread,
     Arcadia_Stack* self
   )
-{ self->pop(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_Stack, pop, self); }
 
 Arcadia_Value
 Arcadia_Stack_peek
@@ -86,7 +95,7 @@ Arcadia_Stack_peek
     Arcadia_Thread* thread,
     Arcadia_Stack* self
   )
-{ return self->peek(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Stack, peek, self); }
 
 Arcadia_Value
 Arcadia_Stack_peekAt
@@ -95,7 +104,7 @@ Arcadia_Stack_peekAt
     Arcadia_Stack* self,
     Arcadia_SizeValue index
   )
-{ return self->peekAt(thread, self, index); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Stack, peekAt, self, index); }
 
 #define Define(Type, Suffix, Variable) \
   void \

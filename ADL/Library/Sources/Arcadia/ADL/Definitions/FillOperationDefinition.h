@@ -48,6 +48,10 @@ typedef struct Arcadia_ADL_Reference Arcadia_ADL_Reference;
 Arcadia_declareObjectType(u8"Arcadia.ADL.PixelBufferOperations.FillOperationDefinition", Arcadia_ADL_PixelBufferOperations_FillOperationDefinition,
                           u8"Arcadia.ADL.Definition");
 
+struct Arcadia_ADL_PixelBufferOperations_FillOperationDefinitionDispatch {
+  Arcadia_ADL_DefinitionDispatch _parent;
+};
+
 struct Arcadia_ADL_PixelBufferOperations_FillOperationDefinition {
   Arcadia_ADL_Definition _parent;
   Arcadia_ADL_Reference* color;

@@ -27,6 +27,13 @@ Arcadia_Visuals_Linux_DisplayMode_constructImpl
   );
 
 static void
+Arcadia_Visuals_Linux_DisplayMode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Linux_DisplayModeDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Linux_DisplayMode_visitImpl
   (
     Arcadia_Thread* thread,
@@ -106,14 +113,22 @@ Arcadia_Visuals_Linux_DisplayMode_constructImpl
   self->colorDepth = Arcadia_ValueStack_getInteger32Value(thread, 2);
   self->frequency = Arcadia_ValueStack_getInteger32Value(thread, 1);
 
-  ((Arcadia_Visuals_DisplayMode*)self)->getHorizontalResolution = (Arcadia_Integer32Value(*)(Arcadia_Thread*,Arcadia_Visuals_DisplayMode*)) & Arcadia_Visuals_Linux_DisplayMode_getHorizontalResolutionImpl;
-  ((Arcadia_Visuals_DisplayMode*)self)->getVerticalResolution = (Arcadia_Integer32Value(*)(Arcadia_Thread*, Arcadia_Visuals_DisplayMode*)) &Arcadia_Visuals_Linux_DisplayMode_getVerticalResolutionImpl;
-  ((Arcadia_Visuals_DisplayMode*)self)->getColorDepth = (Arcadia_Integer32Value(*)(Arcadia_Thread*, Arcadia_Visuals_DisplayMode*)) &Arcadia_Visuals_Linux_DisplayMode_getColorDepthImpl;
-  ((Arcadia_Visuals_DisplayMode*)self)->getFrequency = (Arcadia_Integer32Value(*)(Arcadia_Thread*, Arcadia_Visuals_DisplayMode*)) &Arcadia_Visuals_Linux_DisplayMode_getFrequencyImpl;
-  ((Arcadia_Visuals_DisplayMode*)self)->apply = (void(*)(Arcadia_Thread*, Arcadia_Visuals_DisplayMode*)) & Arcadia_Visuals_Linux_DisplayMode_applyImpl;
-
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 5 + 1);
+}
+
+static void
+Arcadia_Visuals_Linux_DisplayMode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Linux_DisplayModeDispatch* self
+  )
+{
+  ((Arcadia_Visuals_DisplayModeDispatch*)self)->getHorizontalResolution = (Arcadia_Integer32Value(*)(Arcadia_Thread*,Arcadia_Visuals_DisplayMode*)) & Arcadia_Visuals_Linux_DisplayMode_getHorizontalResolutionImpl;
+  ((Arcadia_Visuals_DisplayModeDispatch*)self)->getVerticalResolution = (Arcadia_Integer32Value(*)(Arcadia_Thread*, Arcadia_Visuals_DisplayMode*)) &Arcadia_Visuals_Linux_DisplayMode_getVerticalResolutionImpl;
+  ((Arcadia_Visuals_DisplayModeDispatch*)self)->getColorDepth = (Arcadia_Integer32Value(*)(Arcadia_Thread*, Arcadia_Visuals_DisplayMode*)) &Arcadia_Visuals_Linux_DisplayMode_getColorDepthImpl;
+  ((Arcadia_Visuals_DisplayModeDispatch*)self)->getFrequency = (Arcadia_Integer32Value(*)(Arcadia_Thread*, Arcadia_Visuals_DisplayMode*)) &Arcadia_Visuals_Linux_DisplayMode_getFrequencyImpl;
+  ((Arcadia_Visuals_DisplayModeDispatch*)self)->apply = (void(*)(Arcadia_Thread*, Arcadia_Visuals_DisplayMode*)) & Arcadia_Visuals_Linux_DisplayMode_applyImpl;
 }
 
 static void

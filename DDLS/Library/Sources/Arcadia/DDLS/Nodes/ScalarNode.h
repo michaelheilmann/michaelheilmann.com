@@ -26,6 +26,10 @@
 Arcadia_declareObjectType(u8"Arcadia.DDLS.ScalarNode", Arcadia_DDLS_ScalarNode,
                           u8"Arcadia.DDLS.Node");
 
+struct Arcadia_DDLS_ScalarNodeDispatch {
+  Arcadia_DDLS_NodeDispatch parent;
+};
+
 struct Arcadia_DDLS_ScalarNode {
   Arcadia_DDLS_Node parent;
   Arcadia_String* name;

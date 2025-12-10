@@ -21,7 +21,7 @@ Arcadia_Imaging_ImageWriter_getSupportedTypes
     Arcadia_Thread* thread,
     Arcadia_Imaging_ImageWriter* self
   )
-{ return self->getSupportedTypes(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Imaging_ImageWriter, getSupportedTypes, self); }
 
 void
 Arcadia_Imaging_ImageWriter_write
@@ -31,13 +31,20 @@ Arcadia_Imaging_ImageWriter_write
     Arcadia_List* source,
     Arcadia_Imaging_ImageWriterParameters* target
   )
-{ self->write(thread, self, source, target); }
+{ Arcadia_VirtualCall(Arcadia_Imaging_ImageWriter, write, self, source, target); }
 
 static void
 Arcadia_Imaging_ImageWriter_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Imaging_ImageWriter* self
+  );
+
+static void
+Arcadia_Imaging_ImageWriter_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Imaging_ImageWriterDispatch* self
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
@@ -70,10 +77,14 @@ Arcadia_Imaging_ImageWriter_constructImpl
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
   }
-
-  self->getSupportedTypes = NULL;
-  self->write = NULL;
-
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_Imaging_ImageWriter_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Imaging_ImageWriterDispatch* self
+  )
+{ }

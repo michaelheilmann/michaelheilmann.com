@@ -25,6 +25,13 @@ Arcadia_MIL_AST_VoidLiteralNode_constructImpl
   );
 
 static void
+Arcadia_MIL_AST_VoidLiteralNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_AST_VoidLiteralNodeDispatch* self
+  );
+
+static void
 Arcadia_MIL_AST_VoidLiteralNode_visit
   (
     Arcadia_Thread* thread,
@@ -66,6 +73,14 @@ Arcadia_MIL_AST_VoidLiteralNode_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1 + 1);
 }
+
+static void
+Arcadia_MIL_AST_VoidLiteralNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_AST_VoidLiteralNodeDispatch* self
+  )
+{ }
 
 static void
 Arcadia_MIL_AST_VoidLiteralNode_visit

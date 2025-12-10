@@ -23,6 +23,10 @@
 Arcadia_declareObjectType(u8"Arcadia.DDLS.SymbolReader", Arcadia_DDLS_SymbolReader,
                           u8"Arcadia.Object");
 
+struct Arcadia_DDLS_SymbolReaderDispatch {
+  Arcadia_ObjectDispatch parent;
+};
+
 struct Arcadia_DDLS_SymbolReader {
   Arcadia_Object parent;
 

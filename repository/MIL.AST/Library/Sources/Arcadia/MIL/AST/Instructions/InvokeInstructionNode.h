@@ -29,6 +29,10 @@ typedef struct Arcadia_MIL_AST_VariableOperandNode Arcadia_MIL_AST_VariableOpera
 Arcadia_declareObjectType(u8"Arcadia.MIL.AST.InvokeInstructionNode", Arcadia_MIL_AST_InvokeInstructionNode,
                           u8"Arcadia.MIL.AST.InstructionNode");
 
+struct Arcadia_MIL_AST_InvokeInstructionNodeDispatch {
+  Arcadia_MIL_AST_InstructionNodeDispatch parent;
+};
+
 struct Arcadia_MIL_AST_InvokeInstructionNode {
   Arcadia_MIL_AST_InstructionNode parent;
   Arcadia_MIL_AST_VariableOperandNode* callee;

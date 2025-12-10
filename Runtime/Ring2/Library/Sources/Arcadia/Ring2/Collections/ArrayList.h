@@ -26,8 +26,12 @@
 Arcadia_declareObjectType(u8"Arcadia.ArrayList", Arcadia_ArrayList,
                           u8"Arcadia.List");
 
+struct Arcadia_ArrayListDispatch {
+  Arcadia_ListDispatch _parent;
+};
+
 struct Arcadia_ArrayList {
-  Arcadia_List parent;
+  Arcadia_List _parent;
   Arcadia_Value* elements;
   Arcadia_SizeValue size;
   Arcadia_SizeValue capacity;

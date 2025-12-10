@@ -23,6 +23,10 @@ typedef struct Arcadia_Visuals_BackendContext Arcadia_Visuals_BackendContext;
 Arcadia_declareObjectType(u8"Arcadia.Visuals.ApplicationEvent", Arcadia_Visuals_ApplicationEvent,
                           u8"Arcadia.Engine.Event");
 
+struct Arcadia_Visuals_ApplicationEventDispatch {
+  Arcadia_Engine_EventDispatch parent;
+};
+
 struct Arcadia_Visuals_ApplicationEvent {
   Arcadia_Engine_Event _parent;
   Arcadia_Visuals_BackendContext* backendContext;

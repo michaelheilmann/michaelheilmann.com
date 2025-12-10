@@ -27,14 +27,18 @@ typedef struct Arcadia_List Arcadia_List;
 Arcadia_declareObjectType(u8"Arcadia.Set", Arcadia_Set,
                           u8"Arcadia.Collection");
 
-struct Arcadia_Set {
-  Arcadia_Collection parent;
+struct Arcadia_SetDispatch {
+  Arcadia_CollectionDispatch _parent;
 
   void (*add)(Arcadia_Thread* thread, Arcadia_Set* self, Arcadia_Value value, Arcadia_Value* oldValue);
   Arcadia_BooleanValue(*contains)(Arcadia_Thread* thread, Arcadia_Set* self, Arcadia_Value value);
   Arcadia_Value(*get)(Arcadia_Thread* thread, Arcadia_Set* self, Arcadia_Value value);
   void (*remove)(Arcadia_Thread* thread, Arcadia_Set* self, Arcadia_Value value, Arcadia_Value* oldValue);
   void (*getAll)(Arcadia_Thread*, Arcadia_Set*, Arcadia_List*);
+};
+
+struct Arcadia_Set {
+  Arcadia_Collection parent;
 };
 
 // https://michaelheilmann.com/Arcadia/Ring2/#Arcadia_Set_add

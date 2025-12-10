@@ -20,7 +20,7 @@
         <li><a href="@{siteAddress}/Arcadia/Ring1/#Arcadia_Natural%2aValue_Maximum">Arcadia_Natural*Value_Maximum</a></li>
         <li><a href="@{siteAddress}/Arcadia/Ring1/#Arcadia_Natural%2aValue_Minimum">Arcadia_Natural*Value_Minimum</a></li>
         <li><a href="@{siteAddress}/Arcadia/Ring1/#Arcadia_Natural%2aValue_Literal">Arcadia_Natural*Value_Literal</a></li>
-        
+
         <li><a href="@{siteAddress}/Arcadia/Ring1/#Arcadia_ObjectReferenceValue">Arcadia_ObjectReferenceValue</a></li>
 
         <li><a href="@{siteAddress}/Arcadia/Ring1/#Arcadia_Real%2aValue">Arcadia_Real*Value</a></li>
@@ -65,7 +65,7 @@
 
         <li><a href="@{siteAddress}/Arcadia/Ring1/#Arcadia_nextPowerOfTwoGreaterThan%2a">Arcadia_nextPowerOfTwoGreaterThan*</a></li>
         <li><a href="@{siteAddress}/Arcadia/Ring1/#Arcadia_nextPowerOfTwoGreaterThanOrEqualTo%2a">Arcadia_nextPowerOfTwoGreaterThanOrEqualTo*</a></li>
- 
+
         <li><a href="@{siteAddress}/Arcadia/Ring1/#Arcadia_quotientRemainder%2a">Arcadia_quotientRemainder*</a></li>
 
         <li><a href="@{siteAddress}/Arcadia/Ring1/#Arcadia_safeAddFull%2a">Arcadia_safeAddFull*</a></li>

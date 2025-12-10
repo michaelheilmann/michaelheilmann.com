@@ -109,6 +109,13 @@ R_Interpreter_Code_constructImpl
   );
 
 static void
+R_Interpreter_Code_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    R_Interpreter_CodeDispatch* self
+  );
+
+static void
 R_Interpreter_Code_destruct
   (
     Arcadia_Thread* thread,
@@ -153,6 +160,14 @@ R_Interpreter_Code_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+R_Interpreter_Code_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    R_Interpreter_CodeDispatch* self
+  )
+{ }
 
 static void
 R_Interpreter_Code_destruct

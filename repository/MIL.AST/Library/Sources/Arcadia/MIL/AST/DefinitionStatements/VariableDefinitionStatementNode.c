@@ -28,6 +28,13 @@ Arcadia_MIL_VariableDefinitionStatementNode_constructImpl
   );
 
 static void
+Arcadia_MIL_VariableDefinitionStatementNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_VariableDefinitionStatementNode* self
+  );
+
+static void
 Arcadia_MIL_VariableDefinitionStatementNode_visit
   (
     Arcadia_Thread* thread,
@@ -69,6 +76,14 @@ Arcadia_MIL_VariableDefinitionStatementNode_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1 + 1);
 }
+
+static void
+Arcadia_MIL_VariableDefinitionStatementNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_MIL_VariableDefinitionStatementNode* self
+  )
+{ }
 
 static void
 Arcadia_MIL_VariableDefinitionStatementNode_visit

@@ -22,14 +22,19 @@
 Arcadia_declareObjectType(u8"Arcadia.Audials.Implementation.SoundSourceResource", Arcadia_Audials_Implementation_SoundSourceResource,
                           u8"Arcadia.Audials.Implementation.Resource")
 
-struct Arcadia_Audials_Implementation_SoundSourceResource {
-  Arcadia_Audials_Implementation_Resource _parent;
+struct Arcadia_Audials_Implementation_SoundSourceResourceDispatch {
+  Arcadia_Audials_Implementation_ResourceDispatch _parent;
+
   Arcadia_BooleanValue(*isPlaying)(Arcadia_Thread*, Arcadia_Audials_Implementation_SoundSourceResource*);
   void (*pause)(Arcadia_Thread*, Arcadia_Audials_Implementation_SoundSourceResource*);
   void (*play)(Arcadia_Thread*, Arcadia_Audials_Implementation_SoundSourceResource*);
   void (*stop)(Arcadia_Thread*, Arcadia_Audials_Implementation_SoundSourceResource*);
   void (*setVolume)(Arcadia_Thread*, Arcadia_Audials_Implementation_SoundSourceResource*, Arcadia_Real32Value);
-  Arcadia_Real32Value (*getVolume)(Arcadia_Thread*, Arcadia_Audials_Implementation_SoundSourceResource*);
+  Arcadia_Real32Value(*getVolume)(Arcadia_Thread*, Arcadia_Audials_Implementation_SoundSourceResource*);
+};
+
+struct Arcadia_Audials_Implementation_SoundSourceResource {
+  Arcadia_Audials_Implementation_Resource _parent;
 };
 
 Arcadia_BooleanValue
@@ -52,7 +57,7 @@ Arcadia_Audials_Implementation_SoundSourceResource_play
     Arcadia_Thread* thread,
     Arcadia_Audials_Implementation_SoundSourceResource* self
   );
-  
+
 void
 Arcadia_Audials_Implementation_SoundSourceResource_stop
   (

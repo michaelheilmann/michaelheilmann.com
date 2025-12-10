@@ -28,6 +28,13 @@ Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResourceDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource_destructImpl
   (
     Arcadia_Thread* thread,
@@ -114,14 +121,22 @@ Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource_constructImpl
     Arcadia_ValueStack_pushNatural8Value(thread, 1);
     Arcadia_superTypeConstructor(thread, _type, self);
   }
-  ((Arcadia_Visuals_Implementation_Resource*)self)->load = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource_loadImpl;
-  ((Arcadia_Visuals_Implementation_Resource*)self)->unload = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource_unloadImpl;
-  ((Arcadia_Visuals_Implementation_Resource*)self)->unlink = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource_unlinkImpl;
-  ((Arcadia_Visuals_Implementation_Resource*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*, Arcadia_Visuals_Implementation_RenderingContextResource*)) & Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource_renderImpl;
-  ((Arcadia_Visuals_Implementation_RenderingContextResource*)self)->setTargetFrameBuffer = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_RenderingContextResource*, Arcadia_Visuals_Implementation_FrameBufferResource*)) & Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource_setTargetFrameBufferImpl;
-
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
+}
+
+static void
+Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResourceDispatch* self
+  )
+{
+  ((Arcadia_Visuals_Implementation_ResourceDispatch*)self)->load = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource_loadImpl;
+  ((Arcadia_Visuals_Implementation_ResourceDispatch*)self)->unload = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource_unloadImpl;
+  ((Arcadia_Visuals_Implementation_ResourceDispatch*)self)->unlink = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource_unlinkImpl;
+  ((Arcadia_Visuals_Implementation_ResourceDispatch*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*, Arcadia_Visuals_Implementation_RenderingContextResource*)) & Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource_renderImpl;
+  ((Arcadia_Visuals_Implementation_RenderingContextResourceDispatch*)self)->setTargetFrameBuffer = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_RenderingContextResource*, Arcadia_Visuals_Implementation_FrameBufferResource*)) & Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource_setTargetFrameBufferImpl;
 }
 
 static void
@@ -223,7 +238,7 @@ Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource_setTargetFrameBu
     Arcadia_Visuals_Implementation_OpenGL4_RenderingContextResource* self,
     Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource* frameBuffer
   )
-{ 
+{
   Arcadia_Visuals_Implementation_OpenGL4_BackendContext* context = (Arcadia_Visuals_Implementation_OpenGL4_BackendContext*)((Arcadia_Visuals_Implementation_Resource*)self)->context;
   _Arcadia_Visuals_Implementation_OpenGL4_Functions* gl = Arcadia_Visuals_Implementation_OpenGL4_BackendContext_getFunctions(thread, context);
   if (frameBuffer) {

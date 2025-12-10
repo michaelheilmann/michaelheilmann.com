@@ -26,6 +26,10 @@
 Arcadia_declareObjectType(u8"Arcadia.ImmutableList", Arcadia_ImmutableList,
                           u8"Arcadia.List");
 
+struct Arcadia_ImmutableListDispatch {
+  Arcadia_ListDispatch _parent;
+};
+
 struct Arcadia_ImmutableList {
   Arcadia_List parent;
   Arcadia_Value* elements;

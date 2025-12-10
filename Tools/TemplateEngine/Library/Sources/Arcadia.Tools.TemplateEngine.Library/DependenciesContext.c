@@ -25,6 +25,13 @@ DependenciesContext_constructImpl
   );
 
 static void
+DependenciesContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    DependenciesContextDispatch* self
+  );
+
+static void
 DependenciesContext_destruct
   (
     Arcadia_Thread* thread,
@@ -82,6 +89,14 @@ DependenciesContext_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+DependenciesContext_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    DependenciesContextDispatch* self
+  )
+{ }
 
 static void
 DependenciesContext_destruct

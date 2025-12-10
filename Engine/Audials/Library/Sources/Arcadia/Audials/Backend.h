@@ -22,6 +22,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Audials.Backend", Arcadia_Audials_Backend,
                           u8"Arcadia.Engine.Backend");
 
+struct Arcadia_Audials_BackendDispatch {
+  Arcadia_Engine_BackendDispatch parent;
+};
+
 struct Arcadia_Audials_Backend {
   Arcadia_Engine_Backend _parent;
 };

@@ -26,6 +26,13 @@ Arcadia_Visuals_Implementation_FrameBufferResource_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_FrameBufferResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_FrameBufferResourceDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_FrameBufferResource_destructImpl
   (
     Arcadia_Thread* thread,
@@ -75,13 +82,17 @@ Arcadia_Visuals_Implementation_FrameBufferResource_constructImpl
     Arcadia_ValueStack_pushNatural8Value(thread, 1);
     Arcadia_superTypeConstructor(thread, _type, self);
   }
-  self->activate = NULL;
-  self->deactivate = NULL;
-  self->getSize = NULL;
-  self->setSize = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+Arcadia_Visuals_Implementation_FrameBufferResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_FrameBufferResourceDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Implementation_FrameBufferResource_destructImpl
@@ -105,7 +116,7 @@ Arcadia_Visuals_Implementation_FrameBufferResource_activate
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_FrameBufferResource* self
   )
-{ self->activate(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_FrameBufferResource, activate, self); }
 
 void
 Arcadia_Visuals_Implementation_FrameBufferResource_deactivate
@@ -113,7 +124,7 @@ Arcadia_Visuals_Implementation_FrameBufferResource_deactivate
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_FrameBufferResource* self
   )
-{ self->activate(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_FrameBufferResource, activate, self); }
 
 void
 Arcadia_Visuals_Implementation_FrameBufferResource_setSize
@@ -123,7 +134,7 @@ Arcadia_Visuals_Implementation_FrameBufferResource_setSize
     Arcadia_Integer32Value width,
     Arcadia_Integer32Value height
   )
-{ self->setSize(thread, self, width, height); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_FrameBufferResource, setSize, self, width, height); }
 
 void
 Arcadia_Visuals_Implementation_FrameBufferResource_getSize
@@ -133,4 +144,4 @@ Arcadia_Visuals_Implementation_FrameBufferResource_getSize
     Arcadia_Integer32Value* width,
     Arcadia_Integer32Value* height
   )
-{ self->getSize(thread, self, width, height); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_FrameBufferResource, getSize, self, width, height); }

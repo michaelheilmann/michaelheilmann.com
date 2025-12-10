@@ -22,6 +22,10 @@
 /// @remarks Code executed by the interpreter is a sequence of Natural8 values.
 Arcadia_declareObjectType(u8"R.Interpreter.Code", R_Interpreter_Code, u8"Arcadia.Object");
 
+struct R_Interpreter_CodeDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct R_Interpreter_Code {
   Arcadia_Object _parent;
   /** @brief A pointer to an array of R_Machine_Code::cp Natural8 values. The first R_Machine_Code::sz values contain code. */

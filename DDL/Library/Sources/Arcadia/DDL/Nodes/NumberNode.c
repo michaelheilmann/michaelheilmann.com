@@ -24,6 +24,13 @@ Arcadia_DDL_NumberNode_constructImpl
   );
 
 static void
+Arcadia_DDL_NumberNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDL_NumberNodeDispatch* self
+  );
+
+static void
 Arcadia_DDL_NumberNode_visitImpl
   (
     Arcadia_Thread* thread,
@@ -159,6 +166,14 @@ Arcadia_DDL_NumberNode_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 2);
 }
+
+static void
+Arcadia_DDL_NumberNode_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDL_NumberNodeDispatch* self
+  )
+{ }
 
 static void
 Arcadia_DDL_NumberNode_visitImpl

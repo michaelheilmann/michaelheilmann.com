@@ -26,12 +26,16 @@
 Arcadia_declareObjectType(u8"Arcadia.UTF8Reader", Arcadia_UTF8Reader,
                           u8"Arcadia.Object");
 
+struct Arcadia_UTF8ReaderDispatch {
+  Arcadia_ObjectDispatch _parent;
+  void (*next)(Arcadia_Thread*, Arcadia_UTF8Reader* self);
+  Arcadia_Natural32Value(*getCodePoint)(Arcadia_Thread* thread, Arcadia_UTF8Reader* self);
+  Arcadia_BooleanValue(*hasCodePoint)(Arcadia_Thread* thread, Arcadia_UTF8Reader* self);
+  Arcadia_Natural32Value(*getLength)(Arcadia_Thread* thread, Arcadia_UTF8Reader* self);
+};
+
 struct Arcadia_UTF8Reader {
   Arcadia_Object _parent;
-  void (*next)(Arcadia_Thread*, Arcadia_UTF8Reader* self);
-  Arcadia_Natural32Value (*getCodePoint)(Arcadia_Thread* thread, Arcadia_UTF8Reader* self);
-  Arcadia_BooleanValue (*hasCodePoint)(Arcadia_Thread* thread, Arcadia_UTF8Reader* self);
-  Arcadia_Natural32Value(*getLength)(Arcadia_Thread* thread, Arcadia_UTF8Reader* self);
 };
 
 void

@@ -25,6 +25,13 @@ Arcadia_Visuals_Implementation_Resource_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_Resource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_ResourceDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_Resource_destructImpl
   (
     Arcadia_Thread* thread,
@@ -77,12 +84,17 @@ Arcadia_Visuals_Implementation_Resource_constructImpl
   }
   self->context = Arcadia_ValueStack_getObjectReferenceValueChecked(thread, 1, _Arcadia_Visuals_Implementation_BackendContext_getType(thread));
   self->referenceCount = 0;
-  self->unload = NULL;
-  self->unlink = NULL;
-  self->render = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+Arcadia_Visuals_Implementation_Resource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_ResourceDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Implementation_Resource_destructImpl
@@ -106,7 +118,7 @@ Arcadia_Visuals_Implementation_Resource_load
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_Resource* self
   )
-{ self->load(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_Resource, load, self); }
 
 void
 Arcadia_Visuals_Implementation_Resource_unload
@@ -114,7 +126,7 @@ Arcadia_Visuals_Implementation_Resource_unload
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_Resource* self
   )
-{ self->unload(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_Resource, unload, self); }
 
 void
 Arcadia_Visuals_Implementation_Resource_unlink
@@ -122,7 +134,7 @@ Arcadia_Visuals_Implementation_Resource_unlink
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_Resource* self
   )
-{ self->unlink(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_Resource, unlink, self); }
 
 void
 Arcadia_Visuals_Implementation_Resource_render
@@ -131,7 +143,7 @@ Arcadia_Visuals_Implementation_Resource_render
     Arcadia_Visuals_Implementation_Resource* self,
     Arcadia_Visuals_Implementation_RenderingContextResource* renderingContextResource
   )
-{ self->render(thread, self, renderingContextResource); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_Resource, render, self, renderingContextResource); }
 
 void
 Arcadia_Visuals_Implementation_Resource_ref

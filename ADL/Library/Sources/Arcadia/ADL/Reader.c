@@ -23,6 +23,13 @@ Arcadia_ADL_Reader_constructImpl
     Arcadia_ADL_Reader* self
   );
 
+static void
+Arcadia_ADL_Reader_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_ReaderDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructCallbackFunction*) & Arcadia_ADL_Reader_constructImpl,
@@ -53,12 +60,19 @@ Arcadia_ADL_Reader_constructImpl
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
   }
-  //
-  self->getTypeName = NULL;
-  self->read = NULL;
-  //
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
+}
+
+static void
+Arcadia_ADL_Reader_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_ReaderDispatch* self
+  )
+{
+  self->getTypeName = NULL;
+  self->read = NULL;
 }
 
 Arcadia_String*
@@ -67,7 +81,7 @@ Arcadia_ADL_Reader_getTypeName
     Arcadia_Thread* thread,
     Arcadia_ADL_Reader* self
   )
-{ return self->getTypeName(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_ADL_Reader, getTypeName, self); }
 
 Arcadia_ADL_Definition*
 Arcadia_ADL_Reader_read
@@ -78,4 +92,4 @@ Arcadia_ADL_Reader_read
     Arcadia_ADL_Definitions* definitions,
     Arcadia_DDL_Node* input
   )
-{ return self->read(thread, self, context, definitions, input); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_ADL_Reader, read, self, context, definitions, input); }

@@ -29,6 +29,10 @@ typedef struct Arcadia_MIL_AST_OperandNode Arcadia_MIL_AST_OperandNode;
 Arcadia_declareObjectType(u8"Arcadia.MIL.AST.ReturnInstructionNode", Arcadia_MIL_AST_ReturnInstructionNode,
                           u8"Arcadia.MIL.AST.InstructionNode");
 
+struct Arcadia_MIL_AST_ReturnInstructionNodeDispatch {
+  Arcadia_MIL_AST_InstructionNodeDispatch parent;
+};
+
 struct Arcadia_MIL_AST_ReturnInstructionNode {
   Arcadia_MIL_AST_InstructionNode parent;
   Arcadia_MIL_AST_OperandNode* operand;

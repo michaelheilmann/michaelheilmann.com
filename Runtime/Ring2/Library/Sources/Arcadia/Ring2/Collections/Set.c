@@ -16,13 +16,18 @@
 #define ARCADIA_RING2_PRIVATE (1)
 #include "Arcadia/Ring2/Collections/Set.h"
 
-#include "Arcadia/Ring2/Include.h"
-
 static void
 Arcadia_Set_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Set* self
+  );
+
+static void
+Arcadia_Set_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_SetDispatch* self
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
@@ -55,13 +60,17 @@ Arcadia_Set_constructImpl
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
   }
-  self->add = NULL;
-  self->contains = NULL;
-  self->get = NULL;
-  self->remove = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1);
 }
+
+static void
+Arcadia_Set_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_SetDispatch* self
+  )
+{ }
 
 void
 Arcadia_Set_add
@@ -71,7 +80,7 @@ Arcadia_Set_add
     Arcadia_Value value,
     Arcadia_Value* oldValue
   )
-{ self->add(thread, self, value, oldValue); }
+{ Arcadia_VirtualCall(Arcadia_Set, add, self, value, oldValue); }
 
 Arcadia_BooleanValue
 Arcadia_Set_contains
@@ -80,7 +89,7 @@ Arcadia_Set_contains
     Arcadia_Set* self,
     Arcadia_Value value
   )
-{ return self->contains(thread, self, value); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Set, contains, self, value); }
 
 Arcadia_Value
 Arcadia_Set_get
@@ -89,7 +98,7 @@ Arcadia_Set_get
     Arcadia_Set* self,
     Arcadia_Value value
   )
-{ return self->get(thread, self, value); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Set, get, self, value); }
 
 void
 Arcadia_Set_remove
@@ -99,7 +108,7 @@ Arcadia_Set_remove
     Arcadia_Value value,
     Arcadia_Value* oldValue
   )
-{ self->remove(thread, self, value, oldValue); }
+{ Arcadia_VirtualCall(Arcadia_Set, remove, self, value, oldValue); }
 
 void
 Arcadia_Set_getAll
@@ -108,4 +117,4 @@ Arcadia_Set_getAll
     Arcadia_Set* self,
     Arcadia_List* target
   )
-{ self->getAll(thread, self, target); }
+{ Arcadia_VirtualCall(Arcadia_Set, getAll, self, target); }

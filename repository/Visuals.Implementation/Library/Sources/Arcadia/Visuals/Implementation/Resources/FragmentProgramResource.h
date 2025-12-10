@@ -19,7 +19,11 @@
 #include "Arcadia/Visuals/Implementation/Resource.h"
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.FragmentProgramResource", Arcadia_Visuals_Implementation_FragmentProgramResource,
-                          u8"Arcadia.Visuals.Implementation.Resource")
+                          u8"Arcadia.Visuals.Implementation.Resource");
+
+struct Arcadia_Visuals_Implementation_FragmentProgramResourceDispatch {
+  Arcadia_Visuals_Implementation_ResourceDispatch _parent;
+};
 
 struct Arcadia_Visuals_Implementation_FragmentProgramResource {
   Arcadia_Visuals_Implementation_Resource _parent;

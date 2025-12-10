@@ -32,6 +32,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Windows.TextureFontWindows", Arcadia_Visuals_Windows_TextureFont,
                           u8"Arcadia.Object");
 
+struct Arcadia_Visuals_Windows_TextureFontDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_Visuals_Windows_TextureFont {
   Arcadia_Object _parent;
   Arcadia_Visuals_Windows_Bitmap* bitmap;

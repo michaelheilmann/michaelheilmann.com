@@ -34,6 +34,12 @@ typedef struct Arcadia_Engine_BackendContext Arcadia_Engine_BackendContext;
 Arcadia_declareObjectType(u8"Arcadia.Engine", Arcadia_Engine,
                           u8"Arcadia.Object")
 
+struct Arcadia_EngineDispatch {
+  Arcadia_ObjectDispatch _parent;
+
+  void (*update)(Arcadia_Thread* thread, Arcadia_Engine* self);
+};
+
 struct Arcadia_Engine {
   Arcadia_Object _parent;
 
@@ -59,8 +65,6 @@ struct Arcadia_Engine {
 
   /// @brief The event queue.
   Arcadia_Deque* events;
-
-  void (*update)(Arcadia_Thread* thread, Arcadia_Engine* self);
 };
 
 /// @brief Enque an event to this application.

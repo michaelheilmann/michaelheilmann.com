@@ -26,6 +26,13 @@ Arcadia_Visuals_Implementation_VertexBufferResource_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_VertexBufferResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_VertexBufferResourceDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_VertexBufferResource_destructImpl
   (
     Arcadia_Thread* thread,
@@ -81,6 +88,14 @@ Arcadia_Visuals_Implementation_VertexBufferResource_constructImpl
 }
 
 static void
+Arcadia_Visuals_Implementation_VertexBufferResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_VertexBufferResourceDispatch* self
+  )
+{ }
+
+static void
 Arcadia_Visuals_Implementation_VertexBufferResource_destructImpl
   (
     Arcadia_Thread* thread,
@@ -105,7 +120,7 @@ Arcadia_Visuals_Implementation_VertexBufferResource_setData
     const void* bytes,
     Arcadia_SizeValue numberOfBytes
   )
-{ self->setData(thread, self, numberOfVertices, bytes, numberOfBytes); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_VertexBufferResource, setData, self, numberOfVertices, bytes, numberOfBytes); }
 
 Arcadia_SizeValue
 Arcadia_Visuals_Implementation_VertexBufferResource_getNumberOfVertices
@@ -113,4 +128,4 @@ Arcadia_Visuals_Implementation_VertexBufferResource_getNumberOfVertices
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_VertexBufferResource* self
   )
-{ return self->getNumberOVertices(thread, self); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Visuals_Implementation_VertexBufferResource, getNumberOVertices, self); }

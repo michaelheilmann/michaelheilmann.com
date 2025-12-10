@@ -28,6 +28,13 @@ Arcadia_UTF8ByteBufferWriter_constructImpl
   );
 
 static void
+Arcadia_UTF8ByteBufferWriter_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_UTF8ByteBufferWriterDispatch* self
+  );
+
+static void
 Arcadia_UTF8ByteBufferWriter_visit
   (
     Arcadia_Thread* thread,
@@ -107,13 +114,22 @@ Arcadia_UTF8ByteBufferWriter_constructImpl
     Arcadia_Thread_jump(thread);
   }
   self->target = (Arcadia_ByteBuffer*)Arcadia_ValueStack_getObjectReferenceValueChecked(thread, 1, _Arcadia_ByteBuffer_getType(thread));
-  ((Arcadia_UTF8Writer*)self)->writeBytes = (void (*)(Arcadia_Thread*, Arcadia_UTF8Writer*, void const*, Arcadia_SizeValue)) & Arcadia_UTF8ByteBufferWriter_writeBytesImpl;
-  ((Arcadia_UTF8Writer*)self)->writeCodePoints = (void (*)(Arcadia_Thread*, Arcadia_UTF8Writer*, Arcadia_Natural32Value const*, Arcadia_SizeValue)) & Arcadia_UTF8ByteBufferWriter_writeCodePointsImpl;
-  ((Arcadia_UTF8Writer*)self)->writeImmutableUTF8String = (void (*)(Arcadia_Thread*, Arcadia_UTF8Writer*, Arcadia_ImmutableUtf8String*)) & Arcadia_UTF8ByteBufferWriter_writeImmutableUtf8StringImpl;
-  ((Arcadia_UTF8Writer*)self)->writeString = (void (*)(Arcadia_Thread*, Arcadia_UTF8Writer*, Arcadia_String*))&Arcadia_UTF8ByteBufferWriter_writeStringImpl;
-  ((Arcadia_UTF8Writer*)self)->flush = (void (*)(Arcadia_Thread*, Arcadia_UTF8Writer*)) & Arcadia_UTF8ByteBufferWriter_flushImpl;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 2);
+}
+
+static void
+Arcadia_UTF8ByteBufferWriter_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_UTF8ByteBufferWriterDispatch* self
+  )
+{
+  ((Arcadia_UTF8WriterDispatch*)self)->writeBytes = (void (*)(Arcadia_Thread*, Arcadia_UTF8Writer*, void const*, Arcadia_SizeValue)) & Arcadia_UTF8ByteBufferWriter_writeBytesImpl;
+  ((Arcadia_UTF8WriterDispatch*)self)->writeCodePoints = (void (*)(Arcadia_Thread*, Arcadia_UTF8Writer*, Arcadia_Natural32Value const*, Arcadia_SizeValue)) & Arcadia_UTF8ByteBufferWriter_writeCodePointsImpl;
+  ((Arcadia_UTF8WriterDispatch*)self)->writeImmutableUTF8String = (void (*)(Arcadia_Thread*, Arcadia_UTF8Writer*, Arcadia_ImmutableUtf8String*)) & Arcadia_UTF8ByteBufferWriter_writeImmutableUtf8StringImpl;
+  ((Arcadia_UTF8WriterDispatch*)self)->writeString = (void (*)(Arcadia_Thread*, Arcadia_UTF8Writer*, Arcadia_String*)) & Arcadia_UTF8ByteBufferWriter_writeStringImpl;
+  ((Arcadia_UTF8WriterDispatch*)self)->flush = (void (*)(Arcadia_Thread*, Arcadia_UTF8Writer*)) & Arcadia_UTF8ByteBufferWriter_flushImpl;
 }
 
 static void

@@ -32,8 +32,8 @@
 Arcadia_declareObjectType(u8"Arcadia.Visuals.SceneNodeFactory", Arcadia_Visuals_SceneNodeFactory,
                           Arcadia_Engine_SceneNodeFactory);
 
-struct Arcadia_Visuals_SceneNodeFactory {
-  Arcadia_Engine_SceneNodeFactory parent;
+struct Arcadia_Visuals_SceneNodeFactoryDispatch {
+  Arcadia_Engine_SceneNodeFactoryDispatch parent;
 
   Arcadia_Visuals_Scene_CameraNode*
   (*createCameraNode)
@@ -74,7 +74,10 @@ struct Arcadia_Visuals_SceneNodeFactory {
       Arcadia_Visuals_SceneNodeFactory* self,
       Arcadia_Visuals_BackendContext* backendContext
     );
+};
 
+struct Arcadia_Visuals_SceneNodeFactory {
+  Arcadia_Engine_SceneNodeFactory parent;
 };
 
 Arcadia_Visuals_Scene_CameraNode*

@@ -24,6 +24,10 @@
 Arcadia_declareObjectType(u8"Arcadia.DDLS.Diagnostics", Arcadia_DDLS_Diagnostics,
                           u8"Arcadia.Object");
 
+struct Arcadia_DDLS_DiagnosticsDispatch {
+  Arcadia_ObjectDispatch parent;
+};
+
 struct Arcadia_DDLS_Diagnostics {
   Arcadia_Object parent;
   Arcadia_String* BOOLEAN;

@@ -31,6 +31,10 @@ typedef struct Arcadia_Visuals_Windows_DisplayMode Arcadia_Visuals_Windows_Displ
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Windows.DisplayDevice", Arcadia_Visuals_Windows_DisplayDevice,
                           u8"Arcadia.Visuals.DisplayDevice");
 
+struct Arcadia_Visuals_Windows_DisplayDeviceDispatch {
+  Arcadia_Visuals_DisplayDeviceDispatch _parent;
+};
+
 struct Arcadia_Visuals_Windows_DisplayDevice {
   Arcadia_Visuals_DisplayDevice _parent;
   // The ID of the adapter / monitor combination.

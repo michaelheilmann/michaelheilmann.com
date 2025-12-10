@@ -26,6 +26,13 @@ Arcadia_Visuals_ApplicationEvent_constructImpl
   );
 
 static void
+Arcadia_Visuals_ApplicationEvent_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_ApplicationEventDispatch* self
+  );
+
+static void
 Arcadia_Visuals_ApplicationEvent_visit
   (
     Arcadia_Thread* thread,
@@ -72,6 +79,14 @@ Arcadia_Visuals_ApplicationEvent_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1);
 }
+
+static void
+Arcadia_Visuals_ApplicationEvent_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_ApplicationEventDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_ApplicationEvent_visit

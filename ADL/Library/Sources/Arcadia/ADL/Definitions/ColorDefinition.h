@@ -49,6 +49,10 @@
 Arcadia_declareObjectType(u8"Arcadia.ADL.ColorDefinition", Arcadia_ADL_ColorDefinition,
                           u8"Arcadia.Object");
 
+struct Arcadia_ADL_ColorDefinitionDispatch {
+  Arcadia_ADL_DefinitionDispatch _parent;
+};
+
 struct Arcadia_ADL_ColorDefinition {
   Arcadia_ADL_Definition _parent;
   Arcadia_Natural8Value red;

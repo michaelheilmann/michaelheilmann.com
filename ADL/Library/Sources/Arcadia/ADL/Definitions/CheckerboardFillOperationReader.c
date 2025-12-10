@@ -79,7 +79,7 @@ Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationReader_getTypeName
     Arcadia_Thread* thread,
     Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationReader* self
   );
- 
+
 static Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinition*
 Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationReader_read
   (
@@ -111,6 +111,13 @@ Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationReader_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationReader* self
+  );
+
+static void
+Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationReader_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationReaderDispatch* self
   );
 
 static void
@@ -189,7 +196,7 @@ getStringValue
     Arcadia_Thread* thread,
     Arcadia_DDL_MapNode* mapNode,
     Arcadia_String* key
-  ) 
+  )
 {
   for (Arcadia_SizeValue i = 0, n = Arcadia_Collection_getSize(thread, (Arcadia_Collection*)mapNode->entries); i < n; ++i) {
     Arcadia_DDL_MapEntryNode* mapEntryNode =
@@ -289,10 +296,19 @@ Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationReader_constructImpl
   self->CHECKERWIDTH = Arcadia_Languages_StringTable_getOrCreateStringFromCxxString(thread, Arcadia_Languages_StringTable_getOrCreate(thread), u8"checkerWidth");
   self->CHECKERHEIGHT = Arcadia_Languages_StringTable_getOrCreateStringFromCxxString(thread, Arcadia_Languages_StringTable_getOrCreate(thread), u8"checkerHeight");
   //
-  ((Arcadia_ADL_Reader*)self)->getTypeName = (Arcadia_String* (*)(Arcadia_Thread*, Arcadia_ADL_Reader*)) & Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationReader_getTypeName;
-  ((Arcadia_ADL_Reader*)self)->read = (Arcadia_ADL_Definition* (*)(Arcadia_Thread*, Arcadia_ADL_Reader*, Arcadia_ADL_Context*, Arcadia_ADL_Definitions*, Arcadia_DDL_Node*)) & Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationReader_read;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
+}
+
+static void
+Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationReader_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationReaderDispatch* self
+  )
+{
+  ((Arcadia_ADL_ReaderDispatch*)self)->getTypeName = (Arcadia_String * (*)(Arcadia_Thread*, Arcadia_ADL_Reader*)) & Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationReader_getTypeName;
+  ((Arcadia_ADL_ReaderDispatch*)self)->read = (Arcadia_ADL_Definition * (*)(Arcadia_Thread*, Arcadia_ADL_Reader*, Arcadia_ADL_Context*, Arcadia_ADL_Definitions*, Arcadia_DDL_Node*)) & Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationReader_read;
 }
 
 static void

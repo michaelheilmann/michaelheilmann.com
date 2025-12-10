@@ -76,7 +76,7 @@ Arcadia_ADL_PixelBufferReader_getTypeName
     Arcadia_Thread* thread,
     Arcadia_ADL_PixelBufferReader* self
   );
- 
+
 static Arcadia_ADL_PixelBufferDefinition*
 Arcadia_ADL_PixelBufferReader_read
   (
@@ -116,6 +116,13 @@ Arcadia_ADL_PixelBufferReader_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_ADL_PixelBufferReader* self
+  );
+
+static void
+Arcadia_ADL_PixelBufferReader_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_PixelBufferReaderDispatch* self
   );
 
 static void
@@ -179,7 +186,7 @@ Arcadia_ADL_PixelBufferReader_read
   Arcadia_List* operations = getListValue(thread, (Arcadia_DDL_MapNode*)input, self->OPERATIONS);
   for (Arcadia_SizeValue i = 0, n = Arcadia_Collection_getSize(thread, (Arcadia_Collection*)operations); i < n; ++i) {
     Arcadia_DDL_StringNode* operation = (Arcadia_DDL_StringNode*)Arcadia_List_getObjectReferenceValueCheckedAt(thread, operations, i, _Arcadia_DDL_StringNode_getType(thread));
-    Arcadia_ADL_Reference* operationReference = Arcadia_ADL_Reference_create(thread, definitions, operation->value);    
+    Arcadia_ADL_Reference* operationReference = Arcadia_ADL_Reference_create(thread, definitions, operation->value);
     Arcadia_List_insertBackObjectReferenceValue(thread, definition->operations, operationReference);
   }
 
@@ -226,7 +233,7 @@ getStringValue
     Arcadia_Thread* thread,
     Arcadia_DDL_MapNode* mapNode,
     Arcadia_String* key
-  ) 
+  )
 {
   for (Arcadia_SizeValue i = 0, n = Arcadia_Collection_getSize(thread, (Arcadia_Collection*)mapNode->entries); i < n; ++i) {
     Arcadia_DDL_MapEntryNode* mapEntryNode =
@@ -324,10 +331,19 @@ Arcadia_ADL_PixelBufferReader_constructImpl
   self->WIDTH = Arcadia_Languages_StringTable_getOrCreateStringFromCxxString(thread, Arcadia_Languages_StringTable_getOrCreate(thread), u8"width");
   self->HEIGHT = Arcadia_Languages_StringTable_getOrCreateStringFromCxxString(thread, Arcadia_Languages_StringTable_getOrCreate(thread), u8"height");
   //
-  ((Arcadia_ADL_Reader*)self)->getTypeName = (Arcadia_String* (*)(Arcadia_Thread*, Arcadia_ADL_Reader*)) & Arcadia_ADL_PixelBufferReader_getTypeName;
-  ((Arcadia_ADL_Reader*)self)->read = (Arcadia_ADL_Definition* (*)(Arcadia_Thread*, Arcadia_ADL_Reader*, Arcadia_ADL_Context *, Arcadia_ADL_Definitions*, Arcadia_DDL_Node*)) & Arcadia_ADL_PixelBufferReader_read;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
+}
+
+static void
+Arcadia_ADL_PixelBufferReader_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_PixelBufferReaderDispatch* self
+  )
+{
+  ((Arcadia_ADL_ReaderDispatch*)self)->getTypeName = (Arcadia_String * (*)(Arcadia_Thread*, Arcadia_ADL_Reader*)) & Arcadia_ADL_PixelBufferReader_getTypeName;
+  ((Arcadia_ADL_ReaderDispatch*)self)->read = (Arcadia_ADL_Definition * (*)(Arcadia_Thread*, Arcadia_ADL_Reader*, Arcadia_ADL_Context*, Arcadia_ADL_Definitions*, Arcadia_DDL_Node*)) & Arcadia_ADL_PixelBufferReader_read;
 }
 
 static void

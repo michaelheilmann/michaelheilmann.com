@@ -23,6 +23,13 @@ Arcadia_DDLS_ScalarSymbol_constructImpl
   );
 
 static void
+Arcadia_DDLS_ScalarSymbol_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDLS_ScalarSymbolDispatch* self
+  );
+
+static void
 Arcadia_DDLS_ScalarSymbol_visitImpl
   (
     Arcadia_Thread* thread,
@@ -68,6 +75,14 @@ Arcadia_DDLS_ScalarSymbol_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_DDLS_ScalarSymbol_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDLS_ScalarSymbolDispatch* self
+  )
+{ }
 
 static void
 Arcadia_DDLS_ScalarSymbol_visitImpl

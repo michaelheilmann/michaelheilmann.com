@@ -27,6 +27,10 @@ typedef struct Arcadia_String Arcadia_String;
 Arcadia_declareObjectType(u8"Arcadia.FileLog", Arcadia_FileLog,
                           u8"Arcadia.Log");
 
+struct Arcadia_FileLogDispatch {
+  Arcadia_LogDispatch _parent;
+};
+
 struct Arcadia_FileLog {
   Arcadia_Log _parent;
   Arcadia_FileHandle* fileHandle;

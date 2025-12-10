@@ -26,6 +26,13 @@ Arcadia_Visuals_Implementation_VertexProgramResource_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_VertexProgramResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_VertexProgramResourceDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_VertexProgramResource_destructImpl
   (
     Arcadia_Thread* thread,
@@ -78,6 +85,14 @@ Arcadia_Visuals_Implementation_VertexProgramResource_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+Arcadia_Visuals_Implementation_VertexProgramResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_VertexProgramResourceDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Implementation_VertexProgramResource_destructImpl

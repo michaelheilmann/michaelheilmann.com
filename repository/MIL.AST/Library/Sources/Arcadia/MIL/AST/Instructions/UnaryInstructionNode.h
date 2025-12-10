@@ -30,6 +30,10 @@ typedef struct Arcadia_MIL_AST_OperandNode Arcadia_MIL_AST_OperandNode;
 Arcadia_declareObjectType(u8"Arcadia.MIL.AST.UnaryInstructionNode", Arcadia_MIL_AST_UnaryInstructionNode,
                           u8"Arcadia.MIL.AST.InstructionNode");
 
+struct Arcadia_MIL_AST_UnaryInstructionNodeDispatch {
+  Arcadia_MIL_AST_InstructionNodeDispatch parent;
+};
+
 struct Arcadia_MIL_AST_UnaryInstructionNode {
   Arcadia_MIL_AST_InstructionNode parent;
   Arcadia_MIL_AST_UnaryInstructionKind kind;

@@ -35,6 +35,10 @@ Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.OpenGL4.FrameBufferR
 
 #define Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource_Default (1)
 
+struct Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResourceDispatch {
+  Arcadia_Visuals_Implementation_FrameBufferResourceDispatch _parent;
+};
+
 struct Arcadia_Visuals_Implementation_OpenGL4_FrameBufferResource {
   Arcadia_Visuals_Implementation_FrameBufferResource _parent;
   // A pointer to the backing texture.

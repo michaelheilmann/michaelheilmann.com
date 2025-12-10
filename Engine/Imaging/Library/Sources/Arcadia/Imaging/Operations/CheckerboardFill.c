@@ -23,6 +23,13 @@ Arcadia_Imaging_Operations_CheckerboardFill_constructImpl
   );
 
 static void
+Arcadia_Imaging_Operations_CheckerboardFill_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Imaging_Operations_CheckerboardFillDispatch* self
+  );
+
+static void
 Arcadia_Imaging_Operations_CheckerboardFill_visitImpl
   (
     Arcadia_Thread* thread,
@@ -69,9 +76,18 @@ Arcadia_Imaging_Operations_CheckerboardFill_constructImpl
     Arcadia_Thread_jump(thread);
   }
   self->definition = Arcadia_ValueStack_getObjectReferenceValueChecked(thread, 1, _Arcadia_ADL_PixelBufferOperations_CheckerboardFillOperationDefinition_getType(thread));
-  ((Arcadia_Imaging_Operation*)self)->apply = (void (*)(Arcadia_Thread*, Arcadia_Imaging_Operation*, Arcadia_Imaging_PixelBuffer*)) & Arcadia_Imaging_Operations_CheckerboardFill_apply;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 1 + 1);
+}
+
+static void
+Arcadia_Imaging_Operations_CheckerboardFill_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Imaging_Operations_CheckerboardFillDispatch* self
+  )
+{
+  ((Arcadia_Imaging_OperationDispatch*)self)->apply = (void (*)(Arcadia_Thread*, Arcadia_Imaging_Operation*, Arcadia_Imaging_PixelBuffer*)) & Arcadia_Imaging_Operations_CheckerboardFill_apply;
 }
 
 static void

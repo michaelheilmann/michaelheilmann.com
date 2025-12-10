@@ -16,6 +16,9 @@
 #if !defined(ARCADIA_VISUALS_SCENE_RENDERSCENE_H_INCLUDED)
 #define ARCADIA_VISUALS_SCENE_RENDERSCENE_H_INCLUDED
 
+#if !defined(ARCADIA_VISUALS_PRIVATE) || 1 != ARCADIA_VISUALS_PRIVATE
+  #error("do not include directly, include `Arcadia/Visuals/Include.h` instead")
+#endif
 #include "Arcadia/Visuals/Scene/RenderingContextNode.h"
 #include "Arcadia/Visuals/Scene/MeshNode.h"
 

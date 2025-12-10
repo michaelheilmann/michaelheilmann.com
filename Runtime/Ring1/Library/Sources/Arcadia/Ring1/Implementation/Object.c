@@ -319,6 +319,14 @@ ARCADIA_CREATEOBJECT0
 static Arcadia_TypeValue g__Arcadia_Object_type = NULL;
 
 static void
+_Arcadia_Object_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ObjectDispatch* self
+  )
+{ }
+
+static void
 _Arcadia_Object_typeDestructing
   (
     void* context
@@ -337,7 +345,11 @@ _Arcadia_Object_getType
     g_objectRegistered = Arcadia_BooleanValue_True;
   }
   if (!g__Arcadia_Object_type) {
-    g__Arcadia_Object_type = Arcadia_registerObjectType(thread, ObjectTypeName, sizeof(ObjectTypeName) - 1, sizeof(Arcadia_Object), NULL,
+    g__Arcadia_Object_type = Arcadia_registerObjectType(thread,
+                                                        ObjectTypeName, sizeof(ObjectTypeName) - 1,
+                                                        sizeof(Arcadia_Object), NULL,
+                                                        sizeof(Arcadia_ObjectDispatch),
+                                                        (void(*)(Arcadia_Thread*,Arcadia_Dispatch*)) & _Arcadia_Object_initializeDispatchImpl,
                                                         &_Arcadia_Object_typeOperations, &_Arcadia_Object_typeDestructing);
   }
   return g__Arcadia_Object_type;

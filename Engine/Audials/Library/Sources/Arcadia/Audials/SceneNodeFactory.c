@@ -24,6 +24,13 @@ Arcadia_Audials_SceneNodeFactory_construct
   );
 
 static void
+Arcadia_Audials_SceneNodeFactory_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Audials_SceneNodeFactoryDispatch* self
+  );
+
+static void
 Arcadia_Audials_SceneNodeFactory_destruct
   (
     Arcadia_Thread* thread,
@@ -69,10 +76,17 @@ Arcadia_Audials_SceneNodeFactory_construct
     Arcadia_Thread_setStatus(thread, Arcadia_Status_NumberOfArgumentsInvalid);
     Arcadia_Thread_jump(thread);
   }
-  self->createSoundSourceNode = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_Audials_SceneNodeFactory_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Audials_SceneNodeFactoryDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Audials_SceneNodeFactory_destruct
@@ -97,4 +111,4 @@ Arcadia_Audials_SceneNodeFactory_createSoundSourceNode
     Arcadia_Audials_SceneNodeFactory* self,
     Arcadia_Audials_BackendContext* backendContext
   )
-{ return self->createSoundSourceNode(thread, self, backendContext); }
+{ Arcadia_VirtualCallWithReturn(Arcadia_Audials_SceneNodeFactory, createSoundSourceNode, self, backendContext); }

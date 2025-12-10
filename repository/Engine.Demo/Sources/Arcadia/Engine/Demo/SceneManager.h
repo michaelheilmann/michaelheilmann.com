@@ -26,6 +26,10 @@ typedef struct Arcadia_Engine_Demo_Scene Arcadia_Engine_Demo_Scene;
 Arcadia_declareObjectType(u8"Arcadia.Engine.Demo.SceneManager", Arcadia_Engine_Demo_SceneManager,
                           u8"Arcadia.Object")
 
+struct Arcadia_Engine_Demo_SceneManagerDispatch {
+  Arcadia_ObjectDispatch parent;
+};
+
 struct Arcadia_Engine_Demo_SceneManager {
   Arcadia_Object parent;
   /* The engine. */

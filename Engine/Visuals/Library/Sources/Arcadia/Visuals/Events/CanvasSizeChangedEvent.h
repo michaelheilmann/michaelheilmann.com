@@ -23,6 +23,10 @@ typedef struct Arcadia_Visuals_Window Arcadia_Visuals_Window;
 Arcadia_declareObjectType(u8"Arcadia.Visuals.CanvasSizeChangedEvent", Arcadia_Visuals_CanvasSizeChangedEvent,
                           u8"Arcadia.Visuals.CanvasEvent");
 
+struct Arcadia_Visuals_CanvasSizeChangedEventDispatch {
+  Arcadia_Visuals_CanvasEventDispatch parent;
+};
+
 struct Arcadia_Visuals_CanvasSizeChangedEvent {
   Arcadia_Visuals_CanvasEvent _parent;
   Arcadia_Integer32Value horizontalSize;

@@ -44,6 +44,13 @@ Arcadia_WeakReference_constructImpl
     Arcadia_WeakReference* self
   );
 
+static void
+Arcadia_WeakReference_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_WeakReferenceDispatch* self
+  );
+
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   .construct = (Arcadia_Object_ConstructCallbackFunction*) & Arcadia_WeakReference_constructImpl,
   .destruct = (Arcadia_Object_DestructCallbackFunction*) & Arcadia_WeakReference_destruct,
@@ -190,6 +197,14 @@ Arcadia_WeakReference_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues1 + 1);
 }
+
+static void
+Arcadia_WeakReference_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_WeakReferenceDispatch* self
+  )
+{ }
 
 Arcadia_WeakReference*
 Arcadia_WeakReference_create

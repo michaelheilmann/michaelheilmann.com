@@ -84,6 +84,10 @@ Arcadia_DDL_Parser_onValue
     Arcadia_DDL_Parser* self
   );
 
+struct Arcadia_DDL_ParserDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_DDL_Parser {
   Arcadia_Object _parent;
   Arcadia_DDL_Scanner* scanner;
@@ -94,6 +98,13 @@ Arcadia_DDL_Parser_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_DDL_Parser* self
+  );
+
+static void
+Arcadia_DDL_Parser_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDL_ParserDispatch* self
   );
 
 static void
@@ -141,6 +152,14 @@ Arcadia_DDL_Parser_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_DDL_Parser_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDL_ParserDispatch* self
+  )
+{ }
 
 static void
 Arcadia_DDL_Parser_visit

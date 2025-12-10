@@ -27,8 +27,9 @@ typedef struct Arcadia_Visuals_BackendContext Arcadia_Visuals_BackendContext;
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Texture", Arcadia_Visuals_Texture,
                           u8"Arcadia.Object")
 
-struct Arcadia_Visuals_Texture {
-  Arcadia_Object parent;
+struct Arcadia_Visuals_TextureDispatch {
+  Arcadia_ObjectDispatch parent;
+
   Arcadia_Visuals_TextureAddressMode (*getAddressModeU)(Arcadia_Thread*, Arcadia_Visuals_Texture*);
   Arcadia_Visuals_TextureAddressMode (*getAddressModeV)(Arcadia_Thread*, Arcadia_Visuals_Texture*);
   Arcadia_Integer32Value (*getHeight)(Arcadia_Thread*, Arcadia_Visuals_Texture*);
@@ -38,6 +39,10 @@ struct Arcadia_Visuals_Texture {
   void (*upload)(Arcadia_Thread*, Arcadia_Visuals_Texture*, Arcadia_Visuals_BackendContext*);
 };
 
+struct Arcadia_Visuals_Texture {
+  Arcadia_Object parent;
+};
+
 /* Get the address mode of this texture for the u axis. */
 Arcadia_Visuals_TextureAddressMode
 Arcadia_Visuals_Texture_getAddressModeU
@@ -45,7 +50,7 @@ Arcadia_Visuals_Texture_getAddressModeU
     Arcadia_Thread* thread,
     Arcadia_Visuals_Texture* self
   );
-  
+
 /* Get the address mode of this texture for the v axis. */
 Arcadia_Visuals_TextureAddressMode
 Arcadia_Visuals_Texture_getAddressModeV

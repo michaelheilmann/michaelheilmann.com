@@ -23,6 +23,13 @@ Arcadia_Visuals_Implementation_ConstantBufferResource_constructImpl
   );
 
 static void
+Arcadia_Visuals_Implementation_ConstantBufferResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_ConstantBufferResourceDispatch* self
+  );
+
+static void
 Arcadia_Visuals_Implementation_ConstantBufferResource_destructImpl
   (
     Arcadia_Thread* thread,
@@ -72,12 +79,17 @@ Arcadia_Visuals_Implementation_ConstantBufferResource_constructImpl
     Arcadia_ValueStack_pushNatural8Value(thread, 1);
     Arcadia_superTypeConstructor(thread, _type, self);
   }
-  self->clear = NULL;
-  self->setData = NULL;
-  self->writeMatrix4x4Real32 = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues + 1);
 }
+
+static void
+Arcadia_Visuals_Implementation_ConstantBufferResource_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_Implementation_ConstantBufferResourceDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_Implementation_ConstantBufferResource_destructImpl
@@ -103,7 +115,7 @@ Arcadia_Visuals_Implementation_ConstantBufferResource_setData
     const void* bytes,
     Arcadia_SizeValue numberOfBytes
   )
-{ self->setData(thread, self, bytes, numberOfBytes); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_ConstantBufferResource, setData, self, bytes, numberOfBytes); }
 
 void
 Arcadia_Visuals_Implementation_ConstantBufferResource_clear
@@ -111,7 +123,7 @@ Arcadia_Visuals_Implementation_ConstantBufferResource_clear
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_ConstantBufferResource* self
   )
-{ self->clear(thread, self); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_ConstantBufferResource, clear, self); }
 
 void
 Arcadia_Visuals_Implementation_ConstantBufferResource_writeMatrix4x4Real32
@@ -121,4 +133,4 @@ Arcadia_Visuals_Implementation_ConstantBufferResource_writeMatrix4x4Real32
     Arcadia_BooleanValue transpose,
     Arcadia_Math_Matrix4Real32 const* source
   )
-{ self->writeMatrix4x4Real32(thread, self, transpose, source); }
+{ Arcadia_VirtualCall(Arcadia_Visuals_Implementation_ConstantBufferResource, writeMatrix4x4Real32, self, transpose, source); }

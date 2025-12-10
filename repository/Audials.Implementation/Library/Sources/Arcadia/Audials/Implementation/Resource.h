@@ -24,7 +24,16 @@ typedef struct Arcadia_Audials_Implementation_BackendContext Arcadia_Audials_Imp
 // A "resource" is owned by a "backend context". That is, the "backend context" holds a STRONG reference to its "resources".
 // In addition, the "backend context" retains a GC lock unless its "resources" such that they are only gc'ed if the "backend context" drops this lock.
 Arcadia_declareObjectType(u8"Arcadia.Audials.Implementation.Resource", Arcadia_Audials_Implementation_Resource,
-                          u8"Arcadia.Object")
+                          u8"Arcadia.Object");
+
+struct Arcadia_Audials_Implementation_ResourceDispatch {
+  Arcadia_ObjectDispatch _parent;
+
+  void (*load)(Arcadia_Thread* thread, Arcadia_Audials_Implementation_Resource* self);
+  void (*unload)(Arcadia_Thread* thread, Arcadia_Audials_Implementation_Resource* self);
+  void (*unlink)(Arcadia_Thread* thread, Arcadia_Audials_Implementation_Resource* self);
+  void (*render)(Arcadia_Thread* thread, Arcadia_Audials_Implementation_Resource* self);
+};
 
 struct Arcadia_Audials_Implementation_Resource {
   Arcadia_Object _parent;
@@ -32,11 +41,6 @@ struct Arcadia_Audials_Implementation_Resource {
   Arcadia_Integer32Value referenceCount;
   // Unmanaged reference to the "backend context" or the null reference.
   Arcadia_Audials_Implementation_BackendContext* context;
-
-  void (*load)(Arcadia_Thread* thread, Arcadia_Audials_Implementation_Resource* self);
-  void (*unload)(Arcadia_Thread* thread, Arcadia_Audials_Implementation_Resource* self);
-  void (*unlink)(Arcadia_Thread* thread, Arcadia_Audials_Implementation_Resource* self);
-  void (*render)(Arcadia_Thread* thread, Arcadia_Audials_Implementation_Resource* self);
 };
 
 void

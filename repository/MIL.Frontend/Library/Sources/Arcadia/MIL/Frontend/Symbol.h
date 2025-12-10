@@ -32,6 +32,10 @@
 Arcadia_declareObjectType(u8"Arcadia.MIL.Symbol", Arcadia_MIL_Symbol,
                           u8"Arcadia.Object");
 
+struct Arcadia_MIL_SymbolDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_MIL_Symbol {
   Arcadia_Object _parent;
   Arcadia_String* name;

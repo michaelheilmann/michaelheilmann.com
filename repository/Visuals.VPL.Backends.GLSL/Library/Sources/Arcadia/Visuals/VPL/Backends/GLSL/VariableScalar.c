@@ -25,6 +25,13 @@ Arcadia_Visuals_VPL_Backends_GLSL_VariableScalar_constructImpl
   );
 
 static void
+Arcadia_Visuals_VPL_Backends_GLSL_VariableScalar_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_VPL_Backends_GLSL_VariableScalarDispatch* self
+  );
+
+static void
 Arcadia_Visuals_VPL_Backends_GLSL_VariableScalar_visitImpl
   (
     Arcadia_Thread* thread,
@@ -69,6 +76,14 @@ Arcadia_Visuals_VPL_Backends_GLSL_VariableScalar_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 4 + 1);
 }
+
+static void
+Arcadia_Visuals_VPL_Backends_GLSL_VariableScalar_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_VPL_Backends_GLSL_VariableScalarDispatch* self
+  )
+{ }
 
 static void
 Arcadia_Visuals_VPL_Backends_GLSL_VariableScalar_visitImpl

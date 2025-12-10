@@ -21,6 +21,10 @@
 Arcadia_declareObjectType(u8"Arcadia.DDLS.SchemaReferenceSymbol", Arcadia_DDLS_SchemaReferenceSymbol,
                           u8"Arcadia.DDLS.Symbol");
 
+struct Arcadia_DDLS_SchemaReferenceSymbolDispatch {
+  Arcadia_DDLS_SymbolDispatch parent;
+};
+
 struct Arcadia_DDLS_SchemaReferenceSymbol {
   Arcadia_DDLS_Symbol parent;
   Arcadia_String* name;

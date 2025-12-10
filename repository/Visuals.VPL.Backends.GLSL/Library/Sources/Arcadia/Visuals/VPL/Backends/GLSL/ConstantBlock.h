@@ -23,6 +23,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Visuals.VPL.Backends.GLSL.ConstantBlock", Arcadia_Visuals_VPL_Backends_GLSL_ConstantBlock,
                           u8"Arcadia.Object");
 
+struct Arcadia_Visuals_VPL_Backends_GLSL_ConstantBlockDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_Visuals_VPL_Backends_GLSL_ConstantBlock {
   Arcadia_Object _parent;
   Arcadia_String* name;

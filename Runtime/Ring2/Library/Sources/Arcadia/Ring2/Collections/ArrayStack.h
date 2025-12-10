@@ -26,8 +26,12 @@
 Arcadia_declareObjectType(u8"Arcadia.ArrayStack", Arcadia_ArrayStack,
                           u8"Arcadia.Stack");
 
+struct Arcadia_ArrayStackDispatch {
+  Arcadia_StackDispatch _parent;
+};
+
 struct Arcadia_ArrayStack {
-  Arcadia_Stack parent;
+  Arcadia_Stack _parent;
   Arcadia_Value* elements;
   Arcadia_SizeValue size;
   Arcadia_SizeValue capacity;

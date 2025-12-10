@@ -18,6 +18,10 @@
 
 #include "Arcadia/DDL/Include.h"
 
+struct Arcadia_DataDefinitionLanguage_UnparserDispatch {
+  Arcadia_ObjectDispatch _parent;
+};
+
 struct Arcadia_DataDefinitionLanguage_Unparser {
   Arcadia_Object _parent;
 };
@@ -110,6 +114,13 @@ Arcadia_DataDefinitionLanguage_Unparser_constructImpl
   (
     Arcadia_Thread* thread,
     Arcadia_DataDefinitionLanguage_Unparser* self
+  );
+
+static void
+Arcadia_DataDefinitionLanguage_Unparser_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DataDefinitionLanguage_UnparserDispatch* self
   );
 
 static void
@@ -345,6 +356,14 @@ Arcadia_DataDefinitionLanguage_Unparser_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, numberOfArgumentValues1 + 1);
 }
+
+static void
+Arcadia_DataDefinitionLanguage_Unparser_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DataDefinitionLanguage_UnparserDispatch* self
+  )
+{ }
 
 static void
 Arcadia_DataDefinitionLanguage_Unparser_visit

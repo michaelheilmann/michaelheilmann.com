@@ -24,6 +24,10 @@ typedef struct Arcadia_Visuals_Window Arcadia_Visuals_Window;
 Arcadia_declareObjectType(u8"Arcadia.Visuals.MouseButtonEvent", Arcadia_Visuals_MouseButtonEvent,
                           u8"Arcadia.Engine.Event");
 
+struct Arcadia_Visuals_MouseButtonEventDispatch {
+  Arcadia_Engine_EventDispatch _parent;
+};
+
 struct Arcadia_Visuals_MouseButtonEvent {
   Arcadia_Engine_Event _parent;
   Arcadia_Natural64Value button;

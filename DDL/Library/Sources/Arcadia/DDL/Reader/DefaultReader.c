@@ -28,6 +28,13 @@ Arcadia_DDL_DefaultReader_constructImpl
   );
 
 static void
+Arcadia_DDL_DefaultReader_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDL_DefaultReaderDispatch* self
+  );
+
+static void
 Arcadia_DDL_DefaultReader_visit
   (
     Arcadia_Thread* thread,
@@ -72,6 +79,14 @@ Arcadia_DDL_DefaultReader_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_DDL_DefaultReader_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDL_DefaultReaderDispatch* self
+  )
+{ }
 
 static void
 Arcadia_DDL_DefaultReader_visit

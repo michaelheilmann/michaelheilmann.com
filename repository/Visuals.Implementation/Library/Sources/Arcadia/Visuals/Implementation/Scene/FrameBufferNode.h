@@ -21,7 +21,11 @@ typedef struct Arcadia_Visuals_Implementation_BackendContext Arcadia_Visuals_Imp
 typedef struct Arcadia_Visuals_Implementation_FrameBufferResource Arcadia_Visuals_Implementation_FrameBufferResource;
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.Scene.FrameBufferNode", Arcadia_Visuals_Implementation_Scene_FrameBufferNode,
-                          u8"Arcadia.Visuals.Scene.FrameBufferNode")
+                          u8"Arcadia.Visuals.Scene.FrameBufferNode");
+
+struct Arcadia_Visuals_Implementation_Scene_FrameBufferNodeDispatch {
+  Arcadia_Visuals_Scene_FrameBufferNodeDispatch _parent;
+};
 
 struct Arcadia_Visuals_Implementation_Scene_FrameBufferNode {
   Arcadia_Visuals_Scene_FrameBufferNode _parent;

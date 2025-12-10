@@ -19,20 +19,20 @@
 #include "Arcadia/Visuals/Implementation/Resource.h"
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.TextureResource", Arcadia_Visuals_Implementation_TextureResource,
-                          u8"Arcadia.Visuals.Implementation.Resource")
+                          u8"Arcadia.Visuals.Implementation.Resource");
 
-struct Arcadia_Visuals_Implementation_TextureResource {
-  Arcadia_Visuals_Implementation_Resource _parent;
+struct Arcadia_Visuals_Implementation_TextureResourceDispatch {
+  Arcadia_Visuals_Implementation_ResourceDispatch _parent;
 
-  Arcadia_Visuals_TextureAddressMode (*getAddressModeU)(Arcadia_Thread*,Arcadia_Visuals_Implementation_TextureResource*);
-  Arcadia_Visuals_TextureAddressMode (*getAddressModeV)(Arcadia_Thread*, Arcadia_Visuals_Implementation_TextureResource*);
+  Arcadia_Visuals_TextureAddressMode(*getAddressModeU)(Arcadia_Thread*, Arcadia_Visuals_Implementation_TextureResource*);
+  Arcadia_Visuals_TextureAddressMode(*getAddressModeV)(Arcadia_Thread*, Arcadia_Visuals_Implementation_TextureResource*);
 
-  Arcadia_Integer32Value (*getHeight)(Arcadia_Thread*, Arcadia_Visuals_Implementation_TextureResource*);
+  Arcadia_Integer32Value(*getHeight)(Arcadia_Thread*, Arcadia_Visuals_Implementation_TextureResource*);
 
-  Arcadia_Visuals_TextureFilter (*getMagnificationFilter)(Arcadia_Thread*,Arcadia_Visuals_Implementation_TextureResource*);
-  Arcadia_Visuals_TextureFilter (*getMinificationFilter)(Arcadia_Thread*, Arcadia_Visuals_Implementation_TextureResource*);
+  Arcadia_Visuals_TextureFilter(*getMagnificationFilter)(Arcadia_Thread*, Arcadia_Visuals_Implementation_TextureResource*);
+  Arcadia_Visuals_TextureFilter(*getMinificationFilter)(Arcadia_Thread*, Arcadia_Visuals_Implementation_TextureResource*);
 
-  Arcadia_Integer32Value (*getWidth)(Arcadia_Thread*, Arcadia_Visuals_Implementation_TextureResource*);
+  Arcadia_Integer32Value(*getWidth)(Arcadia_Thread*, Arcadia_Visuals_Implementation_TextureResource*);
 
   void (*setAddressModeU)(Arcadia_Thread*, Arcadia_Visuals_Implementation_TextureResource*, Arcadia_Visuals_TextureAddressMode);
   void (*setAddressModeV)(Arcadia_Thread*, Arcadia_Visuals_Implementation_TextureResource*, Arcadia_Visuals_TextureAddressMode);
@@ -43,6 +43,10 @@ struct Arcadia_Visuals_Implementation_TextureResource {
   void (*setMinificationFilter)(Arcadia_Thread*, Arcadia_Visuals_Implementation_TextureResource*, Arcadia_Visuals_TextureFilter);
 
   void (*setWidth)(Arcadia_Thread*, Arcadia_Visuals_Implementation_TextureResource*, Arcadia_Integer32Value);
+};
+
+struct Arcadia_Visuals_Implementation_TextureResource {
+  Arcadia_Visuals_Implementation_Resource _parent;
 };
 
 Arcadia_Visuals_TextureAddressMode

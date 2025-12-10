@@ -99,7 +99,7 @@ Arcadia_DDLS_Tests_Validation_choiceReject1
     "  },\n"
     "},\n"
     ;
-  
+
   const char* DDL[] =
     {
     "true",

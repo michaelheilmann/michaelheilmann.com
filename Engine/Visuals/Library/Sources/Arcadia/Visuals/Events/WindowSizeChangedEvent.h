@@ -23,6 +23,10 @@ typedef struct Arcadia_Visuals_Window Arcadia_Visuals_Window;
 Arcadia_declareObjectType(u8"Arcadia.Visuals.WindowSizeChangedEvent", Arcadia_Visuals_WindowSizeChangedEvent,
                           u8"Arcadia.Engine.Event");
 
+struct Arcadia_Visuals_WindowSizeChangedEventDispatch {
+  Arcadia_Engine_EventDispatch _parent;
+};
+
 struct Arcadia_Visuals_WindowSizeChangedEvent {
   Arcadia_Engine_Event _parent;
   Arcadia_Visuals_Window* window;

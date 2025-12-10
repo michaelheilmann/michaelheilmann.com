@@ -21,6 +21,10 @@
 Arcadia_declareObjectType(u8"Arcadia.Imaging.Windows.TifImageWriter", Arcadia_Imaging_Windows_TifImageWriter,
                           u8"Arcadia.Imaging.Windows.WicImageWriterBase");
 
+struct Arcadia_Imaging_Windows_TifImageWriterDispatch {
+  Arcadia_Imaging_Windows_WicImageWriterBaseDispatch parent;
+};
+
 struct Arcadia_Imaging_Windows_TifImageWriter {
   Arcadia_Imaging_Windows_WicImageWriterBase _parent;
   Arcadia_ImmutableList* supportedTypes;

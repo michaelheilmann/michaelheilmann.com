@@ -25,6 +25,10 @@
 Arcadia_declareObjectType(u8"Arcadia.DDLS.AnyNode", Arcadia_DDLS_AnyNode,
                           u8"Arcadia.DDLS.Node");
 
+struct Arcadia_DDLS_AnyNodeDispatch {
+  Arcadia_DDLS_NodeDispatch parent;
+};
+
 struct Arcadia_DDLS_AnyNode {
   Arcadia_DDLS_Node parent;
 };

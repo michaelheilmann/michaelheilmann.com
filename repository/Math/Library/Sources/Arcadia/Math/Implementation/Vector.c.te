@@ -24,12 +24,11 @@ Arcadia_Math_Vector@{dimensionality}@{scalarSuffix}_constructImpl
   );
 
 static void
-Arcadia_Math_Vector@{dimensionality}@{scalarSuffix}_constructImpl
+Arcadia_Math_Vector@{dimensionality}@{scalarSuffix}_initializeDispatchImpl
   (
     Arcadia_Thread* thread,
-    Arcadia_Math_Vector@{dimensionality}@{scalarSuffix}* self
+    Arcadia_Math_Vector@{dimensionality}@{scalarSuffix}Dispatch* self
   );
-
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
@@ -93,6 +92,14 @@ Arcadia_Math_Vector@{dimensionality}@{scalarSuffix}_constructImpl
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
   Arcadia_ValueStack_popValues(thread, 0 + 1);
 }
+
+static void
+Arcadia_Math_Vector@{dimensionality}@{scalarSuffix}_initializeDispatchImpl
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Math_Vector@{dimensionality}@{scalarSuffix}Dispatch* self
+  )
+{ }
 
 void
 Arcadia_Math_Vector@{dimensionality}@{scalarSuffix}_assign
