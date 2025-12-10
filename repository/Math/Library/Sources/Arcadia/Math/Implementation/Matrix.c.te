@@ -24,9 +24,8 @@ Arcadia_Math_Matrix@{dimensionality}@{scalarSuffix}_constructImpl
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
-  .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_Math_Matrix@{dimensionality}@{scalarSuffix}_constructImpl,
-  .destruct = NULL,
-  .visit = NULL,
+  Arcadia_ObjectType_Operations_Initializer,
+  .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_Math_Matrix@{dimensionality}@{scalarSuffix}_constructImpl,
 };
 
 static const Arcadia_Type_Operations _typeOperations = {

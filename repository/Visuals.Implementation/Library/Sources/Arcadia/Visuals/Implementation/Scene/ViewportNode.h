@@ -1,6 +1,6 @@
 // The author of this software is Michael Heilmann (contact@michaelheilmann.com).
 //
-// Copyright(c) 2024-2025 Michael Heilmann (contact@michaelheilmann.com).
+// Copyright(c) 2024-2026 Michael Heilmann (contact@michaelheilmann.com).
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose without fee is hereby granted, provided that this entire notice
@@ -25,6 +25,8 @@ Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.Scene.ViewportNode",
 
 struct Arcadia_Visuals_Implementation_Scene_ViewportNode {
   Arcadia_Visuals_Scene_ViewportNode _parent;
+
+  Arcadia_Natural8Value dirtyBits;
 
   Arcadia_Visuals_Implementation_BackendContext* backendContext;
   Arcadia_Visuals_Implementation_ViewportResource* viewportResource;

@@ -1,6 +1,6 @@
 // The author of this software is Michael Heilmann (contact@michaelheilmann.com).
 //
-// Copyright(c) 2024-2025 Michael Heilmann (contact@michaelheilmann.com).
+// Copyright(c) 2024-2026 Michael Heilmann (contact@michaelheilmann.com).
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose without fee is hereby granted, provided that this entire notice
@@ -29,6 +29,8 @@ struct Arcadia_DDLS_SymbolReader {
   Arcadia_DDLS_Scope* scope;
 
   Arcadia_Value ANY;
+  Arcadia_Value CHOICE;
+  Arcadia_Value CHOICES;
   Arcadia_Value BOOLEAN;
   Arcadia_Value LIST;
   Arcadia_Value MAP;

@@ -1,6 +1,6 @@
 // The author of this software is Michael Heilmann (contact@michaelheilmann.com).
 //
-// Copyright(c) 2024-2025 Michael Heilmann (contact@michaelheilmann.com).
+// Copyright(c) 2024-2026 Michael Heilmann (contact@michaelheilmann.com).
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose without fee is hereby granted, provided that this entire notice
@@ -38,29 +38,15 @@ Arcadia_Visuals_SceneNodeFactory_visit
   );
 
 static const Arcadia_ObjectType_Operations _Arcadia_Visuals_SceneNodeFactory_objectTypeOperations = {
-  .construct = (Arcadia_Object_ConstructorCallbackFunction*) & Arcadia_Visuals_SceneNodeFactory_construct,
-  .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_Visuals_SceneNodeFactory_destruct,
+  Arcadia_ObjectType_Operations_Initializer,
+  .construct = (Arcadia_Object_ConstructCallbackFunction*) & Arcadia_Visuals_SceneNodeFactory_construct,
+  .destruct = (Arcadia_Object_DestructCallbackFunction*)&Arcadia_Visuals_SceneNodeFactory_destruct,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_Visuals_SceneNodeFactory_visit,
 };
 
 static const Arcadia_Type_Operations _Arcadia_Visuals_SceneNodeFactory_typeOperations = {
+  Arcadia_Type_Operations_Initializer,
   .objectTypeOperations = &_Arcadia_Visuals_SceneNodeFactory_objectTypeOperations,
-  .add = NULL,
-  .and = NULL,
-  .concatenate = NULL,
-  .divide = NULL,
-  .equalTo = NULL,
-  .greaterThan = NULL,
-  .greaterThanOrEqualTo = NULL,
-  .hash = NULL,
-  .lowerThan = NULL,
-  .lowerThanOrEqualTo = NULL,
-  .multiply = NULL,
-  .negate = NULL,
-  .not = NULL,
-  .notEqualTo = NULL,
-  .or = NULL,
-  .subtract = NULL,
 };
 
 Arcadia_defineObjectType(u8"Arcardia.Visuals.SceneNodeFactory", Arcadia_Visuals_SceneNodeFactory,
@@ -84,7 +70,8 @@ Arcadia_Visuals_SceneNodeFactory_construct
     Arcadia_Thread_jump(thread);
   }
   self->createCameraNode = NULL;
-  self->createMeshContext = NULL;
+  self->createFrameBufferNode = NULL;
+  self->createRenderingContextNode = NULL;
   self->createMeshNode = NULL;
   self->createViewportNode = NULL;
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
@@ -116,14 +103,23 @@ Arcadia_Visuals_SceneNodeFactory_createCameraNode
   )
 { return self->createCameraNode(thread, self, backendContext); }
 
-Arcadia_Visuals_Scene_MeshContext*
-Arcadia_Visuals_SceneNodeFactory_createMeshContext
+Arcadia_Visuals_Scene_FrameBufferNode*
+Arcadia_Visuals_SceneNodeFactory_createFrameBufferNode
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_SceneNodeFactory* self,
     Arcadia_Visuals_BackendContext* backendContext
   )
-{ return self->createMeshContext(thread, self, backendContext); }
+{ return self->createFrameBufferNode(thread, self, backendContext); }
+
+Arcadia_Visuals_Scene_RenderingContextNode*
+Arcadia_Visuals_SceneNodeFactory_createRenderingContextNode
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_SceneNodeFactory* self,
+    Arcadia_Visuals_BackendContext* backendContext
+  )
+{ return self->createRenderingContextNode(thread, self, backendContext); }
 
 Arcadia_Visuals_Scene_MeshNode*
 Arcadia_Visuals_SceneNodeFactory_createMeshNode

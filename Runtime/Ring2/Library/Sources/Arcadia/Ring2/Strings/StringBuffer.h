@@ -1,6 +1,6 @@
 // The author of this software is Michael Heilmann (contact@michaelheilmann.com).
 //
-// Copyright(c) 2024-2025 Michael Heilmann (contact@michaelheilmann.com).
+// Copyright(c) 2024-2026 Michael Heilmann (contact@michaelheilmann.com).
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose without fee is hereby granted, provided that this entire notice
@@ -156,12 +156,28 @@ Arcadia_StringBuffer_removeCodePointsBack
   );
 
 void
+Arcadia_StringBuffer_insertCodePointBack
+  (
+    Arcadia_Thread* thread,
+    Arcadia_StringBuffer* self,
+    Arcadia_Natural32Value codePoint
+  );
+
+void
 Arcadia_StringBuffer_insertCodePointsBack
   (
     Arcadia_Thread* thread,
     Arcadia_StringBuffer* self,
     Arcadia_Natural32Value const* codePoints,
     Arcadia_SizeValue numberOfCodePoints
+  );
+
+void
+Arcadia_StringBuffer_insertCodePointFront
+  (
+    Arcadia_Thread* thread,
+    Arcadia_StringBuffer* self,
+    Arcadia_Natural32Value codePoint
   );
 
 void

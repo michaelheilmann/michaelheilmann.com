@@ -1,6 +1,6 @@
 // The author of this software is Michael Heilmann (contact@michaelheilmann.com).
 //
-// Copyright(c) 2024-2025 Michael Heilmann (contact@michaelheilmann.com).
+// Copyright(c) 2024-2026 Michael Heilmann (contact@michaelheilmann.com).
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose without fee is hereby granted, provided that this entire notice
@@ -18,7 +18,7 @@
 
 #include "Arcadia/Visuals/Include.h"
 #include "Arcadia/Math/Include.h"
-typedef struct Arcadia_Visuals_Implementation_MeshContextResource Arcadia_Visuals_Implementation_MeshContextResource;
+typedef struct Arcadia_Visuals_Implementation_RenderingContextResource Arcadia_Visuals_Implementation_RenderingContextResource;
 typedef struct Arcadia_Visuals_Implementation_BackendContext Arcadia_Visuals_Implementation_BackendContext;
 
 // A "resource" is owned by a "backend context". That is, the "backend context" holds a STRONG reference to its "resources".
@@ -36,7 +36,7 @@ struct Arcadia_Visuals_Implementation_Resource {
   void (*load)(Arcadia_Thread* thread, Arcadia_Visuals_Implementation_Resource* self);
   void (*unload)(Arcadia_Thread* thread, Arcadia_Visuals_Implementation_Resource* self);
   void (*unlink)(Arcadia_Thread* thread, Arcadia_Visuals_Implementation_Resource* self);
-  void (*render)(Arcadia_Thread* thread, Arcadia_Visuals_Implementation_Resource* self, Arcadia_Visuals_Implementation_MeshContextResource*);
+  void (*render)(Arcadia_Thread* thread, Arcadia_Visuals_Implementation_Resource* self, Arcadia_Visuals_Implementation_RenderingContextResource*);
 };
 
 void
@@ -70,13 +70,15 @@ Arcadia_Visuals_Implementation_Resource_unlink
     Arcadia_Visuals_Implementation_Resource* self
   );
 
-// Render this resource.
+// Visit this resource during a "rendering".
+// a) ensure the resource back representation is created / updated
+// b) the "rendering context" resource is updated
 void
 Arcadia_Visuals_Implementation_Resource_render
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_Resource* self,
-    Arcadia_Visuals_Implementation_MeshContextResource* meshContextResource
+    Arcadia_Visuals_Implementation_RenderingContextResource* renderingContextResource
   );
 
 void

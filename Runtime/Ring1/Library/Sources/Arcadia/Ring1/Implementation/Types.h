@@ -1,6 +1,6 @@
 // The author of this software is Michael Heilmann (contact@michaelheilmann.com).
 //
-// Copyright(c) 2024-2025 Michael Heilmann (contact@michaelheilmann.com).
+// Copyright(c) 2024-2026 Michael Heilmann (contact@michaelheilmann.com).
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose without fee is hereby granted, provided that this entire notice
@@ -27,14 +27,14 @@
 typedef struct Arcadia_Value Arcadia_Value;
 typedef struct Arcadia_Object Arcadia_Object;
 
-typedef void (Arcadia_Object_ConstructorCallbackFunction)(Arcadia_Thread* thread, Arcadia_Object* self);
-typedef void (Arcadia_Object_DestructorCallbackFunction)(Arcadia_Thread* thread, Arcadia_Object* self);
+typedef void (Arcadia_Object_ConstructCallbackFunction)(Arcadia_Thread* thread, Arcadia_Object* self);
+typedef void (Arcadia_Object_DestructCallbackFunction)(Arcadia_Thread* thread, Arcadia_Object* self);
 typedef void (Arcadia_Object_VisitCallbackFunction)(Arcadia_Thread* thread, Arcadia_Object* self);
 
 /// Type operations for object types.
 typedef struct Arcadia_ObjectType_Operations {
-  Arcadia_Object_ConstructorCallbackFunction* construct;
-  Arcadia_Object_DestructorCallbackFunction* destruct;
+  Arcadia_Object_ConstructCallbackFunction* construct;
+  Arcadia_Object_DestructCallbackFunction* destruct;
   Arcadia_Object_VisitCallbackFunction* visit;
 } Arcadia_ObjectType_Operations;
 

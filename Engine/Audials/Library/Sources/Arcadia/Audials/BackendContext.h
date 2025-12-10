@@ -1,6 +1,6 @@
 // The author of this software is Michael Heilmann (contact@michaelheilmann.com).
 //
-// Copyright(c) 2024-2025 Michael Heilmann (contact@michaelheilmann.com).
+// Copyright(c) 2024-2026 Michael Heilmann (contact@michaelheilmann.com).
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose without fee is hereby granted, provided that this entire notice
@@ -37,7 +37,6 @@ struct Arcadia_Audials_BackendContext {
   Arcadia_Engine_BackendContext _parent;
 
   void (*update)(Arcadia_Thread* thread, Arcadia_Audials_BackendContext* self);
-  void (*playSine)(Arcadia_Thread* thread, Arcadia_Audials_BackendContext* self);
 };
 
 /// @brief Update this backend context.
@@ -45,16 +44,6 @@ struct Arcadia_Audials_BackendContext {
 /// @param self A pointer to this backend context.
 void
 Arcadia_Audials_BackendContext_update
-  (
-    Arcadia_Thread* thread,
-    Arcadia_Audials_BackendContext* self
-  );
-
-/// @brief Play a sine wave sound.
-/// @param thread A pointer to this thread.
-/// @param self A pointer to this backend context.
-void
-Arcadia_Audials_BackendContext_playSine
   (
     Arcadia_Thread* thread,
     Arcadia_Audials_BackendContext* self

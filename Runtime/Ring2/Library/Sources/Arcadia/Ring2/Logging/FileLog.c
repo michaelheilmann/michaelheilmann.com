@@ -1,6 +1,6 @@
 // The author of this software is Michael Heilmann (contact@michaelheilmann.com).
 //
-// Copyright(c) 2024-2025 Michael Heilmann (contact@michaelheilmann.com).
+// Copyright(c) 2024-2026 Michael Heilmann (contact@michaelheilmann.com).
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose without fee is hereby granted, provided that this entire notice
@@ -59,8 +59,7 @@ writeBytes
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
-  .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_FileLog_constructImpl,
-
+  .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_FileLog_constructImpl,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_FileLog_visit,
 };
 

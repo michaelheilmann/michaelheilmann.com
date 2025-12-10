@@ -1,6 +1,6 @@
 // The author of this software is Michael Heilmann (contact@michaelheilmann.com).
 //
-// Copyright(c) 2024-2025 Michael Heilmann (contact@michaelheilmann.com).
+// Copyright(c) 2024-2026 Michael Heilmann (contact@michaelheilmann.com).
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose without fee is hereby granted, provided that this entire notice
@@ -54,29 +54,15 @@ Arcadia_Audials_Implementation_OpenAL_Backend_visit
   );
 
 static const Arcadia_ObjectType_Operations _Arcadia_Audials_Implementation_OpenAL_Backend_objectTypeOperations = {
-  .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_Audials_Implementation_OpenAL_Backend_construct,
-  .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_Audials_Implementation_OpenAL_Backend_destruct,
+  Arcadia_ObjectType_Operations_Initializer,
+  .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_Audials_Implementation_OpenAL_Backend_construct,
+  .destruct = (Arcadia_Object_DestructCallbackFunction*)&Arcadia_Audials_Implementation_OpenAL_Backend_destruct,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_Audials_Implementation_OpenAL_Backend_visit,
 };
 
 static const Arcadia_Type_Operations _Arcadia_Audials_Implementation_OpenAL_Backend_typeOperations = {
+  Arcadia_Type_Operations_Initializer,
   .objectTypeOperations = &_Arcadia_Audials_Implementation_OpenAL_Backend_objectTypeOperations,
-  .add = NULL,
-  .and = NULL,
-  .concatenate = NULL,
-  .divide = NULL,
-  .equalTo = NULL,
-  .greaterThan = NULL,
-  .greaterThanOrEqualTo = NULL,
-  .hash = NULL,
-  .lowerThan = NULL,
-  .lowerThanOrEqualTo = NULL,
-  .multiply = NULL,
-  .negate = NULL,
-  .not = NULL,
-  .notEqualTo = NULL,
-  .or = NULL,
-  .subtract = NULL,
 };
 
 Arcadia_defineObjectType(u8"Arcadia.Audials.Implementation.OpenAL.Backend", Arcadia_Audials_Implementation_OpenAL_Backend,

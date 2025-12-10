@@ -27,12 +27,23 @@ if (NOT TARGET ${MyTool})
 
   list(APPEND ${MyTool}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Tools/BannerGenerator/Main.c)
 
-  list(APPEND ${MyTool}.PrivateLibraries ${MyProjectName}.Imaging ${MyProjectName}.DDL ${MyProjectName}.ARMS)
+  list(APPEND ${MyTool}.PrivateLibraries ${MyProjectName}.ADL ${MyProjectName}.Imaging ${MyProjectName}.DDL)
 
   EndProduct(${MyTool})
 
-  set_target_properties(${MyTool} PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS "--target=\"\"helloworld.png\"\" --width=320 --height=240")
+  CopyProductAssets(${MyTool}.CopyAssets "Tools/BannerGenerator" ${CMAKE_CURRENT_SOURCE_DIR}/Assets ${CMAKE_CURRENT_BINARY_DIR}/Assets)
 
-  set_target_properties(${MyTool} PROPERTIES FOLDER "Tools")
+  set(COMMAND_LINE_ARGS)
+  list(APPEND COMMAND_LINE_ARGS "--target=\\\"helloworld.png\\\"")
+  list(APPEND COMMAND_LINE_ARGS "--definition=\\\"Assets/Black.adl\\\"")
+  list(APPEND COMMAND_LINE_ARGS "--definition=\\\"Assets/White.adl\\\"")
+  list(APPEND COMMAND_LINE_ARGS "--definition=\\\"Assets/FillCheckerboardBlackWhite.adl\\\"")
+  list(APPEND COMMAND_LINE_ARGS "--definition=\\\"Assets/Example1.adl\\\"")
+  list(APPEND COMMAND_LINE_ARGS "--start=\\\"Example1\\\"")
+  list(JOIN COMMAND_LINE_ARGS " " COMMAND_LINE)
+
+  set_target_properties(${MyTool} PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS "${COMMAND_LINE}")
+
+  set_target_properties(${MyTool} PROPERTIES FOLDER "Tools/BannerGenerator")
 
 endif()

@@ -1,6 +1,6 @@
 // The author of this software is Michael Heilmann (contact@michaelheilmann.com).
 //
-// Copyright(c) 2024-2025 Michael Heilmann (contact@michaelheilmann.com).
+// Copyright(c) 2024-2026 Michael Heilmann (contact@michaelheilmann.com).
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose without fee is hereby granted, provided that this entire notice
@@ -21,15 +21,14 @@
 #endif
 #include "Arcadia/Ring2/Include.h"
 #include "Arcadia/Math/Include.h"
+#include "Arcadia/Engine/Include.h"
 #include "Arcadia/Visuals/Scene/CameraNode.h"
-#include "Arcadia/Visuals/Scene/MeshContext.h"
+#include "Arcadia/Visuals/Scene/FrameBufferNode.h"
+#include "Arcadia/Visuals/Scene/RenderingContextNode.h"
 #include "Arcadia/Visuals/Scene/MeshNode.h"
 #include "Arcadia/Visuals/Scene/ViewportNode.h"
-#include "Arcadia/Visuals/Window.h"
 
-/// The singleton object of a type derived from Arcadia.Visuals.Context
-/// is the representation of the retained mode renderer's state and the
-/// interface to manipulate that state.
+/// The implementation of a scene node factory for visuals scene nodes.
 Arcadia_declareObjectType(u8"Arcadia.Visuals.SceneNodeFactory", Arcadia_Visuals_SceneNodeFactory,
                           Arcadia_Engine_SceneNodeFactory);
 
@@ -44,13 +43,21 @@ struct Arcadia_Visuals_SceneNodeFactory {
       Arcadia_Visuals_BackendContext* backendContext
     );
 
-  Arcadia_Visuals_Scene_MeshContext*
-  (*createMeshContext)
+  Arcadia_Visuals_Scene_FrameBufferNode*
+  (*createFrameBufferNode)
     (
       Arcadia_Thread* thread,
       Arcadia_Visuals_SceneNodeFactory* self,
       Arcadia_Visuals_BackendContext* backendContext
-      );
+    );
+
+  Arcadia_Visuals_Scene_RenderingContextNode*
+  (*createRenderingContextNode)
+    (
+      Arcadia_Thread* thread,
+      Arcadia_Visuals_SceneNodeFactory* self,
+      Arcadia_Visuals_BackendContext* backendContext
+    );
 
   Arcadia_Visuals_Scene_MeshNode*
   (*createMeshNode)
@@ -78,8 +85,16 @@ Arcadia_Visuals_SceneNodeFactory_createCameraNode
     Arcadia_Visuals_BackendContext* backendContext
   );
 
-Arcadia_Visuals_Scene_MeshContext*
-Arcadia_Visuals_SceneNodeFactory_createMeshContext
+Arcadia_Visuals_Scene_FrameBufferNode*
+Arcadia_Visuals_SceneNodeFactory_createFrameBufferNode
+  (
+    Arcadia_Thread* thread,
+    Arcadia_Visuals_SceneNodeFactory* self,
+    Arcadia_Visuals_BackendContext* backendContext
+  );
+
+Arcadia_Visuals_Scene_RenderingContextNode*
+Arcadia_Visuals_SceneNodeFactory_createRenderingContextNode
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_SceneNodeFactory* self,

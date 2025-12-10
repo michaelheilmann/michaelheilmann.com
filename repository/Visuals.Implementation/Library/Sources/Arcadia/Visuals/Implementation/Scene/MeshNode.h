@@ -1,6 +1,6 @@
 // The author of this software is Michael Heilmann (contact@michaelheilmann.com).
 //
-// Copyright(c) 2024-2025 Michael Heilmann (contact@michaelheilmann.com).
+// Copyright(c) 2024-2026 Michael Heilmann (contact@michaelheilmann.com).
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose without fee is hereby granted, provided that this entire notice
@@ -18,7 +18,6 @@
 
 #include "Arcadia/Visuals/Include.h"
 typedef struct Arcadia_Visuals_Implementation_BackendContext Arcadia_Visuals_Implementation_BackendContext;
-typedef struct Arcadia_Visuals_Implementation_ConstantBufferResource Arcadia_Visuals_Implementation_ConstantBufferResource;
 typedef struct Arcadia_Visuals_Implementation_MeshResource Arcadia_Visuals_Implementation_MeshResource;
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Implementation.Scene.MeshNode", Arcadia_Visuals_Implementation_Scene_MeshNode,
@@ -28,7 +27,6 @@ struct Arcadia_Visuals_Implementation_Scene_MeshNode {
   Arcadia_Visuals_Scene_MeshNode _parent;
 
   Arcadia_Visuals_Implementation_BackendContext* backendContext;
-  Arcadia_Visuals_Implementation_ConstantBufferResource* constantBufferResource;
   Arcadia_Visuals_Implementation_MeshResource* meshResource;
 };
 

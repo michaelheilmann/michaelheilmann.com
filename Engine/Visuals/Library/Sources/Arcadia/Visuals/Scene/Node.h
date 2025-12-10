@@ -1,6 +1,6 @@
 // The author of this software is Michael Heilmann (contact@michaelheilmann.com).
 //
-// Copyright(c) 2024-2025 Michael Heilmann (contact@michaelheilmann.com).
+// Copyright(c) 2024-2026 Michael Heilmann (contact@michaelheilmann.com).
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose without fee is hereby granted, provided that this entire notice
@@ -17,11 +17,12 @@
 #define ARCADIA_VISUALS_SCENE_NODE_H_INCLUDED
 
 #include "Arcadia/Math/Include.h"
-typedef struct Arcadia_Visuals_Scene_MeshContext Arcadia_Visuals_Scene_MeshContext;
+typedef struct Arcadia_Visuals_Scene_RenderingContextNode Arcadia_Visuals_Scene_RenderingContextNode;
 typedef struct Arcadia_Visuals_BackendContext Arcadia_Visuals_BackendContext;
 
-// The base of all scene nodes.
-// A "resource" is owned by a "backend context". That is, the "backend context" holds a STRONG reference to its "resources".
+// The base of all visuals scene nodes.
+// A "resource" is owned by a "backend context".
+// That is, the "backend context" holds a STRONG reference to its "resources".
 // In addition, the "backend context" retains a GC lock unless its "resources" such that they are only gc'ed if the "backend context" drops this lock.
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Scene.Node", Arcadia_Visuals_Scene_Node,
                           u8"Arcadia.Object")
@@ -30,7 +31,7 @@ struct Arcadia_Visuals_Scene_Node {
   Arcadia_Object _parent;
 
   void (*setBackendContext)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_BackendContext*);
-  void (*render)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_Scene_MeshContext*);
+  void (*render)(Arcadia_Thread*, Arcadia_Visuals_Scene_Node*, Arcadia_Visuals_Scene_RenderingContextNode*);
 };
 
 // Change the backend context of this node.
@@ -48,7 +49,7 @@ Arcadia_Visuals_Scene_Node_render
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_Scene_Node* self,
-    Arcadia_Visuals_Scene_MeshContext* meshContext
+    Arcadia_Visuals_Scene_RenderingContextNode* renderingContextNode
   );
 
 #endif // ARCADIA_VISUALS_SCENE_NODE_H_INCLUDED

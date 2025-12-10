@@ -1,6 +1,6 @@
 // The author of this software is Michael Heilmann (contact@michaelheilmann.com).
 //
-// Copyright(c) 2024-2025 Michael Heilmann (contact@michaelheilmann.com).
+// Copyright(c) 2024-2026 Michael Heilmann (contact@michaelheilmann.com).
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose without fee is hereby granted, provided that this entire notice
@@ -206,8 +206,8 @@ Arcadia_DDL_Scanner_getStringTableImpl
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
-  .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_DDL_Scanner_constructImpl,
-  .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_DDL_Scanner_destruct,
+  .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_DDL_Scanner_constructImpl,
+  .destruct = (Arcadia_Object_DestructCallbackFunction*)&Arcadia_DDL_Scanner_destruct,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_DDL_Scanner_visit,
 };
 
@@ -252,7 +252,7 @@ Arcadia_DDL_Scanner_constructImpl
   self->keywords = Arcadia_DataDefinitionLanguage_Keywords_create(thread);
   self->inputString = Arcadia_String_createFromCxxString(thread, u8"");
   self->input = (Arcadia_UTF8Reader*)Arcadia_UTF8StringReader_create(thread, self->inputString);
-  self->stringTable = Arcadia_Languages_StringTable_create(thread);
+  self->stringTable = Arcadia_Languages_StringTable_getOrCreate(thread);
   //
   self->word.type = Arcadia_DDL_WordType_StartOfInput;
   self->word.text = Arcadia_StringBuffer_create(thread);
@@ -750,11 +750,11 @@ Arcadia_DDL_Scanner_stepImpl
           Arcadia_Thread_setStatus(thread, Arcadia_Status_LexicalError);
           Arcadia_Thread_jump(thread);
         } else if ('\n' == self->symbol) {
-          next(thread, self);
+          saveAndNext(thread, self);
         } else if ('\r' == self->symbol) {
-          next(thread, self);
+          saveAndNext(thread, self);
           if ('\n' == self->symbol) {
-            next(thread, self);
+            saveAndNext(thread, self);
           }
         } else if ('*' == self->symbol) {
           next(thread, self);
@@ -764,6 +764,8 @@ Arcadia_DDL_Scanner_stepImpl
           } else {
             write(thread, self, '*');
           }
+        } else {
+          saveAndNext(thread, self);
         }
       }
       onEndWord(thread, self, Arcadia_DDL_WordType_MultiLineComment);

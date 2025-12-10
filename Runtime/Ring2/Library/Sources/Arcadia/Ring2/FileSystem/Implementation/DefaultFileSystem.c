@@ -1,6 +1,6 @@
 // The author of this software is Michael Heilmann (contact@michaelheilmann.com).
 //
-// Copyright(c) 2024-2025 Michael Heilmann (contact@michaelheilmann.com).
+// Copyright(c) 2024-2026 Michael Heilmann (contact@michaelheilmann.com).
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose without fee is hereby granted, provided that this entire notice
@@ -227,8 +227,8 @@ Arcadia_DefaultFileSystem_create
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
   Arcadia_ObjectType_Operations_Initializer,
-  .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_DefaultFileSystem_constructImpl,
-  .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_DefaultFileSystem_destruct,
+  .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_DefaultFileSystem_constructImpl,
+  .destruct = (Arcadia_Object_DestructCallbackFunction*)&Arcadia_DefaultFileSystem_destruct,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_DefaultFileSystem_visit,
 };
 
@@ -524,7 +524,7 @@ Arcadia_DefaultFileSystem_getExecutableImpl
         Arcadia_Thread_jump(thread);
       } else if (m == n) {
         Arcadia_SizeValue hi, lo;
-        Arcadia_safeAddSizeValue(thread, 64, MAX_PATH, &hi, &lo);
+        Arcadia_safeAddFullSizeValue(thread, 64, MAX_PATH, &hi, &lo);
         if (hi) {
           lo = Arcadia_SizeValue_Maximum;
         }

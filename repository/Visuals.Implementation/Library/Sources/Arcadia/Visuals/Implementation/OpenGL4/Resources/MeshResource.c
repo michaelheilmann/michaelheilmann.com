@@ -1,6 +1,6 @@
 // The author of this software is Michael Heilmann (contact@michaelheilmann.com).
 //
-// Copyright(c) 2024-2025 Michael Heilmann (contact@michaelheilmann.com).
+// Copyright(c) 2024-2026 Michael Heilmann (contact@michaelheilmann.com).
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose without fee is hereby granted, provided that this entire notice
@@ -73,7 +73,7 @@ Arcadia_Visuals_Implementation_OpenGL4_MeshResource_renderImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_OpenGL4_MeshResource* self,
-    Arcadia_Visuals_Implementation_MeshContextResource* meshContextResource
+    Arcadia_Visuals_Implementation_RenderingContextResource* renderingContextNode
   );
 
 static void
@@ -85,8 +85,9 @@ Arcadia_Visuals_Implementation_OpenGL4_MeshResource_setLocalToWorldMatrixImpl
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
-  .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_Visuals_Implementation_OpenGL4_MeshResource_constructImpl,
-  .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_Visuals_Implementation_OpenGL4_MeshResource_destructImpl,
+  Arcadia_ObjectType_Operations_Initializer,
+  .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_Visuals_Implementation_OpenGL4_MeshResource_constructImpl,
+  .destruct = (Arcadia_Object_DestructCallbackFunction*)&Arcadia_Visuals_Implementation_OpenGL4_MeshResource_destructImpl,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_Visuals_Implementation_OpenGL4_MeshResource_visitImpl,
 };
 
@@ -148,7 +149,7 @@ Arcadia_Visuals_Implementation_OpenGL4_MeshResource_constructImpl
   ((Arcadia_Visuals_Implementation_Resource*)self)->load = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_MeshResource_loadImpl;
   ((Arcadia_Visuals_Implementation_Resource*)self)->unload = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_MeshResource_unloadImpl;
   ((Arcadia_Visuals_Implementation_Resource*)self)->unlink = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*)) & Arcadia_Visuals_Implementation_OpenGL4_MeshResource_unlinkImpl;
-  ((Arcadia_Visuals_Implementation_Resource*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*, Arcadia_Visuals_Implementation_MeshContextResource*)) & Arcadia_Visuals_Implementation_OpenGL4_MeshResource_renderImpl;
+  ((Arcadia_Visuals_Implementation_Resource*)self)->render = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_Resource*, Arcadia_Visuals_Implementation_RenderingContextResource*)) & Arcadia_Visuals_Implementation_OpenGL4_MeshResource_renderImpl;
   ((Arcadia_Visuals_Implementation_MeshResource*)self)->setLocalToWorldMatrix = (void (*)(Arcadia_Thread*, Arcadia_Visuals_Implementation_MeshResource*, Arcadia_Math_Matrix4Real32*)) & Arcadia_Visuals_Implementation_OpenGL4_MeshResource_setLocalToWorldMatrixImpl;
 
   Arcadia_Object_setType(thread, (Arcadia_Object*)self, _type);
@@ -222,7 +223,7 @@ Arcadia_Visuals_Implementation_OpenGL4_MeshResource_renderImpl
   (
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_OpenGL4_MeshResource* self,
-    Arcadia_Visuals_Implementation_MeshContextResource* meshContextResource
+    Arcadia_Visuals_Implementation_RenderingContextResource* renderingContextNode
   )
 {
   Arcadia_Visuals_Implementation_OpenGL4_BackendContext* context = (Arcadia_Visuals_Implementation_OpenGL4_BackendContext*)((Arcadia_Visuals_Implementation_Resource*)self)->context;
@@ -241,7 +242,7 @@ Arcadia_Visuals_Implementation_OpenGL4_MeshResource_renderImpl
   }
 
   Arcadia_Visuals_Implementation_OpenGL4_ConstantBufferResource* viewerConstantBuffer = NULL;
-  viewerConstantBuffer = (Arcadia_Visuals_Implementation_OpenGL4_ConstantBufferResource*)meshContextResource->viewerConstantBuffer;
+  viewerConstantBuffer = (Arcadia_Visuals_Implementation_OpenGL4_ConstantBufferResource*)renderingContextNode->viewerConstantBuffer;
   Arcadia_Visuals_Implementation_Resource_load(thread, (Arcadia_Visuals_Implementation_Resource*)self->meshConstantBuffer);
   gl->glUseProgram(self->program->id);
   gl->glBindFragDataLocation(self->program->id, 0, u8"fragmentColor");

@@ -1,6 +1,6 @@
 // The author of this software is Michael Heilmann (contact@michaelheilmann.com).
 //
-// Copyright(c) 2024-2025 Michael Heilmann (contact@michaelheilmann.com).
+// Copyright(c) 2024-2026 Michael Heilmann (contact@michaelheilmann.com).
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose without fee is hereby granted, provided that this entire notice
@@ -18,8 +18,6 @@
 
 #include "Arcadia/Visuals/Scene/Node.h"
 typedef struct Arcadia_Visuals_Scene_ViewportNode Arcadia_Visuals_Scene_ViewportNode;
-typedef struct Arcadia_Visuals_BackendContext Arcadia_Visuals_BackendContext;
-typedef struct Arcadia_Visuals_Implementation_MeshResource Arcadia_Visuals_Implementation_MeshResource;
 
 Arcadia_declareObjectType(u8"Arcadia.Visuals.Scene.CameraNode", Arcadia_Visuals_Scene_CameraNode,
                           u8"Arcadia.Visuals.Scene.Node")
@@ -27,8 +25,8 @@ Arcadia_declareObjectType(u8"Arcadia.Visuals.Scene.CameraNode", Arcadia_Visuals_
 struct Arcadia_Visuals_Scene_CameraNode {
   Arcadia_Visuals_Scene_Node _parent;
   Arcadia_Visuals_Scene_ViewportNode* viewport;
-  void (*setViewToProjectionMatrix)(Arcadia_Thread* thread, Arcadia_Visuals_Scene_CameraNode*, Arcadia_Math_Matrix4Real32*);
-  void (*setWorldToViewMatrix)(Arcadia_Thread* thread, Arcadia_Visuals_Scene_CameraNode*, Arcadia_Math_Matrix4Real32*);
+  void (*setViewToProjectionMatrix)(Arcadia_Thread*, Arcadia_Visuals_Scene_CameraNode*, Arcadia_Math_Matrix4Real32*);
+  void (*setWorldToViewMatrix)(Arcadia_Thread*, Arcadia_Visuals_Scene_CameraNode*, Arcadia_Math_Matrix4Real32*);
 };
 
 void

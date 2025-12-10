@@ -1,6 +1,6 @@
 // The author of this software is Michael Heilmann (contact@michaelheilmann.com).
 //
-// Copyright(c) 2024-2025 Michael Heilmann (contact@michaelheilmann.com).
+// Copyright(c) 2024-2026 Michael Heilmann (contact@michaelheilmann.com).
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose without fee is hereby granted, provided that this entire notice
@@ -39,8 +39,9 @@ Arcadia_MIL_Scope_Entry_visitImpl
   );
 
 static const Arcadia_ObjectType_Operations _Arcadia_MIL_Scope_Entry_objectTypeOperations = {
-  .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_MIL_Scope_Entry_constructImpl,
-  .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_MIL_Scope_Entry_destructImpl,
+  Arcadia_ObjectType_Operations_Initializer,
+  .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_MIL_Scope_Entry_constructImpl,
+  .destruct = (Arcadia_Object_DestructCallbackFunction*)&Arcadia_MIL_Scope_Entry_destructImpl,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_MIL_Scope_Entry_visitImpl,
 };
 
@@ -141,8 +142,9 @@ Arcadia_MIL_Scope_visitImpl
   );
 
 static const Arcadia_ObjectType_Operations _Arcadia_MIL_Scope_objectTypeOperations = {
-  .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_MIL_Scope_constructImpl,
-  .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_MIL_Scope_destructImpl,
+  Arcadia_ObjectType_Operations_Initializer,
+  .construct = (Arcadia_Object_ConstructCallbackFunction*)&Arcadia_MIL_Scope_constructImpl,
+  .destruct = (Arcadia_Object_DestructCallbackFunction*)&Arcadia_MIL_Scope_destructImpl,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_MIL_Scope_visitImpl,
 };
 
