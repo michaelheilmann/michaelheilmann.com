@@ -15,7 +15,7 @@
 
   <link rel='stylesheet' href='https://michaelheilmann.com/assets/reset.css?v=3'>
   <link rel='stylesheet' href='https://michaelheilmann.com/assets/index.css?v=3'>
-  <link rel='canonical' href='https://michaelheilmann.com/specifications/data-definition-language/index.html'>
+  <link rel='canonical' href='https://michaelheilmann.com/specifications/data-definition-language-schema/index.html'>
   
   <script>
   MathJax = {
@@ -35,6 +35,7 @@
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
   <title>Data Definition Language Schema (draft, v0.1)</title>
   <style>
+
   /* the left-hand side of a grammar rule */
 my-lhs {
   display: block;
@@ -99,6 +100,33 @@ div.box code {
   /*background-color: rgb(215, 210, 203);*/
 }
 
+my-formula-box.align-left > mjx-container {
+  text-align: left!important;
+}
+my-formula-box.align-right > mjx-container {
+  text-align: right!important;
+}
+
+table.syntax-directed-translation {
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+table.syntax-directed-translation, tr, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+table.syntax-directed-translation td {
+  padding: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+table.syntax-directed-translation td:nth-child(2)  {
+  width: 50%;
+  text-align: right;
+}
+
+
   my-sem, my-syn, my-lex {
     font-family: my-code-font, monospace;
   }
@@ -112,6 +140,7 @@ div.box code {
   my-sem::after {
     content: "<sub>sem</sub>"
   }
+
   </style>
 </head>
 <body class="my-content-page-1">
@@ -139,8 +168,9 @@ These tools can be standalone or integrated into libraries and executables.
 
 <h2 id="notations">Notations</h2>
 
-<p>This specification uses the semantical form of the DDL as defined
-   <a href="https://michaelheilmann.com/specifications/data-definition-language/#semantical-specification">here</a>.</p>
+<p>This specification uses the semantical form of the DDL as defined in <em>Data Definition Language</em>
+   specification (see <a href="https://michaelheilmann.com/specifications/data-definition-language/#semantical-specification">
+   Data Definition Language</a> for more information).</p>
 
 <p>Given a DDL value \(x\), we denote the type of that value by \(\textit{type}(x)\).</p>
 
@@ -181,32 +211,55 @@ Furthermore, there exist a schema type \(\textit{Schema}_{\textit{DDLS}}\) and a
 
 <h2 id="semantics">3 Semantics</h2>
 
-<p>DDLS programs are a restriction on DDL programs; that is, every DDLS program is a DDL program but not vice versa.
-   The DDLS semantics are defined by a translation function \(\sigma\) of DDL values to DDLS values.</p>
-
-\[
-\sigma : \textit{Name} \cup \textit{Value}
-         \rightarrow \textit{Error} \cup \textit{Value}_{\textit{DDLS}}
-\]
+<p>
+The translation of a DDL value into DDLS values is described by syntax-directed translations
+(see Aho, Seti, Ullman: Compilers, Principles, Techniques, and Tools; 1st; pp. 305 for more information).
+At the end of a translation, the input DDL value \(x\) has a variable \(x.\text{value}\) which is either
+a value of type \textit{Value}_{\textit{DDLS}}, if the translation was successful, or an value of type
+\textit{Error}_{\textit{DDLS}}, if the translation failed.</p>
 
 <h3 id="any-type">3.1 Any type</h3>
 <p>The values of type \(\textit{Any}_{\textit{DDLS}}\) are represented by \(\textit{Map}\) values.
-   The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{Any}\) of type \(\textit{String}\).
+   The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{Any}\) of type 
+   \(\textit{String}\).</p>
 
 <p>The translation function is hence given by</p>
-\[
-\sigma([\left((\texttt{kind},\texttt{Any}\right)]) = \textit{any}_{\textit{DDLS}}
-\]
+<table class="syntax-directed-translation">
+  <tr>
+    <td>
+    <my-formula-box class="align-left">\[\begin{array}{ll}
+      \left[ \left( \texttt{kind},\texttt{Any} \right) \right]@1
+    \end{array}\]</my-formula-box>
+    </td>
+    <td>
+    <my-formula-box class="align-right">\[\begin{array}{ll}
+      1.\text{value} = \textit{any}_{\textit{DDLS}}
+    \end{array}\]</my-formula-box>
+    </td>
+  </tr>
+</table>
 <p>where \(\textit{any}_{\textit{DDLS}}\) is the single value of type \(\textit{Any}_{\textit{DDLS}}\).</p>
 
 <h3 id="boolean-type">3.2 Boolean types</h3>
 <p>The values of type \(\textit{Boolean}_{\textit{DDLS}}\) are represented by a \(\textit{Map}\) values.
-   The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{Boolean}\) of type \(\textit{String}\).
+   The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{Boolean}\) of type
+   \(\textit{String}\).</p>
 
 <p>The translation function is hence given by</p>
-\[
-\sigma([\left((\texttt{kind},\texttt{Boolean}\right)]) = \textit{boolean}_{\textit{DDLS}}
-\]
+<table class="syntax-directed-translation">
+  <tr>
+    <td>
+    <my-formula-box class="align-left">\[\begin{array}{ll}
+      \left[\left( \texttt{kind}, \texttt{Boolean} \right) \right]@1
+    \end{array}\]</my-formula-box>
+    </td>
+    <td>
+    <my-formula-box class="align-right">\[\begin{array}{ll}
+      1.\text{value} = \textit{boolean}_{\textit{DDLS}}
+    \end{array}\]</my-formula-box>
+    </td>
+  </tr>
+</table>
 <p>where \(\textit{boolean}_{\textit{DDLS}}\) is the single value of type \(\textit{Boolean}_{\textit{DDLS}}\).</p>
 
 <h3 id="list-type">3.3 List type</h3>
@@ -219,15 +272,20 @@ Furthermore, there exist a schema type \(\textit{Schema}_{\textit{DDLS}}\) and a
 </ul>
 
 <p>The translation function is hence given by</p>
-\[
-\sigma
-\left(
-  [\left(\texttt{kind},\texttt{List}\right),
-   \left(\texttt{elements}, x\right)]
-\right)
-=
-\left(\sigma\left(x\right)\right)
-\]
+<table class="syntax-directed-translation">
+  <tr>
+    <td>
+    <my-formula-box class="align-left">\[\begin{array}{ll}
+      \left[ \left(\texttt{kind},\texttt{List}\right), \left(\texttt{elements}, w@2 \right) \right]@1
+    \end{array}\]</my-formula-box>
+    </td>
+    <td>
+    <my-formula-box class="align-right">\[\begin{array}{ll}
+      1.\text{value} = 1.\text{value}
+    \end{array}\]</my-formula-box>
+    </td>
+  </tr>
+</table>
 
 <h3 id="map-type">3.4 Map type</h3>
 <p>A value of type \(\textit{Map}_{\textit{DDLS}}\) are represented by a \(\textit{Map}\) value.
@@ -239,28 +297,54 @@ Furthermore, there exist a schema type \(\textit{Schema}_{\textit{DDLS}}\) and a
 </ul>
 
 <p>The translation function is hence given by</p>
-\[
-\sigma
-\left(
-  [\left(\texttt{kind},\texttt{Map}\right),
-   \left(\texttt{entries}, w\right)]
-\right)
-=
-\begin{cases}
-\left(\sigma\left(w\right)\right) &\text{if }\sigma(w) \not\in \textit{Error} \text{,}\\
-\sigma(w)                         &\text{otherwise.}
-\end{cases}
-\]
-with
-\[
-\left(\sigma(w)\right)=
-\begin{cases}
-\left([\sigma(x)] \circ \sigma(v)\right) & \text{if } w = [x] \circ v \text{ and } \sigma(x) \not\in \textit{Error}\text{,}\\
-\sigma(x)                                & \text{if } w = [x] \circ v \text{ and } \sigma(x)     \in \textit{Error}\text{,}\\
-\left([]                         \right) & \text{if } w = []\text{,}\\     
-\end{cases}
-\]
-
+<table class="syntax-directed-translation">
+  <tr>
+    <td>
+    <my-formula-box class="align-left">\[\begin{array}{ll}
+      \left[ \left(\texttt{kind},\texttt{Map}\right), \left(\texttt{entries}, w@2 \right) \right]@1
+    \end{array}\]</my-formula-box>
+    </td>
+    <td>
+    <my-formula-box class="align-right">\[\begin{array}{ll}
+      1.\text{value} =
+      \begin{cases}
+        \left[ 2.\text{value} \right]  & \text{if } 2.\text{value} \not\in \textit{Error}_{\textit{DDLS}}\text{,}\\
+      \textit{Error}_{\textit{DDLS}} & \text{otherwise.}
+      \end{cases}
+    \end{array}\]</my-formula-box>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <my-formula-box class="align-left">\[\begin{array}{ll}
+      \left(w@1\right) \text{if }w = [x] \circ{v}
+    \end{array}\]</my-formula-box>
+    </td>
+    <td>
+    <my-formula-box class="align-right">\[\begin{array}{ll}
+      1.\text{value} =
+      \begin{cases}
+        \left[x.\text{value}\right] \circ v.\text{value}
+          &\text{if } x.\textit{value} \in\textit{MapEntry}_{\textit{DDLS}}, v.\text{value} \not\in \textit{Error}_{\textit{DDLS}}\\
+        \textit{Error}_{\textit{DDLS}}
+          &\text{otherwise.}
+      \end{cases}
+    \end{array}\]</my-formula-box>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <my-formula-box class="align-left">\[\begin{array}{ll}
+      \left(w@1\right) \text{if }w = []
+    \end{array}\]</my-formula-box>
+    </td>
+    <td>
+    <my-formula-box class="align-right">\[\begin{array}{ll}
+      1.\textit{value} = []
+    \end{array}\]</my-formula-box>
+    </td>
+  </tr>
+</table>
 
 <p>A value of type \(\textit{MapEntry}_{\textit{DDLS}}\) are represented by a \(\textit{Map}\) value.
    The map contains three entries.</p>
@@ -272,28 +356,48 @@ with
 </ul>
 
 <p>The translation function for a \(\textit{MapEntry}_{\textit{DDLS}}\) is hence given by</p>
-\[
-\sigma
-\left(
-  [\left(\texttt{kind},\texttt{MapEntry}\right),
-   \left(\texttt{name}, a\right)
-   \left(\texttt{type}, b\right)]
-\right)
-=
-\begin{cases}
-\left(a, \sigma\left(b\right)\right) &\text{if }\sigma(b) \not\in \textit{Error} \text{,}\\
-\sigma(b)                            &\text{if }\sigma(b) \in \textit{Error} \text{,}\\
-\textit{Error}                       &\text{otherwise.}
-\end{cases}
-\]
+<table class="syntax-directed-translation">
+  <tr>
+    <td>
+    <my-formula-box class="align-left">\[\begin{array}{ll}
+     \left[\left(\texttt{kind},\texttt{MapEntry}\right),
+          \left(\texttt{name}, a\right),
+          \left(\texttt{type}, b\right)
+     \right]@1
+    \end{array}\]</my-formula-box>
+    </td>
+    <td>
+    <my-formula-box class="align-right">\[\begin{array}{ll}
+    1.\text{value} =
+      \begin{cases}
+      \left(a, b.\text{value}\right) &\text{if }b.\text{value}\not\in\textit{Error}_{\textit{DDLS}}\text{,}\\
+      \textit{Error}_{\textit{DDLS}} &\text{otherwise.}
+      \end{cases}
+    \end{array}\]</my-formula-box>
+    </td>
+  </tr>
+</table>
+
 <h3 id="number-type">3.5 Number types</h3>
 <p>The values of type \(\textit{Number}_{\textit{DDLS}}\) are represented by a \(\textit{Map}\) values.
-   The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{Number}\) of type \(\textit{String}\).
+   The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{Number}\) of type
+   \(\textit{String}\).</p>
 
 <p>The translation function is hence given by</p>
-\[
-\sigma([\left((\texttt{kind},\texttt{Number}\right)]) = \textit{number}_{\textit{DDLS}}
-\]
+<table class="syntax-directed-translation">
+  <tr>
+    <td>
+    <my-formula-box class="align-left">\[\begin{array}{ll}
+      \left[\left( \texttt{kind}, \texttt{Number} \right) \right]@1
+    \end{array}\]</my-formula-box>
+    </td>
+    <td>
+    <my-formula-box class="align-right">\[\begin{array}{ll}
+      1.\text{value} = \textit{number}_{\textit{DDLS}}
+    \end{array}\]</my-formula-box>
+    </td>
+  </tr>
+</table>
 <p>where \(\textit{number}_{\textit{DDLS}}\) is the single value of type \(\textit{Number}_{\textit{DDLS}}\).</p>
 
 <h3 id="schema-type">3.6 Schema type</h3>
@@ -344,22 +448,46 @@ with
 
 <h3 id="string-type">3.8 String type</h3>
 <p>The values of type \(\textit{String}_{\textit{DDLS}}\) are represented by a \(\textit{Map}\) values.
-   The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{String}\) of type \(\textit{String}\).
+   The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{String}\) of type
+   \(\textit{String}\).</p>
 
 <p>The translation function is hence given by</p>
-\[
-\sigma([\left((\texttt{kind},\texttt{String}\right)]) = \textit{string}_{\textit{DDLS}}
-\]
+<table class="syntax-directed-translation">
+  <tr>
+    <td>
+    <my-formula-box class="align-left">\[\begin{array}{ll}
+      \left[\left( \texttt{kind}, \texttt{String} \right) \right]@1
+    \end{array}\]</my-formula-box>
+    </td>
+    <td>
+    <my-formula-box class="align-right">\[\begin{array}{ll}
+      1.\text{value} = \textit{string}_{\textit{DDLS}}
+    \end{array}\]</my-formula-box>
+    </td>
+  </tr>
+</table>
 <p>where \(\textit{string}_{\textit{DDLS}}\) is the single value of type \(\textit{String}_{\textit{DDLS}}\).</p>
 
 <h3 id="void-type">3.9 Void type</h3>
 <p>The values of type \(\textit{Void}_{\textit{DDLS}}\) are represented by a \(\textit{Map}\) values.
-   The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{Void}\) of type \(\textit{String}\).</p>
+   The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{Void}\) of type
+   \(\textit{String}\).</p>
 
 <p>The translation function is hence given by</p>
-\[
-\sigma([\left((\texttt{kind},\texttt{Void}\right)]) = \textit{void}_{\textit{DDLS}}
-\]
+<table class="syntax-directed-translation">
+  <tr>
+    <td>
+    <my-formula-box class="align-left">\[\begin{array}{ll}
+      \left[\left( \texttt{kind}, \texttt{Void} \right) \right]@1
+    \end{array}\]</my-formula-box>
+    </td>
+    <td>
+    <my-formula-box class="align-right">\[\begin{array}{ll}
+      1.\text{value} = \textit{void}_{\textit{DDLS}}
+    \end{array}\]</my-formula-box>
+    </td>
+  </tr>
+</table>
 <p>where \(\textit{void}_{\textit{DDLS}}\) is the single value of type \(\textit{Void}_{\textit{DDLS}}\).</p>
 
 
@@ -524,7 +652,7 @@ Otherwise \(x\) was rejected by \(S\) with \(s\).
     <div class="center-column"></div>
     <div class="right-column">
       <div>Website maintained by Michael Heilmann.</div>
-      <div>Last modified on 9 December 2025.</div>
+      <div>Last modified on 11 December 2025.</div>
     </div>
   </footer>
 </body>

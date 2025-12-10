@@ -21,7 +21,9 @@
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@@4/tex-mml-chtml.js"></script>
   <title>Data Definition Language</title>
   <style>
+  
   @{include("./../specification.css.i")}
+
   my-sem, my-syn, my-lex {
     font-family: my-code-font, monospace;
   }
@@ -35,6 +37,7 @@
   my-sem::before {
     content: "sem:"
   }
+
   </style>
 
 </head>
@@ -47,30 +50,40 @@
   <main>
     <div class="left-column"></div>
     <div class="center-column">
+    
     <h1>Data Definition Language</h1>
+    
     <h2 id="introduction">1 Introduction</h2>
     <p>This document is the specification of the <em>Data Definition Language</em>.
-    Programs of this language are sets of UTF8 files of this language and describe structured data for the purpose of for exchanging that data between entities (humans and machines alike).
-    The language provides scalar types (boolean type, number type, string type, and void type)  as well as aggregate types (map values and list values).
-    </p>
+    Programs of this language are sequences of Unicode code points and describe structured data for the purpose of for exchanging that data between entities (humans and machines alike).
+    The programs describes data in terms of typed value and this specificiation describes two aspects; language provides scalar types (boolean type, number type, string type,   and void
+    type) as well as aggregate types (map values and list values). This specification describes the translation from Unicode code points to typed values.</p>
+        
+    <h2 id="translation">2 Translation</h2>
+    <p>A program of the DDL language is translated into values. This translation happens in three phases: The <em>lexical translation</em> translates Unicode     code
+    points to words. The <em>syntactical translation</em> filters the resulting sequence of words and then translates these words into a sentence. The  <em>semantical
+    translation</em> translates sentences into values t.</p>
 
-    <p>
-    The language is insipired by JSON (see <a href="https://www.ecma-international.org/publications-and-standards/standards/ecma-404/">ECMA-404 The JSON interchange syntax, 2nd edition, December 2017</a> for more information).
-    A conversion between JSON and DDL is possible without the loss of data.
-    </p>
-
-    @{include("./lexical-specification.i")}
-    @{include("./syntactical-specification.i")}
-    @{include("./semantical-specification.i")}
+    @{include("./lexical-translation.i")}
+    @{include("./syntactical-translation.i")}
+    @{include("./semantical-translation.i")}
 
   </div>
   <div class="right-column">
    <nav>
       <ul style="list-style: none">
         <li><a href="#introduction">1 Introduction</a></li>
-        <li><a href="#lexical-specification">2 Lexical Specification</a></li>
-        <li><a href="#syntactical-specification">3 Syntactical Specification</a></li>
-        <li><a href="#semantical-specification">4 Semantical Specification</a></li>
+        <li><a href="#translation">2 Translation</a></li>
+        <li><a href="#lexical-translation">2 Lexical Translation</a></li>
+        <li><a href="#syntactical-translation">3 Syntactical Translation</a></li>
+        <li><a href="#semantical-translation">4 Semantical Translation</a>
+          <ul>
+            <li><a href="#semantical-translation-scalar-types">4.1 Scalar Types</a></li>
+            <li><a href="#semantical-translation-list-type">4.2 List Type</a></li>
+            <li><a href="#semantical-translation-map-type">4.3 Map Type</a></li>
+            <li><a href="#semantical-translation-value-type">4.4 Value Type</a></li>
+          </ul>
+          </li>
       </ul>
     </nav>
   </div>

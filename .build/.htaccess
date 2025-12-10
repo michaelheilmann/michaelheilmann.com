@@ -17,3 +17,6 @@ Require all denied
 ErrorDocument 500 /error.html
 ErrorDocument 403 /error.html
 ErrorDocument 404 /error.html
+
+# 2025-10-12: "/specifications/common-lexical-specification" was renamed to "specifications/common-lexical-translations".
+RewriteRule ^specifications/common-lexical-specification(.*)$ https://michaelheilmann.com/specifications/common-lexical-translations [R=301,L]

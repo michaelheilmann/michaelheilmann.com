@@ -8,12 +8,17 @@
 </ul>
 
 <p>The translation function is hence given by</p>
-\[
-\sigma
-\left(
-  [\left(\texttt{kind},\texttt{List}\right),
-   \left(\texttt{elements}, x\right)]
-\right)
-=
-\left(\sigma\left(x\right)\right)
-\]
+<table class="syntax-directed-translation">
+  <tr>
+    <td>
+    <my-formula-box class="align-left">\[\begin{array}{ll}
+      \left[ \left(\texttt{kind},\texttt{List}\right), \left(\texttt{elements}, w@@2 \right) \right]@@1
+    \end{array}\]</my-formula-box>
+    </td>
+    <td>
+    <my-formula-box class="align-right">\[\begin{array}{ll}
+      1.\text{value} = 1.\text{value}
+    \end{array}\]</my-formula-box>
+    </td>
+  </tr>
+</table>

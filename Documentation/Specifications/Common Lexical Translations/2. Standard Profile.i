@@ -1,10 +1,9 @@
-<h1 id="full-profile-lexical-specification">3 Full Profile Lexical Specification</h1>
-<p>
-The lexical grammar describes the translation of Unicode code points into words.
-The goal non-terminal of the lexical grammar is the <code>Lexical.Word</code> symbol.
-</p>
+<h2 id="standard-profile">2 Standard Profile</h2>
+<p>The <em>Full Profile</em> contains all possible rules.
+   Other profiles may be added in future versions.
+   Language designers are encouraged to create their own profiles.</p>
 
-<h2 id="full-profile-lexical-specification-word">3.1 word</h2>
+<h3 id="standard-profile-word">2.1 word</h3>
 <p>The word <code>word</code> is defined by</p>
 
 <div class="box">
@@ -23,7 +22,6 @@ Lexical.Word : Lexical.LeftSquareBracket<br>
 Lexical.Word : Lexical.RightSquareBracket<br>
 Lexical.Word : Lexical.Comma<br>
 Lexical.Word : Lexical.Colon<br>
-/*whitespace, newline, and comment are not considered the syntactical grammar*/
 Lexical.Word : Lexical.Whitespace<br>
 Lexical.Word : Lexical.Newline<br>
 Lexical.Word : Lexical.Comment<br>
@@ -31,7 +29,7 @@ Lexical.Word : Lexical.Comment<br>
 </div>
 </div>
 
-<h2 id="full-profile-lexical-specification-whitespace">3.2 whitespace</h2>
+<h3 id="standard-profile-whitespace">2.2 whitespace</h3>
 <p>The word <code>whitespace</code> is defined by</p>
 
 <div class="box">
@@ -45,7 +43,7 @@ Lexial.Whitespace : #20
 </div>
 </div>
 
-<h2 id="full-profile-lexical-specification-line-terminator">3.3 line terminator</h2>
+<h3 id="standard-profile-line-terminator">2.3 line terminator</h3>
 <p>The word <code>Lexical.LineTerminator</code> is defined by</p>
 
 <div class="box">
@@ -59,7 +57,7 @@ Lexical.LineTerminator : #d {#a}
 </div>
 </div>
 
-<h2 id="full-profile-lexical-specification-comments">3.4 comments</h2>
+<h3 id="standard-profile-comments">2.4 comments</h3>
 <p>
 The language using the Common Lexical Specification may use both single-line comments and multi-line comments.
 A <code>Lexical.Comment</code> is either a <code>single_line_comment</code> or a <code>Lexical.MultiLineComment</code>.
@@ -121,7 +119,7 @@ Lexical.MultiLineComment :<br>
   <li>Multi-line comments do not nest.</li>
 </ul>
 
-<h2 id="full-profile-lexical-specification-parentheses">3.5 parentheses</h2>
+<h3 id="standard-profile-parentheses">2.5 parentheses</h3>
 <p>The words <code>Lexical.LeftParenthesis</code> and <code>Lexical.RightParenthesis</code>, respectively, are defined by</p>
 
 <div class="box">
@@ -135,7 +133,7 @@ Lexical.RightParenthesis : #29
 </div>
 </div>
 
-<h2 id="full-profile-lexical-specification-curly-brackets">3.6 curly brackets</h2>
+<h3 id="standard-profile-curly-brackets">2.6 curly brackets</h3>
 <p>The words <code>Lexical.LeftCurlyBracket</code> and <code>Lexical.RightCurlyBracket</code>, respectively, are defined by</p>
 
 <div class="box">
@@ -149,7 +147,7 @@ Lexical.RightCurlyBracket : #7d
 </div>
 </div>
 
-<h2 id="full-profile-lexical-specification-colon">3.7 colon</h2>
+<h3 id="standard-profile-colon">2.7 colon</h3>
 <p>The word <code>Lexical.Colon</code> is defined by</code>
 
 <div class="box">
@@ -159,7 +157,7 @@ Lexical.Colon : #3a
 </code></p>
 </div>
 
-<h2 id="full-profile-lexical-specification-square-brackets">3.8 square brackets</h2>
+<h3 id="standard-profile-square-brackets">2.8 square brackets</h3>
 <p>The words <code>Lexical.LeftSquareBracket</code> and <code>Lexica.RightSquareBracket</code>, respectively, are defined by</p>
 
 <div class="box">
@@ -171,7 +169,7 @@ Lexical.RightSquareBracket : #5d
 </code></p>
 </div>
 
-<h2 id="full-profile-lexical-specification-comma">3.9 comma</h2>
+<h3 id="standard-profile-comma">2.9 comma</h3>
 <p>The word <code>Lexical.Comma</code> is defined by</p>
 
 <div class="box">
@@ -181,7 +179,7 @@ Lexical.Comma : #2c
 </code></p>
 </div>
 
-<h2 id="full-profile-lexical-specification-name">3.10 name</h2>
+<h3 id="standard-profile-name">2.10 name</h3>
 <p>The word <code>Lexical.Name</code> is defined by</p>
 
 <div class="box">
@@ -205,7 +203,7 @@ Lexical.NameSuffixCharacter : #5f<br>
 </div>
 </div>
 
-<h2 id="full-profile-lexical-specification-number-literal">3.10 number literal</h2>
+<h3 id="standard-profile-number-literal">2.10 number literal</h3>
 <p>The word <code>Lexical.Number</code> is defined by</p>
 
 <div class="box">
@@ -228,7 +226,7 @@ Lexical.ExponentPrefix : #45<br>
 </code></p>
 </div>
 
-<h2 id="full-profile-lexical-specification-string-literal">3.11 string literal</h2
+<h3 id="standard-profile-string-literal">2.11 string literal</h2
 <p>The word <code>Lexical.String</code> is defined by</p>
 
 <div class="box">
@@ -243,7 +241,7 @@ Lexical.DoubleQuotedStringCharacter : #5c Lexical.DoubleQuote<br>
 /* #22 is also known as "QUOTATION MARK" */<br>
 Lexical.DoubleQuote : #22<br>
 <br>
-Lexical.SingleQuotedString : Lexical.SingleQuote  {Lexical.SingleQuotedStringCharacter} Lexical.SingleQuote <br>
+Lexical.SingleQuotedString : Lexical.SingleQuote {Lexical.SingleQuotedStringCharacter} Lexical.SingleQuote<br>
 Lexical.SingleQuotedStringCharacter : /* any character except for Lexical.Newline and Lexical.SingleQuote and characters in [0,1F]*/<br>
 Lexical.SingleQuotedStringCharacter : Lexical.EscapeSequence<br>
 Lexical.SingleQuotedStringCharacter : #5c Lexical.SingleQuote <br>
@@ -269,7 +267,30 @@ Lexical.EscapeSequence : #5c #75
 </code></p>
 </div>
 
-<h2 id="full-profile-lexical-specification-boolean">3.12 boolean literal</h2>
+<p>In the lexical translation, several transformations are performed upon the word:</p>
+  
+<ul>
+  <li><code>Lexical.DoubleQuote {Lexical.DoubleQuotedStringCharacter} Lexical.DoubleQuote</code> has the leading double quote and the trailing double quote removed.</li>
+  <li><code>Lexical.SingleQuote {Lexical.SingleQuotedStringCharacter} Lexical.SingleQuote</code> has the leading single quote and the trailing single quote removed.</li>
+  <li><code>#5c #5c</code> (double "REVERSE SOLIDUS") are replaced by <code>#5c</code> ("REVERSE SOLIDUS")</li>
+  <li><code>#5c #64</code> ("REVERSE SOLIDUS" followed by "LATIN SMALL LETTER B") are replaced by <code>#7</code> ("BELL")>/li>
+  <li><code>#5c #66</code> ("REVERSE SOLIDUS" followed by "LATIN SMALL LETTER F") are replaced by <code>#c</code> ("FORM FEED")</li>
+  <li><code>#5c #6e</code> ("REVERSE SOLIDUS" followed by "LATIN SMALL LETTER N") are replaced by <code>#a</code> ("LINE FEED")>/li>
+  <li><code>#5c #72</code> ("REVERSE SOLIDUS" followed by "LATIN SMALL LETTER R") are replaced by <code>#d</code> ("CARRIAGE RETURN")</li>
+  <li><code>#5c #72</code> ("REVERSE SOLIDUS" followed by "LATIN SMALL LETTER T") are replaced by <code>#9</code> ("TAB")</li>
+  <li><code>#5c 'u' Lexical.HexadecimalDigit Lexical.HexadecimalDigit Lexical.HexadecimalDigit Lexical.HexadecimalDigit</code> is replaced
+  by the corresponding Unicode code point. That Unicode code point is computed as follows: Let \(a\), \(b\), \(c\), and \(d\)  denote the
+  first, second, third, and fourth hexadecimal digit from left to right following <code>'u'</code>. Then the Unicode code point is given by
+  \[
+  c := (a \cdot 16^3) + (b*16^2) + (c*16^1) + (d*16^0)
+  \]
+  If \(c\) is outside of the set of Unicode code points, then the lexical translation shall fail.
+  </li>
+<ul>
+
+
+
+<h3 id="standard-profile-boolean">2.12 boolean literal</h3>
 <p>The word <code>Lexical.Boolean</code> is defined by</p>
 
 <div class="box">
@@ -284,7 +305,7 @@ false : #66 #61 #6c #73 #65
 <p>Remark: The word <code>Lexical.Boolean</code> is a so called <em>keyword</em>.
 It takes priority over the <code>Lexical.Name</code>.</p>
 
-<h2 id="full-profile-lexical-specification-void">3.13 void literal</h3>
+<h3 id="standard-profile-void">2.13 void literal</h3>
 <p>The word <code>Lexical.Void</code> is defined by</p>
 
 <div class="box">
@@ -298,7 +319,7 @@ Lexical.Void : #76 #6f # #69 #64
 <p>Remark: The word <code>Lexical.Void</code> is a so called <em>keyword</em>.
 It takes priority over the <code>Lexical.Name</code>.</p>
 
-<h2 id="full-profile-lexical-specification-decimal-digit">3.14 decimal digit</h3>
+<h3 id="standard-profile-decimal-digit">2.14 decimal digit</h3>
 <p>The word <code>Lexical.DecimalDigit</code> is defined by</p>
 
 <div class="box">
@@ -309,7 +330,7 @@ Lexical.DecimalDigit : /* A single Unicode character from the code point range +
 </div>
 </div>
 
-<h2 id="full-profile-lexical-specification-hexadecimal-digit">3.15 hexadecimal digit</h3>
+<h3 id="standard-profile-hexadecimal-digit">2.15 hexadecimal digit</h3>
 <p>The word <code>Lexical.HexadecimalDigit</code> is defined by</p>
 
 <div class="box">
@@ -320,10 +341,10 @@ Lexical.HexadecimalDigit : /* A single Unicode character from the code point ran
 </div>
 </div>
 
-<h2 id="full-profile-lexical-specification-alphanumeric">3.16 alphanumeric</h3>
+<h3 id="standard-profile-alphanumeric">2.16 alphanumeric</h3>
 <p>The word <code>Lexical.Alphanumeric</code> is reserved for future use.</p>
 
-<h2 id="full-profile-lexical-specificiation-period">3.17 period</h2>
+<h3 id="standard-profile-period">2.17 period</h3>
 <p>The word <code>Lexical.Period</code> is defined by</p>
 
 <div class="box">

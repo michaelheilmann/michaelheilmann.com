@@ -105,7 +105,10 @@
       <div class="body">
         <ul>
           <li>
-            <a href='@{siteAddress}/specifications/common-lexical-specification'>Common Lexical Specification</a>
+            <a href='@{siteAddress}/specifications/context-free-grammars'>Context-Free Grammars</a>
+          </li>
+          <li>
+            <a href='@{siteAddress}/specifications/common-lexical-translations'>Common Lexical Translations</a>
           </li>
           <li>
             <a href='@{siteAddress}/specifications/data-definition-language'>Data Definition Language</a>
@@ -143,6 +146,10 @@
         <ul>
           <li><a href='@{siteAddress}/assorted-notes/best-practices-for-access-tokens-angular-edition.html'>Best practices for access tokens - Angular edition</a></li>
           <li><a href='@{siteAddress}/assorted-notes/why-use-refresh-tokens-angular-edition.html'>Why use refresh tokens - Angular edition</a></li>
+        </ul>
+        <p>This section collects a growing recollection of various notes on enterprise architecture.</p>
+        <ul>
+          <li><a href='@{siteAddress}/assorted-notes/togaf-for-software-engineers-buy-in-edition'>TOGAF for Software Engineers - Buy-In Editiony</a></li>
         </ul>
       </div>
     </div>

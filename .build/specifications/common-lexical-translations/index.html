@@ -13,10 +13,30 @@
   <!-- Crap specific to iOS. PNG must be 180 x 180 pixels. color attribute is obsolete. -->
   <link rel='apple-touch-icon' href='https://michaelheilmann.com/assets/favicon/apple-touch-icon-180x180.png'>
 
+  
   <link rel='stylesheet' href='https://michaelheilmann.com/assets/reset.css?v=4'>
   <link rel='stylesheet' href='https://michaelheilmann.com/assets/index.css?v=4'>
-  <link rel='canonical' href='https://michaelheilmann.com/specifications/common-lexical-specification/index.html'>
-  <title>Common Lexical Specification</title>
+  
+  <script>
+  MathJax = {
+    startup: {
+      ready() {
+        MathJax.startup.defaultReady();
+        const {Token} = MathJax._.input.tex.Token;
+        const {MapHandler} = MathJax._.input.tex.MapHandler;
+        const delimiter = MapHandler.getMap('delimiter');
+        delimiter.add('\\llbracket', new Token('\\llbracket', '\u27E6'));
+        delimiter.add('\\rrbracket', new Token('\\rrbracket', '\u27E7'));
+      }
+    }
+  }
+  </script>
+  
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+
+  <link rel='canonical'  href='https://michaelheilmann.com/specifications/common-lexical-translations/index.html'>  
+  <title>Common Lexical Translations</title>
+
   <style>
   /* the left-hand side of a grammar rule */
 my-lhs {
@@ -82,6 +102,38 @@ div.box code {
   /*background-color: rgb(215, 210, 203);*/
 }
 
+my-formula-box.align-left > mjx-container {
+  text-align: left!important;
+}
+my-formula-box.align-right > mjx-container {
+  text-align: right!important;
+}
+
+table.syntax-directed-translation {
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+table.syntax-directed-translation, tr, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+table.syntax-directed-translation td {
+  padding: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+table.syntax-directed-translation td:nth-child(2)  {
+  width: 50%;
+  text-align: right;
+}
+
+  my-formula-box.align-left > mjx-container {
+    text-align: left!important;
+  }
+  div.abstract {
+    font-style: italic;
+  }
   </style>
 </head>
 <body class="my-content-page-1">
@@ -93,139 +145,29 @@ div.box code {
   <main>
     <div class="left-column"></div>
     <div class="center-column">
-    <h1>Common Lexical Specification</h1>
-    <p style="font-style: italic">
-    This <em>Common Lexical Specification</em> provides definitions of grammar rules being re-used in multiple language specifications on this website.
-    This document consists of three sections: Section 1 defines how programs are encoded on a Byte level. Section 2 provides an introduction into grammars.
-    Section 3 provides the full profile lexical grammar. Section 4 provides information on profiles.
-    </p>
+    <h1>Common Lexical Translations</h1>
+    <div class="abstract"><p>The <em>Common Lexical Translations</em> specification a lexical translation, that is, it defines translations rules for 
+how an input sequence of Unicode code points is translated into an output sequence of transformed and classified sequences
+of Unicode code points called words. The rules for provided by the <em>Common Lexical Translations</em> specification  are
+reused by other specifications within <em>Michael Heilmann’s Arcadia</em>.</p></div>
 
-    <h1 id="unicode">1. Unicode</h1>
-<p>
-A program is a sequence of Unicode code points encoded into a sequence of Bytes using an Unicode encoding.
-In this version, only UTF-8 NOBOM with sequences of length 1 is supported.
-The Unicode encoding of a particular program must be determined by consumers of this specification.
-</p>
+    <h2 id="introduction">1. Introduction</h2>
+<p>The <em>Common Lexical Translations</em> specification a lexical translation, that is, it defines translations rules for 
+how an input sequence of Unicode code points is translated into an output sequence of transformed and classified sequences
+of Unicode code points called words. The rules for provided by the <em>Common Lexical Translations</em> specification  are
+reused by other specifications within <em>Michael Heilmann’s Arcadia</em>.</p>
 
-<h1 id="grammars">2. Grammars</h1>
-<p>This section describes context-free grammars used in this specification to define the lexical and syntactical structure of a language.</p>
+<p>The rules layed out here are described in terms of the concepts and notations of the <em>Context-Free Grammars</em>
+specification (see <a href="https://michaelheilmann.com/specifications/context-free-grammars">https://michaelheilmann.com/specifications/context-free-grammars</a> for more information).</p>
 
-<h2 id="context-free-grammars">2.1 Context-free grammars</h2>
-<p>A context-free grammar consists of a number of production. Each production has an abstract symbol called a non-terminal as its left-hand side, and a sequence of one or more
-non-terminal and terminal symbols as its right-hand side. For each grammar, the terminal symbols are drawn from a specified alphabet.</p>
+<p>A grammar incorporating these rules must have the set of all Unicode code points as its input alphabet.
+Furthermore, the grammar must ensure that ambiguities are resolved.</p>
+    <h2 id="standard-profile">2 Standard Profile</h2>
+<p>The <em>Full Profile</em> contains all possible rules.
+   Other profiles may be added in future versions.
+   Language designers are encouraged to create their own profiles.</p>
 
-<p>Starting from a sequence consisting of a single distinguished non-terminal, called the goal symbol, a given context-free grammar specifies a language, namely, the set of possible
-sequences of terminal smbols that can result from repeatedly replacing any non-terminal in the sequence with a right-hand side of a production for which the non-terminal is the
-left-hand side.</p>
-
-<h3 id="lexical-grammars">2.3 Lexical grammars</h3>
-<p>The lexical grammar uses the Unicode code points from the Unicode decoding phase as its terminal symbols.
-The non-terminals of the lexical grammar start with the prefix <code>Lexical.</code>.
-It defines a set of productions, starting from the goal symbol <my-mv>Lexical.Word</my-mv>, that describe how sequences of code points are translated into a word.
-</p>
-
-<h3 id="syntactical-grammars">2.4 Syntactical grammars</h3>
-<p>The syntactical grammar for the <em>Data Definition Language</em> uses words of the lexical grammar as its terminal symbols.
-The non-terminals of the syntactical grammar start with the prefix <code>Syntactical.</code>.
-It defines a set of productions, starting from the goal symbol <my-mv>sentence</my-mv>, that describe how sequences of words are translated into a sentence.
-</p>
-
-<h3 id="grammar-notation">2.5 Grammar notation</h3>
-<p>Productions are written in <code>fixed width</code> fonts.</p>
-
-<p>A production is defined by its left-hand side, followed by a colon <code:</code>, followed by its right-hand side definition. The
-left-hand side is the name of the non-terminal defined by the production. Multiple alternating definitions of a production may be
-defined. The right-hand side of a production consits of any sequence of terminals and non-terminals. In certain cases the right-hand
-side is replaced by a comment describing the right-hand side. This comment is opened by <code>/*</code> and closed by <code>*/</code>.
-</p>
-
-<div class="box">
-<div class="header">
-Example
-</div>
-<div class="body">
-<p>The following production denotes the non-terminal for a digit as used in the definitions of numerals:</p>
-<p><code>
-Lexical.Digit: /* A single Unicode symbol from the code point range +U0030 to +U0039 */
-</code></p>
-</div>
-</div>
-
-<p>A terminal is a sequence of Unicode symbols. A Unicode symbol is denoted by a shebang <code>#</code> followed by a hexadecimal number denoting its code point.<p>
-
-<div class="box">
-<div class="header">
-Example
-</div>
-<div class="body">
-<p>The following productions denote the non-terminal for a sign as used in the definitions of numerals:</p>
-<p><code>
-/* #2b is also known as "PLUS SIGN" */<br/>
-Lexical.PlusSign : #2b<br/>
-/* #2d is also known as "MINUS SIGN" */<br/>
-Lexical.MinusSign : #2d sign : plus_sign<br/>
-Lexical.Sign : Lexical.PlusSign | Lexical.MinusSign
-</code></p>
-</div>
-</div>
-
-<p>The syntax <code>{x}</code> on the right-hand side of a production denotes zero or more occurrences of <code>x</code>.</p>
-
-<div class="box">
-<div class="header">
-Example
-</div>
-<div class="body">
-<p>The following production defines a possibly empty sequence of digits as used in the definitions of numerals:</p>
-<p><code>
-Lexical.ZeroOrMoreDigits : {Lexical.Digit}
-</code></p>
-</div>
-</div>
-
-<p>The syntax <code>[x]</code> on the right-hand side of a production denotes zero or one occurrences of <code>x</code>.</p>
-
-<div class="box">
-<div class="header">Example</div>
-<div class="body">
-<p>The following productions denotes a possible definition of an integer numeral.
-It consists of an optional sign followed by a digit followed by zero or more digits (as defined in the previous example):</p>
-<p><code>
-Lexical.Integer : [Lexical.Sign] Lexical.Digit Lexical.ZeroOrMoreDigits
-</code></p>
-</div>
-</div>
-
-<p>The empty string is denoted by <code>ε</code>.</p>
-
-<div class="box">
-<div class="header">Example</div>
-<div class="body">
-<p>
-The following productions denotes a possibly empty list of integers (with integer as defined in the preceeding example).
-Note that this list may include a trailing comma hence the <code>{x}</code> operator cannot be used here.
-</p>
-<p><code>
-Syntactical.IntegerList : integer Syntactical.IntegerListRest<br/>
-Syntactical.IntegerList : ε<br/>
-<br/>
-Syntactical.IntegerListRest : Lexical.Comma Syntactical.Integer Syntactical.IntegerListRest<br/>
-Syntactical.IntegerListRest : Lexical.Comma<br/>
-Syntactical.IntegerListRest : ε<br/>
-<br/>
-/* #2c is also known as "COMMA" */<br/>
-Lexical.Comma : #2c
-</code></p>
-</div>
-</div>
-
-    <h1 id="full-profile-lexical-specification">3 Full Profile Lexical Specification</h1>
-<p>
-The lexical grammar describes the translation of Unicode code points into words.
-The goal non-terminal of the lexical grammar is the <code>Lexical.Word</code> symbol.
-</p>
-
-<h2 id="full-profile-lexical-specification-word">3.1 word</h2>
+<h3 id="standard-profile-word">2.1 word</h3>
 <p>The word <code>word</code> is defined by</p>
 
 <div class="box">
@@ -244,7 +186,6 @@ Lexical.Word : Lexical.LeftSquareBracket<br>
 Lexical.Word : Lexical.RightSquareBracket<br>
 Lexical.Word : Lexical.Comma<br>
 Lexical.Word : Lexical.Colon<br>
-/*whitespace, newline, and comment are not considered the syntactical grammar*/
 Lexical.Word : Lexical.Whitespace<br>
 Lexical.Word : Lexical.Newline<br>
 Lexical.Word : Lexical.Comment<br>
@@ -252,7 +193,7 @@ Lexical.Word : Lexical.Comment<br>
 </div>
 </div>
 
-<h2 id="full-profile-lexical-specification-whitespace">3.2 whitespace</h2>
+<h3 id="standard-profile-whitespace">2.2 whitespace</h3>
 <p>The word <code>whitespace</code> is defined by</p>
 
 <div class="box">
@@ -266,7 +207,7 @@ Lexial.Whitespace : #20
 </div>
 </div>
 
-<h2 id="full-profile-lexical-specification-line-terminator">3.3 line terminator</h2>
+<h3 id="standard-profile-line-terminator">2.3 line terminator</h3>
 <p>The word <code>Lexical.LineTerminator</code> is defined by</p>
 
 <div class="box">
@@ -280,7 +221,7 @@ Lexical.LineTerminator : #d {#a}
 </div>
 </div>
 
-<h2 id="full-profile-lexical-specification-comments">3.4 comments</h2>
+<h3 id="standard-profile-comments">2.4 comments</h3>
 <p>
 The language using the Common Lexical Specification may use both single-line comments and multi-line comments.
 A <code>Lexical.Comment</code> is either a <code>single_line_comment</code> or a <code>Lexical.MultiLineComment</code>.
@@ -342,7 +283,7 @@ Lexical.MultiLineComment :<br>
   <li>Multi-line comments do not nest.</li>
 </ul>
 
-<h2 id="full-profile-lexical-specification-parentheses">3.5 parentheses</h2>
+<h3 id="standard-profile-parentheses">2.5 parentheses</h3>
 <p>The words <code>Lexical.LeftParenthesis</code> and <code>Lexical.RightParenthesis</code>, respectively, are defined by</p>
 
 <div class="box">
@@ -356,7 +297,7 @@ Lexical.RightParenthesis : #29
 </div>
 </div>
 
-<h2 id="full-profile-lexical-specification-curly-brackets">3.6 curly brackets</h2>
+<h3 id="standard-profile-curly-brackets">2.6 curly brackets</h3>
 <p>The words <code>Lexical.LeftCurlyBracket</code> and <code>Lexical.RightCurlyBracket</code>, respectively, are defined by</p>
 
 <div class="box">
@@ -370,7 +311,7 @@ Lexical.RightCurlyBracket : #7d
 </div>
 </div>
 
-<h2 id="full-profile-lexical-specification-colon">3.7 colon</h2>
+<h3 id="standard-profile-colon">2.7 colon</h3>
 <p>The word <code>Lexical.Colon</code> is defined by</code>
 
 <div class="box">
@@ -380,7 +321,7 @@ Lexical.Colon : #3a
 </code></p>
 </div>
 
-<h2 id="full-profile-lexical-specification-square-brackets">3.8 square brackets</h2>
+<h3 id="standard-profile-square-brackets">2.8 square brackets</h3>
 <p>The words <code>Lexical.LeftSquareBracket</code> and <code>Lexica.RightSquareBracket</code>, respectively, are defined by</p>
 
 <div class="box">
@@ -392,7 +333,7 @@ Lexical.RightSquareBracket : #5d
 </code></p>
 </div>
 
-<h2 id="full-profile-lexical-specification-comma">3.9 comma</h2>
+<h3 id="standard-profile-comma">2.9 comma</h3>
 <p>The word <code>Lexical.Comma</code> is defined by</p>
 
 <div class="box">
@@ -402,7 +343,7 @@ Lexical.Comma : #2c
 </code></p>
 </div>
 
-<h2 id="full-profile-lexical-specification-name">3.10 name</h2>
+<h3 id="standard-profile-name">2.10 name</h3>
 <p>The word <code>Lexical.Name</code> is defined by</p>
 
 <div class="box">
@@ -426,7 +367,7 @@ Lexical.NameSuffixCharacter : #5f<br>
 </div>
 </div>
 
-<h2 id="full-profile-lexical-specification-number-literal">3.10 number literal</h2>
+<h3 id="standard-profile-number-literal">2.10 number literal</h3>
 <p>The word <code>Lexical.Number</code> is defined by</p>
 
 <div class="box">
@@ -449,7 +390,7 @@ Lexical.ExponentPrefix : #45<br>
 </code></p>
 </div>
 
-<h2 id="full-profile-lexical-specification-string-literal">3.11 string literal</h2
+<h3 id="standard-profile-string-literal">2.11 string literal</h2
 <p>The word <code>Lexical.String</code> is defined by</p>
 
 <div class="box">
@@ -464,7 +405,7 @@ Lexical.DoubleQuotedStringCharacter : #5c Lexical.DoubleQuote<br>
 /* #22 is also known as "QUOTATION MARK" */<br>
 Lexical.DoubleQuote : #22<br>
 <br>
-Lexical.SingleQuotedString : Lexical.SingleQuote  {Lexical.SingleQuotedStringCharacter} Lexical.SingleQuote <br>
+Lexical.SingleQuotedString : Lexical.SingleQuote {Lexical.SingleQuotedStringCharacter} Lexical.SingleQuote<br>
 Lexical.SingleQuotedStringCharacter : /* any character except for Lexical.Newline and Lexical.SingleQuote and characters in [0,1F]*/<br>
 Lexical.SingleQuotedStringCharacter : Lexical.EscapeSequence<br>
 Lexical.SingleQuotedStringCharacter : #5c Lexical.SingleQuote <br>
@@ -490,7 +431,30 @@ Lexical.EscapeSequence : #5c #75
 </code></p>
 </div>
 
-<h2 id="full-profile-lexical-specification-boolean">3.12 boolean literal</h2>
+<p>In the lexical translation, several transformations are performed upon the word:</p>
+  
+<ul>
+  <li><code>Lexical.DoubleQuote {Lexical.DoubleQuotedStringCharacter} Lexical.DoubleQuote</code> has the leading double quote and the trailing double quote removed.</li>
+  <li><code>Lexical.SingleQuote {Lexical.SingleQuotedStringCharacter} Lexical.SingleQuote</code> has the leading single quote and the trailing single quote removed.</li>
+  <li><code>#5c #5c</code> (double "REVERSE SOLIDUS") are replaced by <code>#5c</code> ("REVERSE SOLIDUS")</li>
+  <li><code>#5c #64</code> ("REVERSE SOLIDUS" followed by "LATIN SMALL LETTER B") are replaced by <code>#7</code> ("BELL")>/li>
+  <li><code>#5c #66</code> ("REVERSE SOLIDUS" followed by "LATIN SMALL LETTER F") are replaced by <code>#c</code> ("FORM FEED")</li>
+  <li><code>#5c #6e</code> ("REVERSE SOLIDUS" followed by "LATIN SMALL LETTER N") are replaced by <code>#a</code> ("LINE FEED")>/li>
+  <li><code>#5c #72</code> ("REVERSE SOLIDUS" followed by "LATIN SMALL LETTER R") are replaced by <code>#d</code> ("CARRIAGE RETURN")</li>
+  <li><code>#5c #72</code> ("REVERSE SOLIDUS" followed by "LATIN SMALL LETTER T") are replaced by <code>#9</code> ("TAB")</li>
+  <li><code>#5c 'u' Lexical.HexadecimalDigit Lexical.HexadecimalDigit Lexical.HexadecimalDigit Lexical.HexadecimalDigit</code> is replaced
+  by the corresponding Unicode code point. That Unicode code point is computed as follows: Let \(a\), \(b\), \(c\), and \(d\)  denote the
+  first, second, third, and fourth hexadecimal digit from left to right following <code>'u'</code>. Then the Unicode code point is given by
+  \[
+  c := (a \cdot 16^3) + (b*16^2) + (c*16^1) + (d*16^0)
+  \]
+  If \(c\) is outside of the set of Unicode code points, then the lexical translation shall fail.
+  </li>
+<ul>
+
+
+
+<h3 id="standard-profile-boolean">2.12 boolean literal</h3>
 <p>The word <code>Lexical.Boolean</code> is defined by</p>
 
 <div class="box">
@@ -505,7 +469,7 @@ false : #66 #61 #6c #73 #65
 <p>Remark: The word <code>Lexical.Boolean</code> is a so called <em>keyword</em>.
 It takes priority over the <code>Lexical.Name</code>.</p>
 
-<h2 id="full-profile-lexical-specification-void">3.13 void literal</h3>
+<h3 id="standard-profile-void">2.13 void literal</h3>
 <p>The word <code>Lexical.Void</code> is defined by</p>
 
 <div class="box">
@@ -519,7 +483,7 @@ Lexical.Void : #76 #6f # #69 #64
 <p>Remark: The word <code>Lexical.Void</code> is a so called <em>keyword</em>.
 It takes priority over the <code>Lexical.Name</code>.</p>
 
-<h2 id="full-profile-lexical-specification-decimal-digit">3.14 decimal digit</h3>
+<h3 id="standard-profile-decimal-digit">2.14 decimal digit</h3>
 <p>The word <code>Lexical.DecimalDigit</code> is defined by</p>
 
 <div class="box">
@@ -530,7 +494,7 @@ Lexical.DecimalDigit : /* A single Unicode character from the code point range +
 </div>
 </div>
 
-<h2 id="full-profile-lexical-specification-hexadecimal-digit">3.15 hexadecimal digit</h3>
+<h3 id="standard-profile-hexadecimal-digit">2.15 hexadecimal digit</h3>
 <p>The word <code>Lexical.HexadecimalDigit</code> is defined by</p>
 
 <div class="box">
@@ -541,10 +505,10 @@ Lexical.HexadecimalDigit : /* A single Unicode character from the code point ran
 </div>
 </div>
 
-<h2 id="full-profile-lexical-specification-alphanumeric">3.16 alphanumeric</h3>
+<h3 id="standard-profile-alphanumeric">2.16 alphanumeric</h3>
 <p>The word <code>Lexical.Alphanumeric</code> is reserved for future use.</p>
 
-<h2 id="full-profile-lexical-specificiation-period">3.17 period</h2>
+<h3 id="standard-profile-period">2.17 period</h3>
 <p>The word <code>Lexical.Period</code> is defined by</p>
 
 <div class="box">
@@ -559,29 +523,24 @@ Lexical.Period : 2e
   <div class="right-column">
     <nav>
       <ul style="list-style: none">
-        <li><a href="#unicode">1. Unicode</a></li>
-        <li><a href="#grammars">2. Grammars</a></li>
-        <li><a href="#context-free-grammars">2.1. Context-free grammars</a></li>
-        <li><a href="#lexical-grammars">2.2 Lexical grammars</a></li>
-        <li><a href="#syntactical-grammars">2.3. Syntactical grammars</a></li>
-        <li><a href="#grammar-notation">2.4. Grammar notation</a></li>
-        <li><a href="#full-profile-lexical-specification">3 Full Profile Lexical Specification</a></li>
-        <li><a href="#full-profile-lexical-specification-word">3.1 word</a></li>
-        <li><a href="#full-profile-lexical-specification-whitespace">3.2 whitespace</a></li>
-        <li><a href="#full-profile-lexical-specification-line-terminator">3.3 line terminator</a></li>
-        <li><a href="#full-profile-lexical-specification-comment">3.4 comment</a></li>
-        <li><a href="#full-profile-lexical-specification-parentheses">3.5 parentheses</a></li>
-        <li><a href="#full-profile-lexical-specification-curly-brackets">3.6 curly brackets</a></li>
-        <li><a href="#full-profile-lexical-specification-colon">3.7 colon</a></li>
-        <li><a href="#full-profile-lexical-specification-comma">3.9 comma</a></li>
-        <li><a href="#full-profile-lexical-specification-number-literal">3.10 number literal</a></li>
-        <li><a href="#full-profile-lexical-specification-string-literal">3.11 string literal</a></li>
-        <li><a href="#full-profile-lexical-specification-boolean-literal">3.12 boolean literal</a></li>
-        <li><a href="#full-profile-lexical-specification-void-literal">3.13 void literal</a></li>
-        <li><a href="#full-profile-lexical-specification-digit">3.14 decimal digit</a></li>
-        <li><a href="#full-profile-lexical-specification-digit">3.15 hexadecimal digit</a></li>
-        <li><a href="#full-profile-lexical-specification-alphanumeric">3.16 alphanumeric</a></li>
-        <li><a href="#full-profile-lexical-specification-period">3.17 period</a></li>
+        <li><a href="#introduction">1. Introduction</a></li>
+        <li><a href="#standard-profile">2 Standard Profile</a></li>
+        <li><a href="#standard-profile-word">2.1 word</a></li>
+        <li><a href="#standard-profile-whitespace">2.2 whitespace</a></li>
+        <li><a href="#standard-profile-line-terminator">2.3 line terminator</a></li>
+        <li><a href="#standard-profile-comment">2.4 comment</a></li>
+        <li><a href="#standard-profile-parentheses">2.5 parentheses</a></li>
+        <li><a href="#standard-profile-curly-brackets">2.6 curly brackets</a></li>
+        <li><a href="#standard-profile-colon">2.7 colon</a></li>
+        <li><a href="#standard-profile-comma">2.9 comma</a></li>
+        <li><a href="#standard-profile-number-literal">2.10 number literal</a></li>
+        <li><a href="#standard-profile-string-literal">2.11 string literal</a></li>
+        <li><a href="#standard-profile-boolean-literal">2.12 boolean literal</a></li>
+        <li><a href="#standard-profile-void-literal">2.13 void literal</a></li>
+        <li><a href="#standard-profile-digit">2.14 decimal digit</a></li>
+        <li><a href="#standard-profile-digit">2.15 hexadecimal digit</a></li>
+        <li><a href="#standard-profile-alphanumeric">2.16 alphanumeric</a></li>
+        <li><a href="#standard-profile-period">2.17 period</a></li>
       </ul>
     </nav>
   </div>
@@ -591,7 +550,7 @@ Lexical.Period : 2e
     <div class="center-column"></div>
     <div class="right-column">
       <div>Website maintained by Michael Heilmann.</div>
-      <div>Last modified on 9 December 2025.</div>
+      <div>Last modified on 11 December 2025.</div>
     </div>
   </footer>
 </body>

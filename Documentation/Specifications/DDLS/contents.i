@@ -13,8 +13,9 @@ These tools can be standalone or integrated into libraries and executables.
 
 <h2 id="notations">Notations</h2>
 
-<p>This specification uses the semantical form of the DDL as defined
-   <a href="@{siteAddress}/specifications/data-definition-language/#semantical-specification">here</a>.</p>
+<p>This specification uses the semantical form of the DDL as defined in <em>Data Definition Language</em>
+   specification (see <a href="@{siteAddress}/specifications/data-definition-language/#semantical-specification">
+   Data Definition Language</a> for more information).</p>
 
 <p>Given a DDL value \(x\), we denote the type of that value by \(\textit{type}(x)\).</p>
 
@@ -55,13 +56,12 @@ Furthermore, there exist a schema type \(\textit{Schema}_{\textit{DDLS}}\) and a
 
 <h2 id="semantics">3 Semantics</h2>
 
-<p>DDLS programs are a restriction on DDL programs; that is, every DDLS program is a DDL program but not vice versa.
-   The DDLS semantics are defined by a translation function \(\sigma\) of DDL values to DDLS values.</p>
-
-\[
-\sigma : \textit{Name} \cup \textit{Value}
-         \rightarrow \textit{Error} \cup \textit{Value}_{\textit{DDLS}}
-\]
+<p>
+The translation of a DDL value into DDLS values is described by syntax-directed translations
+(see Aho, Seti, Ullman: Compilers, Principles, Techniques, and Tools; 1st; pp. 305 for more information).
+At the end of a translation, the input DDL value \(x\) has a variable \(x.\text{value}\) which is either
+a value of type \textit{Value}_{\textit{DDLS}}, if the translation was successful, or an value of type
+\textit{Error}_{\textit{DDLS}}, if the translation failed.</p>
 
 @{include("./any-type.i")}
 @{include("./boolean-type.i")}
