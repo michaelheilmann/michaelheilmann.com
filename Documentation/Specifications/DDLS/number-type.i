@@ -1,5 +1,5 @@
 <h3 id="number-type">3.5 Number types</h3>
-<p>The values of type \(\textit{Number}_{\textit{DDLS}}\) are represented by a \(\textit{Map}\) values.
+<p>The values of type \(\ddls{\textit{Number}}\) are represented by a \(\textit{Map}\) values.
    The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{Number}\) of type
    \(\textit{String}\).</p>
 
@@ -9,6 +9,8 @@
     <td>
     <my-formula-box class="align-left">\[\begin{array}{ll}
       \left[\left( \texttt{kind}, \texttt{Number} \right) \right]@@1
+      \;\wedge\;\texttt{kind} \in \ddl{\textit{Name}}
+      \;\wedge\;\texttt{Any} \in \ddl{\textit{String}}
     \end{array}\]</my-formula-box>
     </td>
     <td>
@@ -18,4 +20,4 @@
     </td>
   </tr>
 </table>
-<p>where \(\textit{number}_{\textit{DDLS}}\) is the single value of type \(\textit{Number}_{\textit{DDLS}}\).</p>
+<p>where \(\ddls{\textit{number}}\) is the single value of type \(\ddls{\textit{Number}}\).</p>

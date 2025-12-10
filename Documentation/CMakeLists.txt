@@ -57,6 +57,11 @@ BeginTemplateEngine(${MyProjectName}.Website.Generate "Website")
                    "${REPOSITORY_SOURCE_DIR}/../.build/roadmap-archive.html"
                    "${CMAKE_CURRENT_SOURCE_DIR}/website.env")
 
+  # Build "about.html".
+  OnTemplateEngine("${CMAKE_CURRENT_SOURCE_DIR}/about.html.te"
+                   "${REPOSITORY_SOURCE_DIR}/../.build/about.html"
+                   "${CMAKE_CURRENT_SOURCE_DIR}/website.env")
+
   # Build "imprint.html".
   OnTemplateEngine("${CMAKE_CURRENT_SOURCE_DIR}/imprint.html.te"
                    "${REPOSITORY_SOURCE_DIR}/../.build/imprint.html"
@@ -75,7 +80,7 @@ BeginTemplateEngine(${MyProjectName}.Website.Generate "Website")
 EndTemplateEngine()
 
 add_subdirectory("Specifications/Common Lexical Translations")
-add_subdirectory("Specifications/Context-Free Grammars")
+add_subdirectory("Specifications/MDNP")
 add_subdirectory(Specifications/DDL)
 add_subdirectory(Specifications/DDLS)
 add_subdirectory(AssortedNotes)

@@ -25,9 +25,8 @@ Arcadia_MIL_AST_StatementNode_constructImpl
   );
 
 static const Arcadia_ObjectType_Operations _Arcadia_MIL_AST_StatementNode_objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_MIL_AST_StatementNode_constructImpl,
-  .destruct = NULL,
-  .visit = NULL,
 };
 
 static const Arcadia_Type_Operations _Arcadia_MIL_AST_StatementNode_typeOperations = {

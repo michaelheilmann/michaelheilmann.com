@@ -31,5 +31,15 @@ BeginTemplateEngine(${MyProjectName}.Website.Generate.AssortedNotes "Website")
   OnTemplateEngine("${CMAKE_CURRENT_SOURCE_DIR}/togaf-for-software-engineers-buy-in-edition.html.te"
                    "${REPOSITORY_SOURCE_DIR}/../.build/assorted-notes/togaf-for-software-engineers-buy-in-edition.html"
                    "${CMAKE_CURRENT_SOURCE_DIR}/../website.env")
+                   
+  # Build "information-security-data-security-and-data-privacy-commonalities-similarities-and-differences.html".
+  OnTemplateEngine("${CMAKE_CURRENT_SOURCE_DIR}/information-security-data-security-and-data-privacy-commonalities-similarities-and-differences.html.te"
+                   "${REPOSITORY_SOURCE_DIR}/../.build/assorted-notes/information-security-data-security-and-data-privacy-commonalities-similarities-and-differences.html"
+                   "${CMAKE_CURRENT_SOURCE_DIR}/../website.env")
+
+  # Build "setting-up-a-cloud-landing-zone-aws-edition.html".
+  OnTemplateEngine("${CMAKE_CURRENT_SOURCE_DIR}/setting-up-a-cloud-landing-zone-aws-edition.html.te"
+                   "${REPOSITORY_SOURCE_DIR}/../.build/assorted-notes/setting-up-a-cloud-landing-zone-aws-edition.html"
+                   "${CMAKE_CURRENT_SOURCE_DIR}/../website.env")
 
 EndTemplateEngine()

@@ -28,7 +28,6 @@ struct Arcadia_Visuals_Implementation_Scene_MeshNode {
   Arcadia_Visuals_Scene_MeshNode _parent;
 
   Arcadia_Visuals_Implementation_BackendContext* backendContext;
-  Arcadia_Visuals_Implementation_ConstantBufferResource* constantBufferResource;
   Arcadia_Visuals_Implementation_MeshResource* meshResource;
 };
 

@@ -1,8 +1,8 @@
   @{include("./../Commons/header-common.i")}
   <link rel='stylesheet' href='@{siteAddress}/assets/reset.css?v=3'>
   <link rel='stylesheet' href='@{siteAddress}/assets/index.css?v=3'>
-  <link rel='canonical' href='@{siteAddress}/news.html'>
-  <title>Best practices for access tokens - Angular edition<</title>
+  <link rel='canonical' href='@{siteAddress}/assorted-notes/best-practices-for-access-tokens-angular-edition'>
+  <title>Best Practices for access tokens - Angular edition</title>
 </head>
 <body class="my-content-page-1">
   <header>
@@ -14,7 +14,7 @@
     <div class="left-column"></div>
     <div class="center-column">
     
-    <h1>Best practices for access tokens - Angular Edition</h1>
+    <h1>Best Practices for access tokens  - Angular Edition</h1>
     <p>
     Access tokens are essential for securing the communication of web applications with APIs.
     However, handling these tokens improperly can lead to security vulnerarbilities.

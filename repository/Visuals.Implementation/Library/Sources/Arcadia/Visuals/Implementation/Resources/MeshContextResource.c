@@ -213,7 +213,7 @@ Arcadia_Visuals_Implementation_MeshContextResource_unlinkImpl
   )
 {
   if (self->viewerConstantBuffer) {
-    ((Arcadia_Visuals_Implementation_Resource*)self->viewerConstantBuffer)->referenceCount--;
+    Arcadia_Visuals_Implementation_Resource_unref(thread, (Arcadia_Visuals_Implementation_Resource*)self->viewerConstantBuffer);
     self->viewerConstantBuffer = NULL;
   }
   ((Arcadia_Visuals_Implementation_Resource*)self)->context = NULL;

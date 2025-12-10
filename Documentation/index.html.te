@@ -105,7 +105,7 @@
       <div class="body">
         <ul>
           <li>
-            <a href='@{siteAddress}/specifications/context-free-grammars'>Context-Free Grammars</a>
+            <a href='@{siteAddress}/specifications/mathematical-definitions-notations-and-proofs'>Mathematical Definitions, Notations, and Proofs</a>
           </li>
           <li>
             <a href='@{siteAddress}/specifications/common-lexical-translations'>Common Lexical Translations</a>
@@ -147,9 +147,12 @@
           <li><a href='@{siteAddress}/assorted-notes/best-practices-for-access-tokens-angular-edition.html'>Best practices for access tokens - Angular edition</a></li>
           <li><a href='@{siteAddress}/assorted-notes/why-use-refresh-tokens-angular-edition.html'>Why use refresh tokens - Angular edition</a></li>
         </ul>
-        <p>This section collects a growing recollection of various notes on enterprise architecture.</p>
+        <p>This section collects a growing recollection of various notes on information security and enterprise architecture.</p>
         <ul>
-          <li><a href='@{siteAddress}/assorted-notes/togaf-for-software-engineers-buy-in-edition'>TOGAF for Software Engineers - Buy-In Editiony</a></li>
+          <li><a href='@{siteAddress}/assorted-notes/togaf-for-software-engineers-buy-in-edition'>
+          TOGAF for software engineers - Buy-in edition</a></li>
+          <li><a href='@{siteAddress}/assorted-notes/information-security-data-security-and-data-privacy-commonalities-similarities-and-differences'>
+          Information Security, Data Security, and Data Privacy - Commonalities, similarities, and differences</a></li>
         </ul>
       </div>
     </div>

@@ -13,10 +13,8 @@
   <!-- Crap specific to iOS. PNG must be 180 x 180 pixels. color attribute is obsolete. -->
   <link rel='apple-touch-icon' href='https://michaelheilmann.com/assets/favicon/apple-touch-icon-180x180.png'>
 
-  
   <link rel='stylesheet' href='https://michaelheilmann.com/assets/reset.css?v=4'>
   <link rel='stylesheet' href='https://michaelheilmann.com/assets/index.css?v=4'>
-  
   <script>
   MathJax = {
     startup: {
@@ -31,12 +29,7 @@
     }
   }
   </script>
-  
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
-
-  <link rel='canonical'  href='https://michaelheilmann.com/specifications/common-lexical-translations/index.html'>  
-  <title>Common Lexical Translations</title>
-
   <style>
   /* the left-hand side of a grammar rule */
 my-lhs {
@@ -128,16 +121,57 @@ table.syntax-directed-translation td:nth-child(2)  {
   text-align: right;
 }
 
-  my-formula-box.align-left > mjx-container {
-    text-align: left!important;
-  }
-  div.abstract {
-    font-style: italic;
-  }
+div.abstract {
+  font-style: italic;
+}
+
+my-formula-box.align-left > mjx-container {
+  text-align: left!important;
+}
+
+my-sem, my-syn, my-lex {
+  font-family: my-code-font, monospace;
+}
+my-syn::after {
+  content: "<sub>syn/sub>"
+}
+my-sem {
+  font-style: italic;
+  font-family: my-default-font;
+}
+my-sem::after {
+  content: "<sub>sem</sub>"
+}
+
+my-sem, my-syn, my-lex {
+  font-family: my-code-font, monospace;
+}
+my-syn::after {
+  content: "<sub>syn/sub>"
+}
+my-sem {
+  font-style: italic;
+  font-family: my-default-font;
+}
+my-sem::before {
+  content: "sem:"
+}
+
   </style>
+
+  <link rel='canonical' href='https://michaelheilmann.com/specifications/common-lexical-translations/index.html'>  
+  <title>Common Lexical Translations</title>
 </head>
 <body class="my-content-page-1">
   <header>
+  <div style="display:none">
+\[
+\newcommand{\ListType}{{\text{List}}}
+\newcommand{\ListEmpty}{{\left[\right]}}
+\newcommand{\ListLength}[1]{{\ell\left(#1\right)}}
+\newcommand{\ListAt}[2]{{{#1}_{#2}}}
+\]
+</div>
   <div>
   <a href="https://michaelheilmann.com/">Home</a>
   </div>
@@ -550,7 +584,7 @@ Lexical.Period : 2e
     <div class="center-column"></div>
     <div class="right-column">
       <div>Website maintained by Michael Heilmann.</div>
-      <div>Last modified on 11 December 2025.</div>
+      <div>Last modified on 13 December 2025.</div>
     </div>
   </footer>
 </body>

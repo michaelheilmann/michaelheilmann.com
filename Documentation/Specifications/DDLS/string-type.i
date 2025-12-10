@@ -1,5 +1,5 @@
 <h3 id="string-type">3.8 String type</h3>
-<p>The values of type \(\textit{String}_{\textit{DDLS}}\) are represented by a \(\textit{Map}\) values.
+<p>The values of type \(\ddls{\textit{String}}\) are represented by a \(\textit{Map}\) values.
    The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{String}\) of type
    \(\textit{String}\).</p>
 
@@ -9,6 +9,8 @@
     <td>
     <my-formula-box class="align-left">\[\begin{array}{ll}
       \left[\left( \texttt{kind}, \texttt{String} \right) \right]@@1
+      \;\wedge\;\texttt{kind} \in \ddl{\textit{Name}}
+      \;\wedge\;\texttt{String} \in \ddl{\textit{String}}
     \end{array}\]</my-formula-box>
     </td>
     <td>
@@ -18,4 +20,4 @@
     </td>
   </tr>
 </table>
-<p>where \(\textit{string}_{\textit{DDLS}}\) is the single value of type \(\textit{String}_{\textit{DDLS}}\).</p>
+<p>where \(\ddls{\textit{string}}\) is the single value of type \(\ddls{\textit{String}}\).</p>

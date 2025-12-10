@@ -57,6 +57,7 @@ Arcadia_Visuals_Implementation_Scene_CameraNode_setBackendContextImpl
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_Visuals_Implementation_Scene_CameraNode_constructImpl,
   .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_Visuals_Implementation_Scene_CameraNode_destructImpl,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_Visuals_Implementation_Scene_CameraNode_visitImpl,
@@ -92,6 +93,7 @@ Arcadia_Visuals_Implementation_Scene_CameraNode_constructImpl
     self->backendContext = NULL;
   } else {
     self->backendContext = Arcadia_ValueStack_getObjectReferenceValueChecked(thread, 1, _Arcadia_Visuals_Implementation_BackendContext_getType(thread));
+    Arcadia_Object_lock(thread, (Arcadia_Object*)self->backendContext);
   }
 
   self->viewToProjectionMatrix = Arcadia_Math_Matrix4Real32_create(thread);
@@ -123,7 +125,16 @@ Arcadia_Visuals_Implementation_Scene_CameraNode_destructImpl
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_Scene_CameraNode* self
   )
-{/*Intentionally empty.*/}
+{
+  if (self->backendContext) {
+    if (self->constantBufferResource) {
+      Arcadia_Visuals_Implementation_Resource_unref(thread, (Arcadia_Visuals_Implementation_Resource*)self->constantBufferResource);
+      self->constantBufferResource = NULL;
+    }
+    Arcadia_Object_unlock(thread, (Arcadia_Object*)self->backendContext);
+    self->backendContext = NULL;
+  }
+}
 
 static void
 Arcadia_Visuals_Implementation_Scene_CameraNode_visitImpl
@@ -176,9 +187,15 @@ Arcadia_Visuals_Implementation_Scene_CameraNode_setBackendContextImpl
     Arcadia_Visuals_Implementation_BackendContext* backendContext
   )
 {
+  if (backendContext) {
+    Arcadia_Object_lock(thread, (Arcadia_Object*)backendContext);
+  }
+  if (self->backendContext) {
+    Arcadia_Object_unlock(thread, (Arcadia_Object*)self->backendContext);
+  }
   if (self->backendContext) {
     if (self->constantBufferResource) {
-      ((Arcadia_Visuals_Implementation_Resource*)self->constantBufferResource)->referenceCount--;
+      Arcadia_Visuals_Implementation_Resource_unref(thread, (Arcadia_Visuals_Implementation_Resource*)self->constantBufferResource);
       self->constantBufferResource = NULL;
     }
   }

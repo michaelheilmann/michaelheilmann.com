@@ -1,8 +1,6 @@
   @{include("./../../Commons/header-common.i")}
-  
   <link rel='stylesheet' href='@{siteAddress}/assets/reset.css?v=4'>
   <link rel='stylesheet' href='@{siteAddress}/assets/index.css?v=4'>
-  
   <script>
   MathJax = {
     startup: {
@@ -17,24 +15,17 @@
     }
   }
   </script>
-  
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@@4/tex-mml-chtml.js"></script>
-
-  <link rel='canonical'  href='@{siteAddress}/specifications/common-lexical-translations/index.html'>  
-  <title>Common Lexical Translations</title>
-
   <style>
   @{include("./../specification.css.i")}
-  my-formula-box.align-left > mjx-container {
-    text-align: left!important;
-  }
-  div.abstract {
-    font-style: italic;
-  }
   </style>
+
+  <link rel='canonical' href='@{siteAddress}/specifications/common-lexical-translations/index.html'>  
+  <title>Common Lexical Translations</title>
 </head>
 <body class="my-content-page-1">
   <header>
+  @{include("./../mathjax-definitions.i")}
   <div>
   <a href="@{siteAddress}/">Home</a>
   </div>

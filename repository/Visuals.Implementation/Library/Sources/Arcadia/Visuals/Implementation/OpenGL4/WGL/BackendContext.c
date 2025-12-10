@@ -771,19 +771,24 @@ updateResources
   )
 {
   Arcadia_SizeValue removed = 0;
-  for (Arcadia_SizeValue i = 0, n = Arcadia_Collection_getSize(thread, (Arcadia_Collection*)((Arcadia_Visuals_Implementation_OpenGL4_BackendContext*)self)->resources); i < n;) {
-    Arcadia_Visuals_Implementation_Resource* resource = (Arcadia_Visuals_Implementation_Resource*)Arcadia_List_getObjectReferenceValueAt(thread, ((Arcadia_Visuals_Implementation_OpenGL4_BackendContext*)self)->resources, i);
-    if (!resource->referenceCount || force) {
-      Arcadia_Visuals_Implementation_Resource_unload(thread, resource);
-      Arcadia_Visuals_Implementation_Resource_unlink(thread, resource);
-      Arcadia_List_removeAt(thread, ((Arcadia_Visuals_Implementation_OpenGL4_BackendContext*)self)->resources, i, 1);
-      n--;
-      removed++;
-    } else {
-      i++;
+  Arcadia_SizeValue removedNow = 0;
+  do {
+    removedNow = 0; 
+    for (Arcadia_SizeValue i = 0, n = Arcadia_Collection_getSize(thread, (Arcadia_Collection*)((Arcadia_Visuals_Implementation_OpenGL4_BackendContext*)self)->resources); i < n;) {
+      Arcadia_Visuals_Implementation_Resource* resource = (Arcadia_Visuals_Implementation_Resource*)Arcadia_List_getObjectReferenceValueAt(thread, ((Arcadia_Visuals_Implementation_OpenGL4_BackendContext*)self)->resources, i);
+      if (!resource->referenceCount || force) {
+        Arcadia_Visuals_Implementation_Resource_unload(thread, resource);
+        Arcadia_Visuals_Implementation_Resource_unlink(thread, resource);
+        Arcadia_List_removeAt(thread, ((Arcadia_Visuals_Implementation_OpenGL4_BackendContext*)self)->resources, i, 1);
+        n--;
+        removedNow++;
+      } else {
+        i++;
+      }
     }
-  }
-  return removed++;
+    removed += removedNow;
+  } while (removedNow);
+  return removed;
 }
 
 static void

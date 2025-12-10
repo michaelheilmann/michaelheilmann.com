@@ -88,6 +88,7 @@ Arcadia_Visuals_Implementation_Scene_ViewportNode_setCanvasSizeImpl
   );
 
 static const Arcadia_ObjectType_Operations _objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_Visuals_Implementation_Scene_ViewportNode_constructImpl,
   .destruct = (Arcadia_Object_DestructorCallbackFunction*)&Arcadia_Visuals_Implementation_Scene_ViewportNode_destructImpl,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_Visuals_Implementation_Scene_ViewportNode_visitImpl,
@@ -123,6 +124,7 @@ Arcadia_Visuals_Implementation_Scene_ViewportNode_constructImpl
     self->backendContext = NULL;
   } else {
     self->backendContext = Arcadia_ValueStack_getObjectReferenceValueChecked(thread, 1, _Arcadia_Visuals_Implementation_BackendContext_getType(thread));
+    Arcadia_Object_lock(thread, (Arcadia_Object*)self->backendContext);
   }
 
   self->viewportResource = NULL;
@@ -159,7 +161,16 @@ Arcadia_Visuals_Implementation_Scene_ViewportNode_destructImpl
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_Scene_ViewportNode* self
   )
-{/*Intentionally empty.*/}
+{
+  if (self->backendContext) {
+    if (self->viewportResource) {
+      Arcadia_Visuals_Implementation_Resource_unref(thread, (Arcadia_Visuals_Implementation_Resource*)self->viewportResource);
+      self->viewportResource = NULL;
+    }
+    Arcadia_Object_unlock(thread, (Arcadia_Object*)self->backendContext);
+    self->backendContext = NULL;
+  }
+}
 
 static void
 Arcadia_Visuals_Implementation_Scene_ViewportNode_visitImpl
@@ -192,7 +203,8 @@ Arcadia_Visuals_Implementation_Scene_ViewportNode_renderImpl
             thread,
             self->backendContext
           );
-      ((Arcadia_Visuals_Implementation_Resource*)self->viewportResource)->referenceCount++;
+      Arcadia_Visuals_Implementation_Resource_ref(thread, (Arcadia_Visuals_Implementation_Resource*)self->viewportResource);
+
       Arcadia_Visuals_Implementation_ViewportResource_setClearColor(thread, self->viewportResource,
                                                                             self->clearColor.red,
                                                                             self->clearColor.green,
@@ -220,9 +232,15 @@ Arcadia_Visuals_Implementation_Scene_ViewportNode_setBackendContextImpl
     Arcadia_Visuals_Implementation_BackendContext* backendContext
   )
 {
+  if (backendContext) {
+    Arcadia_Object_lock(thread, (Arcadia_Object*)backendContext);
+  }
+  if (self->backendContext) {
+    Arcadia_Object_unlock(thread, (Arcadia_Object*)self->backendContext);
+  }
   if (self->backendContext) {
     if (self->viewportResource) {
-      ((Arcadia_Visuals_Implementation_Resource*)self->viewportResource)->referenceCount--;
+      Arcadia_Visuals_Implementation_Resource_unref(thread, (Arcadia_Visuals_Implementation_Resource*)self->viewportResource);
       self->viewportResource = NULL;
     }
   }

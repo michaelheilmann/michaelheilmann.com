@@ -32,8 +32,8 @@ Arcadia_MIL_AST_Node_visit
   );
 
 static const Arcadia_ObjectType_Operations _Arcadia_MIL_AST_Node_objectTypeOperations = {
+  Arcadia_ObjectType_Operations_Initializer,
   .construct = (Arcadia_Object_ConstructorCallbackFunction*)&Arcadia_MIL_AST_Node_constructImpl,
-  .destruct = NULL,
   .visit = (Arcadia_Object_VisitCallbackFunction*)&Arcadia_MIL_AST_Node_visit,
 };
 

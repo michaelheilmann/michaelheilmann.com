@@ -91,6 +91,7 @@ Arcadia_Visuals_Implementation_Scene_MeshContext_constructImpl
     self->backendContext = NULL;
   } else {
     self->backendContext = Arcadia_ValueStack_getObjectReferenceValueChecked(thread, 1, _Arcadia_Visuals_Implementation_BackendContext_getType(thread));
+    Arcadia_Object_lock(thread, (Arcadia_Object*)self->backendContext);
   }
   self->meshContextResource = NULL;
 
@@ -107,7 +108,16 @@ Arcadia_Visuals_Implementation_Scene_MeshContext_destructImpl
     Arcadia_Thread* thread,
     Arcadia_Visuals_Implementation_Scene_MeshContext* self
   )
-{/*Intentionally empty.*/}
+{
+  if (self->backendContext) {
+    if (self->meshContextResource) {
+      Arcadia_Visuals_Implementation_Resource_unref(thread, (Arcadia_Visuals_Implementation_Resource*)self->meshContextResource);
+      self->meshContextResource = NULL;
+    }
+    Arcadia_Object_unlock(thread, (Arcadia_Object*)self->backendContext);
+    self->backendContext = NULL;
+  }
+}
 
 static void
 Arcadia_Visuals_Implementation_Scene_MeshContext_visitImpl
@@ -139,6 +149,7 @@ Arcadia_Visuals_Implementation_Scene_MeshContext_renderImpl
             thread,
             self->backendContext
           );
+      Arcadia_Visuals_Implementation_Resource_ref(thread, (Arcadia_Visuals_Implementation_Resource*)self->meshContextResource);
     }
 
     // @todo Track if the matrices were actually modified.
@@ -166,9 +177,15 @@ Arcadia_Visuals_Implementation_Scene_MeshContext_setBackendContextImpl
     Arcadia_Visuals_Implementation_BackendContext* backendContext
   )
 {
+  if (backendContext) {
+    Arcadia_Object_lock(thread, (Arcadia_Object*)backendContext);
+  }
+  if (self->backendContext) {
+    Arcadia_Object_unlock(thread, (Arcadia_Object*)self->backendContext);
+  }
   if (self->backendContext) {
     if (self->meshContextResource) {
-      ((Arcadia_Visuals_Implementation_Resource*)self->meshContextResource)->referenceCount--;
+      Arcadia_Visuals_Implementation_Resource_unref(thread, (Arcadia_Visuals_Implementation_Resource*)self->meshContextResource);
       self->meshContextResource = NULL;
     }
   }
