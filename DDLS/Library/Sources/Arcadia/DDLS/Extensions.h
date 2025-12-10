@@ -231,6 +231,14 @@ Arcadia_DDLS_isBoolean
 }
 
 static inline Arcadia_BooleanValue
+Arcadia_DDLS_isChoice
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDLS_Node* ddlsNode
+  )
+{ return Arcadia_Object_isInstanceOf(thread, (Arcadia_Object*)ddlsNode, _Arcadia_DDLS_ChoiceNode_getType(thread)); }
+
+static inline Arcadia_BooleanValue
 Arcadia_DDLS_isNumber
   (
     Arcadia_Thread* thread,

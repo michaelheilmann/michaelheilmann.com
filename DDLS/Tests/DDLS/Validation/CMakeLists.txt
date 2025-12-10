@@ -28,6 +28,9 @@ if (NOT TARGET ${MyTestName})
 
   list(APPEND ${MyTestName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia/DDLS/Tests/Validation/Main.c)
 
+  list(APPEND ${MyTestName}.SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia/DDLS/Tests/Validation/Default.c)
+  list(APPEND ${MyTestName}.HeaderFiles ${CMAKE_CURRENT_SOURCE_DIR}/Sources/Arcadia/DDLS/Tests/Validation/Default.h)
+
   list(APPEND ${MyTestName}.PrivateLibraries ${MyProjectName}.DDLS ${MyProjectName}.DDL)
 
   EndProduct(${MyTestName})

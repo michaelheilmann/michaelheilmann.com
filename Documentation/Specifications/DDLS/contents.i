@@ -48,6 +48,8 @@ the scalar types
 the aggregate types
 \(\ddls{\textit{List}}\), and
 \(\ddls{\textit{Map}}\),
+the choice type
+\(\ddls{\textit{Choice}}\),
 as well as the schema reference type
 \(\ddls{\textit{SchemaReference}}\).
 </p>
@@ -56,6 +58,7 @@ The \(\textit{Value}_{\textit{DDLS}}\) type is defined as the union of the above
 \[\begin{aligned}
 \textit{Value}_{\textit{DDLS}} =&\;\ddls{\textit{Any}}\\
                             \cup&\;\ddls{\textit{Boolean}}\\
+                            \cup&\;\ddls{\textit{Choice}}\\
                             \cup&\;\ddls{\textit{List}}\\
                             \cup&\;\ddls{\textit{Map}}\\
                             \cup&\;\ddls{\textit{Number}}\\
@@ -102,6 +105,7 @@ The set of Unicode code point sequences is denoted by \(\mathbb{U}\).
 
 @{include("./any-type.i")}
 @{include("./boolean-type.i")}
+@{include("./choice-type.i")}
 @{include("./list-type.i")}
 @{include("./map-type.i")}
 @{include("./number-type.i")}

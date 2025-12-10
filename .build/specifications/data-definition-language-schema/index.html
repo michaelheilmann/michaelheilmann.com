@@ -160,7 +160,7 @@ my-sem::before {
   </style>
 
   <link rel='canonical' href='https://michaelheilmann.com/specifications/data-definition-language-schema/index.html'>
-  <title>Data Definition Language Schema (draft)</title>
+  <title>Data Definition Language Schema (draft, v0.2)</title>
 </head>
 <body class="my-content-page-1">
   <header>
@@ -180,7 +180,7 @@ my-sem::before {
   <main>
     <div class="left-column"></div>
     <div class="center-column">
-    <h1>Data Definition Language Schema (draft, v0.1)</h1>
+    <h1>Data Definition Language Schema (draft, v0.2)</h1>
     <h2 id="introduction">1 Introduction</h2>
 
 \(
@@ -231,6 +231,8 @@ the scalar types
 the aggregate types
 \(\ddls{\textit{List}}\), and
 \(\ddls{\textit{Map}}\),
+the choice type
+\(\ddls{\textit{Choice}}\),
 as well as the schema reference type
 \(\ddls{\textit{SchemaReference}}\).
 </p>
@@ -239,6 +241,7 @@ The \(\textit{Value}_{\textit{DDLS}}\) type is defined as the union of the above
 \[\begin{aligned}
 \textit{Value}_{\textit{DDLS}} =&\;\ddls{\textit{Any}}\\
                             \cup&\;\ddls{\textit{Boolean}}\\
+                            \cup&\;\ddls{\textit{Choice}}\\
                             \cup&\;\ddls{\textit{List}}\\
                             \cup&\;\ddls{\textit{Map}}\\
                             \cup&\;\ddls{\textit{Number}}\\
@@ -331,7 +334,81 @@ The set of Unicode code point sequences is denoted by \(\mathbb{U}\).
 </table>
 <p>where \(\ddls{\textit{boolean}}\) is the single value of type \(\ddls{\textit{Boolean}}\).</p>
 
-<h3 id="list-type">3.3 List type</h3>
+<h3 id="choice-type">3.3 Choice type</h3>
+<p>The values of type \(\ddls{\textit{Choice}}\) are represented by \(\textit{Map}\) values.
+   The map contains two entries.</p>
+
+   The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{Choice}\) of type
+   \(\textit{String}\).</p>
+
+<p>The translation function is hence given by</p>
+<table class="syntax-directed-translation">
+  <tr>
+    <td>
+    <my-formula-box class="align-left">\[\begin{array}{ll}
+      &\left[ \left( \texttt{kind},\texttt{Choice} \right), \left(\texttt{choices}, w@2\right)\right]@1\\
+      &\;\wedge\;\texttt{kind} \in \ddl{\textit{Name}} \;\wedge\;\texttt{Choice} \in \ddl{\textit{String}}\\
+      &\;\wedge\;\texttt{choices} \in \ddl{\textit{Name}} \;\wedge w \in \ddl{\textit{List}}\\
+    \end{array}\]</my-formula-box>
+    </td>
+    <td>
+    <my-formula-box class="align-right">\[\begin{array}{ll}
+      1.\text{value} = \left(\textit{ChoiceTag},\text{toChoices}(2)\right)
+    \end{array}\]</my-formula-box>
+    </td>
+  </tr>
+</table>
+<p>where \(\ddls{\textit{any}}\) is the single value of type \(\ddls{\textit{Any}}\).</p>
+
+<h4>Auxiliary definition: toChoices</h4>
+<p>\(\text{toMapEntries} : \ddl{\textit{List}} \rightarrow \mathbb{L} \cup \ddls{\textit{Error}}\) is defined as</p>
+<table class="syntax-directed-translation">
+  <tr>
+    <td>
+    <my-formula-box class="align-left">\[\begin{array}{ll}
+      \text{ if }w = [x@1] \circ v@2 \wedge w \in \textit{List}
+    \end{array}\]</my-formula-box>
+    </td>
+    <td>
+    <my-formula-box class="align-right">\[\begin{array}{ll}
+      \begin{cases}
+        \left[1.\text{value}\right] \circ \text{toChoices}\left(2\right)
+          &\text{if } 1.\text{value} \not\in \ddls{\textit{Error}} \wedge \text{toChoices}\left(2\right) \not\in \ddls{\textit{Error}}\text{,}\\
+        \ddls{\textit{Error.InvalidDefinition}}
+          &\text{otherwise.}
+      \end{cases}
+    \end{array}\]</my-formula-box>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    <my-formula-box class="align-left">\[\begin{array}{ll}
+      \text{if }w = \left[\right] \wedge w \in \textit{List}
+    \end{array}\]</my-formula-box>
+    </td>
+    <td>
+    <my-formula-box class="align-right">\[\begin{array}{ll}
+      []
+    \end{array}\]</my-formula-box>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    <my-formula-box class="align-left">\[\begin{array}{ll}
+      \text{Otherwise}
+    \end{array}\]</my-formula-box>
+    </td>
+    <td>
+    <my-formula-box class="align-right">\[\begin{array}{ll}
+      \textit{Error.InvalidDefinition}_{\textit{DDLS}}
+    \end{array}\]</my-formula-box>
+    </td>
+  </tr>
+
+</table>
+<h3 id="list-type">3.4 List type</h3>
 <p>Values of type \(\ddls{\textit{List}}\) are represented by a \(\textit{Map}\) values.
    The map contains two entries.</p>
 
@@ -358,7 +435,7 @@ The set of Unicode code point sequences is denoted by \(\mathbb{U}\).
   </tr>
 </table>
 
-<h3 id="map-type">3.4 Map type</h3>
+<h3 id="map-type">3.5 Map type</h3>
 <p>A value of type \(\ddls{\textit{Map}}\) are represented by a \(\ddl{\textit{Map}}\) value.
    The map contains two entries.</p>
 
@@ -397,8 +474,8 @@ The set of Unicode code point sequences is denoted by \(\mathbb{U}\).
     <td>
     <my-formula-box class="align-right">\[\begin{array}{ll}
       \begin{cases}
-        \left[1.\text{value}\right] \circ \textit{toMapEntries}\left(v.\text{value}\right)
-          &\text{if } 1.\text{value} \in \ddls{\textit{MapEntry}} \wedge 2.\text{value} \not\in \ddls{\textit{Error}}\text{,}\\
+        \left[1.\text{value}\right] \circ \text{toMapEntries}\left(2\right)
+          &\text{if } 1.\text{value} \in \ddls{\textit{MapEntry}} \wedge \text{toMapEntries}\left(2\right) \not\in \ddls{\textit{Error}}\text{,}\\
         \ddls{\textit{Error.InvalidDefinition}}
           &\text{otherwise.}
       \end{cases}
@@ -463,7 +540,7 @@ The set of Unicode code point sequences is denoted by \(\mathbb{U}\).
   </tr>
 </table>
 
-<h3 id="number-type">3.5 Number types</h3>
+<h3 id="number-type">3.6 Number types</h3>
 <p>The values of type \(\ddls{\textit{Number}}\) are represented by a \(\textit{Map}\) values.
    The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{Number}\) of type
    \(\textit{String}\).</p>
@@ -487,7 +564,7 @@ The set of Unicode code point sequences is denoted by \(\mathbb{U}\).
 </table>
 <p>where \(\ddls{\textit{number}}\) is the single value of type \(\ddls{\textit{Number}}\).</p>
 
-<h3 id="schema-type">3.6 Schema type</h3>
+<h3 id="schema-type">3.8 Schema type</h3>
 <p>A value of type \(\ddls{\textit{Schema}}\) are represented by a \(\textit{Map}\) value.
    The map contains three entries.</p>
 
@@ -537,7 +614,7 @@ The set of Unicode code point sequences is denoted by \(\mathbb{U}\).
   </tr>
 </table>
 
-<h3 id="string-type">3.8 String type</h3>
+<h3 id="string-type">3.9 String type</h3>
 <p>The values of type \(\ddls{\textit{String}}\) are represented by a \(\textit{Map}\) values.
    The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{String}\) of type
    \(\textit{String}\).</p>
@@ -561,7 +638,7 @@ The set of Unicode code point sequences is denoted by \(\mathbb{U}\).
 </table>
 <p>where \(\ddls{\textit{string}}\) is the single value of type \(\ddls{\textit{String}}\).</p>
 
-<h3 id="void-type">3.9 Void type</h3>
+<h3 id="void-type">3.10 Void type</h3>
 <p>The values of type \(\ddls{\textit{Void}}\) are represented by a \(\textit{Map}\) values.
    The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{Void}\) of type
    \(\textit{String}\).</p>
@@ -796,7 +873,7 @@ Otherwise - if the result is in \(\ddls{\textit{Error}}\) then \(x\) was rejecte
     <div class="center-column"></div>
     <div class="right-column">
       <div>Website maintained by Michael Heilmann.</div>
-      <div>Last modified on 23 December 2025.</div>
+      <div>Last modified on 27 December 2025.</div>
     </div>
   </footer>
 </body>

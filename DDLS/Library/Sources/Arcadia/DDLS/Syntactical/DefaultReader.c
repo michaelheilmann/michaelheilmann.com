@@ -21,6 +21,7 @@
 #include "Arcadia/DDLS/Nodes/Include.h"
 
 #include "Arcadia/DDLS/Symbols/AnySymbol.h"
+#include "Arcadia/DDLS/Symbols/ChoiceSymbol.h"
 #include "Arcadia/DDLS/Symbols/ListSymbol.h"
 #include "Arcadia/DDLS/Symbols/MapSymbol.h"
 #include "Arcadia/DDLS/Symbols/MapEntrySymbol.h"
@@ -34,6 +35,14 @@ readAnyNode
     Arcadia_Thread* thread,
     Arcadia_DDLS_DefaultReader* self,
     Arcadia_DDLS_AnySymbol* source
+  );
+
+static Arcadia_DDLS_ChoiceNode*
+readChoiceNode
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDLS_DefaultReader* self,
+    Arcadia_DDLS_ChoiceSymbol* source
   );
 
 static Arcadia_DDLS_ListNode*
@@ -133,6 +142,27 @@ readAnyNode
   return target;
 }
 
+static Arcadia_DDLS_ChoiceNode*
+readChoiceNode
+  (
+    Arcadia_Thread* thread,
+    Arcadia_DDLS_DefaultReader* self,
+    Arcadia_DDLS_ChoiceSymbol* source
+  )
+{
+  Arcadia_DDLS_ChoiceNode* target = Arcadia_DDLS_ChoiceNode_create(thread);
+  for (Arcadia_SizeValue i = 0, n = Arcadia_Collection_getSize(thread, (Arcadia_Collection*)source->choices); i < n; ++i) {
+    Arcadia_DDLS_Symbol* symbolElement = (Arcadia_DDLS_Symbol*)Arcadia_List_getObjectReferenceValueCheckedAt(thread, source->choices, i, _Arcadia_DDLS_Symbol_getType(thread));
+    if (Arcadia_Object_isInstanceOf(thread, (Arcadia_Object*)symbolElement, _Arcadia_DDLS_SchemaSymbol_getType(thread))) {
+      Arcadia_Thread_setStatus(thread, Arcadia_Status_ArgumentTypeInvalid);
+      Arcadia_Thread_jump(thread);
+    }
+    Arcadia_DDLS_Node* symbolNode = readNode(thread, self, symbolElement);
+    Arcadia_List_insertBackObjectReferenceValue(thread, target->choices, (Arcadia_Object*)symbolNode);
+  }
+  return target;
+}
+
 static Arcadia_DDLS_ListNode*
 readListNode
   (
@@ -184,6 +214,9 @@ readNode
   switch (source->kind) {
    case Arcadia_DDLS_SymbolKind_Any: {
      return (Arcadia_DDLS_Node*)readAnyNode(thread, self, (Arcadia_DDLS_AnySymbol*)source);
+   } break;
+   case Arcadia_DDLS_SymbolKind_Choice: {
+     return (Arcadia_DDLS_Node*)readChoiceNode(thread, self, (Arcadia_DDLS_ChoiceSymbol*)source);
    } break;
    case Arcadia_DDLS_SymbolKind_List: {
      return (Arcadia_DDLS_Node*)readListNode(thread, self, (Arcadia_DDLS_ListSymbol*)source);

@@ -20,6 +20,7 @@
 #define ARCADIA_DDLS_NODES_PRIVATE (1)
 
 #include "Arcadia/DDLS/Nodes/AnyNode.h"
+#include "Arcadia/DDLS/Nodes/ChoiceNode.h"
 #include "Arcadia/DDLS/Nodes/Node.h"
 #include "Arcadia/DDLS/Nodes/ListNode.h"
 #include "Arcadia/DDLS/Nodes/MapNode.h"

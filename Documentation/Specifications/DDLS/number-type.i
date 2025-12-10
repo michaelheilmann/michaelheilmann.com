@@ -1,4 +1,4 @@
-<h3 id="number-type">3.5 Number types</h3>
+<h3 id="number-type">3.6 Number types</h3>
 <p>The values of type \(\ddls{\textit{Number}}\) are represented by a \(\textit{Map}\) values.
    The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{Number}\) of type
    \(\textit{String}\).</p>

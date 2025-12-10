@@ -1,4 +1,4 @@
-<h3 id="list-type">3.3 List type</h3>
+<h3 id="list-type">3.4 List type</h3>
 <p>Values of type \(\ddls{\textit{List}}\) are represented by a \(\textit{Map}\) values.
    The map contains two entries.</p>
 

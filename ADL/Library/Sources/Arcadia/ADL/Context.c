@@ -18,9 +18,10 @@
 
 #include "Arcadia/ADL/Definitions.h"
 
-#include "Arcadia/ADL/Colors/ColorReader.h"
-#include "Arcadia/ADL/PixelBufferOperations/CheckerboardFillOperationReader.h"
-#include "Arcadia/ADL/PixelBufferOperations/FillOperationReader.h"
+#include "Arcadia/ADL/Definitions/ColorReader.h"
+#include "Arcadia/ADL/Definitions/CheckerboardFillOperationReader.h"
+#include "Arcadia/ADL/Definitions/FillOperationReader.h"
+#include "Arcadia/ADL/Definitions/PixelBufferReader.h"
 
 static void
 Arcadia_ADL_Context_constructImpl
@@ -113,6 +114,10 @@ Arcadia_ADL_Context_constructImpl
   }
   {
     Arcadia_ADL_Reader* reader = (Arcadia_ADL_Reader*)Arcadia_ADL_ColorReader_create(thread);
+    Arcadia_Map_set(thread, self->readers, Arcadia_Value_makeObjectReferenceValue(Arcadia_ADL_Reader_getTypeName(thread, reader)), Arcadia_Value_makeObjectReferenceValue(reader), NULL, NULL);
+  }
+  {
+    Arcadia_ADL_Reader* reader = (Arcadia_ADL_Reader*)Arcadia_ADL_PixelBufferReader_create(thread);
     Arcadia_Map_set(thread, self->readers, Arcadia_Value_makeObjectReferenceValue(Arcadia_ADL_Reader_getTypeName(thread, reader)), Arcadia_Value_makeObjectReferenceValue(reader), NULL, NULL);
   }
   //

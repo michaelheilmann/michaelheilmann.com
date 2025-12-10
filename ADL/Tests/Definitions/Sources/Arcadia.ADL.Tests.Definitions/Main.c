@@ -139,6 +139,50 @@ testPixelBufferOperationDefinition2
   Arcadia_ADL_Definitions_link(thread, definitions);
 }
 
+static void
+testPixelBufferDefinition1
+  (
+    Arcadia_Thread* thread
+  )
+{
+  Arcadia_ADL_Context* context = Arcadia_ADL_Context_getOrCreate(thread);
+  Arcadia_ADL_Definitions* definitions = Arcadia_ADL_Definitions_create(thread);
+  {
+    static const char* DDL =
+      "{\n"
+      "  type : \"Color\",\n"
+      "  name : \"Colors.Black\",\n"
+      "  red : 0,\n"
+      "  green : 0,\n"
+      "  blue : 0,\n"
+      "}\n"
+      ;
+    Arcadia_ADL_Context_readFromString(thread, context, definitions, Arcadia_String_createFromCxxString(thread, DDL));
+  }
+  {
+    static const char* DDL =
+      "{\n"
+      "  type : \"Color\",\n"
+      "  name : \"Colors.White\",\n"
+      "  red : 255,\n"
+      "  green : 255,\n"
+      "  blue : 255,\n"
+      "}\n"
+      ;
+    Arcadia_ADL_Context_readFromString(thread, context, definitions, Arcadia_String_createFromCxxString(thread, DDL));
+  }
+  {
+    static const char* DDL =
+      "{\n"
+      "  type : \"PixelBuffer\",\n"
+      "  name : \"MyPixelBuffer\",\n"
+      "}\n"
+      ;
+    Arcadia_ADL_Context_readFromString(thread, context, definitions, Arcadia_String_createFromCxxString(thread, DDL));
+  }
+  Arcadia_ADL_Definitions_link(thread, definitions);
+}
+
 int
 main
   (
@@ -156,6 +200,9 @@ main
     return EXIT_FAILURE;
   }
   if (!Arcadia_Tests_safeExecute(&testPixelBufferOperationDefinition2)) {
+    return EXIT_FAILURE;
+  }
+  if (!Arcadia_Tests_safeExecute(&testPixelBufferDefinition1)) {
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;

@@ -1,4 +1,4 @@
-<h3 id="string-type">3.8 String type</h3>
+<h3 id="string-type">3.9 String type</h3>
 <p>The values of type \(\ddls{\textit{String}}\) are represented by a \(\textit{Map}\) values.
    The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{String}\) of type
    \(\textit{String}\).</p>

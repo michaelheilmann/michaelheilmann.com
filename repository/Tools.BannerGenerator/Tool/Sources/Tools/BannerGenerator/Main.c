@@ -39,6 +39,79 @@ loadADL
   return Arcadia_ADL_Context_readFromString(thread, context, definitions, Arcadia_String_create(thread, Arcadia_Value_makeObjectReferenceValue(contents)));
 }
 
+#if 0
+/* Solid fill red. */
+static void
+loadSolidFill
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_Definitions* definitions
+  )
+{
+  Arcadia_ADL_Context* context = Arcadia_ADL_Context_getOrCreate(thread);
+  Arcadia_FileSystem* fileSystem = Arcadia_FileSystem_getOrCreate(thread);
+  Arcadia_FilePath* workingDirectory = Arcadia_FileSystem_getWorkingDirectory(thread, fileSystem);
+
+  {
+    Arcadia_FilePath* prefix = Arcadia_FilePath_clone(thread, workingDirectory);
+    Arcadia_FilePath* suffix = Arcadia_FilePath_parseGeneric(thread, "White.adl", sizeof(u8"White.adl") - 1);
+    Arcadia_FilePath_append(thread, prefix, suffix);
+    Arcadia_ByteBuffer* byteBuffer = Arcadia_FileSystem_getFileContents(thread, fileSystem, prefix);
+    Arcadia_ADL_Context_readFromString(thread, context, definitions, Arcadia_String_create(thread, Arcadia_Value_makeObjectReferenceValue(byteBuffer)));
+  }
+  {
+    Arcadia_FilePath* prefix = Arcadia_FilePath_clone(thread, workingDirectory);
+    Arcadia_FilePath* suffix = Arcadia_FilePath_parseGeneric(thread, "Black.adl", sizeof(u8"Black.adl") - 1);
+    Arcadia_FilePath_append(thread, prefix, suffix);
+    Arcadia_ByteBuffer* byteBuffer = Arcadia_FileSystem_getFileContents(thread, fileSystem, prefix);
+    Arcadia_ADL_Context_readFromString(thread, context, definitions, Arcadia_String_create(thread, Arcadia_Value_makeObjectReferenceValue(byteBuffer)));
+  }
+  {
+    Arcadia_FilePath* prefix = Arcadia_FilePath_clone(thread, workingDirectory);
+    Arcadia_FilePath* suffix = Arcadia_FilePath_parseGeneric(thread, "FillWhite.adl", sizeof(u8"FillWhite.adl") - 1);
+    Arcadia_FilePath_append(thread, prefix, suffix);
+    Arcadia_ByteBuffer* byteBuffer = Arcadia_FileSystem_getFileContents(thread, fileSystem, prefix);
+    Arcadia_ADL_Context_readFromString(thread, context, definitions, Arcadia_String_create(thread, Arcadia_Value_makeObjectReferenceValue(byteBuffer)));
+  }
+}
+#endif
+
+#if 0
+static void
+loadCheckerboardFill
+  (
+    Arcadia_Thread* thread,
+    Arcadia_ADL_Definitions* definitions
+  )
+{
+  Arcadia_ADL_Context* context = Arcadia_ADL_Context_getOrCreate(thread);
+  Arcadia_FileSystem* fileSystem = Arcadia_FileSystem_getOrCreate(thread);
+  Arcadia_FilePath* workingDirectory = Arcadia_FileSystem_getWorkingDirectory(thread, fileSystem);
+
+  {
+    Arcadia_FilePath* prefix = Arcadia_FilePath_clone(thread, workingDirectory);
+    Arcadia_FilePath* suffix = Arcadia_FilePath_parseGeneric(thread, "White.adl", sizeof(u8"White.adl") - 1);
+    Arcadia_FilePath_append(thread, prefix, suffix);
+    Arcadia_ByteBuffer* byteBuffer = Arcadia_FileSystem_getFileContents(thread, fileSystem, prefix);
+    Arcadia_ADL_Context_readFromString(thread, context, definitions, Arcadia_String_create(thread, Arcadia_Value_makeObjectReferenceValue(byteBuffer)));
+  }
+  {
+    Arcadia_FilePath* prefix = Arcadia_FilePath_clone(thread, workingDirectory);
+    Arcadia_FilePath* suffix = Arcadia_FilePath_parseGeneric(thread, "Black.adl", sizeof(u8"Black.adl") - 1);
+    Arcadia_FilePath_append(thread, prefix, suffix);
+    Arcadia_ByteBuffer* byteBuffer = Arcadia_FileSystem_getFileContents(thread, fileSystem, prefix);
+    Arcadia_ADL_Context_readFromString(thread, context, definitions, Arcadia_String_create(thread, Arcadia_Value_makeObjectReferenceValue(byteBuffer)));
+  }
+  {
+    Arcadia_FilePath* prefix = Arcadia_FilePath_clone(thread, workingDirectory);
+    Arcadia_FilePath* suffix = Arcadia_FilePath_parseGeneric(thread, "FillCheckerboardBlackWhite.adl", sizeof(u8"FillCheckerboardBlackWhite.adl") - 1);
+    Arcadia_FilePath_append(thread, prefix, suffix);
+    Arcadia_ByteBuffer* byteBuffer = Arcadia_FileSystem_getFileContents(thread, fileSystem, prefix);
+    Arcadia_ADL_Context_readFromString(thread, context, definitions, Arcadia_String_create(thread, Arcadia_Value_makeObjectReferenceValue(byteBuffer)));
+  }
+}
+#endif
+
 static void
 main1
   (
@@ -49,6 +122,10 @@ main1
 {
   Arcadia_ADL_Definitions* definitions = Arcadia_ADL_Definitions_create(thread);
   Arcadia_ADL_Definition* definition = NULL;
+#if 0
+  loadCheckerboardFill(thread, definitions);
+#endif
+
   Arcadia_Value target, width, height;
   Arcadia_Value_setVoidValue(&target,Arcadia_VoidValue_Void);
   Arcadia_Value_setVoidValue(&width, Arcadia_VoidValue_Void);

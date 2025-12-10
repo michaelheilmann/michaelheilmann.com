@@ -29,6 +29,8 @@ struct Arcadia_DDLS_SymbolReader {
   Arcadia_DDLS_Scope* scope;
 
   Arcadia_Value ANY;
+  Arcadia_Value CHOICE;
+  Arcadia_Value CHOICES;
   Arcadia_Value BOOLEAN;
   Arcadia_Value LIST;
   Arcadia_Value MAP;

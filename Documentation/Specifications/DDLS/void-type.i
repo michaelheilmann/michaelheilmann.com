@@ -1,4 +1,4 @@
-<h3 id="void-type">3.9 Void type</h3>
+<h3 id="void-type">3.10 Void type</h3>
 <p>The values of type \(\ddls{\textit{Void}}\) are represented by a \(\textit{Map}\) values.
    The map contains a single map entry of name \(\texttt{kind}\) with the value \(\texttt{Void}\) of type
    \(\textit{String}\).</p>

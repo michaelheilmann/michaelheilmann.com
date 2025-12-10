@@ -1,4 +1,4 @@
-<h3 id="map-type">3.4 Map type</h3>
+<h3 id="map-type">3.5 Map type</h3>
 <p>A value of type \(\ddls{\textit{Map}}\) are represented by a \(\ddl{\textit{Map}}\) value.
    The map contains two entries.</p>
 
@@ -37,8 +37,8 @@
     <td>
     <my-formula-box class="align-right">\[\begin{array}{ll}
       \begin{cases}
-        \left[1.\text{value}\right] \circ \textit{toMapEntries}\left(v.\text{value}\right)
-          &\text{if } 1.\text{value} \in \ddls{\textit{MapEntry}} \wedge 2.\text{value} \not\in \ddls{\textit{Error}}\text{,}\\
+        \left[1.\text{value}\right] \circ \text{toMapEntries}\left(2\right)
+          &\text{if } 1.\text{value} \in \ddls{\textit{MapEntry}} \wedge \text{toMapEntries}\left(2\right) \not\in \ddls{\textit{Error}}\text{,}\\
         \ddls{\textit{Error.InvalidDefinition}}
           &\text{otherwise.}
       \end{cases}

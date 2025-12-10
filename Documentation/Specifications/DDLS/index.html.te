@@ -21,7 +21,7 @@
   </style>
 
   <link rel='canonical' href='@{siteAddress}/specifications/data-definition-language-schema/index.html'>
-  <title>Data Definition Language Schema (draft)</title>
+  <title>Data Definition Language Schema (draft, v0.2)</title>
 </head>
 <body class="my-content-page-1">
   <header>
@@ -33,7 +33,7 @@
   <main>
     <div class="left-column"></div>
     <div class="center-column">
-    <h1>Data Definition Language Schema (draft, v0.1)</h1>
+    <h1>Data Definition Language Schema (draft, v0.2)</h1>
     @{include("./contents.i")}
   </div>
   <div class="right-column">

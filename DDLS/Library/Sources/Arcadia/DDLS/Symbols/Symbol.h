@@ -40,6 +40,9 @@ typedef struct Arcadia_DDLS_Scope Arcadia_DDLS_Scope;
 /// An "any" symbol.
 #define Arcadia_DDLS_SymbolKind_Any (6)
 
+/// A "choice" symbol.
+#define Arcadia_DDLS_SymbolKind_Choice (7)
+
 Arcadia_declareObjectType(u8"Arcadia.DDLS.Symbol", Arcadia_DDLS_Symbol,
                           u8"Arcadia.Object");
 

@@ -1,4 +1,4 @@
-<h3 id="schema-type">3.6 Schema type</h3>
+<h3 id="schema-type">3.8 Schema type</h3>
 <p>A value of type \(\ddls{\textit{Schema}}\) are represented by a \(\textit{Map}\) value.
    The map contains three entries.</p>
 

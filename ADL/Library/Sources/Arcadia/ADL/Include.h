@@ -24,9 +24,9 @@
 #include "Arcadia/ADL/Definitions.h"
 #include "Arcadia/ADL/Reader.h"
 
-#include "Arcadia/ADL/Colors/ColorDefinition.h"
-#include "Arcadia/ADL/PixelBufferOperations/FillOperationDefinition.h"
-#include "Arcadia/ADL/PixelBufferOperations/CheckerboardFillOperationDefinition.h"
+#include "Arcadia/ADL/Definitions/ColorDefinition.h"
+#include "Arcadia/ADL/Definitions/FillOperationDefinition.h"
+#include "Arcadia/ADL/Definitions/CheckerboardFillOperationDefinition.h"
 
 #undef ARCADIA_ADL_PRIVATE
 #pragma pop_macro("ARCADIA_ADL_PRIVATE")
