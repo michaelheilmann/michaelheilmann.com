@@ -13,22 +13,25 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-#if !defined(ARCADIA_ENGINE_INPUT_MOUSEPOINTERACTION_H_INCLUDED)
+#ifndef ARCADIA_ENGINE_INPUT_MOUSEPOINTERACTION_H_INCLUDED
 #define ARCADIA_ENGINE_INPUT_MOUSEPOINTERACTION_H_INCLUDED
 
-#include "Arcadia/Ring2/Include.h"
+#if !defined(ARCADIA_ENGINE_PRIVATE) || 1 != ARCADIA_ENGINE_PRIVATE
+  #error("do not include `Arcadia/Engine/Input/MousePointerAction.h` directly, include `Arcadia/Engine/Include.h` instead")
+#endif
 
-// https://michaelheilmann.com/Arcadia/Engine/#Arcadia_Engine_Input_MousePointerAction
-Arcadia_declareEnumerationType(u8"Arcadia.Engine.Input.MousePointerAction",
+#include "Arcadia/Ring1/Include.h"
+
+Arcadia_declareEnumerationType("Arcadia.Engine.Input.MousePointerAction",
                                Arcadia_Engine_Input_MousePointerAction);
 
 enum Arcadia_Engine_Input_MousePointerAction {
 
-  Arcadia_Engine_Input_MousePointerAction_Entered = 1,
+  Arcadia_Engine_Input_MousePointerAction_Entered = 0,
 
-  Arcadia_Engine_Input_MousePointerAction_Exited,
+  Arcadia_Engine_Input_MousePointerAction_Exited = 1,
 
-  Arcadia_Engine_Input_MousePointerAction_Moved,
+  Arcadia_Engine_Input_MousePointerAction_Moved = 2,
 
 };
 

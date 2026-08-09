@@ -752,10 +752,7 @@ Arcadia_FilePath_toGeneric
     i++;
 
     for (; i < n; ++i) {
-      Arcadia_Natural32Value x;
-      x = '/';
-      Arcadia_Unicode_Encoder_encodeCodePoints(thread, encoder, &x, 1, temporaryBuffer);
-
+      Arcadia_Unicode_Encoder_encodeString(thread, encoder, directorySeparator, temporaryBuffer);
       Arcadia_Value e = Arcadia_List_getAt(thread, self->fileNames, i);
       Arcadia_String* fileName = (Arcadia_String*)Arcadia_Value_getObjectReferenceValue(&e);
       Arcadia_Unicode_Encoder_encodeString(thread, encoder, fileName, temporaryBuffer);

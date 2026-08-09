@@ -17,23 +17,25 @@
 #define ARCADIA_MILC_BACKEND_ENUMERATIONCONSTANTSYMBOLINFO_H_INCLUDED
 
 #include "Arcadia/MILC/Context.h"
-#include "Arcadia/MILC/Symbols/Include.h"
+#include "Arcadia/MILC/Backend/SymbolInfo.h"
 
-/// @brief Additional information for a symbol.
+/// @brief Additional information for an enumeration constant symbol.
 /// Used by the C backend.
 Arcadia_declareObjectType(u8"Arcadia.MILC.Backend.EnumerationConstantSymbolInfo", Arcadia_MILC_Backend_EnumerationConstantSymbolInfo,
-                          u8"Arcadia.Object");
+                          u8"Arcadia.MILC.Backend.SymbolInfo");
 
 struct Arcadia_MILC_Backend_EnumerationConstantSymbolInfoDispatch {
-  Arcadia_ObjectDispatch _parent;
+  Arcadia_MILC_Backend_SymbolInfoDispatch _parent;
 };
 
 struct Arcadia_MILC_Backend_EnumerationConstantSymbolInfo {
-  Arcadia_Object _parent;
+  Arcadia_MILC_Backend_SymbolInfo _parent;
   /// @brief The symbol.
   Arcadia_MILC_Symbol* symbol;
-  /// @brief The fully-qualified C name.
+  /// @brief The Cxx name. For example, `Arcadia_Engine_Visuals_CullMode_Back` or `Arcadia_Engine_Input_MouseButtonAction_Pressed`.
   Arcadia_String* cxxName;
+  /// @brief The uppercase Cxx name. For example, `ARCADIA_ENGINE_VISUALS_CULLMODE_BACK` or `ARCADIA_ENGINE_INPUT_MOUSEBUTTONACTION_PRESSED`.
+  Arcadia_String* cxxNameUpperCase;
 };
 
 Arcadia_MILC_Backend_EnumerationConstantSymbolInfo*
@@ -42,15 +44,6 @@ Arcadia_MILC_Backend_EnumerationConstantSymbolInfo_create
     Arcadia_Thread* thread,
     Arcadia_MILC_Context* context,
     Arcadia_MILC_Symbol* symbol
-  );
-
-void
-Arcadia_MILC_Backend_EnumerationConstantSymbolInfo_dump
-  (
-    Arcadia_Thread* thread,
-    Arcadia_MILC_Backend_EnumerationConstantSymbolInfo* self,
-    Arcadia_SizeValue indent,
-    Arcadia_StringBuilder* target
   );
 
 #endif // ARCADIA_MILC_BACKEND_ENUMERATIONCONSTANTSYMBOLINFO_H_INCLUDED

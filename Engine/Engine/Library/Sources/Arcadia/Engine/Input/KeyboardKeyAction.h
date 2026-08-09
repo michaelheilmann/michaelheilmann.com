@@ -13,20 +13,23 @@
 // REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY
 // OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 
-#if !defined(ARCADIA_ENGINE_INPUT_KEYBOARDKEYACTION_H_INCLUDED)
+#ifndef ARCADIA_ENGINE_INPUT_KEYBOARDKEYACTION_H_INCLUDED
 #define ARCADIA_ENGINE_INPUT_KEYBOARDKEYACTION_H_INCLUDED
 
-#include "Arcadia/Ring2/Include.h"
+#if !defined(ARCADIA_ENGINE_PRIVATE) || 1 != ARCADIA_ENGINE_PRIVATE
+  #error("do not include `Arcadia/Engine/Input/KeyboardKeyAction.h` directly, include `Arcadia/Engine/Include.h` instead")
+#endif
 
-// https://michaelheilmann.com/Arcadia/Engine/#Arcadia_Engine_Input_KeyboardKeyAction
-Arcadia_declareEnumerationType(u8"Arcadia.Engine.Input.KeyboardKeyAction",
+#include "Arcadia/Ring1/Include.h"
+
+Arcadia_declareEnumerationType("Arcadia.Engine.Input.KeyboardKeyAction",
                                Arcadia_Engine_Input_KeyboardKeyAction);
 
 enum Arcadia_Engine_Input_KeyboardKeyAction {
 
-  Arcadia_Engine_Input_KeyboardKeyAction_Pressed = 1,
+  Arcadia_Engine_Input_KeyboardKeyAction_Pressed = 0,
 
-  Arcadia_Engine_Input_KeyboardKeyAction_Released,
+  Arcadia_Engine_Input_KeyboardKeyAction_Released = 1,
 
 };
 
